@@ -1,4 +1,7 @@
 {
+  "name": "design",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "preflight": "node scripts/capability-preflight.mjs",
     "preflight:launch": "node scripts/capability-preflight.mjs --require=browser_launch",

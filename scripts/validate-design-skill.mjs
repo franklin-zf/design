@@ -5,6 +5,7 @@ import { join } from 'node:path';
 const root = process.argv[2] || '.';
 const required = [
   '.gitignore',
+  '.npmignore',
   'SKILL.md',
   'agents/openai.yaml',
   'references/workflow.md',
