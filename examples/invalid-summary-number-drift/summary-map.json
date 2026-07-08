@@ -1,0 +1,19 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "bad-number",
+      "summary_text": "Revenue is 151k USD.",
+      "status": "manual_reviewed",
+      "source_refs": ["source.csv", "examples/invalid-summary-number-drift/source.csv"],
+      "source_quotes": [
+        { "source_ref": "source.csv", "quote": "2026-06,151000" }
+      ],
+      "preserved_numbers": ["151k"]
+    }
+  ]
+}

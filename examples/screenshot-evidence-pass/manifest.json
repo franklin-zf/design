@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "screenshot-evidence",
+  "audience": "product design review",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "schematic": true,
+  "source_materials": ["examples/screenshot-evidence-pass/images/source.svg"],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["screenshot-evidence"],
+  "assumptions": ["Source SVG is a fixture screenshot stand-in."],
+  "missing_data": [],
+  "unverified_items": ["No real product screenshot supplied."]
+}

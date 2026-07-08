@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design"
+  short_description: "Source-backed reports, dashboards, charts, HTML decks, and PPT handoffs"
+  default_prompt: "Use $design to choose and build the right visual form for this data or content: source-backed report, dashboard, chart, HTML deck, PPT handoff, evidence board, or design-system artifact with validation."
+policy:
+  allow_implicit_invocation: true

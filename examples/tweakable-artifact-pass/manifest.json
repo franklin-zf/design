@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "tweakable-artifact",
+  "audience": "design review",
+  "surface": "html",
+  "style_preset": "tweakable-lab",
+  "schematic": true,
+  "source_materials": [],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["tweak-stage", "tweak-panel"],
+  "assumptions": ["Schematic tweak controls fixture."],
+  "missing_data": [],
+  "unverified_items": ["Browser localStorage behavior not smoke-tested."]
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {
+      "id": "q2-revenue-rise",
+      "text": "Revenue moved from 124000 USD in 2026-04 to 151000 USD in 2026-06.",
+      "status": "verified",
+      "source_refs": ["source.csv", "examples/data-report-pass/source.csv"],
+      "evidence_quotes": [
+        { "source_ref": "source.csv", "quote": "2026-04,124000,0.41" },
+        { "source_ref": "source.csv", "quote": "2026-06,151000,0.47" }
+      ]
+    },
+    {
+      "id": "activation-rise",
+      "text": "activation_rate moved from 0.41 in 2026-04 to 0.47 in 2026-06.",
+      "status": "verified",
+      "source_refs": ["source.csv", "examples/data-report-pass/source.csv"],
+      "evidence_quotes": [
+        { "source_ref": "source.csv", "quote": "2026-04,124000,0.41" },
+        { "source_ref": "source.csv", "quote": "2026-06,151000,0.47" }
+      ]
+    }
+  ]
+}

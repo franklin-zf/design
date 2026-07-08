@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "chart-frame",
+  "audience": "executive",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "schematic": false,
+  "source_materials": ["examples/invalid-chart-contract/source.csv"],
+  "data_sources": [{"id": "source.csv", "type": "csv"}],
+  "metrics": [{"name": "Revenue", "unit": "USD"}],
+  "charts": [{"id": "bad-chart", "family": "comparison", "source": "source.csv", "unit": "USD", "question": "What is revenue?", "takeaway": "Revenue is 100.", "grain": "summary", "fields": ["metric", "value"], "sample_size": 1}],
+  "layouts": ["chart-frame"],
+  "assumptions": [],
+  "missing_data": [],
+  "unverified_items": []
+}

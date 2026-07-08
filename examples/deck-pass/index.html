@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design Skill Deck</title>
+  <style>
+    body { margin:0; overflow:hidden; background:#f4f4f0; color:#111111; font:18px/1.35 Inter,Helvetica,Arial,sans-serif; }
+    .deck { width:100vw; height:100vh; display:flex; }
+    .slide { flex:0 0 100vw; height:100vh; padding:6vh 6vw; display:grid; grid-template-rows:auto 1fr auto; }
+    .dark { background:#111111; color:#f4f4f0; }
+    h1 { font-size:80px; letter-spacing:0; }
+    h2 { font-size:56px; letter-spacing:0; }
+    .meta { color:#5f6368; font:12px ui-monospace,SFMono-Regular,Menlo,monospace; text-transform:uppercase; }
+    @media (max-width:760px) {
+      body { overflow:auto; }
+      .deck { width:100%; height:auto; display:block; }
+      .slide { min-height:100vh; height:auto; padding:40px 24px; }
+      h1 { font-size:58px; line-height:1.05; }
+      h2 { font-size:42px; line-height:1.1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" data-design-id="html-deck" data-style-preset="swiss-deck">
+    <section class="slide" data-layout="D01-cover" data-purpose="cover"><div class="meta">Design</div><h1 data-summary-id="deck-cover">Right form before polish</h1><div class="meta">Fixture</div></section>
+    <section class="slide dark" data-layout="D03-claim-evidence" data-purpose="core claim"><div class="meta">Claim</div><h2 data-summary-id="deck-claim">Shape selection is the core product surface</h2><p data-summary-id="deck-reader-jobs">Reports, dashboards, and decks answer different reader jobs.</p><div class="meta">Source: source-notes.txt</div></section>
+    <section class="slide" data-layout="D12-closing" data-purpose="close"><div class="meta">Close</div><h2 data-summary-id="deck-close">Validate structure, then inspect the surface</h2><p data-summary-id="deck-validator">The validator catches contract drift; visual QA catches layout and taste.</p><div class="meta">Next: apply to real data</div></section>
+  </main>
+</body>
+</html>

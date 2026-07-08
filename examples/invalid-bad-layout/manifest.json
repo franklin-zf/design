@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "team",
+  "surface": "html",
+  "style_preset": "swiss-deck",
+  "schematic": true,
+  "source_materials": [],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["D01-cover"],
+  "assumptions": ["Invalid fixture."],
+  "missing_data": [],
+  "unverified_items": []
+}

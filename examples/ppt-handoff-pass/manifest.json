@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "ppt-handoff",
+  "audience": "leadership",
+  "surface": "html-plus-pptx-handoff",
+  "style_preset": "swiss-deck",
+  "schematic": false,
+  "source_materials": ["examples/ppt-handoff-pass/source-notes.txt"],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["D01-cover", "D12-closing"],
+  "assumptions": ["Native PPTX runtime is unavailable in this fixture."],
+  "missing_data": [],
+  "unverified_items": ["PPTX fidelity not verified."]
+}

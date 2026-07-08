@@ -1,0 +1,7 @@
+{
+  "slides": [
+    {"slide": 1, "layout_id": "D01-cover", "purpose": "cover", "theme": "light", "source": "source-notes.txt"},
+    {"slide": 2, "layout_id": "D03-claim-evidence", "purpose": "core claim", "theme": "dark", "source": "source-notes.txt"},
+    {"slide": 3, "layout_id": "D12-closing", "purpose": "close", "theme": "light", "source": "source-notes.txt"}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "design-system",
+  "audience": "design agents",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "schematic": true,
+  "source_materials": [],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["tokens", "components"],
+  "assumptions": ["Schematic design system fixture."],
+  "missing_data": [],
+  "unverified_items": ["No external brand source supplied."]
+}

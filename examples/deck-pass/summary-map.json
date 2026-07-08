@@ -1,0 +1,59 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "deck-cover",
+      "summary_text": "Right form before polish",
+      "status": "verified",
+      "source_refs": ["examples/deck-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/deck-pass/source-notes.txt", "quote": "Right form before polish." }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "deck-claim",
+      "summary_text": "Shape selection is the core product surface",
+      "status": "verified",
+      "source_refs": ["examples/deck-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/deck-pass/source-notes.txt", "quote": "Shape selection is the core product surface." }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "deck-reader-jobs",
+      "summary_text": "Reports, dashboards, and decks answer different reader jobs.",
+      "status": "verified",
+      "source_refs": ["examples/deck-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/deck-pass/source-notes.txt", "quote": "Reports, dashboards, and decks answer different reader jobs." }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "deck-close",
+      "summary_text": "Validate structure, then inspect the surface",
+      "status": "verified",
+      "source_refs": ["examples/deck-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/deck-pass/source-notes.txt", "quote": "Validate structure, then inspect the surface." }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "deck-validator",
+      "summary_text": "The validator catches contract drift; visual QA catches layout and taste.",
+      "status": "verified",
+      "source_refs": ["examples/deck-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/deck-pass/source-notes.txt", "quote": "The validator catches contract drift; visual QA catches layout and taste." }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

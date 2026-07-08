@@ -1,0 +1,19 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "missing-preserved",
+      "summary_text": "Revenue is 151000 USD.",
+      "status": "manual_reviewed",
+      "source_refs": ["source.txt", "examples/invalid-summary-missing-preserved-number/source.txt"],
+      "source_quotes": [
+        { "source_ref": "source.txt", "quote": "Revenue is 151000 USD." }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "dashboard",
+  "audience": "operations",
+  "surface": "html",
+  "style_preset": "operational-dashboard",
+  "schematic": false,
+  "source_materials": ["examples/dashboard-pass/source.json"],
+  "data_sources": [{"id": "source.json", "type": "json"}],
+  "metrics": [
+    {"name": "Active accounts", "unit": "count"},
+    {"name": "Weekly growth", "unit": "decimal"},
+    {"name": "Open incidents", "unit": "count"}
+  ],
+  "charts": [
+    {
+      "id": "activity",
+      "family": "trend",
+      "source": "source.json",
+      "unit": "accounts",
+      "question": "Are active accounts increasing week over week?",
+      "takeaway": "Active_accounts moved from 386 in 2026-W18 to 428 in 2026-W25.",
+      "grain": "weekly",
+      "fields": ["week", "active_accounts"],
+      "sample_size": 8,
+      "visual_encoding": {
+        "mark": "line with area-free points",
+        "x": "week",
+        "y": "active_accounts",
+        "scale_type": "linear",
+        "baseline": "axis domain starts at 360 and is labeled",
+        "domain": "360 to 440 accounts",
+        "label_policy": "endpoint labels and weekly tick labels"
+      }
+    },
+    {
+      "id": "drivers",
+      "family": "decomposition",
+      "source": "source.json",
+      "unit": "accounts",
+      "question": "Which drivers explain the weekly account movement?",
+      "takeaway": "Expansion and reactivation offset churn in the current week.",
+      "grain": "driver",
+      "fields": ["driver", "accounts"],
+      "sample_size": 3,
+      "visual_encoding": {
+        "mark": "signed horizontal bars",
+        "x": "accounts",
+        "y": "driver",
+        "scale_type": "linear",
+        "baseline": "zero centered",
+        "domain": "-15 to 30 accounts",
+        "label_policy": "direct value labels"
+      }
+    }
+  ],
+  "layouts": ["topbar", "kpi-strip", "guardrails", "activity", "drivers", "detail-table"],
+  "assumptions": ["Fixture data is treated as reviewed operational source data."],
+  "missing_data": [],
+  "unverified_items": ["Operational freshness is illustrative."]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "dashboard",
+  "audience": "operations",
+  "surface": "html",
+  "style_preset": "operational-dashboard",
+  "schematic": false,
+  "source_materials": ["examples/invalid-empty-dashboard-chart/source.json"],
+  "data_sources": [{"id": "source.json", "type": "json"}],
+  "metrics": [{"name": "Active accounts", "unit": "count"}],
+  "charts": [
+    {
+      "id": "activity",
+      "family": "trend",
+      "source": "source.json",
+      "unit": "accounts",
+      "question": "Is activity changing?",
+      "takeaway": "Activity changed.",
+      "grain": "weekly",
+      "fields": ["week", "active_accounts"],
+      "sample_size": 8,
+      "visual_encoding": {"mark":"line","x":"week","y":"active_accounts","scale_type":"linear","baseline":"axis domain labeled","domain":"0 to 10","label_policy":"direct labels"}
+    },
+    {
+      "id": "drivers",
+      "family": "decomposition",
+      "source": "source.json",
+      "unit": "accounts",
+      "question": "What changed?",
+      "takeaway": "Drivers changed.",
+      "grain": "driver",
+      "fields": ["driver", "accounts"],
+      "sample_size": 3,
+      "visual_encoding": {"mark":"bar","x":"accounts","y":"driver","scale_type":"linear","baseline":"zero centered","domain":"-5 to 5","label_policy":"direct labels"}
+    }
+  ],
+  "layouts": ["kpi-strip", "activity", "drivers", "detail-table"],
+  "assumptions": [],
+  "missing_data": [],
+  "unverified_items": []
+}

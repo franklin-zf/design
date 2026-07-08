@@ -1,0 +1,20 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "activation-summary",
+      "summary_text": "Activation_rate moved from 0.34 in 2025-11 to 0.47 in 2026-06.",
+      "status": "manual_reviewed",
+      "source_refs": ["source.csv", "examples/chart-frame-pass/source.csv"],
+      "source_quotes": [
+        { "source_ref": "source.csv", "quote": "2025-11,0.34" },
+        { "source_ref": "source.csv", "quote": "2026-06,0.47" }
+      ],
+      "preserved_numbers": ["0.34", "2025", "11", "0.47", "2026", "06"]
+    }
+  ]
+}

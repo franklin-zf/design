@@ -1,0 +1,52 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"],
+    "notes": "Summaries keep source meaning and preserve source number strings."
+  },
+  "summaries": [
+    {
+      "id": "main-summary",
+      "summary_text": "Revenue moved from 124000 USD in 2026-04 to 151000 USD in 2026-06 while activation_rate moved from 0.41 to 0.47.",
+      "status": "manual_reviewed",
+      "source_refs": ["source.csv", "examples/data-report-pass/source.csv"],
+      "source_quotes": [
+        { "source_ref": "source.csv", "quote": "2026-04,124000,0.41" },
+        { "source_ref": "source.csv", "quote": "2026-06,151000,0.47" }
+      ],
+      "preserved_numbers": ["124000", "2026", "04", "151000", "06", "0.41", "0.47"]
+    },
+    {
+      "id": "revenue-kpi",
+      "summary_text": "Revenue 151000 USD in 2026-06",
+      "status": "verified",
+      "source_refs": ["source.csv", "examples/data-report-pass/source.csv"],
+      "source_quotes": [
+        { "source_ref": "source.csv", "quote": "2026-06,151000,0.47" }
+      ],
+      "preserved_numbers": ["151000", "2026", "06"]
+    },
+    {
+      "id": "activation-kpi",
+      "summary_text": "Activation_rate 0.47 in 2026-06",
+      "status": "verified",
+      "source_refs": ["source.csv", "examples/data-report-pass/source.csv"],
+      "source_quotes": [
+        { "source_ref": "source.csv", "quote": "2026-06,151000,0.47" }
+      ],
+      "preserved_numbers": ["0.47", "2026", "06"]
+    },
+    {
+      "id": "finding-summary",
+      "summary_text": "The supplied CSV rises across the reviewed months; the next review should test whether activation gains are durable.",
+      "status": "manual_reviewed",
+      "source_refs": ["source.csv", "examples/data-report-pass/source.csv"],
+      "source_quotes": [
+        { "source_ref": "source.csv", "quote": "2025-11,108000,0.37" },
+        { "source_ref": "source.csv", "quote": "2026-06,151000,0.47" }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

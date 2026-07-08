@@ -1,0 +1,6 @@
+Fixture notes for a short product team deck.
+Right form before polish.
+Shape selection is the core product surface.
+Reports, dashboards, and decks answer different reader jobs.
+Validate structure, then inspect the surface.
+The validator catches contract drift; visual QA catches layout and taste.
