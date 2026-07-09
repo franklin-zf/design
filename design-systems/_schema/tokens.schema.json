@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Tokens",
+  "type": "object",
+  "required": ["schema_version", "colors", "typography", "spacing", "radius"],
+  "properties": {
+    "schema_version": { "const": "design-tokens/v1" },
+    "colors": { "type": "object" },
+    "typography": { "type": "object" },
+    "spacing": { "type": "object" },
+    "radius": { "type": "object" }
+  }
+}

@@ -14,6 +14,14 @@ Decks also include:
 - `slide-plan.json`: one row per slide with `slide`, `layout_id`, `purpose`, `theme`, `source`, and required `media_decision`; non-`none` media decisions must bind `image_slot` or `image_slots`.
 - `images/`: local images when used.
 
+Posters also include:
+
+- `poster-plan.json`: one row of intent with `poster_goal`, `single_message`, `visual_hook`, `layout_lock`, `image_strategy`, `claim_integrity`, and `anti_ai_slop_checks`.
+
+Open Design-like design-system packages also include:
+
+- `DESIGN.md`, `USAGE.md`, `tokens.css`, `design-tokens.json`, `components.html`, `components.manifest.json`, `preview/`, and `source/` evidence.
+
 Substantial source-backed or aesthetic-sensitive artifacts should also include:
 
 - `agent-handoffs/poster.json` or a project-level poster handoff;
@@ -39,6 +47,51 @@ Required:
 - `missing_data`
 - `unverified_items`
 
+Use `design_system` when an artifact binds to a reusable system:
+
+```json
+{
+  "design_system": {
+    "id": "swiss-deck"
+  }
+}
+```
+
+Use `aesthetic_contract` when the artifact needs enforceable taste gates:
+
+```json
+{
+  "aesthetic_contract": {
+    "layout_lock": "swiss-s01-s22",
+    "accent_policy": {
+      "accent_2": "marker_only"
+    },
+    "svg_text_policy": "forbid_visible_text_in_swiss_assets",
+    "motion_policy": "semantic_with_reduced_motion",
+    "visual_rhythm": {
+      "max_same_weight_run": 2,
+      "min_unique_layouts_for_8_slides": 4
+    }
+  }
+}
+```
+
+For `visual_assets`, prefer explicit provenance over decorative labels:
+
+```json
+{
+  "id": "system-map",
+  "file": "images/system.svg",
+  "slot": "s17-system-16x10",
+  "kind": "generated-schematic",
+  "provenance": "generated_from_source",
+  "declared_media_decision": "generated-schematic",
+  "text_policy": "html_labels_only",
+  "aspect_ratio": "16:10",
+  "allowed_slot": "s17-system-16x10"
+}
+```
+
 ## HTML Requirements
 
 - Use semantic regions when possible.
@@ -46,6 +99,7 @@ Required:
 - Tag charts with `data-chart-id`.
 - Tag deck slides with `class="slide"`, `data-layout`, and `data-purpose`.
 - Tag local images with `data-image-slot`.
+- Tag poster roots with `data-poster-id`.
 - Tag deliberate motion with stable `data-animate` and `data-anim` markers or document the equivalent pattern.
 - Include viewport meta and responsive CSS.
 - Keep everything self-contained unless the quality report declares external dependencies.
@@ -62,6 +116,23 @@ For source-backed `data-report`, `dashboard`, and `chart-frame` artifacts, every
 - `denominator` for rate, ratio, or percent semantics, unless denominator absence is explicitly listed in `missing_data`.
 
 Trend claims need at least 8 comparable observations or a non-trend fallback.
+
+## Poster Contract
+
+Poster artifacts must have exactly one primary `h1`, one clear message, a visible hook, and `poster-plan.json`. They must avoid fake urgency, emoji hooks, inflated Chinese abstractions, and generic AI-gradient styling. If the poster summarizes source material, it must keep numbers verbatim and keep any unsupported claim in `unverified_items`.
+
+## Aesthetic And Asset Gates
+
+Run these validators when their contracts apply:
+
+```bash
+node scripts/validate-aesthetic-contract.mjs <artifact-dir>
+node scripts/validate-asset-contract.mjs <artifact-dir>
+node scripts/validate-layout-lock.mjs <artifact-dir>
+node scripts/validate-visual-rhythm.mjs <artifact-dir>
+node scripts/validate-poster-contract.mjs <artifact-dir>
+node scripts/validate-poster-anti-ai-slop.mjs <artifact-dir>
+```
 
 ## Quality Report Sections
 

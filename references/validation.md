@@ -9,6 +9,13 @@ node scripts/validate-design-output.mjs <artifact-dir>
 node scripts/validate-summary-map.mjs <artifact-dir>
 node scripts/validate-claim-map.mjs <artifact-dir>
 node scripts/validate-design-skill.mjs <skill-dir>
+node scripts/validate-design-system-package.mjs <skill-dir> swiss-deck
+node scripts/validate-aesthetic-contract.mjs <artifact-dir>
+node scripts/validate-asset-contract.mjs <artifact-dir>
+node scripts/validate-layout-lock.mjs <artifact-dir>
+node scripts/validate-visual-rhythm.mjs <artifact-dir>
+node scripts/validate-poster-contract.mjs <artifact-dir>
+node scripts/validate-poster-anti-ai-slop.mjs <artifact-dir>
 node scripts/capability-preflight.mjs --require=browser_smoke
 node scripts/capability-preflight.mjs --require=browser_launch
 node scripts/render-smoke.mjs <artifact-dir>/index.html --viewports=desktop,mobile
@@ -16,7 +23,7 @@ node scripts/render-smoke.mjs <artifact-dir>/index.html --viewports=desktop,mobi
 node scripts/tweakable-smoke.mjs <artifact-dir>/index.html
 ```
 
-These scripts check required files, manifest fields, placeholder text, deck layout metadata, image slots, source declarations, visible summary mappings, verbatim summary numbers, plain-language status, claim evidence quotes, style preset usage, chart contracts, visual QA evidence, browser rendering, and optional interaction behavior.
+These scripts check required files, manifest fields, placeholder text, deck layout metadata, image slots, source declarations, visible summary mappings, verbatim summary numbers, plain-language status, claim evidence quotes, style preset usage, chart contracts, aesthetic contracts, visual asset provenance, registered layout locks, visual rhythm, poster contracts, anti-AI-slop patterns, visual QA evidence, browser rendering, and optional interaction behavior.
 
 For triad-driven work, also inspect `agent-handoffs/` or the project `.exp-skill/runs/<run-id>/role-handoffs/` directory. Reviewer approval or documented residual risk is required before claiming the artifact is ready.
 
@@ -33,6 +40,12 @@ For source-backed reports, dashboards, and chart frames, include `claim-map.json
 For source-backed reports, dashboards, chart frames, decks, and PPT handoffs, include `summary-map.json` and run `validate-summary-map.mjs`. The summary validator checks that mapped visible summaries exist in HTML, source quotes are local and readable, summary numbers appear verbatim in those source quotes, and plain-language review is recorded.
 
 For tweakable artifacts, run `tweakable-smoke.mjs` when controls are part of the deliverable. It checks that core controls change DOM/CSS/localStorage state; it does not prove every possible interaction path.
+
+For Swiss/Guizang-style decks and PPT handoffs, run `validate-aesthetic-contract.mjs`, `validate-asset-contract.mjs`, `validate-layout-lock.mjs`, and `validate-visual-rhythm.mjs`. These close local risks around fake screenshot labels, generated SVG text, unregistered layouts, accent flooding, missing reduced-motion fallback, and repetitive visual rhythm.
+
+For posters, run `validate-poster-contract.mjs` and `validate-poster-anti-ai-slop.mjs`. These close local risks around missing `poster-plan.json`, missing hook, multiple primary headings, AI-default indigo/purple styling, emoji hooks, placeholder copy, and inflated language.
+
+For reusable design systems, run `validate-design-system-package.mjs`. This verifies the Open Design-style package shape: manifest, design rationale, tokens, components, previews, and source evidence.
 
 Run `capability-preflight.mjs` before claiming browser smoke, native PPTX, PDF export, Figma, live connector, or Open Design daemon coverage. `browser_smoke` checks package/binary availability; `browser_launch` verifies a real Chromium launch and may require host permissions. Missing optional runtimes should remain `not_claimed`, not silently become capabilities.
 
@@ -60,6 +73,8 @@ Close only the risks that have direct evidence:
 - Browser execution risk is closed for the current host only when `capability-preflight.mjs --require=browser_launch` passes.
 - Obvious layout-regression risk is closed for the checked examples only when strict browser smoke passes.
 - Interaction risk is closed only for the controls exercised by `tweakable-smoke.mjs` or an equivalent targeted smoke.
+- Swiss deck aesthetic-contract risk is closed only when the aesthetic, asset, layout-lock, and rhythm validators pass on the artifact.
+- Poster anti-AI-slop risk is closed only when the poster contract and poster anti-AI-slop validators pass on the artifact.
 
 These are explicit non-claims, not open engineering risks in this package:
 

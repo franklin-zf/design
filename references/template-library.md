@@ -35,6 +35,7 @@ Choose templates by reader job and evidence shape:
 | source-backed explanation | report, claim-evidence slide, system map |
 | operational monitoring | dashboard, KPI strip, trend/driver/detail |
 | visual persuasion | deck with image hero, statement, contrast, close |
+| one-message visual | poster with type-led hook, image hero, or data hero |
 | process or architecture | system map, lifecycle pipeline, Mermaid-derived diagram |
 | UI evidence | screenshot board, before/after, image grid |
 
@@ -82,5 +83,5 @@ This can live in `quality-report.md`, `slide-plan.json`, or `agent-handoffs/desi
 - Avoid hidden external runtime assumptions.
 - Do not introduce arbitrary hex colors when a preset is active.
 - New templates need at least one passing example or a documented manual validation case.
+- New poster templates need `poster-plan.json`, a passing poster fixture, and an anti-AI-slop negative fixture.
 - If a template includes motion, it must include reduced-motion or static fallback.
-

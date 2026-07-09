@@ -1,0 +1,26 @@
+{
+  "schema_version": "components-manifest/v1",
+  "system_id": "swiss-deck",
+  "components": [
+    {
+      "id": "cover-ascii",
+      "role": "cover",
+      "selectors": [".slide-cover", ".meta", ".cover-title"]
+    },
+    {
+      "id": "image-hero",
+      "role": "evidence-image",
+      "selectors": [".frame-img", ".r-21x9", "[data-image-slot]"]
+    },
+    {
+      "id": "system-map",
+      "role": "diagram",
+      "selectors": [".system-map", ".system-node", ".system-label"]
+    },
+    {
+      "id": "metric-ledger",
+      "role": "metric-proof",
+      "selectors": [".metric-ledger", ".metric-row", ".metric-value"]
+    }
+  ]
+}

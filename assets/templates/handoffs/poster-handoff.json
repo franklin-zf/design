@@ -1,10 +1,15 @@
 {
   "role": "poster",
+  "reader_decision": "",
   "reader_job": "",
   "decision_context": "",
   "one_sentence_message": "",
   "narrative_spine": [],
+  "evidence_sequence": [],
+  "omission_rationale": [],
   "must_keep_facts": [],
   "must_not_say": [],
+  "must_not_visualize": [],
+  "anti_slop_language_checks": [],
   "source_refs": []
 }

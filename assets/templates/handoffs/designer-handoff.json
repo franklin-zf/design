@@ -1,10 +1,17 @@
 {
   "role": "designer",
   "style_preset": "",
+  "design_system_package": "",
   "template_family": "",
+  "preview_plan": [],
+  "inspect_plan": [],
+  "swiss_layout_lock": "",
   "layout_plan": [],
+  "image_slots": [],
   "image_plan": [],
   "icon_plan": [],
+  "motion_recipe_by_slide": [],
+  "anti_ai_slop_visual_checks": [],
   "motion_plan": [],
   "aesthetic_risks": []
 }

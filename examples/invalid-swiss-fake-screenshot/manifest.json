@@ -1,0 +1,29 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "validator",
+  "surface": "html",
+  "style_preset": "swiss-deck",
+  "schematic": false,
+  "source_materials": ["source.txt"],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["S17"],
+  "visual_assets": [
+    {
+      "id": "fake-shot",
+      "file": "images/fake.svg",
+      "slot": "s17-system-16x10",
+      "kind": "generated-schematic",
+      "provenance": "generated_from_source",
+      "declared_media_decision": "screenshot",
+      "text_policy": "html_labels_only",
+      "aspect_ratio": "16:10",
+      "allowed_slot": "s17-system-16x10"
+    }
+  ],
+  "assumptions": [],
+  "missing_data": [],
+  "unverified_items": []
+}

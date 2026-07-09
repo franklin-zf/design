@@ -8,10 +8,15 @@
 - Summary changes the source meaning, adds a stronger claim, or omits a caveat that changes interpretation.
 - Summary rewrites any number through abbreviation, rounding, unit conversion, percent conversion, sign change, or a newly computed value not present verbatim in source quotes.
 - Non-schematic source-backed report, dashboard, chart frame, deck, or PPT handoff is missing `summary-map.json`.
+- Poster artifact is missing `poster-plan.json`, `data-poster-id`, or exactly one primary `h1`.
 - Placeholder text remains.
 - Deck slide missing `data-layout` or `data-purpose`.
 - Local image missing `data-image-slot`.
 - Deck or PPT handoff has structural content but no explicit media, Mermaid, process, or system-diagram decision in the slide plan.
+- Generated diagram, SVG, or UI mockup is labeled as a screenshot.
+- Swiss/Guizang-style deck uses visible SVG `<text>` instead of HTML labels.
+- Swiss/Guizang-style deck uses an unregistered layout outside the locked layout registry.
+- Poster uses AI-default purple/indigo gradients, emoji hooks, inflated language, or vague claims that are not source-backed.
 - Style preset missing or mixed.
 - Chart has no source, unit, or context when used as evidence.
 - Chart contract missing question, takeaway, grain, fields, scale, sample size, or visual encoding.
@@ -27,6 +32,7 @@
 - Summary uses vague elevated language instead of direct wording.
 - Dashboard default view requires interaction to be useful.
 - Deck has flat rhythm or repeated layout.
+- Swiss/Guizang-style deck has repeated visual weights beyond the configured rhythm limit.
 - Deck lacks poster narrative spine or treats the source document as a page-by-page dump.
 - Images, icons, Mermaid diagrams, or generated graphics are decorative rather than explanatory.
 - Table used where chart would communicate better.

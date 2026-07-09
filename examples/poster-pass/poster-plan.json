@@ -1,0 +1,18 @@
+{
+  "schema_version": "design-poster-plan/v1",
+  "poster_goal": "concept",
+  "audience": "project steering group",
+  "single_message": "先统一产品、流程、数据三类事实。",
+  "visual_hook": "Three aligned bars converge into one operating line.",
+  "layout_lock": "poster-type-led",
+  "design_system": "swiss-deck",
+  "source_materials": ["source.txt"],
+  "image_strategy": "typography-only",
+  "claim_integrity": "source-backed",
+  "anti_ai_slop_checks": [
+    "no emoji",
+    "no inflated language",
+    "no purple trust gradient",
+    "no fake screenshot"
+  ]
+}

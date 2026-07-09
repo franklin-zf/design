@@ -9,6 +9,7 @@ For template selection strategy, reader-job fit, borrowed patterns, and registry
 | `assets/templates/report.html` | Analytical report shell | `neutral-analytic`, `editorial-report` |
 | `assets/templates/dashboard.html` | Operational dashboard shell | `operational-dashboard` |
 | `assets/templates/deck.html` | Horizontal HTML deck shell | `swiss-deck`, `magazine-deck` |
+| `assets/templates/poster.html` | One-message poster shell | `swiss-deck`, `magazine-deck` |
 | `assets/templates/tweakable-artifact.html` | Parameterized wrapper | `tweakable-lab` |
 
 Template metadata is registered in `assets/templates/registry.json`.
@@ -19,6 +20,7 @@ Template metadata is registered in `assets/templates/registry.json`.
 - Replace all double-brace tokens before validation.
 - Keep semantic `data-design-id` regions.
 - Decks must keep slide metadata.
+- Posters must keep `data-poster-id`, exactly one `h1`, and a matching `poster-plan.json`.
 - Add only the CSS and JavaScript required for the artifact.
 - Use the active preset tokens; do not introduce arbitrary hex colors in generated artifacts.
 - Replace dashed chart containers with real charts before an artifact is marked `ready`.

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swiss Deck Components</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    body { margin: 0; background: var(--surface); color: var(--text); font-family: var(--font-body); }
+    main { padding: 48px; display: grid; gap: 24px; }
+    .component { border: 1px solid var(--line); background: var(--panel); padding: 24px; }
+    .meta { color: var(--muted); font-family: var(--font-mono); font-size: var(--type-label); text-transform: uppercase; }
+    .cover-title { margin: 10px 0 0; font-size: 64px; line-height: .95; }
+    .frame-img { width: 100%; background: var(--panel-alt); border: 1px solid var(--line); display: grid; place-items: center; }
+    .r-21x9 { aspect-ratio: 21 / 9; }
+    .metric-ledger { display: grid; gap: 12px; }
+    .metric-row { display: grid; grid-template-columns: 1fr auto; gap: 20px; border-top: 1px solid var(--line); padding-top: 12px; }
+    .metric-value { color: var(--accent); font-size: 48px; font-weight: 800; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="component" data-od-id="cover-component">
+      <p class="meta">Cover</p>
+      <h1 class="cover-title">Evidence before style</h1>
+    </section>
+    <section class="component" data-od-id="image-component">
+      <p class="meta">Image slot</p>
+      <div class="frame-img r-21x9" data-image-slot="s22-hero-21x9">21:9 evidence image</div>
+    </section>
+    <section class="component metric-ledger" data-od-id="metric-component">
+      <div class="metric-row"><span>Quality gate</span><strong class="metric-value">4</strong></div>
+      <div class="metric-row"><span>Risk checks</span><strong class="metric-value">7</strong></div>
+    </section>
+  </main>
+</body>
+</html>

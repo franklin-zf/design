@@ -1,0 +1,13 @@
+{
+  "slides": [
+    {
+      "slide": 1,
+      "layout_id": "S17",
+      "purpose": "fake screenshot",
+      "theme": "light",
+      "source": "source.txt",
+      "media_decision": "screenshot",
+      "image_slot": "s17-system-16x10"
+    }
+  ]
+}

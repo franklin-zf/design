@@ -1,0 +1,30 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "validator",
+  "surface": "html",
+  "style_preset": "swiss-deck",
+  "schematic": false,
+  "source_materials": ["source.txt"],
+  "design_system": {
+    "id": "swiss-deck"
+  },
+  "aesthetic_contract": {
+    "layout_lock": "swiss-s01-s22",
+    "accent_policy": {
+      "accent_2": "marker_only"
+    },
+    "svg_text_policy": "forbid_visible_text_in_swiss_assets",
+    "motion_policy": "semantic_with_reduced_motion",
+    "visual_rhythm": {
+      "max_same_weight_run": 2
+    }
+  },
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["P23"],
+  "assumptions": [],
+  "missing_data": [],
+  "unverified_items": []
+}

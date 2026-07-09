@@ -21,7 +21,19 @@
             "enum": ["none", "image", "screenshot", "mermaid", "chart", "icon", "generated-schematic", "flowchart", "mind-map"]
           },
           "image_slot": { "type": "string" },
-          "image_slots": { "type": "array" }
+          "image_slots": { "type": "array" },
+          "asset_id": { "type": "string" },
+          "visual_weight": {
+            "enum": ["cover", "statement", "text", "evidence", "image-hero", "diagram", "comparison", "metric", "breath", "close"]
+          },
+          "slot_contract": {
+            "type": "object",
+            "required": ["slot", "aspect_ratio"],
+            "properties": {
+              "slot": { "type": "string", "minLength": 1 },
+              "aspect_ratio": { "type": "string", "minLength": 1 }
+            }
+          }
         }
       }
     }

@@ -64,7 +64,12 @@ Required fields for each generated image:
   "slide_id": "",
   "file": "images/name.ext",
   "slot": "",
-  "type": "photo|system-map|pipeline|mind-map|ui-scenario|data-block|icon-set",
+  "kind": "image|diagram|flowchart|mind-map|screenshot|icon-set|data-block|ui-scenario|generated-schematic",
+  "provenance": "user_source|web_source|runtime_capture|generated_from_source|schematic",
+  "declared_media_decision": "image|screenshot|generated-schematic|flowchart|mind-map|icon|chart",
+  "text_policy": "html_labels_only|raster_text_allowed|source_text",
+  "aspect_ratio": "16:10",
+  "allowed_slot": "",
   "source_basis": [],
   "prompt_summary": "",
   "schematic": true
@@ -77,6 +82,8 @@ Do not generate:
 - decorative robots, neon interfaces, 3D shapes, glassmorphism, or pseudo logos;
 - image text that changes source wording or numbers;
 - slide chrome inside the image.
+- generated SVG visible `<text>` when the Swiss deck contract requires HTML labels;
+- generated mockups mislabeled as screenshots.
 
 ## Swiss Deck Image Rules
 
@@ -88,6 +95,8 @@ Borrowed from the guizang Swiss discipline:
 - S22 image hero uses `data-image-slot="s22-hero-21x9"`.
 - S15/S16 image grids use consistent 21:9 slots.
 - System and process diagrams should explain relationships, not merely decorate a text slide.
+- Generated SVG schematics use geometry only; labels sit in HTML beside or over the asset.
+- A screenshot slot must use a user-supplied or runtime-captured screenshot. If the asset is generated, call it `generated-schematic` or `ui-scenario`.
 - Motion should reveal sequence or state; provide static fallback.
 
 ## Icon Policy
@@ -109,6 +118,7 @@ Reviewer must check:
 - no critical image text is clipped or too small;
 - diagrams do not invent facts;
 - web image provenance is recorded;
+- generated assets are not mislabeled as screenshots;
+- SVG text policy is followed for Swiss deck assets;
 - icon meaning is clear without guessing;
 - motion does not hide content when disabled.
-

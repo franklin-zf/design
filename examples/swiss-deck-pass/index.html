@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swiss Deck Fixture</title>
+  <style>
+    :root {
+      --surface: #f4f4f0;
+      --panel: #ffffff;
+      --panel-alt: #e9e9e2;
+      --text: #111111;
+      --muted: #5f6368;
+      --line: #d7d7d2;
+      --accent: #0047ff;
+      --marker: #d7ff00;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--surface);
+      font-family: Inter, Helvetica, Arial, sans-serif;
+    }
+
+    .deck {
+      min-height: 100vh;
+    }
+
+    .slide {
+      min-height: 100vh;
+      display: grid;
+      gap: 32px;
+      padding: 6vw;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cover,
+    .close {
+      align-content: space-between;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      letter-spacing: 0;
+      line-height: .95;
+    }
+
+    h1 {
+      max-width: 10ch;
+      font-size: clamp(56px, 10vw, 120px);
+    }
+
+    h2 {
+      max-width: 16ch;
+      font-size: clamp(40px, 7vw, 80px);
+    }
+
+    .system {
+      grid-template-columns: 1fr minmax(280px, 52vw);
+      align-items: center;
+    }
+
+    .media {
+      position: relative;
+      background: var(--panel);
+      border: 2px solid var(--text);
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+    }
+
+    .media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .label {
+      position: absolute;
+      left: 24px;
+      bottom: 20px;
+      padding: 6px 10px;
+      background: var(--surface);
+      border-left: 8px solid var(--accent);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .marker {
+      display: inline-block;
+      width: 72px;
+      height: 12px;
+      margin-bottom: 24px;
+      background: var(--marker);
+    }
+
+    p {
+      max-width: 54ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 760px) {
+      .system {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" data-design-id="swiss-deck-root" data-style-preset="swiss-deck">
+    <section class="slide cover" data-layout="SWISS-COVER-ASCII" data-purpose="cover">
+      <div class="eyebrow">Fixture</div>
+      <h1 data-summary-id="swiss-cover">Swiss deck needs registered layouts.</h1>
+      <p>Open Design-style contracts and Guizang-style layout rhythm are checked before handoff.</p>
+    </section>
+    <section class="slide system" data-layout="S17" data-purpose="system explanation">
+      <div>
+        <span class="marker" aria-hidden="true"></span>
+        <h2 data-summary-id="swiss-system">System diagrams explain relationships, not decoration.</h2>
+        <p>The graphic is a generated schematic with HTML labels, so text remains inspectable.</p>
+      </div>
+      <figure class="media">
+        <img src="images/system.svg" alt="System relationship schematic" data-image-slot="s17-system-16x10">
+        <figcaption class="label">HTML label, not SVG text</figcaption>
+      </figure>
+    </section>
+    <section class="slide close" data-layout="SWISS-CLOSING-ASCII" data-purpose="close">
+      <div class="eyebrow">Close</div>
+      <h2 data-summary-id="swiss-close">Close with the validation gate that protects the handoff.</h2>
+    </section>
+  </main>
+</body>
+</html>

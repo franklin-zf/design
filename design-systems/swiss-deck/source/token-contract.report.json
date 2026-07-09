@@ -1,0 +1,9 @@
+{
+  "schema_version": "token-contract-report/v1",
+  "system_id": "swiss-deck",
+  "status": "local_fixture",
+  "notes": [
+    "Tokens mirror assets/themes/presets.json swiss-deck values.",
+    "accent_2 is marker-only and should not be used as a dominant surface."
+  ]
+}

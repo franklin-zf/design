@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Layout Registry",
+  "type": "object",
+  "required": ["schema_version", "id", "layouts"],
+  "properties": {
+    "schema_version": { "const": "layout-registry/v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "layouts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "visual_weight"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "visual_weight": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

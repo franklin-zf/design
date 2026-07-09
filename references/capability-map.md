@@ -6,7 +6,8 @@
 | --- | --- | --- |
 | Skill protocol and frontmatter | `SKILL.md`, routing description, references, scripts, assets | none |
 | Typed inputs and parameters | `references/input-contract.md` plus manifest schema | host UI optional |
-| Design system injection | `references/design-system.md`; use supplied `DESIGN.md` or preset | host prompt injection optional |
+| Design system injection | `references/design-system.md`; use supplied system or bundled `design-systems/swiss-deck` package | host prompt injection optional |
+| Design-system package | `design-systems/<id>/` with manifest, tokens, components, previews, and source evidence | browser for visual QA |
 | Craft rules | `references/style-presets.md`, `references/checklist.md`, validator checks | none |
 | HTML artifact preview | `index.html` output contract | browser for visual QA |
 | Live tweak controls | `assets/templates/tweakable-artifact.html` | browser/localStorage |
@@ -24,8 +25,10 @@
 | Preset-only color | validator checks style preset, references forbid arbitrary hex mixing |
 | Registered layouts | `references/deck-ppt.md` and `slide-plan.json` |
 | Image slots and ratios | `data-image-slot` contract and validator checks |
-| Theme rhythm | deck planning rules and quality report |
-| Swiss validator pattern | `scripts/validate-design-output.mjs` |
+| Theme rhythm | `aesthetic_contract.visual_rhythm`, `slide-plan.json`, and `validate-visual-rhythm.mjs` |
+| Swiss layout lock | `references/swiss-layout-lock.md` and `validate-layout-lock.mjs` |
+| Image/SVG discipline | `validate-asset-contract.mjs` blocks fake screenshots and forbidden SVG text |
+| Swiss validator pattern | `validate-design-output.mjs`, `validate-aesthetic-contract.mjs`, `validate-layout-lock.mjs`, `validate-visual-rhythm.mjs` |
 
 ## Additional Local Capability Parity
 

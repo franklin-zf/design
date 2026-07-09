@@ -1,0 +1,31 @@
+{
+  "slides": [
+    {
+      "slide": 1,
+      "layout_id": "S01",
+      "purpose": "text",
+      "theme": "light",
+      "source": "source.txt",
+      "media_decision": "none",
+      "visual_weight": "text"
+    },
+    {
+      "slide": 2,
+      "layout_id": "S02",
+      "purpose": "text",
+      "theme": "light",
+      "source": "source.txt",
+      "media_decision": "none",
+      "visual_weight": "text"
+    },
+    {
+      "slide": 3,
+      "layout_id": "S03",
+      "purpose": "text",
+      "theme": "light",
+      "source": "source.txt",
+      "media_decision": "none",
+      "visual_weight": "text"
+    }
+  ]
+}

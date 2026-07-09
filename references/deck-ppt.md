@@ -41,7 +41,7 @@ Do not turn every source section into a slide. A deck is a decision path, not a 
 
 ## Registered Layouts
 
-Use registered layout ids instead of inventing slide structures:
+Use registered layout ids instead of inventing slide structures. For neutral decks, the D-series layouts are allowed. For Guizang/Open Design-inspired Swiss decks, use `references/swiss-layout-lock.md` and the S01-S22 registry.
 
 | ID | Use |
 | --- | --- |
@@ -60,6 +60,13 @@ Use registered layout ids instead of inventing slide structures:
 
 Every slide in `index.html` must include `class="slide"`, `data-layout`, and `data-purpose`. Every slide in `slide-plan.json` must cite source or mark schematic.
 
+When `manifest.aesthetic_contract.layout_lock` is `swiss-s01-s22`:
+
+- `manifest.style_preset` and `manifest.design_system.id` must be `swiss-deck`;
+- layouts must be `SWISS-COVER-ASCII`, `SWISS-CLOSING-ASCII`, or `S01` through `S22`;
+- S22 must bind `slot_contract.slot` to `s22-hero-21x9`;
+- run `validate-layout-lock.mjs` before claiming the deck is ready.
+
 ## Media And Diagram Gate
 
 Every slide must have an explicit media decision in the slide plan:
@@ -72,7 +79,7 @@ Every slide must have an explicit media decision in the slide plan:
 - `icon`: scan aid;
 - `generated-schematic`: generated information graphic, marked schematic where needed.
 
-For structural content, prefer a Mermaid/process/system diagram or generated information graphic over text boxes. For Swiss decks, bind local images with `data-image-slot`; use S22 image hero or S15/S16 image grids when the slide needs visual evidence.
+For structural content, prefer a Mermaid/process/system diagram or generated information graphic over text boxes. For Swiss decks, bind local images with `data-image-slot`; use S22 image hero or S15/S16 image grids when the slide needs visual evidence. Generated SVG schematics must keep text in HTML labels under the Swiss text policy.
 
 ## Motion Gate
 
@@ -85,6 +92,7 @@ Use motion only to reveal sequence, hierarchy, or state. Deck motion should use 
 - Use one style preset per deck.
 - Do not mix magazine, Swiss, dashboard, and report motifs without an explicit comparison goal.
 - When the user references guizang-like quality, Swiss means registered layout, image slot, grid, type contrast, motion discipline, and visual rhythm; it does not mean only blue-white coloring.
+- When the user references Open Design-like quality, the artifact should use a design-system package, token contract, reusable component preview, and validator evidence; it does not mean claiming a live Open Design daemon.
 
 ## PPTX Handoff
 

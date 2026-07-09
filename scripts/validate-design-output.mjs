@@ -80,14 +80,14 @@ const requiredFields = [
   'unverified_items'
 ];
 
-const allowedTypes = new Set(['data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff', 'screenshot-evidence', 'tweakable-artifact', 'design-system', 'multi-artifact']);
+const allowedTypes = new Set(['data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff', 'poster', 'screenshot-evidence', 'tweakable-artifact', 'design-system', 'multi-artifact']);
 const allowedPresets = new Set(['neutral-analytic', 'editorial-report', 'swiss-deck', 'magazine-deck', 'operational-dashboard', 'tweakable-lab']);
 const claimMapRequiredTypes = new Set(['data-report', 'dashboard', 'chart-frame']);
 const summaryMapRequiredTypes = new Set(['data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff']);
 const chartContractTypes = new Set(['data-report', 'dashboard', 'chart-frame']);
 const requiredChartFields = ['id', 'family', 'source', 'unit', 'question', 'takeaway', 'grain', 'fields', 'sample_size', 'visual_encoding'];
 const requiredEncodingFields = ['mark', 'x', 'y', 'scale_type', 'baseline', 'domain', 'label_policy'];
-const allowedVisualAssetKinds = new Set(['image', 'diagram', 'flowchart', 'mind-map', 'screenshot', 'icon-set', 'data-block', 'ui-scenario']);
+const allowedVisualAssetKinds = new Set(['image', 'diagram', 'flowchart', 'mind-map', 'screenshot', 'icon-set', 'data-block', 'ui-scenario', 'generated-schematic']);
 let slidePlan = null;
 
 if (manifest) {
@@ -257,6 +257,12 @@ if (manifest?.artifact_type === 'html-deck' || manifest?.artifact_type === 'ppt-
 if (manifest?.artifact_type === 'screenshot-evidence') {
   if (!/data-image-slot=/.test(html)) errors.push('screenshot-evidence artifacts must bind images with data-image-slot.');
   if (!/data-screenshot-mode=/.test(html)) errors.push('screenshot-evidence artifacts must declare data-screenshot-mode.');
+}
+
+if (manifest?.artifact_type === 'poster') {
+  if (!existsSync(join(dir, 'poster-plan.json'))) errors.push('poster artifacts must include poster-plan.json.');
+  if (!/data-poster-id=/.test(html)) errors.push('poster artifacts must declare data-poster-id.');
+  if ((html.match(/<h1\b/gi) || []).length !== 1) errors.push('poster artifacts must include exactly one primary h1.');
 }
 
 if (manifest?.artifact_type === 'design-system') {

@@ -1,0 +1,24 @@
+{
+  "schema_version": "design-system-package/v1",
+  "id": "swiss-deck",
+  "name": "Swiss Deck Evidence System",
+  "files": {
+    "design": "DESIGN.md",
+    "tokens": "tokens.css",
+    "design_tokens": "design-tokens.json",
+    "components": "components.html",
+    "components_manifest": "components.manifest.json"
+  },
+  "preview": [
+    { "path": "preview/colors.html", "role": "colors" },
+    { "path": "preview/typography.html", "role": "typography" },
+    { "path": "preview/spacing.html", "role": "spacing" },
+    { "path": "preview/deck.html", "role": "deck" }
+  ],
+  "contracts": {
+    "layout_lock": "swiss-s01-s22",
+    "accent_policy": "single-accent-with-marker-only-accent-2",
+    "svg_text_policy": "forbid-visible-text-in-generated-swiss-svg",
+    "motion_policy": "semantic-motion-with-reduced-motion"
+  }
+}

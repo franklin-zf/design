@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Visual Asset Contract",
+  "type": "object",
+  "required": ["id", "file", "slot", "kind", "provenance", "text_policy"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "slide_id": { "type": "string", "minLength": 1 },
+    "file": { "type": "string", "minLength": 1 },
+    "slot": { "type": "string", "minLength": 1 },
+    "kind": {
+      "enum": ["image", "diagram", "flowchart", "mind-map", "screenshot", "icon-set", "data-block", "ui-scenario", "generated-schematic"]
+    },
+    "provenance": {
+      "enum": ["user_source", "generated_from_source", "web_source", "local_fixture", "unknown"]
+    },
+    "text_policy": {
+      "enum": ["html_labels_only", "source_image_text_allowed", "decorative_only", "not_applicable"]
+    },
+    "aspect_ratio": { "type": "string" },
+    "allowed_slot": { "type": "string" },
+    "schematic": { "type": "boolean" }
+  }
+}

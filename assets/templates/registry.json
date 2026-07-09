@@ -35,6 +35,38 @@
       "thinking_ref": "references/report-dashboard.md"
     },
     {
+      "id": "poster-type-led",
+      "name": "Type Led Poster",
+      "artifact_types": [
+        "poster"
+      ],
+      "style_presets": [
+        "swiss-deck",
+        "magazine-deck"
+      ],
+      "source": "open-design-inspired",
+      "best_for": [
+        "one-message announcement",
+        "campaign or launch visual",
+        "source-backed concept poster"
+      ],
+      "avoid_when": [
+        "the source needs sequential explanation",
+        "the message cannot be reduced without changing meaning"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "poster-plan.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-poster-contract",
+        "validate-poster-anti-ai-slop"
+      ],
+      "thinking_ref": "references/poster-design.md"
+    },
+    {
       "id": "swiss-evidence-deck",
       "name": "Swiss Evidence Deck",
       "artifact_types": [
@@ -63,6 +95,10 @@
       "validation_gates": [
         "validate-design-output",
         "validate-summary-map",
+        "validate-aesthetic-contract",
+        "validate-asset-contract",
+        "validate-layout-lock",
+        "validate-visual-rhythm",
         "render-smoke",
         "manual reviewer pass"
       ],

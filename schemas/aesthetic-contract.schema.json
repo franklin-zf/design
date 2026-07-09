@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aesthetic Contract",
+  "type": "object",
+  "required": ["layout_lock", "accent_policy", "svg_text_policy", "motion_policy", "visual_rhythm"],
+  "properties": {
+    "layout_lock": {
+      "enum": ["swiss-s01-s22", "legacy-design-d-layout", "poster-type-led", "poster-image-hero", "poster-data-hero", "poster-split-claim", "poster-editorial", "poster-product-shot", "poster-event", "not_applicable"]
+    },
+    "accent_policy": {
+      "type": "object",
+      "required": ["accent_2"],
+      "properties": {
+        "accent_2": {
+          "enum": ["forbidden", "marker_only", "allowed_by_design_system"]
+        },
+        "max_accent_uses": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "svg_text_policy": {
+      "enum": ["forbid_visible_text_in_swiss_assets", "allow_user_source_svg", "not_applicable"]
+    },
+    "motion_policy": {
+      "enum": ["semantic_with_reduced_motion", "static", "not_applicable"]
+    },
+    "visual_rhythm": {
+      "type": "object",
+      "required": ["max_same_weight_run"],
+      "properties": {
+        "max_same_weight_run": { "type": "integer", "minimum": 1 },
+        "min_unique_layouts_for_8_slides": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

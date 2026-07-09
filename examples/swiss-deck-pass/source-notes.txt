@@ -1,0 +1,3 @@
+Swiss deck needs registered layouts.
+System diagrams explain relationships, not decoration.
+Close with the validation gate that protects the handoff.

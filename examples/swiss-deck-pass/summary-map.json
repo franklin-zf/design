@@ -1,0 +1,48 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "swiss-cover",
+      "summary_text": "Swiss deck needs registered layouts.",
+      "status": "verified",
+      "source_refs": ["source-notes.txt"],
+      "source_quotes": [
+        {
+          "source_ref": "source-notes.txt",
+          "quote": "Swiss deck needs registered layouts."
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "swiss-system",
+      "summary_text": "System diagrams explain relationships, not decoration.",
+      "status": "verified",
+      "source_refs": ["source-notes.txt"],
+      "source_quotes": [
+        {
+          "source_ref": "source-notes.txt",
+          "quote": "System diagrams explain relationships, not decoration."
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "swiss-close",
+      "summary_text": "Close with the validation gate that protects the handoff.",
+      "status": "verified",
+      "source_refs": ["source-notes.txt"],
+      "source_quotes": [
+        {
+          "source_ref": "source-notes.txt",
+          "quote": "Close with the validation gate that protects the handoff."
+        }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

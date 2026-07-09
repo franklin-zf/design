@@ -1,0 +1,33 @@
+{
+  "schema_version": "design-slide-plan/v1",
+  "slides": [
+    {
+      "slide": 1,
+      "layout_id": "SWISS-COVER-ASCII",
+      "purpose": "cover",
+      "theme": "light",
+      "source": "source-notes.txt",
+      "media_decision": "none",
+      "visual_weight": "cover"
+    },
+    {
+      "slide": 2,
+      "layout_id": "S17",
+      "purpose": "system explanation",
+      "theme": "light",
+      "source": "source-notes.txt",
+      "media_decision": "generated-schematic",
+      "image_slot": "s17-system-16x10",
+      "visual_weight": "diagram"
+    },
+    {
+      "slide": 3,
+      "layout_id": "SWISS-CLOSING-ASCII",
+      "purpose": "close",
+      "theme": "light",
+      "source": "source-notes.txt",
+      "media_decision": "none",
+      "visual_weight": "close"
+    }
+  ]
+}

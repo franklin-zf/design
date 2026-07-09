@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Poster Plan",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "poster_goal",
+    "audience",
+    "single_message",
+    "visual_hook",
+    "layout_lock",
+    "design_system",
+    "source_materials",
+    "image_strategy",
+    "claim_integrity",
+    "anti_ai_slop_checks"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-poster-plan/v1" },
+    "poster_goal": {
+      "enum": ["announcement", "concept", "data-hero", "event", "product", "quote", "campaign"]
+    },
+    "audience": { "type": "string", "minLength": 1 },
+    "single_message": { "type": "string", "minLength": 1 },
+    "visual_hook": { "type": "string", "minLength": 1 },
+    "layout_lock": {
+      "enum": ["poster-type-led", "poster-image-hero", "poster-data-hero", "poster-split-claim", "poster-editorial", "poster-product-shot", "poster-event"]
+    },
+    "design_system": { "type": "string", "minLength": 1 },
+    "source_materials": { "type": "array" },
+    "image_strategy": {
+      "enum": ["real-image", "generated-image", "typography-only", "diagram", "none"]
+    },
+    "claim_integrity": {
+      "enum": ["source-backed", "schematic", "creative"]
+    },
+    "anti_ai_slop_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
