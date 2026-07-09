@@ -25,9 +25,13 @@ Build the right visual artifact for the user's data or content. The workflow is 
    - `design-system`: reusable visual language and tokens.
 4. Lock contracts before generation: input, output, evidence, style, layout, and validation.
    - For summaries, lock meaning preservation, verbatim number preservation, and plain-language rules before writing visible copy.
-5. Build from the smallest template that proves the artifact's purpose.
-6. Validate structurally, then inspect visually in the real final surface when possible.
-7. Deliver artifact paths plus a concise quality report.
+5. For substantial artifacts, run the design triad:
+   - poster: reader job, decision value, narrative spine, source facts, non-claims;
+   - designer: style preset, template, layout rhythm, images, diagrams, icons, motion;
+   - reviewer: source fidelity, numbers, logic, aesthetic quality, visual defects.
+6. Build from the smallest template that proves the artifact's purpose.
+7. Validate structurally, then inspect visually in the real final surface when possible.
+8. Deliver artifact paths plus a concise quality report.
 
 ## Ask Or Proceed
 
@@ -52,6 +56,7 @@ Proceed with stated assumptions when the missing information only affects polish
 - Dashboard used where a report is needed.
 - Report used where a dashboard is needed.
 - Deck with no narrative arc.
+- Deck with no media decision, no image slots, and no flow/system diagram when the content is structural.
 - Chart family chosen before the analytical question.
 - Style preset mixed with arbitrary color additions.
 - Validator passed but browser layout was never inspected.

@@ -1,0 +1,22 @@
+{
+  "role": "poster",
+  "reader_job": "Understand the design skill triad workflow.",
+  "decision_context": "Skill maintainers need a small fixture proving poster, designer, and reviewer separation.",
+  "one_sentence_message": "Design output should move from narrative spine to visual system to reviewer gate.",
+  "narrative_spine": [
+    "poster defines value feedback",
+    "designer creates the visual system",
+    "reviewer checks source fidelity, numbers, logic, and beauty"
+  ],
+  "must_keep_facts": [
+    "poster",
+    "designer",
+    "reviewer"
+  ],
+  "must_not_say": [
+    "validators alone prove beauty"
+  ],
+  "source_refs": [
+    "source-notes.txt"
+  ]
+}

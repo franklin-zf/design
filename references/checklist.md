@@ -11,6 +11,7 @@
 - Placeholder text remains.
 - Deck slide missing `data-layout` or `data-purpose`.
 - Local image missing `data-image-slot`.
+- Deck or PPT handoff has structural content but no explicit media, Mermaid, process, or system-diagram decision in the slide plan.
 - Style preset missing or mixed.
 - Chart has no source, unit, or context when used as evidence.
 - Chart contract missing question, takeaway, grain, fields, scale, sample size, or visual encoding.
@@ -26,6 +27,8 @@
 - Summary uses vague elevated language instead of direct wording.
 - Dashboard default view requires interaction to be useful.
 - Deck has flat rhythm or repeated layout.
+- Deck lacks poster narrative spine or treats the source document as a page-by-page dump.
+- Images, icons, Mermaid diagrams, or generated graphics are decorative rather than explanatory.
 - Table used where chart would communicate better.
 - Visual labels collide or are too small.
 - Excessive decorative elements.

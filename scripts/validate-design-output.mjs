@@ -87,6 +87,8 @@ const summaryMapRequiredTypes = new Set(['data-report', 'dashboard', 'chart-fram
 const chartContractTypes = new Set(['data-report', 'dashboard', 'chart-frame']);
 const requiredChartFields = ['id', 'family', 'source', 'unit', 'question', 'takeaway', 'grain', 'fields', 'sample_size', 'visual_encoding'];
 const requiredEncodingFields = ['mark', 'x', 'y', 'scale_type', 'baseline', 'domain', 'label_policy'];
+const allowedVisualAssetKinds = new Set(['image', 'diagram', 'flowchart', 'mind-map', 'screenshot', 'icon-set', 'data-block', 'ui-scenario']);
+let slidePlan = null;
 
 if (manifest) {
   for (const field of requiredFields) {
@@ -97,6 +99,23 @@ if (manifest) {
   if (!allowedPresets.has(manifest.style_preset)) errors.push(`Unsupported style_preset: ${manifest.style_preset}`);
   for (const field of ['source_materials', 'data_sources', 'metrics', 'charts', 'layouts', 'assumptions', 'missing_data', 'unverified_items']) {
     if (field in manifest && !Array.isArray(manifest[field])) errors.push(`manifest.${field} must be an array.`);
+  }
+  if ('visual_assets' in manifest) {
+    if (!Array.isArray(manifest.visual_assets)) {
+      errors.push('manifest.visual_assets must be an array.');
+    } else {
+      for (const [idx, asset] of manifest.visual_assets.entries()) {
+        for (const field of ['id', 'file', 'slot']) {
+          if (!(field in asset)) errors.push(`manifest.visual_assets[${idx}] missing ${field}.`);
+        }
+        if (asset.file && !existsSync(join(dir, asset.file))) {
+          errors.push(`manifest.visual_assets[${idx}].file is not readable: ${asset.file}`);
+        }
+        if (asset.kind && !allowedVisualAssetKinds.has(asset.kind)) {
+          errors.push(`manifest.visual_assets[${idx}].kind is unsupported: ${asset.kind}`);
+        }
+      }
+    }
   }
   if (manifest.schematic !== true && (!manifest.source_materials || manifest.source_materials.length === 0)) {
     errors.push('Non-schematic artifacts must declare at least one source_material.');
@@ -200,11 +219,18 @@ if (manifest?.artifact_type === 'html-deck' || manifest?.artifact_type === 'ppt-
     errors.push('Deck artifacts must include slide-plan.json.');
   } else {
     try {
-      const plan = JSON.parse(readFileSync(planPath, 'utf8'));
-      if (!Array.isArray(plan.slides) || plan.slides.length === 0) errors.push('slide-plan.json must contain a non-empty slides array.');
-      for (const [idx, slide] of (plan.slides || []).entries()) {
+      slidePlan = JSON.parse(readFileSync(planPath, 'utf8'));
+      if (slidePlan.schema_version && slidePlan.schema_version !== 'design-slide-plan/v1') {
+        errors.push('slide-plan.json schema_version must be design-slide-plan/v1 when present.');
+      }
+      if (!Array.isArray(slidePlan.slides) || slidePlan.slides.length === 0) errors.push('slide-plan.json must contain a non-empty slides array.');
+      for (const [idx, slide] of (slidePlan.slides || []).entries()) {
         for (const field of ['slide', 'layout_id', 'purpose', 'theme', 'source']) {
           if (!(field in slide)) errors.push(`slide-plan slide ${idx + 1} missing ${field}.`);
+        }
+        if ('media_decision' in slide) {
+          const allowed = new Set(['none', 'image', 'screenshot', 'mermaid', 'chart', 'icon', 'generated-schematic', 'flowchart', 'mind-map']);
+          if (!allowed.has(slide.media_decision)) errors.push(`slide-plan slide ${idx + 1} has unsupported media_decision: ${slide.media_decision}`);
         }
       }
     } catch (error) {
@@ -247,9 +273,43 @@ if (manifest?.artifact_type === 'ppt-handoff') {
 }
 
 const localImages = [...html.matchAll(/<img\b[^>]*src=["'](?:\.\/)?images\//gi)];
+const htmlImageSlots = new Set();
 for (const [idx, match] of localImages.entries()) {
   const rest = html.slice(match.index, html.indexOf('>', match.index) + 1);
   if (!/\bdata-image-slot=["']/.test(rest)) errors.push(`Local image ${idx + 1} missing data-image-slot.`);
+  const slot = rest.match(/\bdata-image-slot=["']([^"']+)["']/)?.[1];
+  if (slot) htmlImageSlots.add(slot);
+  const src = rest.match(/\bsrc=["']([^"']+)["']/i)?.[1];
+  if (src && !existsSync(join(dir, src.replace(/^\.\//, '')))) {
+    errors.push(`Local image ${idx + 1} source is not readable: ${src}`);
+  }
+}
+
+if (manifest?.visual_assets?.length) {
+  const manifestSlots = new Set(manifest.visual_assets.map((asset) => asset.slot).filter(Boolean));
+  for (const slot of manifestSlots) {
+    if (!htmlImageSlots.has(slot)) errors.push(`manifest.visual_assets slot "${slot}" is not rendered by any HTML data-image-slot.`);
+  }
+}
+
+if (slidePlan?.slides?.length) {
+  const requiredSlots = new Set();
+  for (const slide of slidePlan.slides) {
+    if (typeof slide.image_slot === 'string' && slide.image_slot) requiredSlots.add(slide.image_slot);
+    if (Array.isArray(slide.image_slots)) {
+      for (const slot of slide.image_slots) {
+        if (typeof slot === 'string' && slot) requiredSlots.add(slot);
+        if (slot && typeof slot === 'object' && typeof slot.slot === 'string' && slot.slot) requiredSlots.add(slot.slot);
+      }
+    }
+  }
+  const manifestSlots = new Set((manifest?.visual_assets || []).map((asset) => asset.slot).filter(Boolean));
+  for (const slot of requiredSlots) {
+    if (!htmlImageSlots.has(slot)) errors.push(`slide-plan image slot "${slot}" is not rendered by HTML.`);
+    if (manifest?.visual_assets?.length && !manifestSlots.has(slot)) {
+      errors.push(`slide-plan image slot "${slot}" is not declared in manifest.visual_assets.`);
+    }
+  }
 }
 
 const qualityPath = join(dir, 'quality-report.md');

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Role Handoff Deck</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: white; color: black; }
+    main { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }
+    .slide { flex: 0 0 100vw; min-height: 100vh; padding: 56px 72px; scroll-snap-align: start; }
+    .slide:nth-child(2) { background: #f4f4f0; }
+    h1 { max-width: 920px; font-size: 72px; line-height: 1; font-weight: 300; }
+    p { max-width: 760px; font-size: 28px; line-height: 1.35; }
+    figure { margin: 56px 0 0; max-width: 900px; }
+    img { display: block; width: 100%; height: auto; border: 1px solid black; }
+  </style>
+</head>
+<body>
+  <main data-design-id="role-handoff-pass" data-style-preset="swiss-deck">
+    <section class="slide" data-layout="D01-cover" data-purpose="cover">
+      <h1 data-summary-id="s01-summary">设计交付要先形成汇报主线，再做视觉系统，最后审核事实、数字、逻辑和美感。</h1>
+    </section>
+    <section class="slide" data-layout="D07-system-map" data-purpose="role flow">
+      <p data-summary-id="s02-summary">poster 负责价值反馈，designer 负责逻辑与美学，reviewer 负责数字不变和内容正确。</p>
+      <figure data-design-id="role-flow">
+        <img src="images/02-role-flow.svg" alt="poster designer reviewer 三角色协作流程" data-image-slot="s17-system-16x9">
+      </figure>
+    </section>
+  </main>
+</body>
+</html>

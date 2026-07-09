@@ -14,6 +14,12 @@ Decks also include:
 - `slide-plan.json`: one row per slide with `slide`, `layout_id`, `purpose`, `theme`, `source`, and optional `image_slots`.
 - `images/`: local images when used.
 
+Substantial source-backed or aesthetic-sensitive artifacts should also include:
+
+- `agent-handoffs/poster.json` or a project-level poster handoff;
+- `agent-handoffs/designer.json` or a project-level designer handoff;
+- `agent-handoffs/reviewer.json` or a project-level reviewer report.
+
 ## Manifest Fields
 
 Required:
@@ -40,6 +46,7 @@ Required:
 - Tag charts with `data-chart-id`.
 - Tag deck slides with `class="slide"`, `data-layout`, and `data-purpose`.
 - Tag local images with `data-image-slot`.
+- Tag deliberate motion with stable `data-animate` and `data-anim` markers or document the equivalent pattern.
 - Include viewport meta and responsive CSS.
 - Keep everything self-contained unless the quality report declares external dependencies.
 - Declare `data-style-preset="<manifest.style_preset>"` on a visible root container.

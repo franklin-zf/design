@@ -1,0 +1,165 @@
+{
+  "schema_version": "design-template-registry/v1",
+  "templates": [
+    {
+      "id": "source-backed-report",
+      "name": "Source Backed Report",
+      "artifact_types": [
+        "data-report"
+      ],
+      "style_presets": [
+        "neutral-analytic",
+        "editorial-report"
+      ],
+      "source": "bundled",
+      "best_for": [
+        "executive answer-first analysis",
+        "claim-to-source explanation",
+        "decision memo"
+      ],
+      "avoid_when": [
+        "the user needs sequential presentation rhythm",
+        "the default view must monitor live metrics"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "summary-map.json",
+        "claim-map.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-summary-map",
+        "validate-claim-map"
+      ],
+      "thinking_ref": "references/report-dashboard.md"
+    },
+    {
+      "id": "swiss-evidence-deck",
+      "name": "Swiss Evidence Deck",
+      "artifact_types": [
+        "html-deck",
+        "ppt-handoff"
+      ],
+      "style_presets": [
+        "swiss-deck"
+      ],
+      "source": "guizang-inspired",
+      "best_for": [
+        "technical or product presentation",
+        "source-backed project report",
+        "system maps, process diagrams, and image evidence"
+      ],
+      "avoid_when": [
+        "the content needs a long-form reading report",
+        "images or diagrams cannot be verified and schematic status is not acceptable"
+      ],
+      "required_assets": [
+        "slide-plan.json",
+        "summary-map.json",
+        "images/",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-summary-map",
+        "render-smoke",
+        "manual reviewer pass"
+      ],
+      "thinking_ref": "references/deck-ppt.md"
+    },
+    {
+      "id": "operational-dashboard",
+      "name": "Operational Dashboard",
+      "artifact_types": [
+        "dashboard"
+      ],
+      "style_presets": [
+        "operational-dashboard"
+      ],
+      "source": "open-design-inspired",
+      "best_for": [
+        "monitoring",
+        "metric triage",
+        "repeat-use operational view"
+      ],
+      "avoid_when": [
+        "the reader needs a one-time narrative recommendation",
+        "metrics lack definitions, grain, or freshness"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "claim-map.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-claim-map",
+        "render-smoke"
+      ],
+      "thinking_ref": "references/report-dashboard.md"
+    },
+    {
+      "id": "screenshot-evidence-board",
+      "name": "Screenshot Evidence Board",
+      "artifact_types": [
+        "screenshot-evidence"
+      ],
+      "style_presets": [
+        "neutral-analytic",
+        "swiss-deck"
+      ],
+      "source": "bundled",
+      "best_for": [
+        "before and after UI review",
+        "visual evidence grouping",
+        "screenshot-backed critique"
+      ],
+      "avoid_when": [
+        "screenshots contain unresolved sensitive data",
+        "the user needs exact source document summarization instead"
+      ],
+      "required_assets": [
+        "images/",
+        "manifest.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "render-smoke",
+        "manual reviewer pass"
+      ],
+      "thinking_ref": "references/screenshot-ui-evidence.md"
+    },
+    {
+      "id": "tweakable-artifact",
+      "name": "Tweakable Artifact",
+      "artifact_types": [
+        "tweakable-artifact"
+      ],
+      "style_presets": [
+        "tweakable-lab"
+      ],
+      "source": "open-design-inspired",
+      "best_for": [
+        "interactive exploration",
+        "design parameter comparison",
+        "reader-controlled presentation"
+      ],
+      "avoid_when": [
+        "defaults are not polished",
+        "controls expose arbitrary knobs with no reader value"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "tweakable-smoke",
+        "render-smoke"
+      ],
+      "thinking_ref": "references/template-index.md"
+    }
+  ]
+}

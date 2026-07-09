@@ -36,6 +36,10 @@
       "type": "array",
       "items": { "$ref": "#/$defs/chart" }
     },
+    "visual_assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/visual_asset" }
+    },
     "layouts": { "type": "array" },
     "assumptions": { "type": "array" },
     "missing_data": { "type": "array" },
@@ -69,6 +73,23 @@
             "label_policy": { "type": "string", "minLength": 1 }
           }
         }
+      }
+    },
+    "visual_asset": {
+      "type": "object",
+      "required": ["id", "file", "slot"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "slide_id": { "type": "string", "minLength": 1 },
+        "file": { "type": "string", "minLength": 1 },
+        "slot": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "source": { "type": "string" },
+        "kind": {
+          "enum": ["image", "diagram", "flowchart", "mind-map", "screenshot", "icon-set", "data-block", "ui-scenario"]
+        },
+        "format": { "type": "string" },
+        "schematic": { "type": "boolean" }
       }
     }
   }

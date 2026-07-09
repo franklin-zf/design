@@ -1,0 +1,22 @@
+{
+  "schema_version": "design-slide-plan/v1",
+  "slides": [
+    {
+      "slide": 1,
+      "layout_id": "D01-cover",
+      "purpose": "cover",
+      "theme": "role handoff",
+      "source": "source-notes.txt",
+      "media_decision": "none"
+    },
+    {
+      "slide": 2,
+      "layout_id": "D07-system-map",
+      "purpose": "role flow",
+      "theme": "poster designer reviewer",
+      "source": "source-notes.txt",
+      "media_decision": "flowchart",
+      "image_slot": "s17-system-16x9"
+    }
+  ]
+}

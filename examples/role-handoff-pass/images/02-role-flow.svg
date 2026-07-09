@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#f4f4f0"/>
+  <rect x="160" y="260" width="320" height="180" fill="#0047ff"/>
+  <text x="320" y="338" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" fill="#ffffff">poster</text>
+  <text x="320" y="392" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#ffffff">价值反馈</text>
+  <rect x="640" y="260" width="320" height="180" fill="#ffffff" stroke="#111111" stroke-width="3"/>
+  <text x="800" y="338" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" fill="#111111">designer</text>
+  <text x="800" y="392" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#111111">逻辑与美学</text>
+  <rect x="1120" y="260" width="320" height="180" fill="#111111"/>
+  <text x="1280" y="338" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" fill="#ffffff">reviewer</text>
+  <text x="1280" y="392" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#ffffff">事实与数字</text>
+  <path d="M480 350 H640" stroke="#0047ff" stroke-width="8"/>
+  <path d="M960 350 H1120" stroke="#0047ff" stroke-width="8"/>
+  <path d="M1280 520 C1000 680 600 680 320 520" stroke="#0047ff" stroke-width="8" fill="none"/>
+</svg>

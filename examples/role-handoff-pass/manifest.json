@@ -1,0 +1,36 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "skill maintainer",
+  "surface": "html",
+  "style_preset": "swiss-deck",
+  "schematic": false,
+  "source_materials": [
+    "source-notes.txt"
+  ],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": [
+    "D01-cover",
+    "D07-system-map"
+  ],
+  "visual_assets": [
+    {
+      "id": "role-flow",
+      "slide_id": "s02",
+      "file": "images/02-role-flow.svg",
+      "slot": "s17-system-16x9",
+      "title": "三角色协作流程",
+      "source": "source-notes.txt",
+      "kind": "flowchart",
+      "format": "svg",
+      "schematic": true
+    }
+  ],
+  "assumptions": [
+    "This fixture demonstrates role handoff structure, not a production deck."
+  ],
+  "missing_data": [],
+  "unverified_items": []
+}

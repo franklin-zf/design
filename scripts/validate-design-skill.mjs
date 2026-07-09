@@ -14,6 +14,7 @@ const required = [
   'references/output-contract.md',
   'references/content-summary.md',
   'references/source-and-claims-policy.md',
+  'references/role-architecture.md',
   'references/aesthetic-principles.md',
   'references/capability-map.md',
   'references/multi-agent-protocol.md',
@@ -21,10 +22,12 @@ const required = [
   'references/report-dashboard.md',
   'references/deck-ppt.md',
   'references/design-system.md',
+  'references/image-design.md',
   'references/style-presets.md',
   'references/screenshot-ui-evidence.md',
   'references/validation.md',
   'references/checklist.md',
+  'references/template-library.md',
   'references/template-index.md',
   'schemas/artifact-manifest.schema.json',
   'schemas/deck-plan.schema.json',
@@ -35,6 +38,10 @@ const required = [
   'assets/templates/dashboard.html',
   'assets/templates/deck.html',
   'assets/templates/tweakable-artifact.html',
+  'assets/templates/registry.json',
+  'assets/templates/handoffs/poster-handoff.json',
+  'assets/templates/handoffs/designer-handoff.json',
+  'assets/templates/handoffs/reviewer-report.json',
   'assets/themes/presets.json',
   'scripts/validate-design-output.mjs',
   'scripts/validate-schemas.mjs',
@@ -86,6 +93,34 @@ if (existsSync(presetsPath)) {
     }
   } catch (error) {
     errors.push(`Invalid presets JSON: ${error.message}`);
+  }
+}
+
+const templateRegistryPath = join(root, 'assets/templates/registry.json');
+if (existsSync(templateRegistryPath)) {
+  try {
+    const registry = JSON.parse(readFileSync(templateRegistryPath, 'utf8'));
+    if (registry.schema_version !== 'design-template-registry/v1') {
+      errors.push('assets/templates/registry.json schema_version must be design-template-registry/v1.');
+    }
+    if (!Array.isArray(registry.templates) || registry.templates.length === 0) {
+      errors.push('assets/templates/registry.json must include a non-empty templates array.');
+    }
+    const ids = new Set();
+    for (const [index, entry] of (registry.templates || []).entries()) {
+      for (const field of ['id', 'name', 'artifact_types', 'style_presets', 'source', 'best_for', 'avoid_when', 'required_assets', 'validation_gates', 'thinking_ref']) {
+        if (!(field in entry)) errors.push(`assets/templates/registry.json templates[${index}] missing ${field}.`);
+      }
+      if (entry.id) {
+        if (ids.has(entry.id)) errors.push(`Duplicate template id: ${entry.id}`);
+        ids.add(entry.id);
+      }
+      if (entry.thinking_ref && !existsSync(join(root, entry.thinking_ref))) {
+        errors.push(`Template ${entry.id || index} thinking_ref does not exist: ${entry.thinking_ref}`);
+      }
+    }
+  } catch (error) {
+    errors.push(`Invalid template registry JSON: ${error.message}`);
   }
 }
 

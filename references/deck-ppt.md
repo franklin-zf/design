@@ -27,6 +27,18 @@ Visible slide copy must face the audience. Do not expose planning notes.
 
 Audience-facing copy must still preserve source meaning. Any slide claim or source summary must use `data-summary-id`, map to `summary-map.json`, and keep visible numbers verbatim from source quotes.
 
+## Poster Narrative Gate
+
+Before slide implementation, produce a poster brief:
+
+1. reader decision;
+2. one-sentence message;
+3. evidence sequence;
+4. risk or missing-data sequence;
+5. final ask or decision close.
+
+Do not turn every source section into a slide. A deck is a decision path, not a document dump.
+
 ## Registered Layouts
 
 Use registered layout ids instead of inventing slide structures:
@@ -48,12 +60,31 @@ Use registered layout ids instead of inventing slide structures:
 
 Every slide in `index.html` must include `class="slide"`, `data-layout`, and `data-purpose`. Every slide in `slide-plan.json` must cite source or mark schematic.
 
+## Media And Diagram Gate
+
+Every slide must have an explicit media decision in the slide plan:
+
+- `none`: text-only is intentional;
+- `image`: local or sourced image;
+- `screenshot`: source screenshot or framed UI evidence;
+- `mermaid`: process, system, dependency, or mind map;
+- `chart`: quantitative visual with chart contract;
+- `icon`: scan aid;
+- `generated-schematic`: generated information graphic, marked schematic where needed.
+
+For structural content, prefer a Mermaid/process/system diagram or generated information graphic over text boxes. For Swiss decks, bind local images with `data-image-slot`; use S22 image hero or S15/S16 image grids when the slide needs visual evidence.
+
+## Motion Gate
+
+Use motion only to reveal sequence, hierarchy, or state. Deck motion should use stable `data-animate` and `data-anim` markers or equivalent, with `prefers-reduced-motion` or a static-mode fallback. Motion is a handoff enhancement for HTML; do not claim native PPTX animation unless the PPTX runtime was verified.
+
 ## Theme Rhythm
 
 - Avoid 3+ consecutive slides with the same visual weight.
 - Alternate dense evidence with breathing slides.
 - Use one style preset per deck.
 - Do not mix magazine, Swiss, dashboard, and report motifs without an explicit comparison goal.
+- When the user references guizang-like quality, Swiss means registered layout, image slot, grid, type contrast, motion discipline, and visual rhythm; it does not mean only blue-white coloring.
 
 ## PPTX Handoff
 

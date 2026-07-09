@@ -4,7 +4,21 @@
 
 Make the skill usable across Codex, Claude-compatible, and other agent runtimes. Use independent roles when the task is broad, risky, data-heavy, style-heavy, or user explicitly asks for multiple agents.
 
+For design-quality work, the canonical collaboration model is the `poster` / `designer` / `reviewer` triad described in `references/role-architecture.md`.
+
 ## Roles
+
+### Design Triad
+
+| Role | Owns | Output |
+| --- | --- | --- |
+| `poster` | reader job, decision value, source-grounded narrative, what to say and not say | poster brief and narrative spine |
+| `designer` | visual system, layout rhythm, templates, images, diagrams, icons, motion, finish | visual plan and media plan |
+| `reviewer` | source fidelity, number integrity, logic, aesthetic quality, visual defects, risk closure | JSON review findings and acceptance |
+
+Use this triad for deck/PPT work, executive reports, poster-like artifacts, user-provided-source summarization, and any task where the user explicitly cares about beauty, accuracy, or review.
+
+### Specialist Roles
 
 | Role | Owns | Output |
 | --- | --- | --- |
@@ -18,7 +32,7 @@ Make the skill usable across Codex, Claude-compatible, and other agent runtimes.
 
 ## Handoff Shape
 
-Use this JSON when passing work between agents:
+Use this JSON when passing work between specialist agents:
 
 ```json
 {
@@ -39,12 +53,16 @@ Use this JSON when passing work between agents:
 }
 ```
 
+Use the handoff shapes in `references/role-architecture.md` for `poster`, `designer`, and `reviewer`.
+
 ## Review Loop
 
-1. Builder produces artifact directory.
-2. Validator runs `scripts/validate-design-output.mjs`.
-3. Visual reviewer inspects rendered output when possible.
-4. Data reviewer confirms source bindings when data is decision-relevant.
-5. Orchestrator hands off with remaining risks.
+1. Poster defines the narrative spine and source-grounded message.
+2. Designer selects the template, style preset, visual rhythm, and media plan.
+3. Builder produces the artifact directory.
+4. Validator runs structural checks.
+5. Reviewer inspects source fidelity, numbers, logic, aesthetics, media fit, responsive behavior, and runtime evidence.
+6. Blocking or major findings return to the owning role.
+7. Orchestrator hands off with evidence and remaining risks.
 
 Do not let a single agent silently invent facts owned by another role. If the host lacks subagents, run the roles sequentially and preserve handoff artifacts.

@@ -18,6 +18,8 @@ node scripts/tweakable-smoke.mjs <artifact-dir>/index.html
 
 These scripts check required files, manifest fields, placeholder text, deck layout metadata, image slots, source declarations, visible summary mappings, verbatim summary numbers, plain-language status, claim evidence quotes, style preset usage, chart contracts, visual QA evidence, browser rendering, and optional interaction behavior.
 
+For triad-driven work, also inspect `agent-handoffs/` or the project `.exp-skill/runs/<run-id>/role-handoffs/` directory. Reviewer approval or documented residual risk is required before claiming the artifact is ready.
+
 `render-smoke.mjs` is optional and requires Playwright from the host environment. Use it when browser loading, console-error checks, screenshot evidence, or responsive smoke coverage matters. It can write desktop and mobile screenshots under `<artifact-dir>/qa/`.
 
 Use `--strict-layout` when obvious horizontal overflow, broken media, clipped text, or obvious visible text overlap would materially affect trust. Strict layout is heuristic. It does not prove aesthetic quality, all overlap cases, full accessibility, or native PPTX/PDF/Figma fidelity.
