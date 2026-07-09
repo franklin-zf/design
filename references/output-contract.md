@@ -11,7 +11,7 @@ Every artifact directory must include:
 
 Decks also include:
 
-- `slide-plan.json`: one row per slide with `slide`, `layout_id`, `purpose`, `theme`, `source`, and optional `image_slots`.
+- `slide-plan.json`: one row per slide with `slide`, `layout_id`, `purpose`, `theme`, `source`, and required `media_decision`; non-`none` media decisions must bind `image_slot` or `image_slots`.
 - `images/`: local images when used.
 
 Substantial source-backed or aesthetic-sensitive artifacts should also include:
