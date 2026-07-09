@@ -10,7 +10,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["slide", "layout_id", "purpose", "theme", "source"],
+        "required": ["slide", "layout_id", "purpose", "theme", "source", "media_decision"],
         "properties": {
           "slide": { "type": "integer", "minimum": 1 },
           "layout_id": { "type": "string", "minLength": 1 },

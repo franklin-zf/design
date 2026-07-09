@@ -1,6 +1,6 @@
 {
   "slides": [
-    {"slide": 1, "layout_id": "D01-cover", "purpose": "cover", "theme": "light", "source": "source-notes.txt"},
-    {"slide": 2, "layout_id": "D12-closing", "purpose": "close", "theme": "dark", "source": "source-notes.txt"}
+    {"slide": 1, "layout_id": "D01-cover", "purpose": "cover", "theme": "light", "source": "source-notes.txt", "media_decision": "none"},
+    {"slide": 2, "layout_id": "D12-closing", "purpose": "close", "theme": "dark", "source": "source-notes.txt", "media_decision": "none"}
   ]
 }

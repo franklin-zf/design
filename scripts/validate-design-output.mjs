@@ -225,12 +225,19 @@ if (manifest?.artifact_type === 'html-deck' || manifest?.artifact_type === 'ppt-
       }
       if (!Array.isArray(slidePlan.slides) || slidePlan.slides.length === 0) errors.push('slide-plan.json must contain a non-empty slides array.');
       for (const [idx, slide] of (slidePlan.slides || []).entries()) {
-        for (const field of ['slide', 'layout_id', 'purpose', 'theme', 'source']) {
+        for (const field of ['slide', 'layout_id', 'purpose', 'theme', 'source', 'media_decision']) {
           if (!(field in slide)) errors.push(`slide-plan slide ${idx + 1} missing ${field}.`);
         }
+        const allowedMediaDecisions = new Set(['none', 'image', 'screenshot', 'mermaid', 'chart', 'icon', 'generated-schematic', 'flowchart', 'mind-map']);
         if ('media_decision' in slide) {
-          const allowed = new Set(['none', 'image', 'screenshot', 'mermaid', 'chart', 'icon', 'generated-schematic', 'flowchart', 'mind-map']);
-          if (!allowed.has(slide.media_decision)) errors.push(`slide-plan slide ${idx + 1} has unsupported media_decision: ${slide.media_decision}`);
+          if (!allowedMediaDecisions.has(slide.media_decision)) {
+            errors.push(`slide-plan slide ${idx + 1} has unsupported media_decision: ${slide.media_decision}`);
+          }
+          const hasImageSlot = typeof slide.image_slot === 'string' && slide.image_slot.length > 0;
+          const hasImageSlots = Array.isArray(slide.image_slots) && slide.image_slots.length > 0;
+          if (slide.media_decision !== 'none' && !hasImageSlot && !hasImageSlots) {
+            errors.push(`slide-plan slide ${idx + 1} media_decision ${slide.media_decision} must declare image_slot or image_slots.`);
+          }
         }
       }
     } catch (error) {
