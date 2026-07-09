@@ -2,7 +2,17 @@
   "name": "design",
   "version": "1.0.0",
   "private": true,
+  "files": [
+    "SKILL.md",
+    "agents",
+    "assets",
+    "examples",
+    "references",
+    "schemas",
+    "scripts"
+  ],
   "scripts": {
+    "pack:skill": "node scripts/pack-skill.mjs",
     "preflight": "node scripts/capability-preflight.mjs",
     "preflight:launch": "node scripts/capability-preflight.mjs --require=browser_launch",
     "qa:check-empty": "node scripts/check-empty-qa.mjs examples",

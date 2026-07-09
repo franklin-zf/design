@@ -1,5 +1,7 @@
 node_modules/
 .exp-skill/
+.npm-cache/
+dist/
 .DS_Store
 npm-debug.log*
 .env
