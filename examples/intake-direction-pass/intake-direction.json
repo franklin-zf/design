@@ -1,0 +1,64 @@
+{
+  "schema_version": "design-intake-direction/v1",
+  "status": "needs_clarification",
+  "known": {
+    "artifact_type": null,
+    "goal": null,
+    "use_scenario": null
+  },
+  "missing_fields": [
+    "artifact_type",
+    "goal",
+    "use_scenario"
+  ],
+  "direction_options": [
+    {
+      "id": "executive-review-deck",
+      "label": "领导评审汇报",
+      "artifact_type": "ppt-handoff",
+      "goal": "帮助评审人快速判断是否进入下一阶段",
+      "use_scenario": "由汇报人在项目评审会上现场讲解",
+      "audience": "项目评审人与业务负责人",
+      "fit": "适合有明确结论、关键证据和待决策事项的材料",
+      "tradeoff": "现场节奏强，但不承载全部细节",
+      "recommended": true
+    },
+    {
+      "id": "async-evidence-report",
+      "label": "异步审阅报告",
+      "artifact_type": "data-report",
+      "goal": "让读者独立核对结论、依据和风险",
+      "use_scenario": "会前发送或归档后异步阅读",
+      "audience": "需要追溯来源的评审人与执行团队",
+      "fit": "适合内容多、证据链长、需要保留细节的材料",
+      "tradeoff": "信息完整，但现场表达张力较弱",
+      "recommended": false
+    },
+    {
+      "id": "recurring-operations-view",
+      "label": "持续运营看板",
+      "artifact_type": "dashboard",
+      "goal": "持续监控稳定指标并发现异常",
+      "use_scenario": "项目上线后的周期性运营复盘",
+      "audience": "运营负责人和执行团队",
+      "fit": "仅在指标口径稳定且数据可持续刷新时适用",
+      "tradeoff": "适合长期监控，不适合一次性叙事汇报",
+      "recommended": false
+    }
+  ],
+  "questions": [
+    {
+      "field": "artifact_type",
+      "prompt": "请选择更接近需求的产物方向：领导评审汇报、异步审阅报告或持续运营看板。"
+    },
+    {
+      "field": "goal",
+      "prompt": "这份产物最需要促成哪一个决定、理解或行动？"
+    },
+    {
+      "field": "use_scenario",
+      "prompt": "它会在什么场景使用，由谁讲解或阅读？"
+    }
+  ],
+  "confirmed_brief": null
+}

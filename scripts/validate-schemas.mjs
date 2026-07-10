@@ -46,6 +46,8 @@ for (const lock of aestheticLayoutLocks) {
 }
 
 for (const file of [
+  'schemas/intake-direction.schema.json',
+  'schemas/data-provenance.schema.json',
   'schemas/deck-plan.schema.json',
   'schemas/chart-spec.schema.json',
   'schemas/claim-map.schema.json',

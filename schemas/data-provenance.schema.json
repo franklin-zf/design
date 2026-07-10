@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Data Provenance",
+  "type": "object",
+  "required": ["schema_version", "sources", "derivations"],
+  "properties": {
+    "schema_version": { "const": "design-data-provenance/v1" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "sha256"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "sha256": { "$ref": "#/$defs/sha256" }
+        }
+      }
+    },
+    "derivations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "output_ref",
+          "output_sha256",
+          "source_ids",
+          "code_ref",
+          "code_sha256",
+          "formula",
+          "unit",
+          "denominator",
+          "filters",
+          "time_window",
+          "command",
+          "expected_exit_code",
+          "observed_exit_code",
+          "tests"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "output_ref": { "type": "string", "minLength": 1 },
+          "output_sha256": { "$ref": "#/$defs/sha256" },
+          "source_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "code_ref": { "type": "string", "minLength": 1 },
+          "code_sha256": { "$ref": "#/$defs/sha256" },
+          "formula": { "type": "string", "minLength": 1 },
+          "unit": { "type": "string", "minLength": 1 },
+          "denominator": { "type": "string", "minLength": 1 },
+          "filters": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "time_window": { "type": "string", "minLength": 1 },
+          "runtime": { "type": "string", "minLength": 1 },
+          "command": { "$ref": "#/$defs/argv" },
+          "expected_exit_code": { "const": 0 },
+          "observed_exit_code": { "const": 0 },
+          "tests": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["test_ref", "test_sha256", "command", "expected_exit_code", "observed_exit_code"],
+              "properties": {
+                "test_ref": { "type": "string", "minLength": 1 },
+                "test_sha256": { "$ref": "#/$defs/sha256" },
+                "command": { "$ref": "#/$defs/argv" },
+                "expected_exit_code": { "const": 0 },
+                "observed_exit_code": { "const": 0 }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "argv": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

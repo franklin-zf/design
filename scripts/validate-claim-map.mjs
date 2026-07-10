@@ -19,6 +19,7 @@ if (!existsSync(claimMapPath)) errors.push('Missing claim-map.json.');
 
 let manifest = null;
 let claimMap = null;
+let provenance = null;
 if (existsSync(manifestPath)) {
   try {
     manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
@@ -33,6 +34,14 @@ if (existsSync(claimMapPath)) {
     errors.push(`Invalid claim-map.json: ${error.message}`);
   }
 }
+const provenancePath = join(dir, 'data-provenance.json');
+if (existsSync(provenancePath)) {
+  try {
+    provenance = JSON.parse(readFileSync(provenancePath, 'utf8'));
+  } catch (error) {
+    errors.push(`Invalid data-provenance.json: ${error.message}`);
+  }
+}
 
 if (manifest && claimMap) {
   if (claimMap.schema_version !== 'design-claim-map/v1') errors.push('claim-map.schema_version must be design-claim-map/v1.');
@@ -44,6 +53,7 @@ if (manifest && claimMap) {
   ]);
   const unverifiedItems = new Set(manifest.unverified_items || []);
   const sourceCache = new Map();
+  const derivations = new Map((provenance?.derivations || []).map((item) => [item.id, item]));
 
   function isInside(root, file) {
     const rel = relative(root, file);
@@ -77,6 +87,21 @@ if (manifest && claimMap) {
     return String(value).replace(/\s+/g, ' ').trim();
   }
 
+  function numberTokens(value) {
+    return [...String(value).matchAll(/(^|[^A-Za-z0-9_])([-+]?\d+(?:,\d{3})*(?:\.\d+)?(?:%|[kKmMbBhH])?)(?=$|[^A-Za-z0-9_])/g)].map((match) => match[2]);
+  }
+
+  function resolveJsonPointer(value, pointer) {
+    if (typeof pointer !== 'string' || !pointer.startsWith('/')) return undefined;
+    let current = value;
+    for (const rawPart of pointer.slice(1).split('/')) {
+      const part = rawPart.replace(/~1/g, '/').replace(/~0/g, '~');
+      if (current === null || typeof current !== 'object' || !(part in current)) return undefined;
+      current = current[part];
+    }
+    return current;
+  }
+
   for (const [idx, claim] of (claimMap.claims || []).entries()) {
     const claimSourceRefs = Array.isArray(claim.source_refs) ? claim.source_refs : [];
     for (const field of ['id', 'text', 'status', 'source_refs']) {
@@ -84,6 +109,12 @@ if (manifest && claimMap) {
     }
     if (!['verified', 'assumption', 'unverified'].includes(claim.status)) {
       errors.push(`claims[${idx}] has invalid status: ${claim.status}`);
+    }
+    if (claim.claim_class && !['source_fact', 'computed_metric', 'inference', 'recommendation'].includes(claim.claim_class)) {
+      errors.push(`claims[${idx}] has invalid claim_class: ${claim.claim_class}`);
+    }
+    if (manifest.data_provenance_ref && !claim.claim_class) {
+      errors.push(`claims[${idx}] must declare claim_class when data_provenance_ref is present.`);
     }
     if (!Array.isArray(claim.source_refs) || !claim.source_refs.length) {
       errors.push(`claims[${idx}] must bind at least one source_ref.`);
@@ -127,6 +158,49 @@ if (manifest && claimMap) {
           errors.push(`claims[${idx}].evidence_quotes[${quoteIdx}] quote must not be blank.`);
         } else if (!source.normalized.includes(normalizedQuote)) {
           errors.push(`claims[${idx}].evidence_quotes[${quoteIdx}] quote not found in ${quote.source_ref}: ${quote.quote}`);
+        }
+      }
+    }
+    if (claim.claim_class === 'computed_metric') {
+      const derivationRefs = Array.isArray(claim.derivation_refs) ? claim.derivation_refs : [];
+      if (!derivationRefs.length) errors.push(`computed claim "${claim.id}" requires derivation_refs.`);
+      const derivedValues = Array.isArray(claim.derived_values) ? claim.derived_values : [];
+      if (!derivedValues.length) errors.push(`computed claim "${claim.id}" requires derived_values.`);
+      const derivedNumbers = new Set();
+      for (const [derivedIndex, derivedValue] of derivedValues.entries()) {
+        if (!derivationRefs.includes(derivedValue.derivation_ref)) {
+          errors.push(`computed claim "${claim.id}" derived_values[${derivedIndex}] derivation_ref must appear in derivation_refs.`);
+          continue;
+        }
+        const derivation = derivations.get(derivedValue.derivation_ref);
+        if (!derivation) {
+          errors.push(`computed claim "${claim.id}" references unknown derivation_ref: ${derivedValue.derivation_ref}`);
+          continue;
+        }
+        const output = resolveSource(derivation.output_ref);
+        if (!output) {
+          errors.push(`computed claim "${claim.id}" derivation output is not readable: ${derivation.output_ref}`);
+          continue;
+        }
+        let parsedOutput;
+        try {
+          parsedOutput = JSON.parse(output.text);
+        } catch (error) {
+          errors.push(`computed claim "${claim.id}" derivation output is not JSON: ${error.message}`);
+          continue;
+        }
+        const pointedValue = resolveJsonPointer(parsedOutput, derivedValue.json_pointer);
+        if (pointedValue === undefined) {
+          errors.push(`computed claim "${claim.id}" JSON Pointer does not resolve: ${derivedValue.json_pointer}`);
+        } else if (String(pointedValue) !== derivedValue.token) {
+          errors.push(`computed claim "${claim.id}" JSON Pointer ${derivedValue.json_pointer} does not match token "${derivedValue.token}".`);
+        } else {
+          derivedNumbers.add(derivedValue.token);
+        }
+      }
+      for (const token of numberTokens(claim.text)) {
+        if (!derivedNumbers.has(token)) {
+          errors.push(`computed claim "${claim.id}" number "${token}" is not present in its derived output.`);
         }
       }
     }

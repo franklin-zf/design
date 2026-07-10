@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process';
 
 const separator = process.argv.indexOf('--');
 if (separator < 0 || separator === process.argv.length - 1) {
-  console.error('Usage: node scripts/expect-fail.mjs [--contains=text] -- <command> [args...]');
+  console.error('Usage: node scripts/expect-fail.mjs [--contains=text] [--not-contains=text] -- <command> [args...]');
   process.exit(2);
 }
 
@@ -11,6 +11,10 @@ const expected = process.argv
   .slice(2, separator)
   .filter((arg) => arg.startsWith('--contains='))
   .map((arg) => arg.slice('--contains='.length));
+const forbidden = process.argv
+  .slice(2, separator)
+  .filter((arg) => arg.startsWith('--not-contains='))
+  .map((arg) => arg.slice('--not-contains='.length));
 const [command, ...args] = process.argv.slice(separator + 1);
 const result = spawnSync(command, args, {
   cwd: process.cwd(),
@@ -36,6 +40,15 @@ for (const text of expected) {
     if (result.stdout) process.stdout.write(result.stdout);
     if (result.stderr) process.stderr.write(result.stderr);
     console.error(`Expected failing command output to contain "${text}".`);
+    process.exit(1);
+  }
+}
+
+for (const text of forbidden) {
+  if (output.includes(text)) {
+    if (result.stdout) process.stdout.write(result.stdout);
+    if (result.stderr) process.stderr.write(result.stderr);
+    console.error(`Expected failing command output not to contain "${text}".`);
     process.exit(1);
   }
 }

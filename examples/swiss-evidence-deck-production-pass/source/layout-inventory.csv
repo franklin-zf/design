@@ -1,0 +1,10 @@
+slide_id,layout_id,visual_weight,source_id,media_decision
+slide-01,SWISS-COVER-ASCII,cover,decision-brief,none
+slide-02,S03,statement,decision-brief,none
+slide-03,S11,evidence,decision-brief,none
+slide-04,S17,diagram,decision-brief,generated-schematic
+slide-05,S20,metric,layout-inventory,none
+slide-06,S08,comparison,decision-brief,none
+slide-07,S22,image,decision-brief,screenshot
+slide-08,S21,control,decision-brief,none
+slide-09,SWISS-CLOSING-ASCII,close,decision-brief,none

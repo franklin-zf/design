@@ -5,22 +5,47 @@
     {
       "id": "cover-ascii",
       "role": "cover",
-      "selectors": [".slide-cover", ".meta", ".cover-title"]
+      "selectors": [".ds-swiss-cover", ".ds-swiss-meta", ".ds-swiss-title"]
     },
     {
-      "id": "image-hero",
-      "role": "evidence-image",
-      "selectors": [".frame-img", ".r-21x9", "[data-image-slot]"]
+      "id": "statement",
+      "role": "claim",
+      "selectors": [".ds-swiss-statement", ".ds-swiss-marker"]
+    },
+    {
+      "id": "process-path",
+      "role": "sequence",
+      "selectors": [".ds-swiss-steps", ".ds-swiss-step-row", ".ds-swiss-step"]
     },
     {
       "id": "system-map",
       "role": "diagram",
-      "selectors": [".system-map", ".system-node", ".system-label"]
+      "selectors": [".ds-swiss-system", ".ds-swiss-system-figure", ".ds-swiss-system-labels"]
     },
     {
       "id": "metric-ledger",
       "role": "metric-proof",
-      "selectors": [".metric-ledger", ".metric-row", ".metric-value"]
+      "selectors": [".ds-swiss-metrics", ".ds-swiss-metric-grid", ".ds-swiss-number"]
+    },
+    {
+      "id": "comparison",
+      "role": "decision-boundary",
+      "selectors": [".ds-swiss-comparison", ".ds-swiss-compare-grid", ".ds-swiss-compare-side"]
+    },
+    {
+      "id": "image-hero",
+      "role": "evidence-image",
+      "selectors": [".ds-swiss-image", ".ds-swiss-image-frame", "[data-image-slot]"]
+    },
+    {
+      "id": "risk-controls",
+      "role": "readiness-control",
+      "selectors": [".ds-swiss-controls", ".ds-swiss-control-list", ".ds-swiss-status"]
+    },
+    {
+      "id": "decision-close",
+      "role": "close",
+      "selectors": [".ds-swiss-close", ".ds-swiss-title"]
     }
   ]
 }

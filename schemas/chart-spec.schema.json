@@ -15,6 +15,8 @@
     "denominator": { "type": "string" },
     "time_window": { "type": "string" },
     "source_ref": { "type": "string", "minLength": 1 },
+    "data_origin": { "enum": ["source_verbatim", "code_derived"] },
+    "derivation_ref": { "type": "string", "minLength": 1 },
     "sample_size": { "type": "number", "minimum": 1 },
     "visual_encoding": {
       "type": "object",
@@ -30,5 +32,14 @@
       }
     },
     "fallback_if_sparse": { "type": "string" }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "data_origin": { "const": "code_derived" } },
+        "required": ["data_origin"]
+      },
+      "then": { "required": ["derivation_ref"] }
+    }
+  ]
 }

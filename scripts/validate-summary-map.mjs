@@ -59,6 +59,17 @@ function numberTokens(value) {
   return [...String(value).matchAll(/(^|[^A-Za-z0-9_])([-+]?\d+(?:,\d{3})*(?:\.\d+)?(?:%|[kKmMbBhH])?)(?=$|[^A-Za-z0-9_])/g)].map((match) => match[2]);
 }
 
+function resolveJsonPointer(value, pointer) {
+  if (typeof pointer !== 'string' || !pointer.startsWith('/')) return undefined;
+  let current = value;
+  for (const rawPart of pointer.slice(1).split('/')) {
+    const part = rawPart.replace(/~1/g, '/').replace(/~0/g, '~');
+    if (current === null || typeof current !== 'object' || !(part in current)) return undefined;
+    current = current[part];
+  }
+  return current;
+}
+
 function elementTextBySummaryId(htmlText, id) {
   const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const openTagRe = new RegExp(`<([A-Za-z][A-Za-z0-9:-]*)\\b(?=[^>]*\\bdata-summary-id=["']${escapedId}["'])[^>]*>`, 'i');
@@ -111,6 +122,7 @@ function resolveSource(sourceRef) {
 
 let manifest = null;
 let summaryMap = null;
+let provenance = null;
 let html = '';
 
 if (!existsSync(manifestPath)) errors.push('Missing manifest.json.');
@@ -118,6 +130,9 @@ else manifest = readJson(manifestPath, 'manifest.json');
 
 if (existsSync(htmlPath)) html = readFileSync(htmlPath, 'utf8');
 else errors.push('Missing index.html.');
+
+const provenancePath = join(dir, 'data-provenance.json');
+if (existsSync(provenancePath)) provenance = readJson(provenancePath, 'data-provenance.json');
 
 if (!existsSync(summaryMapPath)) {
   if (!manifest || (summaryMapRequiredTypes.has(manifest.artifact_type) && manifest.schematic !== true)) {
@@ -144,6 +159,7 @@ if (manifest && summaryMap) {
   ]);
   const htmlSummaryIds = new Set([...html.matchAll(/\bdata-summary-id=["']([^"']+)["']/gi)].map((match) => match[1]));
   const mappedIds = new Set((summaryMap.summaries || []).map((summary) => summary.id));
+  const derivations = new Map((provenance?.derivations || []).map((item) => [item.id, item]));
 
   if (summaryMapRequiredTypes.has(manifest.artifact_type) && manifest.schematic !== true && !htmlSummaryIds.size) {
     errors.push(`${manifest.artifact_type} artifacts must tag visible summaries with data-summary-id.`);
@@ -165,6 +181,13 @@ if (manifest && summaryMap) {
     }
     if (!['verified', 'manual_reviewed', 'unverified'].includes(summary.status)) {
       errors.push(`summaries[${idx}] has invalid status: ${summary.status}`);
+    }
+    const valueOrigin = summary.value_origin || 'source_verbatim';
+    if (manifest.data_provenance_ref && !summary.value_origin) {
+      errors.push(`summaries[${idx}] must declare value_origin when data_provenance_ref is present.`);
+    }
+    if (!['source_verbatim', 'code_derived', 'no_numeric_value'].includes(valueOrigin)) {
+      errors.push(`summaries[${idx}] has invalid value_origin: ${valueOrigin}`);
     }
     const summarySourceRefs = Array.isArray(summary.source_refs) ? summary.source_refs : [];
     if (!summarySourceRefs.length) errors.push(`summaries[${idx}] must bind at least one source_ref.`);
@@ -207,19 +230,65 @@ if (manifest && summaryMap) {
       quoteText.push(quote.quote);
     }
 
-    const sourceNumbers = new Set(numberTokens(quoteText.join(' ')));
+    let numberEvidence = quoteText.join(' ');
+    if (valueOrigin === 'code_derived') {
+      const derivationRefs = Array.isArray(summary.derivation_refs) ? summary.derivation_refs : [];
+      if (!derivationRefs.length) errors.push(`summary "${summary.id}" code_derived values require derivation_refs.`);
+      const derivedValues = Array.isArray(summary.derived_values) ? summary.derived_values : [];
+      if (!derivedValues.length) errors.push(`summary "${summary.id}" code_derived values require derived_values.`);
+      const verifiedTokens = [];
+      for (const [derivedIndex, derivedValue] of derivedValues.entries()) {
+        if (!derivationRefs.includes(derivedValue.derivation_ref)) {
+          errors.push(`summary "${summary.id}" derived_values[${derivedIndex}] derivation_ref must appear in derivation_refs.`);
+          continue;
+        }
+        const derivation = derivations.get(derivedValue.derivation_ref);
+        if (!derivation) {
+          errors.push(`summary "${summary.id}" references unknown derivation_ref: ${derivedValue.derivation_ref}`);
+          continue;
+        }
+        const output = resolveSource(derivation.output_ref);
+        if (!output) {
+          errors.push(`summary "${summary.id}" derivation output is not readable: ${derivation.output_ref}`);
+          continue;
+        }
+        let parsedOutput;
+        try {
+          parsedOutput = JSON.parse(output.text);
+        } catch (error) {
+          errors.push(`summary "${summary.id}" derivation output is not JSON: ${error.message}`);
+          continue;
+        }
+        const pointedValue = resolveJsonPointer(parsedOutput, derivedValue.json_pointer);
+        if (pointedValue === undefined) {
+          errors.push(`summary "${summary.id}" JSON Pointer does not resolve: ${derivedValue.json_pointer}`);
+        } else if (String(pointedValue) !== derivedValue.token) {
+          errors.push(`summary "${summary.id}" JSON Pointer ${derivedValue.json_pointer} does not match token "${derivedValue.token}".`);
+        } else {
+          verifiedTokens.push(derivedValue.token);
+        }
+      }
+      numberEvidence = verifiedTokens.join(' ');
+    }
+
+    const sourceNumbers = new Set(numberTokens(numberEvidence));
     const visibleNumbers = numberTokens(visibleSummaryText || summary.summary_text);
     const preservedNumbers = Array.isArray(summary.preserved_numbers) ? summary.preserved_numbers : [];
+    if (valueOrigin === 'no_numeric_value' && visibleNumbers.length) {
+      errors.push(`summary "${summary.id}" declares no_numeric_value but contains visible numbers.`);
+    }
     for (const token of visibleNumbers) {
       if (!sourceNumbers.has(token)) {
-        errors.push(`summary "${summary.id}" number "${token}" is not present verbatim in its source_quotes.`);
+        const evidenceLabel = valueOrigin === 'code_derived' ? 'derived output' : 'source_quotes';
+        errors.push(`summary "${summary.id}" number "${token}" is not present verbatim in its ${evidenceLabel}.`);
       }
       if (!preservedNumbers.includes(token)) {
         errors.push(`summary "${summary.id}" number "${token}" must appear in preserved_numbers.`);
       }
     }
     for (const token of preservedNumbers) {
-      if (!sourceNumbers.has(token)) errors.push(`summary "${summary.id}" preserved number "${token}" is not present in source_quotes.`);
+      const evidenceLabel = valueOrigin === 'code_derived' ? 'derived output' : 'source_quotes';
+      if (!sourceNumbers.has(token)) errors.push(`summary "${summary.id}" preserved number "${token}" is not present in ${evidenceLabel}.`);
       if (!visibleNumbers.includes(token)) errors.push(`summary "${summary.id}" preserved number "${token}" is not present in visible summary text.`);
     }
 

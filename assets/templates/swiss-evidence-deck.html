@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <link rel="stylesheet" href="../vendor/open-design-html-ppt/base.css">
+  <link rel="stylesheet" href="../../design-systems/swiss-deck/layouts.css">
+  <style>@media (prefers-reduced-motion: reduce) { .slide { transition: none; } }</style>
+</head>
+<body>
+  <main class="deck" data-design-id="swiss-evidence-deck" data-style-preset="swiss-deck">
+    <section class="slide ds-swiss-cover" data-layout="SWISS-COVER-ASCII" data-purpose="cover">
+      <div class="ds-swiss-meta"><span>{{KICKER}}</span><span>{{STATUS}}</span></div>
+      <h1 class="ds-swiss-title" data-summary-id="slide-01-summary">{{TITLE}}</h1>
+      <p class="ds-swiss-copy">{{SUBTITLE}}</p>
+    </section>
+    {{BODY_SLIDES}}
+    <section class="slide ds-swiss-close" data-layout="SWISS-CLOSING-ASCII" data-purpose="decision close">
+      <div class="ds-swiss-meta"><span>{{CLOSE_KICKER}}</span><span>{{CLOSE_STATUS}}</span></div>
+      <h2 class="ds-swiss-title" data-summary-id="slide-close-summary">{{CLOSE_TITLE}}</h2>
+      <p class="ds-swiss-copy">{{CLOSE_TEXT}}</p>
+    </section>
+  </main>
+  <div class="deck-footer"><span>{{FOOTER}}</span><span class="slide-number"></span></div>
+  <script src="../vendor/open-design-html-ppt/runtime.js"></script>
+</body>
+</html>

@@ -10,6 +10,7 @@
 | Design-system package | `design-systems/<id>/` with manifest, tokens, components, previews, and source evidence | browser for visual QA |
 | Craft rules | `references/style-presets.md`, `references/checklist.md`, validator checks | none |
 | HTML artifact preview | `index.html` output contract | browser for visual QA |
+| Production template depth | Adopted Open Design `html-ppt` MIT base/runtime plus Design-owned Swiss layouts, production shell, nine-slide fixture, and rendered QA | browser QA and manual taste review |
 | Live tweak controls | `assets/templates/tweakable-artifact.html` | browser/localStorage |
 | Live connectors | represented as source contract and handoff, not implemented | external connector runtime |
 | Plugin marketplace | not replicated inside skill | platform |
@@ -29,6 +30,7 @@
 | Swiss layout lock | `references/swiss-layout-lock.md` and `validate-layout-lock.mjs` |
 | Image/SVG discipline | `validate-asset-contract.mjs` blocks fake screenshots and forbidden SVG text |
 | Swiss validator pattern | `validate-design-output.mjs`, `validate-aesthetic-contract.mjs`, `validate-layout-lock.mjs`, `validate-visual-rhythm.mjs` |
+| Semantic layout grammar | Implemented Design-owned statement, process, system, metric, comparison, image, risk/control, cover, and decision-close layouts; standalone Guizang AGPL code is not imported |
 
 ## Additional Local Capability Parity
 
@@ -41,3 +43,5 @@
 ## Explicit Non-Claims
 
 This package does not include a desktop daemon, app marketplace, BI connector, native Google Slides importer, native PowerPoint renderer, Figma plugin, or scheduled refresh service. It can produce contracts and handoffs for those surfaces when the host provides them.
+
+The package includes one validated Open Design-based Swiss production path and one machine-validated calculation fixture. This does not imply native PPTX/PDF parity, the full Open Design template catalog, all Guizang layouts, universal visual fit, or safe execution of untrusted calculation code.

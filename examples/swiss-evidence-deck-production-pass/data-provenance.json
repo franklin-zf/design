@@ -1,0 +1,43 @@
+{
+  "schema_version": "design-data-provenance/v1",
+  "sources": [
+    {
+      "id": "decision-brief",
+      "path": "source/decision-brief.md",
+      "sha256": "6ad779feec4300c396054f17a5bdcfcadc0fc943a2aa480e3edd7196dabb5237"
+    },
+    {
+      "id": "layout-inventory",
+      "path": "source/layout-inventory.csv",
+      "sha256": "3c208955d21a75f786006c0108824ec6c111cdf869880fa429d39c078abac810"
+    }
+  ],
+  "derivations": [
+    {
+      "id": "inventory-counts",
+      "output_ref": "derived/inventory.json",
+      "output_sha256": "3e40b57b4603b38060768586860aeb6d5dab19c4c2ca5d57e1a380e892072df4",
+      "source_ids": ["layout-inventory"],
+      "code_ref": "calculations/inventory.mjs",
+      "code_sha256": "be0dd2c3f6ab5c70ac58c6689a8094b436edda1d147e2b3cee278d760fab55d4",
+      "formula": "Count rows, distinct layout_id values, and non-empty source_id values from layout-inventory.csv.",
+      "unit": "count",
+      "denominator": "not_applicable",
+      "filters": [],
+      "time_window": "all supplied rows",
+      "runtime": "node",
+      "command": ["node", "calculations/inventory.mjs"],
+      "expected_exit_code": 0,
+      "observed_exit_code": 0,
+      "tests": [
+        {
+          "test_ref": "calculations/inventory.test.mjs",
+          "test_sha256": "5c4bfe332ee1b102bc16b5b4897f8c53a71d43b5ab34079822f8843950561e9e",
+          "command": ["node", "calculations/inventory.test.mjs"],
+          "expected_exit_code": 0,
+          "observed_exit_code": 0
+        }
+      ]
+    }
+  ]
+}

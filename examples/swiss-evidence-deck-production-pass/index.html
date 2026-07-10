@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidence before style</title>
+  <link rel="stylesheet" href="../../assets/vendor/open-design-html-ppt/base.css">
+  <link rel="stylesheet" href="../../design-systems/swiss-deck/layouts.css">
+  <style>@media (prefers-reduced-motion: reduce) { .slide { transition: none; } }</style>
+</head>
+<body>
+  <main class="deck" data-design-id="swiss-evidence-production" data-style-preset="swiss-deck">
+    <section class="slide ds-swiss-cover" data-layout="SWISS-COVER-ASCII" data-purpose="cover" data-title="Evidence before style">
+      <div class="ds-swiss-meta"><span>Design / Production Slice</span><span>Source-backed</span></div>
+      <h1 class="ds-swiss-title" data-summary-id="slide-01-summary">Evidence before style</h1>
+      <p class="ds-swiss-copy">A production deck must make truth, structure, and visual judgment inspectable.</p>
+      <aside class="notes">Open with the acceptance rule: visual quality matters, but never outranks source truth.</aside>
+    </section>
+
+    <section class="slide ds-swiss-statement ds-swiss-ink" data-layout="S03" data-purpose="production contrast" data-title="Fixture versus production">
+      <div class="ds-swiss-meta"><span>01 / Contrast</span><span>Structure -> Decision</span></div>
+      <div>
+        <div class="ds-swiss-marker" aria-hidden="true"></div>
+        <h2 class="ds-swiss-title" data-summary-id="slide-02-summary">A contract fixture proves structure. A production deck proves decisions.</h2>
+      </div>
+      <p class="ds-swiss-copy">The target is not more decoration. It is a complete reader path with evidence, hierarchy, and a blocking review gate.</p>
+    </section>
+
+    <section class="slide ds-swiss-steps" data-layout="S11" data-purpose="licensed adoption path" data-title="Five controlled steps">
+      <div>
+        <div class="ds-swiss-meta"><span>02 / Adoption path</span><span>Licensed + inspectable</span></div>
+        <h2 class="ds-swiss-title ds-swiss-title-wide" data-summary-id="slide-03-summary">Inspect. Adopt. Adapt. Bind. Validate.</h2>
+      </div>
+      <div class="ds-swiss-step-row">
+        <div class="ds-swiss-step"><span class="ds-swiss-step-number">01</span><strong>Inspect</strong><p class="ds-swiss-caption">License and runtime boundary</p></div>
+        <div class="ds-swiss-step"><span class="ds-swiss-step-number">02</span><strong>Adopt</strong><p class="ds-swiss-caption">MIT execution primitives</p></div>
+        <div class="ds-swiss-step"><span class="ds-swiss-step-number">03</span><strong>Adapt</strong><p class="ds-swiss-caption">Design-owned visual grammar</p></div>
+        <div class="ds-swiss-step"><span class="ds-swiss-step-number">04</span><strong>Bind</strong><p class="ds-swiss-caption">Sources and derivations</p></div>
+        <div class="ds-swiss-step"><span class="ds-swiss-step-number">05</span><strong>Validate</strong><p class="ds-swiss-caption">Render and reviewer gates</p></div>
+      </div>
+    </section>
+
+    <section class="slide ds-swiss-system" data-layout="S17" data-purpose="provenance system" data-title="One evidence chain">
+      <div>
+        <div class="ds-swiss-meta"><span>03 / System</span><span>Fail closed</span></div>
+        <h2 class="ds-swiss-title ds-swiss-title-wide" data-summary-id="slide-04-summary">One chain protects truth from source to review.</h2>
+        <p class="ds-swiss-copy">Each stage is inspectable. A broken hash, missing reference, failed render, or unresolved review blocks readiness.</p>
+      </div>
+      <figure class="ds-swiss-system-figure">
+        <img src="images/system-geometry.svg" alt="Five connected evidence stages" data-image-slot="s17-system-16x10">
+        <figcaption class="ds-swiss-system-labels"><span>Source</span><span>Code</span><span>Claim</span><span>Slide</span><span>Review</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="slide ds-swiss-metrics ds-swiss-ink" data-layout="S20" data-purpose="exact data ledger" data-title="Inventory counts">
+      <div class="ds-swiss-meta"><span>04 / Inventory</span><span>Code-derived</span></div>
+      <h2 class="ds-swiss-title ds-swiss-title-wide" data-summary-id="slide-05-summary">9 slides. 9 layouts. 9 source-backed rows.</h2>
+      <div class="ds-swiss-metric-grid">
+        <div class="ds-swiss-metric"><span class="ds-swiss-number">9</span><span class="ds-swiss-caption">Slides</span></div>
+        <div class="ds-swiss-metric"><span class="ds-swiss-number">9</span><span class="ds-swiss-caption">Unique layouts</span></div>
+        <div class="ds-swiss-metric"><span class="ds-swiss-number">9</span><span class="ds-swiss-caption">Source rows</span></div>
+      </div>
+      <p class="ds-swiss-caption">Derived by calculations/inventory.mjs from source/layout-inventory.csv.</p>
+    </section>
+
+    <section class="slide ds-swiss-comparison" data-layout="S08" data-purpose="license boundary" data-title="Adopt versus adapt">
+      <div>
+        <div class="ds-swiss-meta"><span>05 / Boundary</span><span>Adopt != Copy</span></div>
+        <h2 class="ds-swiss-title ds-swiss-title-wide" data-summary-id="slide-06-summary">Adopt MIT code. Adapt AGPL concepts.</h2>
+      </div>
+      <div class="ds-swiss-compare-grid">
+        <section class="ds-swiss-compare-side"><h3>Adopt</h3><ul><li>MIT license notice</li><li>Base slide primitives</li><li>Offline keyboard runtime</li></ul></section>
+        <section class="ds-swiss-compare-side"><h3>Adapt</h3><ul><li>Semantic layout discipline</li><li>Projection legibility</li><li>Image-slot and rhythm rules</li></ul></section>
+      </div>
+    </section>
+
+    <section class="slide ds-swiss-image" data-layout="S22" data-purpose="implementation evidence" data-title="Visible component evidence">
+      <div class="ds-swiss-meta"><span>06 / Evidence</span><span>Runtime capture</span></div>
+      <h2 class="ds-swiss-title ds-swiss-title-wide" data-summary-id="slide-07-summary">The component system is visible evidence.</h2>
+      <figure class="ds-swiss-image-frame">
+        <img src="images/swiss-components-preview.png" alt="Rendered Swiss component preview" data-image-slot="s22-hero-21x9">
+      </figure>
+      <p class="ds-swiss-caption">Local Chromium capture of design-systems/swiss-deck/components.html.</p>
+    </section>
+
+    <section class="slide ds-swiss-controls ds-swiss-ink" data-layout="S21" data-purpose="risk and control" data-title="Readiness controls">
+      <div>
+        <div class="ds-swiss-meta"><span>07 / Control</span><span>Conjunctive gate</span></div>
+        <h2 class="ds-swiss-title ds-swiss-title-wide" data-summary-id="slide-08-summary">Ready is a conjunction, not a style label.</h2>
+      </div>
+      <ul class="ds-swiss-control-list">
+        <li><span class="ds-swiss-status">PASS</span>Source and output hashes</li>
+        <li><span class="ds-swiss-status">PASS</span>Calculation and deterministic test</li>
+        <li><span class="ds-swiss-status">PASS</span>Responsive and reduced motion</li>
+        <li><span class="ds-swiss-status">PASS</span>Desktop and narrow visual taste</li>
+      </ul>
+    </section>
+
+    <section class="slide ds-swiss-close" data-layout="SWISS-CLOSING-ASCII" data-purpose="decision close" data-title="Production decision">
+      <div class="ds-swiss-meta"><span>08 / Decision</span><span>Ship gate</span></div>
+      <h2 class="ds-swiss-title" data-summary-id="slide-09-summary">Ship only when every applicable gate passes.</h2>
+      <p class="ds-swiss-copy">Accuracy blocks beauty from inventing. Review blocks correctness from shipping ugly.</p>
+    </section>
+  </main>
+  <div class="deck-footer"><span>Design / Swiss Evidence Deck</span><span class="slide-number"></span></div>
+  <script src="../../assets/vendor/open-design-html-ppt/runtime.js"></script>
+</body>
+</html>

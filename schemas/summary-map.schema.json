@@ -28,6 +28,27 @@
           "id": { "type": "string", "minLength": 1 },
           "summary_text": { "type": "string", "minLength": 1 },
           "status": { "enum": ["verified", "manual_reviewed", "unverified"] },
+          "value_origin": {
+            "enum": ["source_verbatim", "code_derived", "no_numeric_value"]
+          },
+          "derivation_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "derived_values": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["token", "json_pointer", "derivation_ref"],
+              "properties": {
+                "token": { "type": "string", "minLength": 1 },
+                "json_pointer": { "type": "string", "pattern": "^/" },
+                "derivation_ref": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
           "source_refs": {
             "type": "array",
             "minItems": 1,
@@ -49,7 +70,16 @@
             "type": "array",
             "items": { "type": "string", "minLength": 1 }
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "value_origin": { "const": "code_derived" } },
+              "required": ["value_origin"]
+            },
+            "then": { "required": ["derivation_refs", "derived_values"] }
+          }
+        ]
       }
     }
   }

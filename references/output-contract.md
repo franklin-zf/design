@@ -28,6 +28,15 @@ Substantial source-backed or aesthetic-sensitive artifacts should also include:
 - `agent-handoffs/designer.json` or a project-level designer handoff;
 - `agent-handoffs/reviewer.json` or a project-level reviewer report.
 
+Source-backed artifacts with derived values also include:
+
+- `source/`: immutable source copies or references;
+- `calculations/`: executable calculation code and deterministic tests;
+- `derived/`: generated calculation outputs;
+- `data-provenance.json`: source, code, test, and output identity plus rerun metadata.
+
+The package machine-validates `data-provenance.json` with `validate-data-provenance.mjs`. Trusted local calculation code may use `--execute-trusted`, which reruns calculation and test argv in a temporary artifact copy, verifies declared hashes and generated output identity, and blocks raw-source mutation. Unknown external code must not be executed without review.
+
 ## Manifest Fields
 
 Required:
@@ -114,6 +123,7 @@ For source-backed `data-report`, `dashboard`, and `chart-frame` artifacts, every
 - `sample_size`;
 - `visual_encoding.mark`, `x`, `y`, `scale_type`, `baseline`, `domain`, and `label_policy`;
 - `denominator` for rate, ratio, or percent semantics, unless denominator absence is explicitly listed in `missing_data`.
+- `data_origin: raw|code_derived` and a derivation reference for any computed field, metric, ordering, scale, or mark position.
 
 Trend claims need at least 8 comparable observations or a non-trend fallback.
 
@@ -170,4 +180,6 @@ runtime.browser_smoke: available|missing|not_checked|not_claimed
 runtime.browser_launch: available|missing|not_checked|not_claimed|blocked
 ```
 
-`artifact_status: ready` requires `semantic_entailment: manually_reviewed`, `summary_integrity: source_mapped`, `number_integrity: verbatim_checked`, `plain_language: manual_reviewed`, `visual_qa: smoke_passed|manual_reviewed`, and `accessibility: basic_checked|manually_reviewed`. Schematic artifacts should use `artifact_status: schematic` and `not_applicable` summary statuses.
+For artifacts that use `data_provenance_ref`, `quality-report.md` must set `calculation_integrity: code_tested` only after the trusted execution validator passes. Hashes and tests prove declared identity and reproducibility, not formula intent or external truth.
+
+`artifact_status: ready` requires `semantic_entailment: manually_reviewed`, `summary_integrity: source_mapped`, `number_integrity: verbatim_checked`, `plain_language: manual_reviewed`, `visual_qa: smoke_passed|manual_reviewed`, and `accessibility: basic_checked|manually_reviewed`. Artifacts with derived values additionally require the current manual calculation evidence described above; missing evidence blocks `ready`. Schematic artifacts should use `artifact_status: schematic` and `not_applicable` summary statuses.

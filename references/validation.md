@@ -5,6 +5,8 @@
 Run:
 
 ```bash
+node scripts/validate-intake-direction.mjs <intake-direction.json-or-directory>
+node scripts/validate-intake-direction.mjs <intake-direction.json-or-directory> --require-confirmed --poster=<poster-handoff.json>
 node scripts/validate-design-output.mjs <artifact-dir>
 node scripts/validate-summary-map.mjs <artifact-dir>
 node scripts/validate-claim-map.mjs <artifact-dir>
@@ -23,9 +25,13 @@ node scripts/render-smoke.mjs <artifact-dir>/index.html --viewports=desktop,mobi
 node scripts/tweakable-smoke.mjs <artifact-dir>/index.html
 ```
 
-These scripts check required files, manifest fields, placeholder text, deck layout metadata, image slots, source declarations, visible summary mappings, verbatim summary numbers, plain-language status, claim evidence quotes, style preset usage, chart contracts, aesthetic contracts, visual asset provenance, registered layout locks, visual rhythm, poster contracts, anti-AI-slop patterns, visual QA evidence, browser rendering, and optional interaction behavior.
+These scripts check intake direction completeness, required files, manifest fields, placeholder text, deck layout metadata, image slots, source declarations, visible summary mappings, verbatim summary numbers, plain-language status, claim evidence quotes, style preset usage, chart contracts, aesthetic contracts, visual asset provenance, registered layout locks, visual rhythm, poster contracts, anti-AI-slop patterns, visual QA evidence, browser rendering, and optional interaction behavior.
+
+For artifacts with derived values, run `node scripts/validate-data-provenance.mjs <artifact-dir> --execute-trusted` only on reviewed local calculation code. It verifies source/code/test/output hashes, path containment, source/output separation, rerun output identity, deterministic test exit, and source stability in a temporary copy. Without this evidence, derived artifacts cannot be `ready`.
 
 For triad-driven work, also inspect `agent-handoffs/` or the project `.exp-skill/runs/<run-id>/role-handoffs/` directory. Reviewer approval or documented residual risk is required before claiming the artifact is ready.
+
+For substantial work, base-validate `intake-direction.json` while collecting direction input. Immediately before Poster, rerun with `--require-confirmed --poster=<poster-handoff.json>`. A `needs_clarification` result is a deliberate pause state, not permission to infer the missing product brief.
 
 `render-smoke.mjs` is optional and requires Playwright from the host environment. Use it when browser loading, console-error checks, screenshot evidence, or responsive smoke coverage matters. It can write desktop and mobile screenshots under `<artifact-dir>/qa/`.
 
@@ -60,6 +66,8 @@ Scripts do not prove:
 - audience persuasion;
 - PPTX fidelity;
 - accessibility completeness.
+- that Poster or an LLM did not perform arithmetic before a manually authored derived file was created;
+- external source truth, formula intent, tamper-proof storage, or safety of untrusted calculation code; provenance validation proves only declared identity and reproducibility.
 
 When possible, open `index.html` in a browser or render/screenshot it. Record the check in `quality-report.md`.
 
@@ -75,6 +83,7 @@ Close only the risks that have direct evidence:
 - Interaction risk is closed only for the controls exercised by `tweakable-smoke.mjs` or an equivalent targeted smoke.
 - Swiss deck aesthetic-contract risk is closed only when the aesthetic, asset, layout-lock, and rhythm validators pass on the artifact.
 - Poster anti-AI-slop risk is closed only when the poster contract and poster anti-AI-slop validators pass on the artifact.
+- Calculation-lineage risk is machine-checked for the trusted local production fixture. Formula correctness, source truth, and untrusted-code execution remain separate reviewer/security gates.
 
 These are explicit non-claims, not open engineering risks in this package:
 

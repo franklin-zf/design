@@ -1,0 +1,75 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "Design skill maintainers and reviewers",
+  "surface": "offline horizontal HTML deck",
+  "style_preset": "swiss-deck",
+  "schematic": false,
+  "source_materials": [
+    "source/decision-brief.md",
+    "source/layout-inventory.csv"
+  ],
+  "data_sources": [
+    { "id": "decision-brief", "path": "source/decision-brief.md" },
+    { "id": "layout-inventory", "path": "source/layout-inventory.csv" },
+    { "id": "inventory-output", "path": "derived/inventory.json" }
+  ],
+  "data_provenance_ref": "data-provenance.json",
+  "metrics": [
+    { "id": "slide-count", "name": "Slides", "unit": "count", "value_origin": "code_derived", "derivation_ref": "inventory-counts", "value_pointer": "/slide_count" },
+    { "id": "layout-count", "name": "Unique layouts", "unit": "count", "value_origin": "code_derived", "derivation_ref": "inventory-counts", "value_pointer": "/unique_layout_count" },
+    { "id": "source-backed-count", "name": "Source-backed rows", "unit": "count", "value_origin": "code_derived", "derivation_ref": "inventory-counts", "value_pointer": "/source_backed_slide_count" }
+  ],
+  "charts": [],
+  "visual_assets": [
+    {
+      "id": "provenance-system",
+      "slide_id": "slide-04",
+      "file": "images/system-geometry.svg",
+      "slot": "s17-system-16x10",
+      "title": "Five-stage evidence chain",
+      "source": "source/decision-brief.md",
+      "kind": "generated-schematic",
+      "format": "svg",
+      "schematic": true,
+      "provenance": "generated_from_source",
+      "declared_media_decision": "generated-schematic",
+      "text_policy": "html_labels_only",
+      "aspect_ratio": "16:10",
+      "allowed_slot": "s17-system-16x10"
+    },
+    {
+      "id": "swiss-components-capture",
+      "slide_id": "slide-07",
+      "file": "images/swiss-components-preview.png",
+      "slot": "s22-hero-21x9",
+      "title": "Swiss component system capture",
+      "source": "design-systems/swiss-deck/components.html",
+      "kind": "screenshot",
+      "format": "png",
+      "schematic": false,
+      "provenance": "runtime_capture",
+      "declared_media_decision": "screenshot",
+      "text_policy": "source_image_text_allowed",
+      "aspect_ratio": "21:9",
+      "allowed_slot": "s22-hero-21x9"
+    }
+  ],
+  "design_system": {
+    "id": "swiss-deck",
+    "package_version": "1.1.0",
+    "tokens": "design-systems/swiss-deck/tokens.css",
+    "components_manifest": "design-systems/swiss-deck/components.manifest.json"
+  },
+  "aesthetic_contract": {
+    "layout_lock": "swiss-s01-s22",
+    "accent_policy": { "accent_2": "marker_only", "max_accent_uses": 1 },
+    "svg_text_policy": "forbid_visible_text_in_swiss_assets",
+    "motion_policy": "semantic_with_reduced_motion",
+    "visual_rhythm": { "max_same_weight_run": 1, "min_unique_layouts_for_8_slides": 6 }
+  },
+  "layouts": ["SWISS-COVER-ASCII", "S03", "S11", "S17", "S20", "S08", "S22", "S21", "SWISS-CLOSING-ASCII"],
+  "assumptions": ["The local controlled fixture is trusted for calculation execution."],
+  "missing_data": [],
+  "unverified_items": []
+}

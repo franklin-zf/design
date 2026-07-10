@@ -7,7 +7,8 @@
     "tokens": "tokens.css",
     "design_tokens": "design-tokens.json",
     "components": "components.html",
-    "components_manifest": "components.manifest.json"
+    "components_manifest": "components.manifest.json",
+    "layouts": "layouts.css"
   },
   "preview": [
     { "path": "preview/colors.html", "role": "colors" },

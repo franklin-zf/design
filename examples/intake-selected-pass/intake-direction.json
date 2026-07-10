@@ -1,0 +1,48 @@
+{
+  "schema_version": "design-intake-direction/v1",
+  "status": "confirmed",
+  "known": {
+    "artifact_type": "ppt-handoff",
+    "goal": "帮助评审人判断项目是否进入建设准备",
+    "use_scenario": "由项目负责人在领导评审会上现场讲解"
+  },
+  "missing_fields": [],
+  "direction_options": [
+    {
+      "id": "executive-review-deck",
+      "label": "领导评审汇报",
+      "artifact_type": "ppt-handoff",
+      "goal": "帮助评审人判断项目是否进入建设准备",
+      "use_scenario": "由项目负责人在领导评审会上现场讲解",
+      "audience": "项目评审人与业务负责人",
+      "fit": "适合有明确结论、关键证据和待决策事项的材料",
+      "tradeoff": "现场节奏优先，不在每页承载全部源文档细节",
+      "recommended": true
+    },
+    {
+      "id": "async-evidence-report",
+      "label": "异步审阅报告",
+      "artifact_type": "data-report",
+      "goal": "让读者独立核对建设范围、依据和风险",
+      "use_scenario": "会前发送或归档后异步阅读",
+      "audience": "需要追溯来源的评审人与执行团队",
+      "fit": "适合证据链长、需要保留细节的材料",
+      "tradeoff": "信息完整，但现场表达张力较弱",
+      "recommended": false
+    }
+  ],
+  "questions": [],
+  "confirmed_brief": {
+    "artifact_type": "ppt-handoff",
+    "goal": "帮助评审人判断项目是否进入建设准备",
+    "use_scenario": "由项目负责人在领导评审会上现场讲解",
+    "audience": "项目评审人与业务负责人",
+    "selection_source": "user_selected_direction",
+    "selected_direction_id": "executive-review-deck",
+    "accepted_tradeoff": "现场节奏优先，不在每页承载全部源文档细节",
+    "confirmation_evidence": "用户选择了 executive-review-deck 方向并接受现场节奏优先的取舍。",
+    "source_materials": [
+      "source.txt"
+    ]
+  }
+}

@@ -38,6 +38,9 @@ Before drawing, define:
 - surface and container;
 - palette policy;
 - source binding.
+- data origin: `raw` or `code_derived`;
+- derivation reference when any field, metric, order, scale, or mark position is computed;
+- executable code path/hash, rerun command, deterministic test, and derived output/hash;
 - sample size and whether it is enough for the claimed pattern;
 - visual encoding: baseline, axis policy, scale domain, truncation policy, and label policy.
 
@@ -50,4 +53,6 @@ Before drawing, define:
 - Preserve enough table fields to audit the visual.
 - Use labels and annotations only when they reduce reader effort.
 - Do not hand-code bar heights or mark positions unless they are derived from a declared scale.
+- Do not let Poster, the LLM, or manually authored HTML/CSS/SVG calculate values, scales, rankings, or mark positions. Generate them from code and retain the derived data used for rendering.
+- Preserve raw source fields alongside derived chart fields so the visual remains auditable.
 - For trend claims, use at least 8 comparable time points unless the artifact is explicitly marked partial or uses a non-trend fallback.

@@ -12,6 +12,12 @@ Every substantial design artifact uses three core roles. They are not decorative
 | `designer` | 设计者 | visual system, layout rhythm, typography, images, icons, motion, aesthetic fit | visual plan and template choice |
 | `reviewer` | 审核者 | source fidelity, number preservation, logic, visual defects, risk closure | review findings and acceptance status |
 
+## Direction Gate Before Roles
+
+The orchestrator runs `references/intake-direction-gate.md` before Poster. If artifact type, goal, or use scenario is missing, the orchestrator presents two or three concrete directions and pauses generation. Poster does not resolve an ambiguous product brief by silently choosing a surface or scenario.
+
+The confirmed `intake-direction.json` becomes a required input to Poster for substantial work.
+
 ## Poster Role
 
 The poster role turns raw material into decision-useful communication.
@@ -22,6 +28,8 @@ Operating principles:
 - Start from the reader's decision, then choose what to show, omit, sequence, and emphasize.
 - Be objective, truthful, concise, and high signal.
 - Preserve the user's facts, dates, numbers, caveats, and uncertainty.
+- Treat raw source files and values as immutable evidence.
+- Propose analytical relationships through `analysis_requests`; never perform arithmetic, transformations, rankings, aggregations, or visual-scale calculations.
 - Prefer one sharp narrative spine over many loosely related points.
 
 Required handoff:
@@ -29,6 +37,28 @@ Required handoff:
 ```json
 {
   "role": "poster",
+  "intake_direction_ref": "",
+  "artifact_type": "",
+  "goal": "",
+  "use_scenario": "",
+  "audience": "",
+  "selection_source": "",
+  "selected_direction_id": null,
+  "accepted_tradeoff": null,
+  "confirmation_evidence": "",
+  "source_materials": [],
+  "constraints": [],
+  "summary_policy": {},
+  "known_gaps": [],
+  "analysis_requests": [
+    {
+      "id": "",
+      "question": "",
+      "source_refs": [],
+      "requested_transform": "",
+      "status": "proposed_not_computed"
+    }
+  ],
   "reader_job": "",
   "decision_context": "",
   "one_sentence_message": "",
@@ -107,12 +137,15 @@ Required JSON review:
 
 ## Collaboration Flow
 
-1. Poster locks the reader job, decision context, source facts, narrative spine, and non-claims.
-2. Designer selects the template family, style preset, layout rhythm, image plan, icons, and motion.
-3. Builder implements the artifact from the chosen templates and records source mappings.
-4. Reviewer checks source fidelity, numbers, logic, visual quality, accessibility basics, and runtime evidence.
-5. Blocking or major findings return to the owning role for the smallest correction.
-6. Delivery happens only after reviewer approval or explicit user acceptance of residual risk.
+1. Orchestrator confirms artifact type, goal, and use scenario through the direction gate.
+2. Orchestrator snapshots immutable source identity before synthesis.
+3. Poster locks the reader job, decision context, source facts, narrative spine, non-claims, and any `proposed_not_computed` analysis requests.
+4. A code-owning analyst or builder executes each accepted request, tests it, and emits a derived artifact with provenance. Poster receives results only after this gate.
+5. Designer selects the template family, style preset, layout rhythm, images, diagrams, icons, and motion without modifying source values.
+6. Builder implements the artifact from registered templates and records source, calculation, and visible-summary mappings.
+7. Reviewer checks source immutability, calculation lineage, numbers, logic, visual quality, accessibility basics, and runtime evidence.
+8. Blocking or major findings return to the owning role for the smallest correction.
+9. Delivery happens only after reviewer approval or explicit user acceptance of residual risk.
 
 ## When Subagents Are Available
 
@@ -121,4 +154,3 @@ Use independent contexts for poster, designer, and reviewer when the task is bro
 ## When Subagents Are Not Available
 
 Run the same roles sequentially and write the same handoff artifacts. Do not collapse the roles into an invisible internal monologue.
-

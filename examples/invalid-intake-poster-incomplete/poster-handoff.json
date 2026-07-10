@@ -1,0 +1,12 @@
+{
+  "role": "designer",
+  "intake_direction_ref": "../intake-selected-pass/intake-direction.json",
+  "artifact_type": "ppt-handoff",
+  "goal": "错误目标不应在结构检查失败后继续比较",
+  "use_scenario": "由项目负责人在领导评审会上现场讲解",
+  "audience": "项目评审人与业务负责人",
+  "selection_source": "user_selected_direction",
+  "selected_direction_id": "executive-review-deck",
+  "accepted_tradeoff": "现场节奏优先，不在每页承载全部源文档细节",
+  "confirmation_evidence": "用户选择了 executive-review-deck 方向并接受现场节奏优先的取舍。"
+}

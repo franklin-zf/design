@@ -105,6 +105,52 @@
       "thinking_ref": "references/deck-ppt.md"
     },
     {
+      "id": "swiss-evidence-deck-production",
+      "name": "Swiss Evidence Deck Production",
+      "artifact_types": [
+        "html-deck",
+        "ppt-handoff"
+      ],
+      "style_presets": [
+        "swiss-deck"
+      ],
+      "source": "open-design-mit-adopted-and-design-owned",
+      "upstream_commit": "1925fe6086180c7e8987ac95dead63a622c688b2",
+      "license": "MIT",
+      "template_path": "assets/templates/swiss-evidence-deck.html",
+      "production_status": "validated_vertical_slice",
+      "best_for": [
+        "source-backed executive presentation",
+        "technical or product decision narrative",
+        "evidence, system, metric, risk, and decision flow"
+      ],
+      "avoid_when": [
+        "calculation provenance is incomplete",
+        "the content cannot support eight distinct reader jobs"
+      ],
+      "required_assets": [
+        "data-provenance.json",
+        "slide-plan.json",
+        "summary-map.json",
+        "claim-map.json",
+        "quality-report.md",
+        "qa/"
+      ],
+      "validation_gates": [
+        "validate-data-provenance --execute-trusted",
+        "validate-design-output",
+        "validate-summary-map",
+        "validate-claim-map",
+        "validate-aesthetic-contract",
+        "validate-asset-contract",
+        "validate-layout-lock",
+        "validate-visual-rhythm",
+        "render-smoke --strict-layout",
+        "manual reviewer pass"
+      ],
+      "thinking_ref": "references/template-adoption-plan.md"
+    },
+    {
       "id": "operational-dashboard",
       "name": "Operational Dashboard",
       "artifact_types": [

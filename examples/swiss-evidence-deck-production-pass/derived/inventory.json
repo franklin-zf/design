@@ -1,0 +1,16 @@
+{
+  "slide_count": 9,
+  "unique_layout_count": 9,
+  "source_backed_slide_count": 9,
+  "visual_weights": [
+    "cover",
+    "statement",
+    "evidence",
+    "diagram",
+    "metric",
+    "comparison",
+    "image",
+    "control",
+    "close"
+  ]
+}

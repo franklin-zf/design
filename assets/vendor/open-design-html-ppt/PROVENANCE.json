@@ -1,0 +1,43 @@
+{
+  "schema_version": "design-vendor-provenance/v1",
+  "source_repository": "https://github.com/nexu-io/open-design",
+  "source_commit": "1925fe6086180c7e8987ac95dead63a622c688b2",
+  "source_path": "design-templates/html-ppt",
+  "retrieved_on": "2026-07-10",
+  "license": "MIT",
+  "copyright": "Copyright (c) 2026 lewis <sudolewis@gmail.com>",
+  "dependencies": [],
+  "files": [
+    {
+      "source": "LICENSE",
+      "destination": "LICENSE",
+      "sha256": "a5ed4059e25a3ec35e439abd2623753d1f42d4aa4989ffb5c6b7a97b61f6a949",
+      "action": "adopt_verbatim"
+    },
+    {
+      "source": "assets/base.css",
+      "destination": "base.css",
+      "sha256": "04e7c427d1d9401ff080bf72c5c9c0161c1a4759b5efdb2a64bed4e09830e688",
+      "action": "adopt_verbatim"
+    },
+    {
+      "source": "assets/runtime.js",
+      "destination": "runtime.js",
+      "sha256": "d7b066a96b99fcf5c9e15b593283a57a3d43ac2bcf795d172adc7f3ba0844f79",
+      "action": "adopt_verbatim"
+    }
+  ],
+  "design_owned_overrides": [
+    "design-systems/swiss-deck/layouts.css",
+    "assets/templates/swiss-evidence-deck.html"
+  ],
+  "excluded": [
+    "themes",
+    "animations",
+    "fonts",
+    "demo content",
+    "single-page examples",
+    "full-deck examples"
+  ],
+  "status": "adopted_with_notice"
+}

@@ -2,6 +2,12 @@
 
 ## P0 Must Fix
 
+- Supplied source file or raw value was edited, overwritten, normalized, converted, or repaired in place.
+- Poster or the LLM performed arithmetic, aggregation, ranking, conversion, filtering, scale calculation, or manual chart positioning.
+- A derived value lacks executable code, deterministic tests, derived output, source/code/output identity, or observed rerun evidence.
+- Artifact type, goal, or use scenario is missing, but no 2-3 direction gate was presented and Poster already started summarizing or building.
+- `intake-direction.json` says `needs_clarification`, but Poster or Designer generation proceeded.
+- Pre-Poster validation omitted `--require-confirmed` or the Poster handoff does not match the selected direction id, goal, scenario, audience, or accepted tradeoff.
 - Missing `manifest.json`, `index.html`, or `quality-report.md`.
 - Manifest missing required fields.
 - Unsupported metrics or fabricated data without `schematic: true`.
@@ -24,6 +30,7 @@
 - `visual_qa: smoke_passed` has no desktop and mobile screenshot evidence.
 - Dashboard contains empty chart regions or a default view that cannot be read without interaction.
 - User-facing artifact contains internal planning notes.
+- Production artifact claims Open Design or Guizang template adoption without a source path, commit, license, modification record, implementation file, fixture, and rendered QA.
 
 ## P1 Should Fix
 
@@ -32,6 +39,7 @@
 - Summary uses vague elevated language instead of direct wording.
 - Dashboard default view requires interaction to be useful.
 - Deck has flat rhythm or repeated layout.
+- Accurate content is presented through a shallow, repetitive, or mechanically card-based template and therefore fails the aesthetic delivery gate.
 - Swiss/Guizang-style deck has repeated visual weights beyond the configured rhythm limit.
 - Deck lacks poster narrative spine or treats the source document as a page-by-page dump.
 - Images, icons, Mermaid diagrams, or generated graphics are decorative rather than explanatory.

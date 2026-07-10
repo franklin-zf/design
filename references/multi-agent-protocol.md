@@ -32,6 +32,14 @@ Use this triad for deck/PPT work, executive reports, poster-like artifacts, user
 
 ## Handoff Shape
 
+Before role handoffs, validate the confirmed direction:
+
+```bash
+node scripts/validate-intake-direction.mjs <intake-direction.json-or-directory> --require-confirmed --poster=<poster-handoff.json>
+```
+
+Base validation may accept a well-formed `needs_clarification` record. The pre-Poster command must use `--require-confirmed`; do not dispatch Poster while the direction status is pending or the Poster handoff differs from the confirmed brief.
+
 Use this JSON when passing work between specialist agents:
 
 ```json
@@ -57,12 +65,17 @@ Use the handoff shapes in `references/role-architecture.md` for `poster`, `desig
 
 ## Review Loop
 
-1. Poster defines the narrative spine and source-grounded message.
-2. Designer selects the template, style preset, visual rhythm, and media plan.
-3. Builder produces the artifact directory.
-4. Validator runs structural checks.
-5. Reviewer inspects source fidelity, numbers, logic, aesthetics, media fit, responsive behavior, and runtime evidence.
-6. Blocking or major findings return to the owning role.
-7. Orchestrator hands off with evidence and remaining risks.
+1. Orchestrator confirms artifact type, goal, and use scenario through the direction gate.
+2. Orchestrator snapshots immutable source identities and records any missing evidence.
+3. Poster defines the narrative spine, source-grounded message, and `proposed_not_computed` analysis requests from the confirmed direction.
+4. A code-owning analyst or builder executes accepted analysis requests, runs deterministic tests, and emits derived artifacts with provenance.
+5. Designer selects the template, style preset, visual rhythm, and media plan without changing source values or calculated results.
+6. Builder produces the artifact directory from registered production templates.
+7. Validator runs structural, source, calculation, template, and applicable visual checks.
+8. Reviewer inspects source immutability, calculation lineage, numbers, logic, aesthetics, media fit, responsive behavior, and runtime evidence.
+9. Blocking or major findings return to the owning role.
+10. Orchestrator hands off with evidence and remaining risks.
+
+Poster never owns calculated results. `analysis_requests[].status` remains `proposed_not_computed` until a code-owning role returns a tested derived artifact.
 
 Do not let a single agent silently invent facts owned by another role. If the host lacks subagents, run the roles sequentially and preserve handoff artifacts.

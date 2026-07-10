@@ -1,6 +1,6 @@
 interface:
   display_name: "Design"
-  short_description: "Source-backed reports, dashboards, charts, HTML decks, and PPT handoffs"
-  default_prompt: "Use $design to choose and build the right visual form for this data or content: source-backed report, dashboard, chart, HTML deck, PPT handoff, evidence board, or design-system artifact with validation."
+  short_description: "Beautiful, accurate visual reports from immutable content and data"
+  default_prompt: "Use $design to turn user-supplied content or data into a beautiful, accurate visual report. Confirm artifact type, goal, and use scenario; preserve raw sources exactly; route every derived calculation through reproducible code; then build from a registered production template and validate source, calculation, visual, and delivery quality."
 policy:
   allow_implicit_invocation: true

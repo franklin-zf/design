@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="Five connected stages">
+  <rect width="960" height="600" fill="#f4f4f0"/>
+  <path d="M110 300H850" fill="none" stroke="#d7d7d2" stroke-width="16"/>
+  <path d="M110 300H850" fill="none" stroke="#0047ff" stroke-width="4"/>
+  <g fill="#ffffff" stroke="#111111" stroke-width="4">
+    <circle cx="110" cy="300" r="54"/>
+    <circle cx="295" cy="300" r="54"/>
+    <circle cx="480" cy="300" r="54"/>
+    <circle cx="665" cy="300" r="54"/>
+    <circle cx="850" cy="300" r="54"/>
+  </g>
+  <circle cx="850" cy="300" r="18" fill="#d7ff00" stroke="#111111" stroke-width="4"/>
+</svg>

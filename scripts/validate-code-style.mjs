@@ -13,7 +13,7 @@ import { spawnSync } from 'node:child_process';
 
 const root = process.argv[2] || '.';
 const checkedExtensions = new Set(['.js', '.mjs', '.cjs', '.json', '.md', '.yaml', '.yml']);
-const ignoredDirectories = new Set(['.git', 'node_modules']);
+const ignoredDirectories = new Set(['.git', 'node_modules', 'vendor']);
 const errors = [];
 
 function toPosix(path) {

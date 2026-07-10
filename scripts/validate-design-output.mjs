@@ -27,6 +27,17 @@ function readJson(path, label) {
   }
 }
 
+function resolveJsonPointer(value, pointer) {
+  if (typeof pointer !== 'string' || !pointer.startsWith('/')) return undefined;
+  let current = value;
+  for (const rawPart of pointer.slice(1).split('/')) {
+    const part = rawPart.replace(/~1/g, '/').replace(/~0/g, '~');
+    if (current === null || typeof current !== 'object' || !(part in current)) return undefined;
+    current = current[part];
+  }
+  return current;
+}
+
 function normalizeHex(hex) {
   const value = hex.toLowerCase();
   if (/^#[0-9a-f]{3}$/.test(value)) {
@@ -61,6 +72,11 @@ let manifest = null;
 const manifestPath = join(dir, 'manifest.json');
 if (existsSync(manifestPath)) {
   manifest = readJson(manifestPath, 'manifest.json');
+}
+let provenance = null;
+const provenancePath = join(dir, 'data-provenance.json');
+if (existsSync(provenancePath)) {
+  provenance = readJson(provenancePath, 'data-provenance.json');
 }
 
 const requiredFields = [
@@ -99,6 +115,53 @@ if (manifest) {
   if (!allowedPresets.has(manifest.style_preset)) errors.push(`Unsupported style_preset: ${manifest.style_preset}`);
   for (const field of ['source_materials', 'data_sources', 'metrics', 'charts', 'layouts', 'assumptions', 'missing_data', 'unverified_items']) {
     if (field in manifest && !Array.isArray(manifest[field])) errors.push(`manifest.${field} must be an array.`);
+  }
+  if (manifest.data_provenance_ref) {
+    if (manifest.data_provenance_ref !== 'data-provenance.json') {
+      errors.push('manifest.data_provenance_ref must be data-provenance.json.');
+    }
+    if (!provenance) errors.push('manifest.data_provenance_ref requires a readable data-provenance.json.');
+  }
+  const derivations = new Map((provenance?.derivations || []).map((item) => [item.id, item]));
+  const derivationIds = new Set(derivations.keys());
+  for (const [idx, metric] of (manifest.metrics || []).entries()) {
+    if (manifest.data_provenance_ref && !metric?.value_origin) {
+      errors.push(`manifest.metrics[${idx}] must declare value_origin when data_provenance_ref is present.`);
+    }
+    if (metric?.value_origin === 'code_derived') {
+      if (!manifest.data_provenance_ref) {
+        errors.push(`manifest.metrics[${idx}] code_derived values require data_provenance_ref.`);
+      }
+      if (!metric.derivation_ref) {
+        errors.push(`manifest.metrics[${idx}] code_derived values require derivation_ref.`);
+      } else if (!derivationIds.has(metric.derivation_ref)) {
+        errors.push(`manifest.metrics[${idx}] references unknown derivation_ref: ${metric.derivation_ref}`);
+      }
+      if (!metric.value_pointer) {
+        errors.push(`manifest.metrics[${idx}] code_derived values require value_pointer.`);
+      } else if (derivations.has(metric.derivation_ref)) {
+        const outputPath = join(dir, derivations.get(metric.derivation_ref).output_ref);
+        const output = existsSync(outputPath) ? readJson(outputPath, `derivation output ${metric.derivation_ref}`) : null;
+        if (output && resolveJsonPointer(output, metric.value_pointer) === undefined) {
+          errors.push(`manifest.metrics[${idx}] value_pointer does not resolve: ${metric.value_pointer}`);
+        }
+      }
+    }
+  }
+  for (const [idx, chart] of (manifest.charts || []).entries()) {
+    if (manifest.data_provenance_ref && !chart?.data_origin) {
+      errors.push(`manifest.charts[${idx}] must declare data_origin when data_provenance_ref is present.`);
+    }
+    if (chart?.data_origin === 'code_derived') {
+      if (!manifest.data_provenance_ref) {
+        errors.push(`manifest.charts[${idx}] code_derived data require data_provenance_ref.`);
+      }
+      if (!chart.derivation_ref) {
+        errors.push(`manifest.charts[${idx}] code_derived data require derivation_ref.`);
+      } else if (!derivationIds.has(chart.derivation_ref)) {
+        errors.push(`manifest.charts[${idx}] references unknown derivation_ref: ${chart.derivation_ref}`);
+      }
+    }
   }
   if ('visual_assets' in manifest) {
     if (!Array.isArray(manifest.visual_assets)) {
@@ -374,6 +437,9 @@ if (existsSync(qualityPath)) {
     }
     if (!['basic_checked', 'manually_reviewed'].includes(parsedStatus.accessibility)) {
       errors.push('ready artifacts must have accessibility: basic_checked or manually_reviewed.');
+    }
+    if (manifest?.data_provenance_ref && !/^calculation_integrity:\s*code_tested\s*$/m.test(quality)) {
+      errors.push('ready artifacts with data_provenance_ref must set calculation_integrity: code_tested.');
     }
   }
 

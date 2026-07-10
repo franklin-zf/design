@@ -1,0 +1,25 @@
+{
+  "schema_version": "design-intake-direction/v1",
+  "status": "confirmed",
+  "known": {
+    "artifact_type": "html-deck",
+    "goal": "向项目评审会说明建设范围、投入和待确认边界",
+    "use_scenario": "由项目负责人在 20 分钟评审会上现场讲解"
+  },
+  "missing_fields": [],
+  "direction_options": [],
+  "questions": [],
+  "confirmed_brief": {
+    "artifact_type": "html-deck",
+    "goal": "向项目评审会说明建设范围、投入和待确认边界",
+    "use_scenario": "由项目负责人在 20 分钟评审会上现场讲解",
+    "audience": "项目评审委员会",
+    "selection_source": "user_explicit",
+    "selected_direction_id": null,
+    "accepted_tradeoff": null,
+    "confirmation_evidence": "用户请求已明确指定网页演示、评审目标、20 分钟现场汇报场景和受众。",
+    "source_materials": [
+      "source.txt"
+    ]
+  }
+}
