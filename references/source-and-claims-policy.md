@@ -1,5 +1,30 @@
 # Source And Claims Policy
 
+## REQ-002 Source Identity
+
+For each source-backed input, record a source entry with at least:
+
+| Field | Rule |
+| --- | --- |
+| `id` | Stable ID used by `source_refs`. |
+| `path_or_url` | The local file, captured URL, or source-material path. |
+| `kind` | File, data, URL, note, screenshot, or derived output. |
+| `availability` | `available`, `missing`, or `none`. |
+| `sha256` | Lowercase SHA-256 of the immutable local bytes, without a `sha256:` prefix. |
+| `captured_at` / `freshness` | Required when age can change the conclusion. |
+
+Hash the bytes that were actually read, before synthesis. At the ready check,
+hash them again and compare the value. A mismatch is a blocking source-drift
+finding. If a URL has no captured local file, record the hash as unavailable
+and keep the artifact partial or blocked; a URL string alone is not a source
+hash. The hash proves file identity at the check time. It does not prove that
+the source is true, current, complete, or correctly interpreted.
+
+The current data-provenance validator already checks SHA-256 for its declared
+provenance files. The broader source-entry and semantic-review fields below
+are contract recommendations; this document does not claim that current
+validators enforce all of them.
+
 ## Claim Classes
 
 | Class | Requirement |
@@ -10,6 +35,53 @@
 | Recommendation | Must state evidence and uncertainty. |
 | Schematic content | Must set `schematic: true` in `manifest.json`. |
 
+## Minimum Claim Record
+
+Each visible source-backed claim should have:
+
+```json
+{
+  "id": "claim-001",
+  "text": "",
+  "claim_class": "source_fact|computed_metric|inference|recommendation",
+  "status": "verified|assumption|unverified",
+  "source_refs": ["source-001"],
+  "evidence_quotes": [{"source_ref": "source-001", "quote": ""}],
+  "semantic_review": {
+    "status": "pass|fail|not_checked",
+    "reviewer_id": "",
+    "reviewed_at": "",
+    "note": ""
+  }
+}
+```
+
+For `verified`, the quote must support the claim's subject, predicate, scope,
+time, number, and strength. A matching word or number is not enough. For an
+`assumption` or `recommendation`, label the statement as interpretation or
+guidance and record the evidence and uncertainty. An `unverified` claim must
+not be presented as a fact.
+
+## Summary And Claim Semantic Review
+
+Local quote containment and number checks are necessary but do not prove that
+a summary or claim keeps the source meaning. Before `ready`, a reviewer must
+check each mapped summary and claim for:
+
+- subject and scope: the statement is about the same thing and population;
+- relation and direction: cause, comparison, increase, decrease, or
+  correlation was not changed;
+- time and condition: dates, cohorts, filters, thresholds, and exceptions remain;
+- strength: certainty was not added and uncertainty was not removed;
+- numbers and units: visible values remain source-verbatim or have reviewed
+  calculation provenance;
+- plain wording: the text is direct and does not hide a gap behind jargon.
+
+Record `pass`, `fail`, or `not_checked` per summary/claim. `not_checked` or
+`fail` blocks a source-backed `ready` artifact. A summary with no source quote
+must be marked `unverified` or omitted; it must not be upgraded by fluent
+wording.
+
 ## Missing Data
 
 When required source evidence is unavailable:
@@ -18,6 +90,12 @@ When required source evidence is unavailable:
 - put the gap in `missing_data`;
 - state whether the artifact is blocked, partial, or schematic;
 - ask for the source if the missing fact changes the conclusion.
+
+When a real-user sample, observed usage record, or user outcome is not supplied,
+write a non-claim next to the affected section, for example: "No claim is made
+about real-user completion, satisfaction, comprehension, or business impact;
+no real-user sample was provided." Keep the section `not_tested` or
+`evidence_unavailable` and state the smallest evidence needed next.
 
 ## Raw Source Immutability
 

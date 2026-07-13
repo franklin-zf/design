@@ -65,8 +65,50 @@ function sourceExists(source) {
   return existsSync(source) || existsSync(join(dir, source)) || existsSync(join(process.cwd(), source));
 }
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function hasHtmlMarker(source, marker) {
+  if (typeof marker !== 'string' || !marker.trim()) return false;
+  const escaped = escapeRegExp(marker.trim());
+  return new RegExp(`(?:data-guidance-field|data-acceptance-metric|data-design-id|data-summary-id|id)=["']${escaped}["']`, 'i').test(source);
+}
+
+function registryGateIds(entry) {
+  if (Array.isArray(entry?.validation_gate_ids)) return entry.validation_gate_ids;
+  return (entry?.validation_gates || []).map((gate) => String(gate).split(/\s+/)[0]).filter(Boolean);
+}
+
+function validateSvgTextPolicy(asset, filePath, stylePreset, aestheticContract) {
+  if (typeof asset?.file !== 'string' || !filePath.toLowerCase().endsWith('.svg') || !existsSync(filePath)) return;
+  const svg = readFileSync(filePath, 'utf8');
+  if (!/<text\b/i.test(svg)) return;
+  const policy = aestheticContract?.svg_text_policy;
+  const swissDefault = stylePreset === 'swiss-deck';
+  const allowAuditedException = policy === 'allow_audited_exception' && asset.text_policy === 'audited_visible_text_exception';
+  if (allowAuditedException) {
+    const exception = asset.svg_text_exception;
+    for (const field of ['reason', 'source_ref', 'reviewer', 'approved_at']) {
+      if (typeof exception?.[field] !== 'string' || !exception[field].trim()) {
+        errors.push(`SVG text policy exception for ${asset.file} must include ${field}.`);
+      }
+    }
+    if (exception?.source_ref && !sourceExists(exception.source_ref)) {
+      errors.push(`SVG text policy exception source is not readable: ${exception.source_ref}`);
+    }
+    return;
+  }
+  if (swissDefault || policy === 'forbid_visible_text_in_swiss_assets') {
+    errors.push(`SVG text policy violation: ${asset.file} contains visible <text>; Swiss SVG text is forbidden unless an audited exception is declared.`);
+  }
+}
+
 const presetsPath = join(skillRoot, 'assets/themes/presets.json');
 const presetData = existsSync(presetsPath) ? readJson(presetsPath, 'assets/themes/presets.json') : null;
+const registryPath = join(skillRoot, 'assets/templates/registry.json');
+const registryData = existsSync(registryPath) ? readJson(registryPath, 'assets/templates/registry.json') : null;
+const registryTemplates = Array.isArray(registryData?.templates) ? registryData.templates : [];
 
 let manifest = null;
 const manifestPath = join(dir, 'manifest.json');
@@ -105,6 +147,7 @@ const requiredChartFields = ['id', 'family', 'source', 'unit', 'question', 'take
 const requiredEncodingFields = ['mark', 'x', 'y', 'scale_type', 'baseline', 'domain', 'label_policy'];
 const allowedVisualAssetKinds = new Set(['image', 'diagram', 'flowchart', 'mind-map', 'screenshot', 'icon-set', 'data-block', 'ui-scenario', 'generated-schematic']);
 let slidePlan = null;
+let selectedTemplate = null;
 
 if (manifest) {
   for (const field of requiredFields) {
@@ -115,6 +158,115 @@ if (manifest) {
   if (!allowedPresets.has(manifest.style_preset)) errors.push(`Unsupported style_preset: ${manifest.style_preset}`);
   for (const field of ['source_materials', 'data_sources', 'metrics', 'charts', 'layouts', 'assumptions', 'missing_data', 'unverified_items']) {
     if (field in manifest && !Array.isArray(manifest[field])) errors.push(`manifest.${field} must be an array.`);
+  }
+  if (typeof manifest.template_id !== 'string' || !manifest.template_id.trim()) {
+    errors.push('manifest.template_id is required for template traceability.');
+  } else {
+    selectedTemplate = registryTemplates.find((template) => template.id === manifest.template_id);
+    if (!selectedTemplate) {
+      errors.push(`manifest.template_id is not registered: ${manifest.template_id}`);
+    } else {
+      if (!selectedTemplate.artifact_types?.includes(manifest.artifact_type)) {
+        errors.push(`manifest.template_id ${manifest.template_id} does not support artifact_type ${manifest.artifact_type}.`);
+      }
+      if (!selectedTemplate.style_presets?.includes(manifest.style_preset)) {
+        errors.push(`manifest.template_id ${manifest.template_id} does not support style_preset ${manifest.style_preset}.`);
+      }
+    }
+  }
+  if (!manifest.template_selection || typeof manifest.template_selection !== 'object') {
+    errors.push('manifest.template_selection is required for selection traceability.');
+  } else {
+    if (manifest.template_selection.template_id !== manifest.template_id) {
+      errors.push('manifest.template_selection.template_id must match manifest.template_id.');
+    }
+    for (const field of ['reader_job', 'rationale']) {
+      if (typeof manifest.template_selection[field] !== 'string' || !manifest.template_selection[field].trim()) {
+        errors.push(`manifest.template_selection.${field} must be a non-empty string.`);
+      }
+    }
+    if (!Array.isArray(manifest.template_selection.rejected_alternatives)) {
+      errors.push('manifest.template_selection.rejected_alternatives must be an array.');
+    }
+  }
+  const validation = manifest.validation && typeof manifest.validation === 'object' ? manifest.validation : null;
+  const applicableGates = validation?.applicable_gates || manifest.applicable_validation_gates;
+  const gateResults = validation?.results || manifest.validation_results;
+  if (!Array.isArray(applicableGates) || applicableGates.length === 0) {
+    errors.push('manifest.validation.applicable_gates is required for gate traceability.');
+  }
+  if (!Array.isArray(gateResults)) {
+    errors.push('manifest.validation.results is required for gate traceability.');
+  }
+  if (selectedTemplate && Array.isArray(applicableGates)) {
+    const registeredGates = new Set(registryGateIds(selectedTemplate));
+    for (const gate of applicableGates) {
+      if (typeof gate !== 'string' || !registeredGates.has(gate)) {
+        errors.push(`manifest.validation.applicable_gates contains an unregistered gate: ${gate}`);
+      }
+    }
+    const expected = registryGateIds(selectedTemplate);
+    if (expected.length !== applicableGates.length || expected.some((gate, index) => gate !== applicableGates[index])) {
+      errors.push(`manifest.validation.applicable_gates must match registry order for template ${selectedTemplate.id}.`);
+    }
+  }
+  if (Array.isArray(gateResults) && Array.isArray(applicableGates)) {
+    const resultByGate = new Map();
+    for (const result of gateResults) {
+      if (!result || typeof result.gate_id !== 'string') {
+        errors.push('manifest.validation.results entries must include gate_id.');
+        continue;
+      }
+      if (resultByGate.has(result.gate_id)) errors.push(`manifest.validation.results duplicates gate_id: ${result.gate_id}`);
+      resultByGate.set(result.gate_id, result);
+      if (!['passed', 'failed', 'not_run', 'not_applicable'].includes(result.status)) {
+        errors.push(`manifest.validation.results has unsupported status for ${result.gate_id}: ${result.status}`);
+      }
+      if (typeof result.evidence !== 'string' || !result.evidence.trim()) {
+        errors.push(`manifest.validation.results.${result.gate_id} must include evidence.`);
+      }
+    }
+    for (const gate of applicableGates) {
+      if (!resultByGate.has(gate)) errors.push(`manifest.validation.results is missing applicable gate: ${gate}`);
+    }
+    for (const gate of resultByGate.keys()) {
+      if (!applicableGates.includes(gate)) errors.push(`manifest.validation.results contains non-applicable gate: ${gate}`);
+    }
+  }
+  if ('acceptance_metrics' in manifest) {
+    if (!Array.isArray(manifest.acceptance_metrics)) {
+      errors.push('manifest.acceptance_metrics must be an array.');
+    } else {
+      for (const [idx, metric] of manifest.acceptance_metrics.entries()) {
+        for (const field of ['id', 'label', 'source_ref']) {
+          if (typeof metric?.[field] !== 'string' || !metric[field].trim()) errors.push(`manifest.acceptance_metrics[${idx}] missing ${field}.`);
+        }
+      }
+    }
+  }
+  const guidanceTypes = new Map([
+    ['data-report', ['answer', 'caveats', 'next_step']],
+    ['chart-frame', ['answer', 'caveats', 'next_step']],
+    ['dashboard', ['drivers', 'guardrails', 'filters', 'freshness']]
+  ]);
+  if (guidanceTypes.has(manifest.artifact_type) && manifest.schematic !== true) {
+    const guidanceFields = manifest.guidance_fields;
+    if (!guidanceFields || typeof guidanceFields !== 'object') {
+      errors.push(`manifest.guidance_fields is required for ${manifest.artifact_type} readability.`);
+    } else {
+      for (const field of guidanceTypes.get(manifest.artifact_type)) {
+        const guidance = guidanceFields[field];
+        if (!guidance || typeof guidance !== 'object') {
+          errors.push(`manifest.guidance_fields.${field} is required.`);
+          continue;
+        }
+        if (typeof guidance.html_id !== 'string' || !guidance.html_id.trim()) errors.push(`manifest.guidance_fields.${field}.html_id is required.`);
+        if (!Array.isArray(guidance.source_refs) || guidance.source_refs.length === 0) errors.push(`manifest.guidance_fields.${field}.source_refs must be non-empty.`);
+        for (const source of guidance.source_refs || []) {
+          if (!sourceExists(source)) errors.push(`manifest.guidance_fields.${field} source is not readable: ${source}`);
+        }
+      }
+    }
   }
   if (manifest.data_provenance_ref) {
     if (manifest.data_provenance_ref !== 'data-provenance.json') {
@@ -176,6 +328,9 @@ if (manifest) {
         }
         if (asset.kind && !allowedVisualAssetKinds.has(asset.kind)) {
           errors.push(`manifest.visual_assets[${idx}].kind is unsupported: ${asset.kind}`);
+        }
+        if (asset.file) {
+          validateSvgTextPolicy(asset, join(dir, asset.file), manifest.style_preset, manifest.aesthetic_contract);
         }
       }
     }
@@ -263,6 +418,21 @@ if (existsSync(htmlPath)) {
   }
   if (manifest?.artifact_type === 'dashboard' && manifest.schematic !== true && !/<table\b/i.test(html)) {
     errors.push('dashboard artifacts must include a detail table in the default view.');
+  }
+
+  if (manifest?.acceptance_metrics?.length) {
+    for (const metric of manifest.acceptance_metrics) {
+      if (!hasHtmlMarker(html, metric.id)) errors.push(`acceptance metric ${metric.id} is not rendered with a traceable HTML marker.`);
+      if (!html.includes(metric.label)) errors.push(`acceptance metric ${metric.id} label is not visible in HTML: ${metric.label}`);
+      if (metric.source_ref && !sourceExists(metric.source_ref)) errors.push(`acceptance metric ${metric.id} source is not readable: ${metric.source_ref}`);
+    }
+  }
+  if (manifest?.guidance_fields && manifest.schematic !== true) {
+    for (const [field, guidance] of Object.entries(manifest.guidance_fields)) {
+      if (guidance?.html_id && !hasHtmlMarker(html, guidance.html_id)) {
+        errors.push(`guidance field ${field} is not visible at HTML marker: ${guidance.html_id}`);
+      }
+    }
   }
 
   if (manifest && manifest.artifact_type !== 'design-system' && presetData?.presets?.[manifest.style_preset]) {
@@ -418,6 +588,34 @@ if (existsSync(qualityPath)) {
     }
   }
   if (/TODO|\[必填\]|lorem ipsum/i.test(quality)) errors.push('quality-report.md contains placeholders.');
+
+  const reportTemplateId = quality.match(/^template_id:\s*(\S+)\s*$/m)?.[1];
+  const reportApplicableGates = quality.match(/^applicable_gates:\s*(.+)$/m)?.[1]
+    ?.split(',')
+    .map((gate) => gate.trim())
+    .filter(Boolean);
+  const reportGateResults = [...quality.matchAll(/^- gate_id:\s*(\S+)\s*\n\s+status:\s*(passed|failed|not_run|not_applicable)\s*\n\s+evidence:\s*(.+)$/gm)]
+    .map((match) => ({ gate_id: match[1], status: match[2], evidence: match[3].trim() }));
+  if (manifest?.template_id) {
+    if (reportTemplateId !== manifest.template_id) errors.push('quality-report.md template_id must match manifest.template_id.');
+    const manifestApplicableGates = manifest.validation?.applicable_gates || manifest.applicable_validation_gates || [];
+    if (!reportApplicableGates || reportApplicableGates.join('|') !== manifestApplicableGates.join('|')) {
+      errors.push('quality-report.md applicable_gates must match manifest.validation.applicable_gates.');
+    }
+    const manifestResults = manifest.validation?.results || manifest.validation_results || [];
+    const reportResultMap = new Map(reportGateResults.map((result) => [result.gate_id, result]));
+    for (const result of manifestResults) {
+      const reportResult = reportResultMap.get(result.gate_id);
+      if (!reportResult) errors.push(`quality-report.md is missing gate result: ${result.gate_id}`);
+      else if (reportResult.status !== result.status) errors.push(`quality-report.md gate status does not match manifest: ${result.gate_id}`);
+    }
+  }
+  if (manifest?.guidance_fields && manifest.schematic !== true) {
+    for (const field of Object.keys(manifest.guidance_fields)) {
+      const match = quality.match(new RegExp(`^${escapeRegExp(field)}:\\s*(.+)$`, 'm'));
+      if (!match || !match[1].trim()) errors.push(`quality-report.md missing readable guidance field: ${field}`);
+    }
+  }
 
   if (parsedStatus.artifact_status === 'ready') {
     if (parsedStatus.semantic_entailment !== 'manually_reviewed') {

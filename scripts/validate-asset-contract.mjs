@@ -19,6 +19,33 @@ function readJson(path, label) {
   }
 }
 
+function sourceExists(source) {
+  return typeof source !== 'string' || existsSync(source) || existsSync(join(dir, source)) || existsSync(join(process.cwd(), source));
+}
+
+function validateSvgTextPolicy(asset, filePath) {
+  if (!filePath.toLowerCase().endsWith('.svg') || !existsSync(filePath)) return;
+  const svg = readFileSync(filePath, 'utf8');
+  if (!/<text\b/i.test(svg)) return;
+  const policy = manifest?.aesthetic_contract?.svg_text_policy;
+  const auditedException = policy === 'allow_audited_exception' && asset.text_policy === 'audited_visible_text_exception';
+  if (auditedException) {
+    const exception = asset.svg_text_exception;
+    for (const field of ['reason', 'source_ref', 'reviewer', 'approved_at']) {
+      if (typeof exception?.[field] !== 'string' || !exception[field].trim()) {
+        errors.push(`SVG text policy exception for ${asset.file} must include ${field}.`);
+      }
+    }
+    if (exception?.source_ref && !sourceExists(exception.source_ref)) {
+      errors.push(`SVG text policy exception source is not readable: ${exception.source_ref}`);
+    }
+    return;
+  }
+  if (manifest?.style_preset === 'swiss-deck' || policy === 'forbid_visible_text_in_swiss_assets') {
+    errors.push(`SVG text policy violation: ${asset.file} contains visible <text>; Swiss SVG text is forbidden unless an audited exception is declared.`);
+  }
+}
+
 const manifestPath = join(dir, 'manifest.json');
 const slidePlanPath = join(dir, 'slide-plan.json');
 const htmlPath = join(dir, 'index.html');
@@ -58,16 +85,7 @@ for (const [index, asset] of (manifest?.visual_assets || []).entries()) {
     if (asset.kind === 'screenshot' && extension === '.svg' && asset.provenance !== 'user_source') {
       errors.push(`fake screenshot label: screenshot asset ${asset.file} must be a user_source or raster screenshot.`);
     }
-    if (
-      extension === '.svg' &&
-      manifest?.aesthetic_contract?.svg_text_policy === 'forbid_visible_text_in_swiss_assets' &&
-      asset.text_policy === 'html_labels_only'
-    ) {
-      const svg = readFileSync(filePath, 'utf8');
-      if (/<text\b/i.test(svg)) {
-        errors.push(`SVG text policy violation: ${asset.file} contains visible <text>.`);
-      }
-    }
+    if (extension === '.svg') validateSvgTextPolicy(asset, filePath);
   }
 }
 

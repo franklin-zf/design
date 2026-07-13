@@ -88,6 +88,49 @@ function hashFile(path) {
   return createHash('sha256').update(readFileSync(path)).digest('hex');
 }
 
+function verifyExecutionHash(root, pathRef, expected, label, phase) {
+  const candidate = resolve(root, pathRef || '');
+  if (!pathRef || !isInside(root, candidate)) {
+    errors.push(`${label} is invalid after ${phase}: ${pathRef || '(missing)'}`);
+    return;
+  }
+  if (!existsSync(candidate)) {
+    errors.push(`${label} is missing after ${phase}: ${pathRef}`);
+    return;
+  }
+
+  try {
+    const real = realpathSync(candidate);
+    if (!isInside(root, real)) {
+      errors.push(`${label} resolves outside the artifact root after ${phase}: ${pathRef}`);
+      return;
+    }
+    if (lstatSync(candidate).isSymbolicLink() || !statSync(real).isFile()) {
+      errors.push(`${label} must remain a regular non-symlink file after ${phase}: ${pathRef}`);
+      return;
+    }
+    const actual = hashFile(real);
+    if (actual !== expected) {
+      errors.push(`${label} hash mismatch after ${phase}: expected ${expected}, got ${actual}.`);
+    }
+  } catch (error) {
+    errors.push(`${label} could not be verified after ${phase}: ${error.message}`);
+  }
+}
+
+function verifyAllExecutionHashes(root, provenance, phase) {
+  for (const source of provenance.sources || []) {
+    verifyExecutionHash(root, source.path, source.sha256, `source ${source.id}`, phase);
+  }
+  for (const derivation of provenance.derivations || []) {
+    verifyExecutionHash(root, derivation.output_ref, derivation.output_sha256, `output ${derivation.id}`, phase);
+    verifyExecutionHash(root, derivation.code_ref, derivation.code_sha256, `code ${derivation.id}`, phase);
+    for (const test of derivation.tests || []) {
+      verifyExecutionHash(root, test.test_ref, test.test_sha256, `test ${test.test_ref}`, phase);
+    }
+  }
+}
+
 function validateHash(expected, file, label) {
   if (!sha256Pattern.test(String(expected || ''))) {
     errors.push(`${label} must be a lowercase SHA-256 value.`);
@@ -235,30 +278,13 @@ if (provenance) {
     const tempArtifact = join(tempParent, basename(artifactRoot));
     try {
       cpSync(artifactRoot, tempArtifact, { recursive: true });
-      const sourceSnapshots = new Map((provenance.sources || []).map((source) => [
-        source.id,
-        hashFile(join(tempArtifact, source.path))
-      ]));
+      const executionRoot = realpathSync(tempArtifact);
       for (const derivation of provenance.derivations || []) {
-        runCommand(derivation.command, tempArtifact, `calculation command ${derivation.id}`);
-        for (const source of provenance.sources || []) {
-          const actual = hashFile(join(tempArtifact, source.path));
-          if (actual !== sourceSnapshots.get(source.id)) {
-            errors.push(`source modified during derivation ${derivation.id}: ${source.id}`);
-          }
-        }
-        const actualOutputHash = hashFile(join(tempArtifact, derivation.output_ref));
-        if (actualOutputHash !== derivation.output_sha256) {
-          errors.push(`generated output hash mismatch for ${derivation.id}: expected ${derivation.output_sha256}, got ${actualOutputHash}.`);
-        }
+        runCommand(derivation.command, executionRoot, `calculation command ${derivation.id}`);
+        verifyAllExecutionHashes(executionRoot, provenance, `calculation ${derivation.id}`);
         for (const test of derivation.tests || []) {
-          runCommand(test.command, tempArtifact, `test command ${test.test_ref}`);
-          for (const source of provenance.sources || []) {
-            const actual = hashFile(join(tempArtifact, source.path));
-            if (actual !== sourceSnapshots.get(source.id)) {
-              errors.push(`source modified during test ${test.test_ref}: ${source.id}`);
-            }
-          }
+          runCommand(test.command, executionRoot, `test command ${test.test_ref}`);
+          verifyAllExecutionHashes(executionRoot, provenance, `test ${test.test_ref}`);
         }
       }
     } finally {

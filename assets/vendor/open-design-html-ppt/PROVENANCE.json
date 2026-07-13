@@ -23,7 +23,7 @@
     {
       "source": "assets/runtime.js",
       "destination": "runtime.js",
-      "sha256": "d7b066a96b99fcf5c9e15b593283a57a3d43ac2bcf795d172adc7f3ba0844f79",
+      "sha256": "2b076240fa68b43645f797a5b34a094b7a025ae4bdaa0af9afa2c23fca0058a5",
       "action": "adopt_verbatim"
     }
   ],

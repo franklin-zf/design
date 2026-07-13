@@ -4,6 +4,9 @@
   "audience": "design reviewers",
   "surface": "html",
   "style_preset": "swiss-deck",
+  "template_id": "swiss-evidence-deck",
+  "template_selection": {"template_id": "swiss-evidence-deck", "reader_job": "source-backed semantic deck", "rationale": "The fixture tests registered Swiss layouts and a source-backed system schematic.", "rejected_alternatives": ["source-backed-report", "poster-type-led"]},
+  "validation": {"applicable_gates": ["validate-design-output", "validate-summary-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/swiss-deck-pass"}, {"gate_id": "validate-summary-map", "status": "passed", "evidence": "node scripts/validate-summary-map.mjs examples/swiss-deck-pass"}, {"gate_id": "validate-aesthetic-contract", "status": "passed", "evidence": "node scripts/validate-aesthetic-contract.mjs examples/swiss-deck-pass"}, {"gate_id": "validate-asset-contract", "status": "passed", "evidence": "node scripts/validate-asset-contract.mjs examples/swiss-deck-pass"}, {"gate_id": "validate-layout-lock", "status": "passed", "evidence": "node scripts/validate-layout-lock.mjs examples/swiss-deck-pass"}, {"gate_id": "validate-visual-rhythm", "status": "passed", "evidence": "node scripts/validate-visual-rhythm.mjs examples/swiss-deck-pass"}, {"gate_id": "render-smoke", "status": "passed", "evidence": "package render smoke"}, {"gate_id": "manual-reviewer-pass", "status": "passed", "evidence": "fixture review recorded in quality-report.md"}]},
   "schematic": false,
   "source_materials": ["source-notes.txt"],
   "design_system": {

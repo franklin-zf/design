@@ -131,7 +131,7 @@
         },
         "declared_media_decision": { "type": "string" },
         "text_policy": {
-          "enum": ["html_labels_only", "source_image_text_allowed", "decorative_only", "not_applicable"]
+          "enum": ["html_labels_only", "source_image_text_allowed", "decorative_only", "audited_visible_text_exception", "not_applicable"]
         },
         "aspect_ratio": { "type": "string" },
         "allowed_slot": { "type": "string" }
@@ -165,7 +165,7 @@
           }
         },
         "svg_text_policy": {
-          "enum": ["forbid_visible_text_in_swiss_assets", "allow_user_source_svg", "not_applicable"]
+          "enum": ["forbid_visible_text_in_swiss_assets", "allow_audited_exception", "allow_user_source_svg", "not_applicable"]
         },
         "motion_policy": {
           "enum": ["semantic_with_reduced_motion", "static", "not_applicable"]

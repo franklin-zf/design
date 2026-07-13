@@ -5,7 +5,8 @@
       "id": "source-backed-report",
       "name": "Source Backed Report",
       "artifact_types": [
-        "data-report"
+        "data-report",
+        "chart-frame"
       ],
       "style_presets": [
         "neutral-analytic",
@@ -32,6 +33,7 @@
         "validate-summary-map",
         "validate-claim-map"
       ],
+      "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-claim-map"],
       "thinking_ref": "references/report-dashboard.md"
     },
     {
@@ -64,6 +66,7 @@
         "validate-poster-contract",
         "validate-poster-anti-ai-slop"
       ],
+      "validation_gate_ids": ["validate-design-output", "validate-poster-contract", "validate-poster-anti-ai-slop"],
       "thinking_ref": "references/poster-design.md"
     },
     {
@@ -102,6 +105,7 @@
         "render-smoke",
         "manual reviewer pass"
       ],
+      "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
       "thinking_ref": "references/deck-ppt.md"
     },
     {
@@ -148,6 +152,7 @@
         "render-smoke --strict-layout",
         "manual reviewer pass"
       ],
+      "validation_gate_ids": ["validate-data-provenance", "validate-design-output", "validate-summary-map", "validate-claim-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
       "thinking_ref": "references/template-adoption-plan.md"
     },
     {
@@ -179,6 +184,7 @@
         "validate-claim-map",
         "render-smoke"
       ],
+      "validation_gate_ids": ["validate-design-output", "validate-claim-map", "render-smoke"],
       "thinking_ref": "references/report-dashboard.md"
     },
     {
@@ -211,6 +217,7 @@
         "render-smoke",
         "manual reviewer pass"
       ],
+      "validation_gate_ids": ["validate-design-output", "render-smoke", "manual-reviewer-pass"],
       "thinking_ref": "references/screenshot-ui-evidence.md"
     },
     {
@@ -241,7 +248,21 @@
         "tweakable-smoke",
         "render-smoke"
       ],
+      "validation_gate_ids": ["validate-design-output", "tweakable-smoke", "render-smoke"],
       "thinking_ref": "references/template-index.md"
+    },
+    {
+      "id": "design-system-package",
+      "name": "Design System Package",
+      "artifact_types": ["design-system"],
+      "style_presets": ["neutral-analytic"],
+      "source": "bundled",
+      "best_for": ["token and component handoff"],
+      "avoid_when": ["the artifact is a user-facing report"],
+      "required_assets": ["manifest.json", "DESIGN.md", "tokens.css", "quality-report.md"],
+      "validation_gates": ["validate-design-output", "validate-design-system-package", "manual reviewer pass"],
+      "validation_gate_ids": ["validate-design-output", "validate-design-system-package", "manual-reviewer-pass"],
+      "thinking_ref": "references/design-system.md"
     }
   ]
 }

@@ -12,6 +12,22 @@ The fixture treats the CSV as reviewed source material.
 ## Validation
 Expected to pass chart-frame checks for source, chart id, family, source, unit, sample size, and visual encoding.
 
+## Template
+template_id: source-backed-report
+applicable_gates: validate-design-output, validate-summary-map, validate-claim-map
+- gate_id: validate-design-output
+  status: passed
+  evidence: node scripts/validate-design-output.mjs examples/chart-frame-pass
+- gate_id: validate-summary-map
+  status: passed
+  evidence: node scripts/validate-summary-map.mjs examples/chart-frame-pass
+- gate_id: validate-claim-map
+  status: passed
+  evidence: node scripts/validate-claim-map.mjs examples/chart-frame-pass
+answer: source-backed chart finding
+caveats: segment and channel detail are absent
+next_step: review the next source slice before extending the chart
+
 ## Status
 artifact_status: ready
 claim_assurance: local_provenance_only

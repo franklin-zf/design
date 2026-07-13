@@ -23,6 +23,40 @@ Swiss Evidence Deck production fixture using a licensed Open Design runtime and 
 - Provenance command: `node scripts/validate-data-provenance.mjs examples/swiss-evidence-deck-production-pass --execute-trusted`
 - Layout, rhythm, asset, summary, claim, responsive, and reduced-motion gates are package-controlled.
 
+## Template
+template_id: swiss-evidence-deck-production
+applicable_gates: validate-data-provenance, validate-design-output, validate-summary-map, validate-claim-map, validate-aesthetic-contract, validate-asset-contract, validate-layout-lock, validate-visual-rhythm, render-smoke, manual-reviewer-pass
+- gate_id: validate-data-provenance
+  status: passed
+  evidence: node scripts/validate-data-provenance.mjs examples/swiss-evidence-deck-production-pass --execute-trusted
+- gate_id: validate-design-output
+  status: passed
+  evidence: node scripts/validate-design-output.mjs examples/swiss-evidence-deck-production-pass
+- gate_id: validate-summary-map
+  status: passed
+  evidence: node scripts/validate-summary-map.mjs examples/swiss-evidence-deck-production-pass
+- gate_id: validate-claim-map
+  status: passed
+  evidence: node scripts/validate-claim-map.mjs examples/swiss-evidence-deck-production-pass
+- gate_id: validate-aesthetic-contract
+  status: passed
+  evidence: node scripts/validate-aesthetic-contract.mjs examples/swiss-evidence-deck-production-pass
+- gate_id: validate-asset-contract
+  status: passed
+  evidence: node scripts/validate-asset-contract.mjs examples/swiss-evidence-deck-production-pass
+- gate_id: validate-layout-lock
+  status: passed
+  evidence: node scripts/validate-layout-lock.mjs examples/swiss-evidence-deck-production-pass
+- gate_id: validate-visual-rhythm
+  status: passed
+  evidence: node scripts/validate-visual-rhythm.mjs examples/swiss-evidence-deck-production-pass
+- gate_id: render-smoke
+  status: passed
+  evidence: package render smoke
+- gate_id: manual-reviewer-pass
+  status: passed
+  evidence: fixture review recorded in quality-report.md
+
 ## Status
 
 artifact_status: ready

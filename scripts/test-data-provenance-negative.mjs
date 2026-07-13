@@ -84,7 +84,7 @@ try {
     writeJson(path, data);
   });
 
-  runCase('source-overwrite', 'source modified during derivation', (dir) => {
+  runCase('source-overwrite', 'source layout-inventory hash mismatch after calculation inventory-counts', (dir) => {
     const codePath = join(dir, 'calculations/inventory.mjs');
     const code = readFileSync(codePath, 'utf8');
     const modified = code.replace(

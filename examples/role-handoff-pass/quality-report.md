@@ -17,6 +17,34 @@ Role handoff pass fixture for the design skill.
 - node scripts/validate-design-output.mjs examples/role-handoff-pass
 - node scripts/validate-summary-map.mjs examples/role-handoff-pass
 
+## Template
+template_id: swiss-evidence-deck
+applicable_gates: validate-design-output, validate-summary-map, validate-aesthetic-contract, validate-asset-contract, validate-layout-lock, validate-visual-rhythm, render-smoke, manual-reviewer-pass
+- gate_id: validate-design-output
+  status: passed
+  evidence: node scripts/validate-design-output.mjs examples/role-handoff-pass
+- gate_id: validate-summary-map
+  status: passed
+  evidence: node scripts/validate-summary-map.mjs examples/role-handoff-pass
+- gate_id: validate-aesthetic-contract
+  status: passed
+  evidence: package contract validation
+- gate_id: validate-asset-contract
+  status: passed
+  evidence: package asset validation
+- gate_id: validate-layout-lock
+  status: passed
+  evidence: package layout validation
+- gate_id: validate-visual-rhythm
+  status: passed
+  evidence: package rhythm validation
+- gate_id: render-smoke
+  status: passed
+  evidence: package render smoke
+- gate_id: manual-reviewer-pass
+  status: passed
+  evidence: fixture review recorded in quality-report.md
+
 ## Status
 
 artifact_status: ready
@@ -41,4 +69,3 @@ None.
 ## Remaining Risks
 
 This is a compact fixture and does not prove full presentation aesthetics.
-

@@ -4,6 +4,10 @@
   "audience": "executive",
   "surface": "html",
   "style_preset": "neutral-analytic",
+  "template_id": "source-backed-report",
+  "template_selection": {"template_id": "source-backed-report", "reader_job": "executive answer-first analysis", "rationale": "The source needs an answer, evidence, caveats, and next review in one reading surface.", "rejected_alternatives": ["operational-dashboard", "swiss-evidence-deck"]},
+  "validation": {"applicable_gates": ["validate-design-output", "validate-summary-map", "validate-claim-map"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/data-report-pass"}, {"gate_id": "validate-summary-map", "status": "passed", "evidence": "node scripts/validate-summary-map.mjs examples/data-report-pass"}, {"gate_id": "validate-claim-map", "status": "passed", "evidence": "node scripts/validate-claim-map.mjs examples/data-report-pass"}]},
+  "guidance_fields": {"answer": {"html_id": "answer", "source_refs": ["examples/data-report-pass/source.csv"]}, "caveats": {"html_id": "caveats", "source_refs": ["examples/data-report-pass/source.csv"]}, "next_step": {"html_id": "next-step", "source_refs": ["examples/data-report-pass/source.csv"]}},
   "schematic": false,
   "source_materials": ["examples/data-report-pass/source.csv"],
   "data_sources": [

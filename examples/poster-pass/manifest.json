@@ -4,6 +4,9 @@
   "audience": "project steering group",
   "surface": "html",
   "style_preset": "swiss-deck",
+  "template_id": "poster-type-led",
+  "template_selection": {"template_id": "poster-type-led", "reader_job": "one-message announcement", "rationale": "The source is reduced to one direct poster message and one visual path.", "rejected_alternatives": ["swiss-evidence-deck", "source-backed-report"]},
+  "validation": {"applicable_gates": ["validate-design-output", "validate-poster-contract", "validate-poster-anti-ai-slop"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/poster-pass"}, {"gate_id": "validate-poster-contract", "status": "passed", "evidence": "node scripts/validate-poster-contract.mjs examples/poster-pass"}, {"gate_id": "validate-poster-anti-ai-slop", "status": "passed", "evidence": "node scripts/validate-poster-anti-ai-slop.mjs examples/poster-pass"}]},
   "schematic": false,
   "source_materials": ["source.txt"],
   "design_system": {

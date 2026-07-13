@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { isAbsolute, join, relative, resolve } from 'node:path';
 
@@ -71,16 +72,43 @@ if (manifest && claimMap) {
       const real = realpathSync(candidate);
       if (!isInside(skillRoot, real) && !(artifactRoot && isInside(artifactRoot, real))) continue;
       if (!statSync(real).isFile()) continue;
+      const bytes = readFileSync(real);
       const source = {
         path: real,
-        text: readFileSync(real, 'utf8'),
-        normalized: normalize(readFileSync(real, 'utf8'))
+        text: bytes.toString('utf8'),
+        normalized: normalize(bytes.toString('utf8')),
+        sha256: createHash('sha256').update(bytes).digest('hex')
       };
       sourceCache.set(sourceRef, source);
       return source;
     }
     sourceCache.set(sourceRef, null);
     return null;
+  }
+
+  function validateSourceSha256(hashMap, sourceRefs, label) {
+    if (hashMap === undefined) return;
+    if (!hashMap || typeof hashMap !== 'object' || Array.isArray(hashMap)) {
+      errors.push(`${label} must be an object mapping source_ref to SHA-256.`);
+      return;
+    }
+    for (const [sourceRef, expected] of Object.entries(hashMap)) {
+      if (!sha256Pattern.test(String(expected || ''))) {
+        errors.push(`${label}.${sourceRef} must be a lowercase SHA-256 value.`);
+        continue;
+      }
+      if (!sourceRefs.includes(sourceRef)) {
+        errors.push(`${label}.${sourceRef} is not referenced by this claim map.`);
+        continue;
+      }
+      const source = resolveSource(sourceRef);
+      if (source && source.sha256 !== expected) {
+        errors.push(`${label}.${sourceRef} hash mismatch: expected ${expected}, got ${source.sha256}.`);
+      }
+    }
+    for (const sourceRef of sourceRefs) {
+      if (!Object.hasOwn(hashMap, sourceRef)) errors.push(`${label} is missing ${sourceRef}.`);
+    }
   }
 
   function normalize(value) {
@@ -102,8 +130,15 @@ if (manifest && claimMap) {
     return current;
   }
 
+  const allClaimSourceRefs = [...new Set((claimMap.claims || []).flatMap((claim) => (
+    Array.isArray(claim.source_refs) ? claim.source_refs : []
+  )))];
+  const sha256Pattern = /^[a-f0-9]{64}$/;
+  validateSourceSha256(claimMap.source_sha256, allClaimSourceRefs, 'claim-map.source_sha256');
+
   for (const [idx, claim] of (claimMap.claims || []).entries()) {
     const claimSourceRefs = Array.isArray(claim.source_refs) ? claim.source_refs : [];
+    validateSourceSha256(claim.source_sha256, claimSourceRefs, `claims[${idx}].source_sha256`);
     for (const field of ['id', 'text', 'status', 'source_refs']) {
       if (!(field in claim)) errors.push(`claims[${idx}] missing ${field}.`);
     }

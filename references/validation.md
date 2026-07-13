@@ -1,5 +1,80 @@
 # Validation
 
+## REQ-002 Ready Gate Proposal
+
+This is the product contract for a future implementation. It is a suggested
+gate, not a claim that the current scripts implement these checks.
+
+An artifact may be called `ready` only when all applicable gates below pass:
+
+1. **Input complete.** `artifact_type`, `goal`, `use_scenario`, `audience`,
+   `source_materials`, `output_surface`, and `constraints` are present. The
+   summary and calculation policies are present when their conditions apply.
+2. **Source identity recorded.** Every available source has an ID, readable
+   path or captured URL, and a lowercase SHA-256 for the bytes used. Rehash at
+   the gate; any mismatch blocks readiness. Missing source identity is a
+   `blocked` or `partial` result, not an inferred pass.
+3. **Summary and claims reviewed.** Every visible mapped summary and claim has
+   local evidence, a class/status, and a semantic review. Any `fail` or
+   `not_checked` result blocks a source-backed `ready` artifact.
+4. **Guidance recorded.** A decision-support report or dashboard has
+   `decision`, `action`, `decision_owner`, `trigger`, `time_horizon`,
+   `success_signal`, `stop_or_escalate_condition`, and `uncertainty`. An
+   informational artifact explicitly records `guidance: not_requested`.
+5. **Reviewer record exists.** The record names the reviewer, review time,
+   artifact hash, checks, findings, approval status, and remaining risks.
+6. **User evidence boundary is explicit.** If no real-user sample or observed
+   outcome exists, the artifact records the missing evidence and a non-claim;
+   it does not claim usability, comprehension, satisfaction, completion, or
+   business impact.
+7. **Existing checks pass.** Applicable structural, provenance, summary-map,
+   claim-map, visual, and runtime checks pass, or their unavailable state and
+   effect on readiness are recorded.
+
+The smallest gate result should expose:
+
+```json
+{
+  "status": "ready|partial|blocked|needs_clarification",
+  "blocking_reasons": [],
+  "passed_gates": [],
+  "not_claimed": [],
+  "reviewer_record_ref": ""
+}
+```
+
+The fields and result above are implementation guidance for REQ-002. They are
+not current validator output.
+
+## Reviewer Record
+
+Use one file-backed record for the final review. The minimum record is:
+
+```json
+{
+  "reviewer_id": "",
+  "reviewed_at": "",
+  "artifact_ref": "",
+  "artifact_sha256": "",
+  "review_status": "approved|changes_required|blocked",
+  "checks": {
+    "input_contract": "pass|fail|not_checked",
+    "source_identity": "pass|fail|not_checked",
+    "summary_semantics": "pass|fail|not_checked",
+    "claim_semantics": "pass|fail|not_checked",
+    "guidance": "pass|fail|not_checked",
+    "user_evidence": "pass|fail|not_checked"
+  },
+  "findings": [],
+  "remaining_risks": [],
+  "non_claims": []
+}
+```
+
+`approved` means the listed checks were actually reviewed for this artifact;
+it does not mean external truth, complete semantic entailment, or real-user
+success was proven. A missing reviewer record blocks `ready`.
+
 ## Structural Validation
 
 Run:
@@ -92,6 +167,12 @@ These are explicit non-claims, not open engineering risks in this package:
 - subjective aesthetic quality without human or product-design review;
 - accessibility completeness without a dedicated accessibility audit;
 - native PPTX, PDF, Figma, live connector, or Open Design daemon fidelity without that runtime.
+- real-user usability, comprehension, satisfaction, completion, retention, or business impact when no real-user sample or observed outcome was supplied.
+
+When that evidence is missing, record a direct non-claim such as: "No claim is
+made about real-user usage or impact; no real-user evidence was provided."
+Also record the next evidence request. Do not mark a local render smoke or
+reviewer opinion as user validation.
 
 ## Completion Rule
 

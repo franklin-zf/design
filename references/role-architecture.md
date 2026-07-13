@@ -154,3 +154,52 @@ Use independent contexts for poster, designer, and reviewer when the task is bro
 ## When Subagents Are Not Available
 
 Run the same roles sequentially and write the same handoff artifacts. Do not collapse the roles into an invisible internal monologue.
+
+## Controlled Execution Envelope
+
+The role payloads above remain the domain contract. A controlled run adds an
+execution envelope beside that payload; it does not replace the role-specific
+handoff shape or modify the exp-skill controller. At minimum, the envelope
+records:
+
+```json
+{
+  "run_id": "",
+  "role": "",
+  "agent_id": "",
+  "attempt_id": "",
+  "host_adapter": "",
+  "platform": "",
+  "lifecycle_status": "completed|failed|timed_out|disconnected|escalated",
+  "claims": [],
+  "evidence": [],
+  "telemetry": {
+    "tokens": "unknown",
+    "duration_ms": "unknown",
+    "tool_calls": "unknown",
+    "external_cost_usd": "unknown"
+  }
+}
+```
+
+`agent_id` identifies the stable role context; `attempt_id` identifies one
+dispatch and must change on retry. One role has one registered `agent_id`, and
+the reviewer must remain independent from implementation agents. The host
+adapter owns dispatch, observation, cancellation, collection, path
+normalization, and capability reporting. If it cannot provide a field, the
+envelope records `unknown` and the role cannot claim the corresponding
+completion, timing, budget, or portability property.
+
+Timeouts, disconnects, retries, and escalation follow the rules in
+`multi-agent-protocol.md`: deadlines and retry limits are explicit host input;
+retries are bounded and preserve prior attempts; ambiguous or non-idempotent
+side effects escalate; and a process exit without a complete handoff is not
+success. A host-equivalent sequential run is valid only when it emits the same
+role-local handoffs and labels the absence of independent concurrency.
+
+All run-local evidence references are normalized POSIX-style relative paths.
+An absolute path can identify a host-local implementation artifact only when
+it is labeled as a host-local non-claim. It must never be used to imply that a
+different host, shell, or filesystem can resolve the artifact. The POSIX
+support matrix and per-host preflight evidence in
+`multi-agent-protocol.md` are authoritative for portability claims.

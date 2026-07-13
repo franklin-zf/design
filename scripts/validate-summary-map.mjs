@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { isAbsolute, join, relative, resolve } from 'node:path';
 
@@ -31,6 +32,7 @@ const forbiddenTerms = [
   '范式',
   '飞轮'
 ];
+const sha256Pattern = /^[a-f0-9]{64}$/;
 
 function readJson(path, label) {
   try {
@@ -114,10 +116,41 @@ function resolveSource(sourceRef) {
     const real = realpathSync(candidate);
     if (!isInside(skillRoot, real) && !(artifactRoot && isInside(artifactRoot, real))) continue;
     if (!statSync(real).isFile()) continue;
-    const text = readFileSync(real, 'utf8');
-    return { path: real, text, normalized: normalize(text) };
+    const bytes = readFileSync(real);
+    const text = bytes.toString('utf8');
+    return {
+      path: real,
+      text,
+      normalized: normalize(text),
+      sha256: createHash('sha256').update(bytes).digest('hex')
+    };
   }
   return null;
+}
+
+function validateSourceSha256(hashMap, sourceRefs, label) {
+  if (hashMap === undefined) return;
+  if (!hashMap || typeof hashMap !== 'object' || Array.isArray(hashMap)) {
+    errors.push(`${label} must be an object mapping source_ref to SHA-256.`);
+    return;
+  }
+  for (const [sourceRef, expected] of Object.entries(hashMap)) {
+    if (!sha256Pattern.test(String(expected || ''))) {
+      errors.push(`${label}.${sourceRef} must be a lowercase SHA-256 value.`);
+      continue;
+    }
+    if (!sourceRefs.includes(sourceRef)) {
+      errors.push(`${label}.${sourceRef} is not referenced by this summary map.`);
+      continue;
+    }
+    const source = resolveSource(sourceRef);
+    if (source && source.sha256 !== expected) {
+      errors.push(`${label}.${sourceRef} hash mismatch: expected ${expected}, got ${source.sha256}.`);
+    }
+  }
+  for (const sourceRef of sourceRefs) {
+    if (!Object.hasOwn(hashMap, sourceRef)) errors.push(`${label} is missing ${sourceRef}.`);
+  }
 }
 
 let manifest = null;
@@ -160,6 +193,10 @@ if (manifest && summaryMap) {
   const htmlSummaryIds = new Set([...html.matchAll(/\bdata-summary-id=["']([^"']+)["']/gi)].map((match) => match[1]));
   const mappedIds = new Set((summaryMap.summaries || []).map((summary) => summary.id));
   const derivations = new Map((provenance?.derivations || []).map((item) => [item.id, item]));
+  const allSummarySourceRefs = [...new Set((summaryMap.summaries || []).flatMap((summary) => (
+    Array.isArray(summary.source_refs) ? summary.source_refs : []
+  )))];
+  validateSourceSha256(summaryMap.source_sha256, allSummarySourceRefs, 'summary-map.source_sha256');
 
   if (summaryMapRequiredTypes.has(manifest.artifact_type) && manifest.schematic !== true && !htmlSummaryIds.size) {
     errors.push(`${manifest.artifact_type} artifacts must tag visible summaries with data-summary-id.`);
@@ -169,6 +206,8 @@ if (manifest && summaryMap) {
   }
 
   for (const [idx, summary] of (summaryMap.summaries || []).entries()) {
+    const summarySourceRefs = Array.isArray(summary.source_refs) ? summary.source_refs : [];
+    validateSourceSha256(summary.source_sha256, summarySourceRefs, `summaries[${idx}].source_sha256`);
     for (const field of ['id', 'summary_text', 'status', 'source_refs', 'source_quotes', 'preserved_numbers']) {
       if (!(field in summary)) errors.push(`summaries[${idx}] missing ${field}.`);
     }
@@ -189,7 +228,6 @@ if (manifest && summaryMap) {
     if (!['source_verbatim', 'code_derived', 'no_numeric_value'].includes(valueOrigin)) {
       errors.push(`summaries[${idx}] has invalid value_origin: ${valueOrigin}`);
     }
-    const summarySourceRefs = Array.isArray(summary.source_refs) ? summary.source_refs : [];
     if (!summarySourceRefs.length) errors.push(`summaries[${idx}] must bind at least one source_ref.`);
     for (const sourceRef of summarySourceRefs) {
       if (!knownSources.has(sourceRef)) errors.push(`summaries[${idx}] references unknown source_ref: ${sourceRef}`);

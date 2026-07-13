@@ -12,6 +12,19 @@ The fixture proves required control markers.
 ## Validation
 Expected to pass tweakable control checks.
 
+## Template
+template_id: tweakable-artifact
+applicable_gates: validate-design-output, tweakable-smoke, render-smoke
+- gate_id: validate-design-output
+  status: passed
+  evidence: node scripts/validate-design-output.mjs examples/tweakable-artifact-pass
+- gate_id: tweakable-smoke
+  status: passed
+  evidence: node scripts/tweakable-smoke.mjs examples/tweakable-artifact-pass/index.html
+- gate_id: render-smoke
+  status: passed
+  evidence: package render smoke
+
 ## Status
 artifact_status: schematic
 claim_assurance: schematic

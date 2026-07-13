@@ -42,6 +42,7 @@
         <span>Decision: prioritize retention review</span>
         <span>Window: eight monthly points</span>
         <span>Source: local CSV fixture</span>
+        <span>Duplicates: none merged</span>
       </div>
     </header>
     <div class="cards" data-design-id="kpi-strip">
@@ -49,7 +50,7 @@
       <article class="card" data-summary-id="activation-kpi"><div class="muted">Activation_rate</div><div class="kpi">0.47</div><div class="muted">in 2026-06</div></article>
       <article class="card"><div class="muted">Source rows</div><div class="kpi">8</div><div class="muted">monthly points</div></article>
     </div>
-    <section data-design-id="primary-finding">
+    <section data-design-id="primary-finding" data-guidance-field="answer">
       <h2>Revenue trend</h2>
       <p data-summary-id="finding-summary">The supplied CSV rises across the reviewed months; the next review should test whether activation gains are durable.</p>
       <div class="chart-wrap">
@@ -79,11 +80,11 @@
       </div>
       <p class="muted">Source: examples/data-report-pass/source.csv. Linear scale, domain 100000-160000 USD.</p>
     </section>
-    <section class="caveat" data-design-id="caveats">
+    <section class="caveat" data-design-id="caveats" data-guidance-field="caveats">
       <h2>What remains uncertain</h2>
       <p>This fixture does not include segment, channel, or customer cohort detail, so it cannot explain the driver of the increase.</p>
     </section>
-    <section data-design-id="next-step">
+    <section data-design-id="next-step" data-guidance-field="next_step">
       <h2>Next review</h2>
       <p>Pair the revenue trend with segment and retention cohorts before making a channel-level decision.</p>
     </section>

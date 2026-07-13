@@ -43,14 +43,15 @@
         <h1>Operations Dashboard</h1>
         <p class="muted">Weekly operating review · source freshness 24 hours</p>
       </div>
-      <div class="badge" data-summary-id="freshness-summary">Freshness: 24 hours</div>
+      <div class="badge" data-summary-id="freshness-summary" data-guidance-field="freshness">Freshness: 24 hours</div>
+      <div class="badge" data-guidance-field="filters">Filters: none applied</div>
     </header>
     <div class="grid" data-design-id="dashboard-grid">
       <section class="card kpi" data-summary-id="active-accounts-kpi"><div class="muted">Active accounts</div><div class="metric">428</div><div class="muted">current source value</div></section>
       <section class="card kpi" data-summary-id="weekly-growth-kpi"><div class="muted">Weekly_growth</div><div class="metric">0.064</div><div class="muted">current source value</div></section>
       <section class="card kpi" data-summary-id="incidents-kpi"><div class="muted">Open incidents</div><div class="metric">2</div><div class="muted">current source value</div></section>
       <section class="card kpi" data-summary-id="freshness-kpi"><div class="muted">Freshness</div><div class="metric">24</div><div class="muted">hours</div></section>
-      <section class="card guardrails" data-design-id="guardrails">
+      <section class="card guardrails" data-design-id="guardrails" data-guidance-field="guardrails">
         <div data-summary-id="incident-guardrail"><strong>Guardrail</strong><div class="muted">Incident count source value: 2</div></div>
         <div data-summary-id="churn-driver"><strong>Driver watch</strong><div class="muted">Churn accounts: -12</div></div>
         <div><strong>Next check</strong><div class="muted">Segment review if incidents rise</div></div>
@@ -78,7 +79,7 @@
           <text class="value" x="610" y="58">428 accounts</text>
         </svg>
       </section>
-      <section class="card side">
+      <section class="card side" data-guidance-field="drivers">
         <h2>Drivers</h2>
         <svg viewBox="0 0 320 260" role="img" aria-label="Current week account movement drivers" data-chart-id="drivers">
           <line class="axis" x1="160" y1="30" x2="160" y2="220"></line>

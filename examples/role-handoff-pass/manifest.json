@@ -4,6 +4,10 @@
   "audience": "skill maintainer",
   "surface": "html",
   "style_preset": "swiss-deck",
+  "aesthetic_contract": {"layout_lock": "swiss-s01-s22", "accent_policy": {"accent_2": "marker_only"}, "svg_text_policy": "allow_audited_exception", "motion_policy": "static", "visual_rhythm": {"max_same_weight_run": 2}},
+  "template_id": "swiss-evidence-deck",
+  "template_selection": {"template_id": "swiss-evidence-deck", "reader_job": "role handoff sequence", "rationale": "The source needs a two-slide handoff with a role-flow visual.", "rejected_alternatives": ["source-backed-report", "poster-type-led"]},
+  "validation": {"applicable_gates": ["validate-design-output", "validate-summary-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/role-handoff-pass"}, {"gate_id": "validate-summary-map", "status": "passed", "evidence": "node scripts/validate-summary-map.mjs examples/role-handoff-pass"}, {"gate_id": "validate-aesthetic-contract", "status": "passed", "evidence": "package contract validation"}, {"gate_id": "validate-asset-contract", "status": "passed", "evidence": "package asset validation"}, {"gate_id": "validate-layout-lock", "status": "passed", "evidence": "package layout validation"}, {"gate_id": "validate-visual-rhythm", "status": "passed", "evidence": "package rhythm validation"}, {"gate_id": "render-smoke", "status": "passed", "evidence": "package render smoke"}, {"gate_id": "manual-reviewer-pass", "status": "passed", "evidence": "fixture review recorded in quality-report.md"}]},
   "schematic": false,
   "source_materials": [
     "source-notes.txt"
@@ -25,7 +29,9 @@
       "source": "source-notes.txt",
       "kind": "flowchart",
       "format": "svg",
-      "schematic": true
+      "schematic": true,
+      "text_policy": "audited_visible_text_exception",
+      "svg_text_exception": {"reason": "The role-flow fixture uses short labels embedded in the schematic to demonstrate the legacy handoff asset shape.", "source_ref": "source-notes.txt", "reviewer": "design-fixture-review", "approved_at": "2026-07-13"}
     }
   ],
   "assumptions": [
