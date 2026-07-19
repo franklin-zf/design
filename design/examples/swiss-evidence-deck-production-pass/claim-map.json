@@ -1,0 +1,35 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {
+      "id": "licensed-adoption",
+      "text": "Open Design supplies the licensed execution base while Design owns the visual system.",
+      "status": "verified",
+      "claim_class": "source_fact",
+      "source_refs": ["source/decision-brief.md"],
+      "evidence_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Open Design contributes 3 MIT-licensed execution files: the license, base CSS, and runtime JavaScript. Design owns the visual identity, semantic layouts, content hierarchy, and acceptance rules." }]
+    },
+    {
+      "id": "inventory-counts",
+      "text": "The inventory contains 9 slides, 9 unique layouts, and 9 source-backed rows.",
+      "status": "verified",
+      "claim_class": "computed_metric",
+      "derivation_refs": ["inventory-counts"],
+      "derived_values": [
+        { "token": "9", "json_pointer": "/slide_count", "derivation_ref": "inventory-counts" },
+        { "token": "9", "json_pointer": "/unique_layout_count", "derivation_ref": "inventory-counts" },
+        { "token": "9", "json_pointer": "/source_backed_slide_count", "derivation_ref": "inventory-counts" }
+      ],
+      "source_refs": ["source/layout-inventory.csv"],
+      "evidence_quotes": [{ "source_ref": "source/layout-inventory.csv", "quote": "slide_id,layout_id,visual_weight,source_id,media_decision" }]
+    },
+    {
+      "id": "ready-gate",
+      "text": "Ready requires every applicable evidence and review gate to pass.",
+      "status": "verified",
+      "claim_class": "source_fact",
+      "source_refs": ["source/decision-brief.md"],
+      "evidence_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Ready means the source hash, calculation code, deterministic test, derived output, visible content, responsive render, reduced-motion mode, and reviewer decision all pass their applicable gates." }]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "design-intake-direction/v1",
+  "status": "needs_clarification",
+  "known": {
+    "artifact_type": null,
+    "goal": null,
+    "use_scenario": null
+  },
+  "missing_fields": [
+    "artifact_type",
+    "goal",
+    "use_scenario"
+  ],
+  "direction_options": [
+    {
+      "id": "executive-review-deck",
+      "label": "领导评审汇报",
+      "artifact_type": "ppt-handoff",
+      "goal": "支持项目评审决策",
+      "use_scenario": "现场汇报",
+      "audience": "项目评审人",
+      "fit": "适合结论和行动明确的材料",
+      "tradeoff": "细节容量有限",
+      "recommended": true
+    },
+    {
+      "id": "async-evidence-report",
+      "label": "异步审阅报告",
+      "artifact_type": "data-report",
+      "goal": "支持独立审阅",
+      "use_scenario": "会前阅读",
+      "audience": "项目评审人",
+      "fit": "适合证据和细节较多的材料",
+      "tradeoff": "现场节奏较弱",
+      "recommended": false
+    }
+  ],
+  "questions": [
+    {
+      "field": "artifact_type",
+      "prompt": "请选择产物方向。"
+    },
+    {
+      "field": "goal",
+      "prompt": "请确认这份产物要支持的目标。"
+    }
+  ],
+  "confirmed_brief": null
+}

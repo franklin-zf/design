@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <rect width="640" height="360" fill="#f4f5f7"/>
+  <rect x="48" y="56" width="544" height="248" rx="12" fill="#fff" stroke="#d7dde4"/>
+  <text x="80" y="110" font-family="Arial" font-size="28" fill="#17212b">Product Screen Evidence</text>
+  <rect x="80" y="150" width="220" height="28" fill="#2f6f9f"/>
+  <rect x="80" y="194" width="360" height="18" fill="#cfd8e3"/>
+  <rect x="80" y="228" width="300" height="18" fill="#cfd8e3"/>
+</svg>

@@ -1,0 +1,99 @@
+{
+  "schema_version": "design-showcase-case/v1",
+  "id": "swiss-evidence-deck-production",
+  "record_type": "retrospective_case_record",
+  "artifact_type": "html-deck",
+  "template_id": "swiss-evidence-deck-production",
+  "brief": "Show how a source-backed offline HTML deck can make claims, numbers, layouts, media, and review status inspectable.",
+  "reader_job": "Inspect the evidence chain, production boundary, and release decision for a Design production deck.",
+  "source_refs": [
+    "examples/swiss-evidence-deck-production-pass/source/decision-brief.md",
+    "examples/swiss-evidence-deck-production-pass/source/layout-inventory.csv",
+    "examples/swiss-evidence-deck-production-pass/manifest.json",
+    "examples/swiss-evidence-deck-production-pass/quality-report.md",
+    "examples/swiss-evidence-deck-production-pass/slide-plan.json"
+  ],
+  "visual_thesis": "Evidence before style: make the production chain inspectable through a disciplined sequence of distinct semantic layouts.",
+  "content_tension": {
+    "statement": "A contract fixture can prove structure, while a production deck must also prove decisions, evidence, rhythm, and review.",
+    "source_refs": [
+      "examples/swiss-evidence-deck-production-pass/source/decision-brief.md",
+      "examples/swiss-evidence-deck-production-pass/summary-map.json"
+    ]
+  },
+  "directions": [
+    {
+      "id": "swiss-evidence-deck-production",
+      "status": "selected",
+      "thesis": "Use the production Swiss system to sequence evidence, exact data, risk, and decision close across distinct layouts.",
+      "reason": "The artifact manifest selects this template for its evidence, metric, risk, and decision-close reader jobs.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+    },
+    {
+      "id": "swiss-evidence-deck",
+      "status": "rejected",
+      "thesis": "Use the lighter Swiss evidence-deck template.",
+      "reason": "The manifest records this template as rejected but does not preserve the original rejection rationale; no stronger historical claim is made.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+    },
+    {
+      "id": "source-backed-report",
+      "status": "rejected",
+      "thesis": "Use a long-form source-backed report instead of sequential presentation rhythm.",
+      "reason": "The manifest records this template as rejected; the selected reader job requires an executive presentation sequence rather than a report surface.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+    }
+  ],
+  "signature_move": {
+    "move": "Use nine distinct semantic layouts for nine slides, ending in a risk/control page and decision close.",
+    "reader_value": "The changing layout weight makes each evidence role recognizable without mixing visual systems.",
+    "evidence_refs": [
+      "examples/swiss-evidence-deck-production-pass/slide-plan.json",
+      "examples/swiss-evidence-deck-production-pass/derived/inventory.json",
+      "examples/swiss-evidence-deck-production-pass/qa/contact-sheet.png"
+    ]
+  },
+  "anti_reference": [
+    {
+      "reference": "A shallow generic deck seed presented as production proof",
+      "avoid_because": "The source distinguishes structural fixture evidence from a production deck that proves decisions.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/summary-map.json"
+    }
+  ],
+  "restraint_rule": "Use one Swiss visual system, keep accent_2 marker-only with at most one use, and forbid visible text inside generated Swiss SVG assets.",
+  "artifact_ref": "examples/swiss-evidence-deck-production-pass/",
+  "surface_evidence": [
+    "examples/swiss-evidence-deck-production-pass/qa/contact-sheet.png",
+    "examples/swiss-evidence-deck-production-pass/qa/contact-sheet-reduced.png",
+    "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-desktop.png",
+    "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-mobile.png"
+  ],
+  "assurance": {
+    "structure_passed": "recorded_by_existing_fixture",
+    "evidence_traced": "recorded_by_existing_fixture",
+    "visually_reviewed": "recorded_by_existing_fixture",
+    "decision_ready": "not_reassessed_by_this_retrospective_record",
+    "user_validated": "not_run"
+  },
+  "retrospective": {
+    "worked": [
+      "The layout inventory, source mapping, derived counts, media declarations, responsive captures, and reduced-motion captures are inspectable.",
+      "The sequence varies visual weight while staying inside one registered design system."
+    ],
+    "limits": [
+      "The case record was reconstructed from existing files; it is not evidence that the current Taste Contract was used during original creation.",
+      "The fixture proves one production path, not universal template fit.",
+      "The case does not cover native PPTX, PDF, Figma, live data, or external fact verification."
+    ],
+    "do_not_reuse_when": [
+      "The content needs long-form report reading rather than presentation rhythm.",
+      "The source cannot support distinct evidence, metric, risk, and decision reader jobs.",
+      "Required calculation provenance or media truth is incomplete."
+    ]
+  },
+  "non_claims": [
+    "This retrospective does not claim that rejected-direction reasons beyond the manifest were recorded contemporaneously.",
+    "No real-user usability, comprehension, satisfaction, completion, or business impact is claimed.",
+    "No universal template fit or native-export fidelity is claimed."
+  ]
+}

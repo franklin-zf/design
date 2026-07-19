@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Artifact Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "audience",
+    "surface",
+    "style_preset",
+    "template_id",
+    "template_selection",
+    "validation",
+    "schematic",
+    "source_materials",
+    "data_sources",
+    "metrics",
+    "charts",
+    "layouts",
+    "assumptions",
+    "missing_data",
+    "unverified_items"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-artifact/v1" },
+    "artifact_type": {
+      "enum": ["data-report", "dashboard", "chart-frame", "html-deck", "ppt-handoff", "poster", "screenshot-evidence", "tweakable-artifact", "design-system", "multi-artifact"]
+    },
+    "audience": { "type": "string", "minLength": 1 },
+    "surface": { "type": "string", "minLength": 1 },
+    "style_preset": {
+      "enum": ["neutral-analytic", "editorial-report", "swiss-deck", "magazine-deck", "operational-dashboard", "tweakable-lab"]
+    },
+    "template_id": { "type": "string", "minLength": 1 },
+    "template_selection": {
+      "type": "object",
+      "required": ["template_id", "reader_job", "rationale", "rejected_alternatives"],
+      "properties": {
+        "template_id": { "type": "string", "minLength": 1 },
+        "reader_job": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "rejected_alternatives": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": ["applicable_gates", "results"],
+      "properties": {
+        "applicable_gates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["gate_id", "status", "evidence"],
+            "properties": {
+              "gate_id": { "type": "string", "minLength": 1 },
+              "status": { "enum": ["passed", "failed", "not_run", "not_applicable"] },
+              "evidence": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "schematic": { "type": "boolean" },
+    "source_materials": { "type": "array" },
+    "data_sources": { "type": "array" },
+    "data_provenance_ref": { "type": "string", "minLength": 1 },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "value_origin": {
+            "enum": ["source_verbatim", "code_derived"]
+          },
+          "derivation_ref": { "type": "string", "minLength": 1 },
+          "value_pointer": { "type": "string", "pattern": "^/" }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "value_origin": { "const": "code_derived" } },
+              "required": ["value_origin"]
+            },
+            "then": { "required": ["derivation_ref", "value_pointer"] }
+          }
+        ]
+      }
+    },
+    "charts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/chart" }
+    },
+    "visual_assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/visual_asset" }
+    },
+    "design_system": { "$ref": "#/$defs/design_system" },
+    "aesthetic_contract": { "$ref": "#/$defs/aesthetic_contract" },
+    "layouts": { "type": "array" },
+    "assumptions": { "type": "array" },
+    "missing_data": { "type": "array" },
+    "unverified_items": { "type": "array" }
+  },
+  "$defs": {
+    "chart": {
+      "type": "object",
+      "required": ["id", "family", "source", "unit", "question", "takeaway", "grain", "fields", "sample_size", "visual_encoding"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "family": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 1 },
+        "takeaway": { "type": "string", "minLength": 1 },
+        "grain": { "type": "string", "minLength": 1 },
+        "fields": { "type": "array", "minItems": 1 },
+        "sample_size": { "type": "number", "minimum": 1 },
+        "data_origin": { "enum": ["source_verbatim", "code_derived"] },
+        "derivation_ref": { "type": "string", "minLength": 1 },
+        "denominator": { "type": "string" },
+        "visual_encoding": {
+          "type": "object",
+          "required": ["mark", "x", "y", "scale_type", "baseline", "domain", "label_policy"],
+          "properties": {
+            "mark": { "type": "string", "minLength": 1 },
+            "x": { "type": "string", "minLength": 1 },
+            "y": { "type": "string", "minLength": 1 },
+            "scale_type": { "type": "string", "minLength": 1 },
+            "baseline": { "type": "string", "minLength": 1 },
+            "domain": { "type": "string", "minLength": 1 },
+            "label_policy": { "type": "string", "minLength": 1 }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "data_origin": { "const": "code_derived" } },
+            "required": ["data_origin"]
+          },
+          "then": { "required": ["derivation_ref"] }
+        }
+      ]
+    },
+    "visual_asset": {
+      "type": "object",
+      "required": ["id", "file", "slot"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "slide_id": { "type": "string", "minLength": 1 },
+        "file": { "type": "string", "minLength": 1 },
+        "slot": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "source": { "type": "string" },
+        "kind": {
+          "enum": ["image", "diagram", "flowchart", "mind-map", "screenshot", "icon-set", "data-block", "ui-scenario", "generated-schematic"]
+        },
+        "format": { "type": "string" },
+        "schematic": { "type": "boolean" },
+        "provenance": {
+          "enum": ["user_source", "runtime_capture", "generated_from_source", "web_source", "local_fixture", "schematic", "unknown"]
+        },
+        "declared_media_decision": { "type": "string" },
+        "text_policy": {
+          "enum": ["html_labels_only", "source_image_text_allowed", "decorative_only", "audited_visible_text_exception", "not_applicable"]
+        },
+        "aspect_ratio": { "type": "string" },
+        "allowed_slot": { "type": "string" }
+      }
+    },
+    "design_system": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "package_version": { "type": "string" },
+        "tokens": { "type": "string" },
+        "components_manifest": { "type": "string" }
+      }
+    },
+    "aesthetic_contract": {
+      "type": "object",
+      "required": ["layout_lock", "accent_policy", "svg_text_policy", "motion_policy", "visual_rhythm"],
+      "properties": {
+        "layout_lock": {
+          "enum": ["swiss-s01-s22", "legacy-design-d-layout", "poster-type-led", "poster-image-hero", "poster-data-hero", "poster-split-claim", "poster-editorial", "poster-product-shot", "poster-event", "not_applicable"]
+        },
+        "accent_policy": {
+          "type": "object",
+          "required": ["accent_2"],
+          "properties": {
+            "accent_2": {
+              "enum": ["forbidden", "marker_only", "allowed_by_design_system"]
+            },
+            "max_accent_uses": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "svg_text_policy": {
+          "enum": ["forbid_visible_text_in_swiss_assets", "allow_audited_exception", "allow_user_source_svg", "not_applicable"]
+        },
+        "motion_policy": {
+          "enum": ["semantic_with_reduced_motion", "static", "not_applicable"]
+        },
+        "visual_rhythm": {
+          "type": "object",
+          "required": ["max_same_weight_run"],
+          "properties": {
+            "max_same_weight_run": { "type": "integer", "minimum": 1 },
+            "min_unique_layouts_for_8_slides": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    }
+  }
+}

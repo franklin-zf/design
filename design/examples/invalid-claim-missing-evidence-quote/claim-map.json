@@ -1,0 +1,11 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {
+      "id": "revenue-rise",
+      "text": "Revenue rose to 151k USD.",
+      "status": "verified",
+      "source_refs": ["source.csv"]
+    }
+  ]
+}

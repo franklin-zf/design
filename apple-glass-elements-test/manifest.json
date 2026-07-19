@@ -1,0 +1,51 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "tweakable-artifact",
+  "audience": "design reviewers evaluating functional frosted-glass hierarchy",
+  "surface": "local responsive HTML",
+  "style_preset": "tweakable-lab",
+  "style_overrides": {
+    "signal_options": ["#d67546", "#3d7d6b", "#426f91"]
+  },
+  "template_id": "tweakable-artifact",
+  "template_selection": {
+    "template_id": "tweakable-artifact",
+    "reader_job": "Compare a polished glass hierarchy under bounded atmosphere and reading-fit changes.",
+    "rationale": "The registered template supports a representative interactive material test without pretending to be a complete reusable design-system package.",
+    "rejected_alternatives": ["design-system-package", "poster-type-led"]
+  },
+  "validation": {
+    "applicable_gates": ["validate-design-output", "tweakable-smoke", "render-smoke"],
+    "results": [
+      {"gate_id": "validate-design-output", "status": "passed", "evidence": "Harness rerun passed with the candidate validator; Product sync rerun passed at 2026-07-18T12:00:26Z."},
+      {"gate_id": "tweakable-smoke", "status": "passed", "evidence": "Harness Playwright tweakable smoke passed for mode, accent, scale, density, persistence, reset, and console errors."},
+      {"gate_id": "render-smoke", "status": "passed", "evidence": "Harness strict desktop/mobile render passed; qa/apple-glass-elements-test-desktop.png and qa/apple-glass-elements-test-mobile.png. Targeted 1440/390/320 evidence: .exp-skill/runs/design-glass-test-20260718/browser-probe-result.json."}
+    ]
+  },
+  "independent_review": {
+    "status": "approved",
+    "scope": "bounded internal schematic only",
+    "passed_human_gates": ["real-surface-visual-review", "interaction-review", "independent-high-assurance-review"],
+    "evidence": [
+      ".exp-skill/runs/design-glass-test-20260718/audit-report.md",
+      ".exp-skill/runs/design-glass-test-20260718/discriminator-review.json"
+    ],
+    "finding_count": 0,
+    "non_claim": "Approval does not establish production, cross-engine, accessibility-conformance, real-user, or legal readiness."
+  },
+  "schematic": true,
+  "source_materials": [],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["continuous-atmospheric-field", "field-veil", "focus-lens", "context-sheet", "tweak-panel"],
+  "assumptions": [
+    "The artifact is an internal local material study, not a production product or release.",
+    "The fictional listening scene and all displayed values are illustrative rather than factual claims."
+  ],
+  "missing_data": [],
+  "unverified_items": [
+    "The opaque no-backdrop-filter fallback is statically present but was not executed in an unsupported engine.",
+    "No WebKit, Firefox, 200 percent zoom, assistive-technology, full accessibility, real-user, or legal/trademark clearance test has occurred."
+  ]
+}

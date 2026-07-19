@@ -1,0 +1,91 @@
+{
+  "schema_version": "design-artifact/v1",
+  "id": "still-element-study",
+  "title": "Still — Focus element study",
+  "version": "1.0.0",
+  "artifact_type": "design-system",
+  "audience": "Product designers and frontend implementers evaluating a schematic focus-session control system",
+  "surface": "responsive one-page HTML browser study",
+  "style_preset": "neutral-analytic",
+  "template_id": "design-system-package",
+  "template_selection": {
+    "template_id": "design-system-package",
+    "reader_job": "Evaluate token, component, state, motion, and responsive behavior for a coherent quiet focus-session interface",
+    "rationale": "The artifact is a schematic token and component handoff rather than a source-backed report or a configurable design laboratory.",
+    "rejected_alternatives": [
+      "source-backed-report",
+      "tweakable-artifact"
+    ]
+  },
+  "validation": {
+    "applicable_gates": [
+      "validate-design-output",
+      "validate-design-system-package",
+      "manual-reviewer-pass"
+    ],
+    "results": [
+      {
+        "gate_id": "validate-design-output",
+        "status": "passed",
+        "evidence": "node ../design/scripts/validate-design-output.mjs . exited 0 after the manifest and quality-report contract were corrected."
+      },
+      {
+        "gate_id": "validate-design-system-package",
+        "status": "not_run",
+        "evidence": "The full design-system package validator has not been run for this intentionally minimal study package."
+      },
+      {
+        "gate_id": "manual-reviewer-pass",
+        "status": "not_run",
+        "evidence": "Harness visual inspection is recorded as supporting evidence, but the non-cacheable independent reviewer gate remains pending."
+      }
+    ]
+  },
+  "schematic": true,
+  "source_materials": [],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": [
+    "opening-session-instrument",
+    "two-column-editorial-family-grid",
+    "single-column-responsive-family-stack",
+    "closing-commitment"
+  ],
+  "assumptions": [
+    "Still is a fictional product study with reversible in-memory interactions only.",
+    "The registered neutral-analytic preset is used as the canonical package classification while the artifact-specific palette remains documented in DESIGN.md and tokens.css.",
+    "The browser system font stack is available on the target device."
+  ],
+  "missing_data": [],
+  "unverified_items": [
+    "WebKit and Firefox interaction behavior have not been tested.",
+    "Browser zoom at 200 percent and full keyboard tab order have not been manually audited.",
+    "The registered full design-system package validator has not been run because this output is an intentionally minimal element study, not the complete 13-file package.",
+    "Independent review, user validation, accessibility conformance, and IP legal clearance have not been completed."
+  ],
+  "entrypoint": "index.html",
+  "files": [
+    "index.html",
+    "tokens.css",
+    "app.js",
+    "DESIGN.md",
+    "manifest.json",
+    "quality-report.md"
+  ],
+  "external_assets": [],
+  "element_families": [
+    "Type and status",
+    "Action controls",
+    "Choice controls",
+    "Task input",
+    "Session progress",
+    "Session row"
+  ],
+  "interaction_count": 3,
+  "interactions": [
+    "arrival",
+    "duration-change",
+    "begin-pause"
+  ]
+}

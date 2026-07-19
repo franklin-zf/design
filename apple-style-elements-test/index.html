@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Still is a fictional, schematic study of a quiet focus-session interface.">
+  <title>Still — Focus element study</title>
+  <link rel="stylesheet" href="tokens.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark arrival arrival-1" href="#top" aria-label="Still, back to top">Still</a>
+    <p class="header-note">Focus element study</p>
+  </header>
+
+  <main id="top" data-design-id="still-element-study" data-style-preset="neutral-analytic">
+    <section class="opening" aria-labelledby="opening-title" data-design-id="opening-session-instrument">
+      <div class="opening-copy">
+        <p class="eyebrow arrival arrival-1">A quiet focus session</p>
+        <h1 id="opening-title" class="arrival arrival-2">Make room for one thing.</h1>
+        <p class="opening-lede arrival arrival-3">Set a gentle boundary, name the task, and let everything else wait.</p>
+        <button class="button button-primary begin-control arrival arrival-4" type="button" data-session-action>
+          <span data-session-button-label>Begin 25 min</span>
+        </button>
+      </div>
+
+      <div class="session-plane" aria-label="Current focus session" data-design-id="live-session-plane">
+        <div class="session-topline">
+          <span class="utility">One thing</span>
+          <span class="status-line" data-session-status><span class="status-symbol" aria-hidden="true">○</span> Ready</span>
+        </div>
+        <div class="hero-instrument">
+          <svg class="hero-arc" viewBox="0 0 240 240" role="img" aria-labelledby="hero-progress-title hero-progress-desc">
+            <title id="hero-progress-title">Focus session progress</title>
+            <desc id="hero-progress-desc" data-hero-progress-desc>0 percent complete</desc>
+            <path class="arc-track" pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" />
+            <path class="arc-value arc-arrival" data-hero-arc pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" style="--progress: 0" />
+          </svg>
+          <div class="instrument-center">
+            <strong class="time-readout" data-main-readout>25:00</strong>
+            <span data-session-task>Draft the opening</span>
+          </div>
+        </div>
+        <div class="session-bottomline">
+          <span>Ends at 10:42</span>
+          <button class="quiet-control pause-control" type="button" data-pause-action disabled>Pause</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="arc-thread" aria-hidden="true"><span></span></div>
+
+    <div class="families" aria-label="Still element families">
+      <section class="family family-type" aria-labelledby="family-1-title" data-design-id="type-and-status">
+        <div class="family-heading">
+          <p class="family-index">01 / Foundation</p>
+          <h2 id="family-1-title">Type and status</h2>
+          <p>Hierarchy stays typographic. State pairs a plain symbol with a word, so color never carries meaning alone.</p>
+        </div>
+        <div class="type-specimen demonstration">
+          <div class="type-wordmark">Still</div>
+          <div class="type-display">Make room<br>for one thing.</div>
+          <div class="type-row">
+            <h3>Session heading</h3>
+            <p>One calm sentence provides context without competing with the working state.</p>
+          </div>
+          <div class="utility-row"><span class="utility">Utility label · 13/18</span><strong class="specimen-time">25:00</strong></div>
+          <div class="status-list" aria-label="Session status examples">
+            <span><span class="status-symbol" aria-hidden="true">○</span> Ready</span>
+            <span><span class="status-symbol" aria-hidden="true">◒</span> Focusing</span>
+            <span><span class="status-symbol" aria-hidden="true">✓</span> Complete</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="family family-actions" aria-labelledby="family-2-title" data-design-id="action-controls">
+        <div class="family-heading">
+          <p class="family-index">02 / Act</p>
+          <h2 id="family-2-title">Action controls</h2>
+          <p>One amber action leads. Outline and text controls keep alternate actions quieter.</p>
+        </div>
+        <div class="state-table demonstration" aria-label="Action control states">
+          <div class="state-row"><span>Default</span><button class="button button-primary" type="button">Begin 25 min</button><button class="button button-secondary" type="button">Pause</button><button class="button button-quiet" type="button">End session</button></div>
+          <div class="state-row"><span>Hover</span><button class="button button-primary is-hover" type="button">Begin 25 min</button><button class="button button-secondary is-hover" type="button">Pause</button><button class="button button-quiet is-hover" type="button">End session</button></div>
+          <div class="state-row"><span>Focus-visible</span><button class="button button-primary is-focus" type="button">Begin 25 min</button><button class="button button-secondary is-focus" type="button">Pause</button><button class="button button-quiet is-focus" type="button">End session</button></div>
+          <div class="state-row"><span>Pressed</span><button class="button button-primary is-pressed" type="button">Begin 25 min</button><button class="button button-secondary is-pressed" type="button">Pause</button><button class="button button-quiet is-pressed" type="button">End session</button></div>
+          <div class="state-row"><span>Disabled</span><button class="button button-primary" type="button" disabled>Begin 25 min</button><button class="button button-secondary" type="button" disabled>Pause</button><button class="button button-quiet" type="button" disabled>End session</button></div>
+        </div>
+      </section>
+
+      <section class="family family-choice" aria-labelledby="family-3-title" data-design-id="choice-controls">
+        <div class="family-heading">
+          <p class="family-index">03 / Shape</p>
+          <h2 id="family-3-title">Choice controls</h2>
+          <p>Related choices share one low plane. Selection is expressed with position, weight, and a check—not hue alone.</p>
+        </div>
+        <div class="choice-demo demonstration">
+          <div class="control-group">
+            <span class="control-label" id="duration-label">Duration</span>
+            <div class="segment" role="radiogroup" aria-labelledby="duration-label" data-duration-group data-index="1">
+              <span class="selection-plane" aria-hidden="true"></span>
+              <button type="button" role="radio" aria-checked="false" tabindex="-1" data-duration="15">15</button>
+              <button type="button" role="radio" aria-checked="true" tabindex="0" data-duration="25">25</button>
+              <button type="button" role="radio" aria-checked="false" tabindex="-1" data-duration="45">45 min</button>
+            </div>
+          </div>
+          <div class="choice-line">
+            <span><strong>Gentle chime</strong><small>One sound when time is complete</small></span>
+            <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Gentle chime on"><span></span></button>
+          </div>
+          <div class="control-group">
+            <span class="control-label" id="sound-label">Sound</span>
+            <div class="sound-selector" role="group" aria-labelledby="sound-label">
+              <button type="button" class="is-selected"><span aria-hidden="true">✓</span> Silence</button>
+              <button type="button">Rain</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="family family-input" aria-labelledby="family-4-title" data-design-id="task-input">
+        <div class="family-heading">
+          <p class="family-index">04 / Name</p>
+          <h2 id="family-4-title">Task input</h2>
+          <p>The label remains visible. Guidance, focus, error, and disabled meaning sit outside the entered value.</p>
+        </div>
+        <div class="input-states demonstration">
+          <label class="field-state"><span>One thing <em>Empty</em></span><input type="text" placeholder="What deserves your attention?"><small>0 / 80 characters</small></label>
+          <label class="field-state"><span>One thing <em>Entered</em></span><input type="text" value="Draft the opening"><small>17 / 80 characters</small></label>
+          <label class="field-state is-focused"><span>One thing <em>Focus</em></span><input type="text" value="Draft the opening"><small>17 / 80 characters</small></label>
+          <label class="field-state is-error"><span>One thing <em>Error</em></span><input type="text" value="Draft the opening and every possible detail before the afternoon review meeting"><small><span aria-hidden="true">!</span> Keep it under 80 characters</small></label>
+          <label class="field-state"><span>One thing <em>Disabled</em></span><input type="text" value="Draft the opening" disabled><small>Unavailable during a completed session</small></label>
+        </div>
+      </section>
+
+      <section class="family family-progress" aria-labelledby="family-5-title" data-design-id="session-progress">
+        <div class="family-heading">
+          <p class="family-index">05 / Continue</p>
+          <h2 id="family-5-title">Session progress</h2>
+          <p>The original arc has one asymmetric opening at lower left. A text equivalent keeps each state explicit.</p>
+        </div>
+        <div class="progress-demo demonstration">
+          <figure class="progress-state">
+            <svg viewBox="0 0 240 240" role="img" aria-label="Ready, 0 percent complete">
+              <path class="arc-track" pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" />
+              <path class="arc-value" pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" style="--progress: 0" />
+            </svg>
+            <figcaption><strong>25:00</strong><span><span aria-hidden="true">○</span> Ready · 0% complete</span></figcaption>
+          </figure>
+          <figure class="progress-state">
+            <svg viewBox="0 0 240 240" role="img" aria-label="Focusing, 36 percent complete">
+              <path class="arc-track" pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" />
+              <path class="arc-value" pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" style="--progress: 36" />
+            </svg>
+            <figcaption><strong>16:00</strong><span><span aria-hidden="true">◒</span> Focusing · 36% complete</span></figcaption>
+          </figure>
+          <figure class="progress-state">
+            <svg viewBox="0 0 240 240" role="img" aria-label="Complete, 100 percent complete">
+              <path class="arc-track" pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" />
+              <path class="arc-value" pathLength="100" d="M 75 201 A 100 100 0 1 1 50 170" style="--progress: 100" />
+            </svg>
+            <figcaption><strong>00:00</strong><span><span aria-hidden="true">✓</span> Complete · 100% complete</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="family family-row" aria-labelledby="family-6-title" data-design-id="session-row">
+        <div class="family-heading">
+          <p class="family-index">06 / Remember</p>
+          <h2 id="family-6-title">Session row</h2>
+          <p>History remains a list. Task, duration, time, and state wrap naturally without becoming separate tiles.</p>
+        </div>
+        <div class="session-list demonstration" aria-label="Session history examples">
+          <div class="session-row">
+            <span class="row-symbol" aria-hidden="true">✓</span>
+            <div><strong>Draft the opening</strong><span>25 min · 10:42 · Complete</span></div>
+            <button type="button" aria-label="More actions for Draft the opening"><span aria-hidden="true">•••</span></button>
+          </div>
+          <div class="session-row">
+            <span class="row-symbol" aria-hidden="true">Ⅱ</span>
+            <div><strong>Plan tomorrow</strong><span>15 min · paused</span></div>
+            <button type="button" aria-label="More actions for Plan tomorrow"><span aria-hidden="true">•••</span></button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="closing" data-design-id="closing-commitment">
+      <p class="eyebrow">The room is ready</p>
+      <h2>Your next 25 minutes are clear.</h2>
+      <div class="closing-actions">
+        <button class="button button-primary" type="button" data-session-action><span>Begin focus</span></button>
+        <a class="text-link" href="#family-1-title">Review system</a>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

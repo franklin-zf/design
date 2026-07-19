@@ -1,0 +1,34 @@
+{
+  "schema_version": "design-data-provenance/v1",
+  "sources": [
+    {"id": "simulated-products", "path": "source/simulated-products.json", "sha256": "f244b31c4cbaaa4cd714709eccb0912e3470b4693932573278a5f34fa0075961"}
+  ],
+  "derivations": [
+    {
+      "id": "product-summary",
+      "output_ref": "derived/dashboard-data.json",
+      "output_sha256": "97084f8dca1cec4281a7c0dd943593026a833cde9545a126ba2c38096a0d6be3",
+      "source_ids": ["simulated-products"],
+      "code_ref": "calculations/build-dashboard-data.mjs",
+      "code_sha256": "3e45a5dae8f98d5726db986aa08dbebe3c771ad80ee37c1bb82bd337054dd61d",
+      "formula": "逐产品计算合同完成率=合同额/合同目标、收现完成率=收现/收现目标、收入确认率=确认收入/合同额；区域与品类按目标加总后计算完成率，并汇总 36 行产品。",
+      "unit": "CNY whole yuan, sales count, and percentage points",
+      "denominator": "contract_target for contract_completion_rate; cash_target for cash_completion_rate; contract_amount for revenue_recognition_rate",
+      "filters": [],
+      "time_window": "FY2026 Q2",
+      "runtime": "node",
+      "command": ["node", "calculations/build-dashboard-data.mjs"],
+      "expected_exit_code": 0,
+      "observed_exit_code": 0,
+      "tests": [
+        {
+          "test_ref": "calculations/build-dashboard-data.test.mjs",
+          "test_sha256": "82760e6ddfaa012ef23ef2e3a91d3e0e100f8d944b54ff8a92ac7ea3e9f2254c",
+          "command": ["node", "calculations/build-dashboard-data.test.mjs"],
+          "expected_exit_code": 0,
+          "observed_exit_code": 0
+        }
+      ]
+    }
+  ]
+}

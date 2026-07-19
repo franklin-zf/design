@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-slide-plan/v1",
+  "slides": [
+    { "slide": 1, "layout_id": "SWISS-COVER-ASCII", "purpose": "cover", "theme": "paper", "source": "source/decision-brief.md", "media_decision": "none", "visual_weight": "cover" },
+    { "slide": 2, "layout_id": "S03", "purpose": "production contrast", "theme": "ink", "source": "source/decision-brief.md", "media_decision": "none", "visual_weight": "statement" },
+    { "slide": 3, "layout_id": "S11", "purpose": "licensed adoption path", "theme": "paper", "source": "source/decision-brief.md", "media_decision": "none", "visual_weight": "evidence" },
+    { "slide": 4, "layout_id": "S17", "purpose": "provenance system", "theme": "paper", "source": "source/decision-brief.md", "media_decision": "generated-schematic", "image_slot": "s17-system-16x10", "visual_weight": "diagram" },
+    { "slide": 5, "layout_id": "S20", "purpose": "exact data ledger", "theme": "ink", "source": "source/layout-inventory.csv", "media_decision": "none", "visual_weight": "metric" },
+    { "slide": 6, "layout_id": "S08", "purpose": "license boundary", "theme": "paper", "source": "source/decision-brief.md", "media_decision": "none", "visual_weight": "comparison" },
+    { "slide": 7, "layout_id": "S22", "purpose": "implementation evidence", "theme": "paper", "source": "source/decision-brief.md", "media_decision": "screenshot", "image_slot": "s22-hero-21x9", "slot_contract": { "slot": "s22-hero-21x9" }, "visual_weight": "image" },
+    { "slide": 8, "layout_id": "S21", "purpose": "risk and control", "theme": "ink", "source": "source/decision-brief.md", "media_decision": "none", "visual_weight": "control" },
+    { "slide": 9, "layout_id": "SWISS-CLOSING-ASCII", "purpose": "decision close", "theme": "blue", "source": "source/decision-brief.md", "media_decision": "none", "visual_weight": "close" }
+  ]
+}

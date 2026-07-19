@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poster Fixture</title>
+  <style>
+    :root {
+      --surface: #f4f4f0;
+      --panel: #ffffff;
+      --text: #111111;
+      --muted: #5f6368;
+      --line: #d7d7d2;
+      --accent: #0047ff;
+      --marker: #d7ff00;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--surface);
+      font-family: Inter, Helvetica, Arial, sans-serif;
+    }
+
+    .poster {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: clamp(24px, 6vw, 76px);
+      border-top: 12px solid var(--text);
+    }
+
+    .meta,
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(180px, 32vw);
+      align-items: center;
+      gap: clamp(28px, 5vw, 72px);
+      padding: 6vh 0;
+    }
+
+    h1 {
+      max-width: 9ch;
+      margin: 0;
+      font-size: clamp(58px, 11vw, 132px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .message {
+      max-width: 42ch;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 26px);
+      line-height: 1.45;
+    }
+
+    .hook {
+      display: grid;
+      gap: 14px;
+      align-content: center;
+      min-height: 260px;
+      border: 2px solid var(--text);
+      background: var(--panel);
+      padding: 32px;
+    }
+
+    .bar {
+      height: 28px;
+      background: var(--accent);
+    }
+
+    .bar:nth-child(2) {
+      width: 72%;
+      background: var(--text);
+    }
+
+    .bar:nth-child(3) {
+      width: 48%;
+      background: var(--marker);
+    }
+
+    .foot {
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 760px) {
+      .stage,
+      .meta,
+      .foot {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" data-design-id="poster-root" data-style-preset="swiss-deck" data-poster-id="product-platform-concept">
+    <div class="meta">
+      <span>Product platform</span>
+      <span>Source-backed poster</span>
+    </div>
+    <section class="stage" aria-labelledby="poster-title">
+      <div>
+        <h1 id="poster-title">先统一事实</h1>
+        <p class="message">产品管理平台先统一产品、流程、数据三类事实。</p>
+      </div>
+      <div class="hook" aria-hidden="true">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </section>
+    <footer class="foot">
+      <span>Source: source.txt</span>
+      <span>design-artifact/v1</span>
+    </footer>
+  </main>
+</body>
+</html>

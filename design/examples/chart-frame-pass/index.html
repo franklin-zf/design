@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Activation Trend</title>
+  <style>
+    :root { --bg:#f7f8f6; --panel:#ffffff; --text:#1f2933; --muted:#667085; --accent:#2f6f9f; --line:#d9dee3; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 Inter,system-ui,sans-serif; }
+    .frame { width:min(760px,calc(100vw - 32px)); margin:40px auto; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:24px; }
+    h1 { margin:8px 0 16px; font-size:34px; line-height:1.12; letter-spacing:0; }
+    .muted { color:var(--muted); }
+    svg { width:100%; height:auto; display:block; }
+    .grid { stroke:var(--line); stroke-width:1; }
+    .axis { stroke:var(--muted); stroke-width:1; }
+    .line { fill:none; stroke:var(--accent); stroke-width:4; }
+    .point { fill:var(--accent); }
+    .label { fill:var(--muted); font:12px Inter,system-ui,sans-serif; }
+    .value { fill:var(--text); font:13px Inter,system-ui,sans-serif; font-weight:700; }
+  </style>
+</head>
+<body>
+  <main class="frame" data-design-id="chart-frame" data-style-preset="neutral-analytic">
+    <p class="muted">Eligible accounts · 2025-11 to 2026-06 · Unit: activation_rate</p>
+    <h1 data-summary-id="activation-summary">Activation_rate moved from 0.34 in 2025-11 to 0.47 in 2026-06.</h1>
+    <p class="muted" data-guidance-field="answer">Answer: activation_rate rose across the supplied monthly points.</p>
+    <p class="muted" data-guidance-field="caveats">Caveat: the frame does not include segment or channel detail.</p>
+    <p class="muted" data-guidance-field="next_step">Next step: review the next source slice before extending the chart.</p>
+    <svg viewBox="0 0 700 300" role="img" aria-label="Activation rate line chart from 0.34 to 0.47" data-chart-id="activation-trend">
+      <line class="grid" x1="58" y1="230" x2="670" y2="230"></line>
+      <line class="grid" x1="58" y1="145" x2="670" y2="145"></line>
+      <line class="grid" x1="58" y1="60" x2="670" y2="60"></line>
+      <line class="axis" x1="58" y1="40" x2="58" y2="230"></line>
+      <line class="axis" x1="58" y1="230" x2="670" y2="230"></line>
+      <polyline class="line" points="58,196 145,188 232,171 319,162 406,154 493,137 580,111 667,86"></polyline>
+      <circle class="point" cx="58" cy="196" r="4"></circle>
+      <circle class="point" cx="145" cy="188" r="4"></circle>
+      <circle class="point" cx="232" cy="171" r="4"></circle>
+      <circle class="point" cx="319" cy="162" r="4"></circle>
+      <circle class="point" cx="406" cy="154" r="4"></circle>
+      <circle class="point" cx="493" cy="137" r="4"></circle>
+      <circle class="point" cx="580" cy="111" r="4"></circle>
+      <circle class="point" cx="667" cy="86" r="5"></circle>
+      <text class="label" x="18" y="234">0.30</text>
+      <text class="label" x="18" y="149">0.40</text>
+      <text class="label" x="18" y="64">0.50</text>
+      <text class="label" x="58" y="264">Nov</text>
+      <text class="label" x="480" y="264">Apr</text>
+      <text class="label" x="646" y="264">Jun</text>
+      <text class="value" x="612" y="72">0.47</text>
+      <text class="value" x="68" y="204">0.34</text>
+    </svg>
+    <p class="muted">Source: source.csv. Denominator: eligible accounts. Linear scale, domain 0.30-0.50.</p>
+  </main>
+</body>
+</html>

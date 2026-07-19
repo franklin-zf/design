@@ -1,0 +1,115 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "dashboard",
+  "audience": "sales operations and business leaders",
+  "surface": "html",
+  "style_preset": "operational-dashboard",
+  "style_overrides": {
+    "surface": "#eef4f9",
+    "panel_alt": "#e7f0f7",
+    "text": "#102338",
+    "muted": "#5b6f84",
+    "line": "#d5e0ea",
+    "nav": "#0c2138",
+    "nav_active": "#143b60",
+    "accent": "#216ea8",
+    "accent_2": "#4c8fc4",
+    "positive": "#167a7d",
+    "rationale": "用户偏好蓝色与冷色氛围；保留 B 端高密度结构，使用深蓝导航与冰蓝工作区降低视觉噪声。"
+  },
+  "template_id": "operational-dashboard",
+  "template_selection": {
+    "template_id": "operational-dashboard",
+    "reader_job": "快速识别 36 款产品的签约、确认收入与收现进度",
+    "rationale": "该页面需要重复使用、指标对比、区域拆解和产品明细，因此采用 operational-dashboard 模板。",
+    "rejected_alternatives": ["source-backed-report", "swiss-evidence-deck"]
+  },
+  "taste_contract": {
+    "visual_thesis": "用稳定的 B 端应用壳和冷蓝色层级，让销售负责人先看达成，再定位区域与产品差距。",
+    "content_tension": {"statement": "合同规模看起来健康，但收现完成率落后，需要让规模与现金节奏在同一视线内对照。", "source_refs": ["derived/dashboard-data.json"]},
+    "signature_move": {"move": "左侧销售运营导航 + 顶部指标带 + 目标口径进度条", "reader_value": "建立重复使用的工作台路径，并把达成率差距压缩为可扫描的对比。"},
+    "anti_reference": [{"reference": "品牌发布会式的超大标题与纯装饰性玻璃卡片", "avoid_because": "B 端销售工作台需要稳定、密集和可复核，而非营销式情绪表达。"}],
+    "restraint_rule": "不使用大面积光晕、渐变图表或无业务意义的装饰；蓝色承担结构层级，青绿色只提示收现状态。",
+    "direction_alternatives": [{"direction": "保留暗色玻璃展示页", "decision": "rejected", "reason": "在销售运营场景下，浅色高密度表格与固定导航更适合长时间重复使用。"}]
+  },
+  "validation": {
+    "applicable_gates": ["validate-design-output", "validate-claim-map", "render-smoke"],
+    "results": [
+      {"gate_id": "validate-design-output", "status": "passed", "evidence": "node /Users/ff/.codex/skills/design/scripts/validate-design-output.mjs ."},
+      {"gate_id": "validate-claim-map", "status": "passed", "evidence": "node /Users/ff/.codex/skills/design/scripts/validate-claim-map.mjs ."},
+      {"gate_id": "render-smoke", "status": "passed", "evidence": "node qa/render-smoke-local.mjs index.html --viewports=desktop,mobile --strict-layout"}
+    ]
+  },
+  "guidance_fields": {
+    "drivers": {"html_id": "insight-band", "source_refs": ["derived/dashboard-data.json"]},
+    "guardrails": {"html_id": "hero", "source_refs": ["source/simulated-products.json"]},
+    "filters": {"html_id": "filters", "source_refs": ["derived/dashboard-data.json"]},
+    "freshness": {"html_id": "topbar", "source_refs": ["source/simulated-products.json"]}
+  },
+  "schematic": true,
+  "source_materials": ["source/simulated-products.json"],
+  "data_sources": [{"id": "simulated-products", "type": "json"}, {"id": "derived/dashboard-data.json", "type": "json", "role": "derived"}],
+  "data_provenance_ref": "data-provenance.json",
+  "metrics": [
+    {"id": "sales-volume", "name": "销量", "unit": "count", "value_origin": "code_derived", "derivation_ref": "product-summary", "value_pointer": "/summary/sales_volume"},
+    {"id": "contract-amount", "name": "合同额", "unit": "CNY", "value_origin": "code_derived", "derivation_ref": "product-summary", "value_pointer": "/summary/contract_amount"},
+    {"id": "recognized-revenue", "name": "确认收入", "unit": "CNY", "value_origin": "code_derived", "derivation_ref": "product-summary", "value_pointer": "/summary/recognized_revenue"},
+    {"id": "cash-received", "name": "收现（到款）", "unit": "CNY", "value_origin": "code_derived", "derivation_ref": "product-summary", "value_pointer": "/summary/cash_received"},
+    {"id": "contract-completion-rate", "name": "合同完成率", "unit": "%", "value_origin": "code_derived", "derivation_ref": "product-summary", "value_pointer": "/summary/contract_completion_rate"},
+    {"id": "cash-completion-rate", "name": "收现完成率", "unit": "%", "value_origin": "code_derived", "derivation_ref": "product-summary", "value_pointer": "/summary/cash_completion_rate"}
+  ],
+  "charts": [
+    {
+      "id": "contract-ranking",
+      "family": "ranking",
+      "source": "derived/dashboard-data.json",
+      "unit": "CNY millions",
+      "question": "哪些产品贡献了最多合同额？",
+      "takeaway": "以合同额降序展示 Top 12 产品，支持快速聚焦大额签约。",
+      "grain": "product",
+      "fields": ["product_name", "contract_amount"],
+      "sample_size": 12,
+      "data_origin": "code_derived",
+      "derivation_ref": "product-summary",
+      "visual_encoding": {"mark": "horizontal bars", "x": "contract_amount", "y": "product_name", "scale_type": "linear", "baseline": "zero", "domain": "0 to max Top-12 contract amount", "label_policy": "direct value label in millions"}
+    },
+    {
+      "id": "region-comparison",
+      "family": "comparison",
+      "source": "derived/dashboard-data.json",
+      "unit": "%",
+      "question": "各区域合同完成率与收现完成率如何？",
+      "takeaway": "同一目标口径下并列展示合同与现金完成率，突出回款节奏差异。",
+      "grain": "region",
+      "fields": ["region", "contract_completion_rate", "cash_completion_rate"],
+      "sample_size": 4,
+      "data_origin": "code_derived",
+      "derivation_ref": "product-summary",
+      "denominator": "contract_target and cash_target by region",
+      "visual_encoding": {"mark": "paired progress bars", "x": "completion_rate", "y": "region", "scale_type": "linear", "baseline": "zero", "domain": "0% to 100% target scale", "label_policy": "direct percentage labels"}
+    },
+    {
+      "id": "product-detail",
+      "family": "table",
+      "source": "derived/dashboard-data.json",
+      "unit": "CNY and count",
+      "question": "每款产品的规模、收入、到款与完成率是多少？",
+      "takeaway": "36 行明细支持搜索、区域/品类筛选与排序。",
+      "grain": "product",
+      "fields": ["product_name", "sales_volume", "contract_amount", "recognized_revenue", "cash_received", "contract_completion_rate", "cash_completion_rate"],
+      "sample_size": 36,
+      "data_origin": "code_derived",
+      "derivation_ref": "product-summary",
+      "denominator": "contract_target and cash_target per product",
+      "visual_encoding": {"mark": "detail table", "x": "metric columns", "y": "product rows", "scale_type": "tabular", "baseline": "not applicable", "domain": "all 36 products", "label_policy": "formatted currency, count and percentage"}
+    }
+  ],
+  "layouts": ["topbar", "hero", "kpi-strip", "insight-band", "contract-ranking", "region-comparison", "filters", "detail-table", "footer"],
+  "assumptions": [
+    "源数据为固定 seed 生成的模拟数据，仅用于界面、指标口径和交互验证。",
+    "合同完成率 = 合同额 / 合同目标；收现完成率 = 收现 / 收现目标。",
+    "UI 以万元、百万元或亿元显示金额，但计算保留源数据的整元精度。"
+  ],
+  "missing_data": ["真实 CRM/ERP 来源、组织权限、时间序列和业务目标未接入。"],
+  "unverified_items": ["模拟产品名称、目标值与区域分布不代表真实业务。"]
+}

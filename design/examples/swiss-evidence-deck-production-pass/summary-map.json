@@ -1,0 +1,96 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["Use direct language", "Do not change source meaning", "Keep all source numbers exact"]
+  },
+  "summaries": [
+    {
+      "id": "slide-01-summary",
+      "summary_text": "Evidence before style",
+      "status": "verified",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Evidence before style" }],
+      "preserved_numbers": []
+    },
+    {
+      "id": "slide-02-summary",
+      "summary_text": "A contract fixture proves structure. A production deck proves decisions.",
+      "status": "manual_reviewed",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "The production promise is one source-backed, offline HTML deck whose claims, numbers, layouts, media, and review status can be inspected." }],
+      "preserved_numbers": []
+    },
+    {
+      "id": "slide-03-summary",
+      "summary_text": "Inspect. Adopt. Adapt. Bind. Validate.",
+      "status": "manual_reviewed",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Open Design contributes 3 MIT-licensed execution files: the license, base CSS, and runtime JavaScript." }],
+      "preserved_numbers": []
+    },
+    {
+      "id": "slide-04-summary",
+      "summary_text": "One chain protects truth from source to review.",
+      "status": "manual_reviewed",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Ready means the source hash, calculation code, deterministic test, derived output, visible content, responsive render, reduced-motion mode, and reviewer decision all pass their applicable gates." }],
+      "preserved_numbers": []
+    },
+    {
+      "id": "slide-05-summary",
+      "summary_text": "9 slides. 9 layouts. 9 source-backed rows.",
+      "status": "verified",
+      "value_origin": "code_derived",
+      "derivation_refs": ["inventory-counts"],
+      "derived_values": [
+        { "token": "9", "json_pointer": "/slide_count", "derivation_ref": "inventory-counts" },
+        { "token": "9", "json_pointer": "/unique_layout_count", "derivation_ref": "inventory-counts" },
+        { "token": "9", "json_pointer": "/source_backed_slide_count", "derivation_ref": "inventory-counts" }
+      ],
+      "source_refs": ["source/layout-inventory.csv"],
+      "source_quotes": [{ "source_ref": "source/layout-inventory.csv", "quote": "slide_id,layout_id,visual_weight,source_id,media_decision" }],
+      "preserved_numbers": ["9"]
+    },
+    {
+      "id": "slide-06-summary",
+      "summary_text": "Adopt MIT code. Adapt AGPL concepts.",
+      "status": "manual_reviewed",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Standalone Guizang is used only as a reference for semantic layout discipline, projection legibility, image-slot truth, and visual rhythm." }],
+      "preserved_numbers": []
+    },
+    {
+      "id": "slide-07-summary",
+      "summary_text": "The component system is visible evidence.",
+      "status": "manual_reviewed",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Design owns the visual identity, semantic layouts, content hierarchy, and acceptance rules." }],
+      "preserved_numbers": []
+    },
+    {
+      "id": "slide-08-summary",
+      "summary_text": "Ready is a conjunction, not a style label.",
+      "status": "manual_reviewed",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Ready means the source hash, calculation code, deterministic test, derived output, visible content, responsive render, reduced-motion mode, and reviewer decision all pass their applicable gates." }],
+      "preserved_numbers": []
+    },
+    {
+      "id": "slide-09-summary",
+      "summary_text": "Ship only when every applicable gate passes.",
+      "status": "manual_reviewed",
+      "value_origin": "no_numeric_value",
+      "source_refs": ["source/decision-brief.md"],
+      "source_quotes": [{ "source_ref": "source/decision-brief.md", "quote": "Ready means the source hash, calculation code, deterministic test, derived output, visible content, responsive render, reduced-motion mode, and reviewer decision all pass their applicable gates." }],
+      "preserved_numbers": []
+    }
+  ]
+}

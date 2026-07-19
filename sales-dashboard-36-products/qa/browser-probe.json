@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-07-19T01:09:58.674Z",
+  "passed": true,
+  "results": [
+    {
+      "viewport": "desktop",
+      "width": 1440,
+      "baseline_rows": 36,
+      "search_cloud_rows": 3,
+      "east_after_search_rows": 1,
+      "reset_rows": 36,
+      "metric_cards": 4,
+      "document_horizontal_overflow": false,
+      "small_interactive_targets": [],
+      "console_errors": [],
+      "remote_requests": []
+    },
+    {
+      "viewport": "mobile",
+      "width": 390,
+      "baseline_rows": 36,
+      "search_cloud_rows": 3,
+      "east_after_search_rows": 1,
+      "reset_rows": 36,
+      "metric_cards": 4,
+      "document_horizontal_overflow": false,
+      "small_interactive_targets": [],
+      "console_errors": [],
+      "remote_requests": []
+    },
+    {
+      "viewport": "small-phone",
+      "width": 320,
+      "baseline_rows": 36,
+      "search_cloud_rows": 3,
+      "east_after_search_rows": 1,
+      "reset_rows": 36,
+      "metric_cards": 4,
+      "document_horizontal_overflow": false,
+      "small_interactive_targets": [],
+      "console_errors": [],
+      "remote_requests": []
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tweakable Artifact</title>
+  <style>
+    :root { --accent:#7a4fbd; --scale:1; --density:1; --bg:#f8f8f5; --text:#202124; --panel:#ffffff; }
+    [data-mode="dark"] { --bg:#202124; --text:#f8f8f5; --panel:#efefea; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:calc(16px * var(--scale))/1.5 Inter,system-ui,sans-serif; }
+    .stage { margin-right:280px; min-height:100vh; padding:calc(40px * var(--density)); }
+    .panel { position:fixed; inset:0 0 0 auto; width:280px; background:var(--panel); border-left:1px solid #d8d8d2; padding:18px; display:grid; align-content:start; gap:14px; }
+    label { display:grid; gap:6px; font-size:13px; }
+    select, button { font:inherit; padding:8px; }
+    a { color:var(--accent); }
+    @media (max-width:800px) { .stage { margin-right:0; padding-bottom:220px; } .panel { top:auto; width:100%; height:auto; border-left:0; border-top:1px solid #d8d8d2; } }
+  </style>
+</head>
+<body>
+  <main class="stage" data-design-id="tweak-stage" data-style-preset="tweakable-lab">
+    <h1>Adjustable review artifact</h1>
+    <p>Accent, scale, density, and mode are adjustable controls.</p>
+    <p><a href="#details">Review detail link</a></p>
+  </main>
+  <aside class="panel" data-design-id="tweak-panel">
+    <strong>Design Controls</strong>
+    <label>Accent <select id="accent"><option value="#7a4fbd">Violet</option><option value="#3d7d6b">Teal</option><option value="#2f6f9f">Cobalt</option></select></label>
+    <label>Scale <select id="scale"><option value=".9">Compact</option><option value="1" selected>Normal</option><option value="1.12">Generous</option></select></label>
+    <label>Density <select id="density"><option value=".8">Tight</option><option value="1" selected>Normal</option><option value="1.25">Roomy</option></select></label>
+    <label>Mode <select id="mode"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+    <button id="reset">Reset</button>
+  </aside>
+  <script>
+    const key = 'design-tweaks-' + location.pathname;
+    const root = document.documentElement;
+    const ids = ['accent','scale','density','mode'];
+    function apply(s){ root.style.setProperty('--accent', s.accent); root.style.setProperty('--scale', s.scale); root.style.setProperty('--density', s.density); root.dataset.mode = s.mode; ids.forEach(id => document.getElementById(id).value = s[id]); localStorage.setItem(key, JSON.stringify(s)); }
+    function state(){ return Object.fromEntries(ids.map(id => [id, document.getElementById(id).value])); }
+    const saved = JSON.parse(localStorage.getItem(key) || 'null');
+    apply(saved || state());
+    ids.forEach(id => document.getElementById(id).addEventListener('change', () => apply(state())));
+    document.getElementById('reset').addEventListener('click', () => { localStorage.removeItem(key); location.reload(); });
+    window.parent && window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  </script>
+</body>
+</html>

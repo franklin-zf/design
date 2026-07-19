@@ -1,0 +1,17 @@
+{
+  "schema_version": "design-intake-direction/v1",
+  "status": "needs_clarification",
+  "known": {
+    "artifact_type": null,
+    "goal": null,
+    "use_scenario": null
+  },
+  "missing_fields": [
+    "artifact_type",
+    "goal",
+    "use_scenario"
+  ],
+  "direction_options": [],
+  "questions": [],
+  "confirmed_brief": null
+}

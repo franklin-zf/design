@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="System relationship schematic">
+  <rect x="30" y="40" width="180" height="120" fill="#ffffff" stroke="#111111" stroke-width="6"/>
+  <rect x="310" y="190" width="180" height="120" fill="#0047ff"/>
+  <rect x="590" y="340" width="180" height="120" fill="#ffffff" stroke="#111111" stroke-width="6"/>
+  <path d="M210 100 C270 100 270 250 310 250" fill="none" stroke="#111111" stroke-width="8"/>
+  <path d="M490 250 C550 250 550 400 590 400" fill="none" stroke="#111111" stroke-width="8"/>
+  <circle cx="120" cy="100" r="18" fill="#d7ff00"/>
+  <circle cx="400" cy="250" r="18" fill="#ffffff"/>
+  <circle cx="680" cy="400" r="18" fill="#d7ff00"/>
+</svg>

@@ -1,0 +1,24 @@
+{
+  "schema_version": "design-intake-direction/v1",
+  "status": "confirmed",
+  "known": {
+    "artifact_type": "ppt-handoff",
+    "goal": "支持项目评审决策",
+    "use_scenario": "领导评审会现场讲解"
+  },
+  "missing_fields": [],
+  "direction_options": [],
+  "questions": [],
+  "confirmed_brief": {
+    "artifact_type": "ppt-handoff",
+    "goal": "支持项目评审决策",
+    "use_scenario": "领导评审会现场讲解",
+    "audience": "项目评审人",
+    "selection_source": "user_selected_direction",
+    "selected_direction_id": null,
+    "accepted_tradeoff": null,
+    "source_materials": [
+      "source.txt"
+    ]
+  }
+}

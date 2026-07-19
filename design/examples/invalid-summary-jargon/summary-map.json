@@ -1,0 +1,19 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "jargon-summary",
+      "summary_text": "Revenue is a robust 151000 USD.",
+      "status": "manual_reviewed",
+      "source_refs": ["source.txt", "examples/invalid-summary-jargon/source.txt"],
+      "source_quotes": [
+        { "source_ref": "source.txt", "quote": "The report says revenue is 151000 USD." }
+      ],
+      "preserved_numbers": ["151000"]
+    }
+  ]
+}

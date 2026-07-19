@@ -1,0 +1,10 @@
+node_modules/
+.exp-skill/
+.npm-cache/
+dist/
+.git/
+.DS_Store
+npm-debug.log*
+.env
+.env.*
+design-*.tgz

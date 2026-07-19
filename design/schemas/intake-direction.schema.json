@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Intake Direction",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "known",
+    "missing_fields",
+    "direction_options",
+    "questions",
+    "confirmed_brief"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-intake-direction/v1" },
+    "status": { "enum": ["needs_clarification", "confirmed"] },
+    "known": {
+      "type": "object",
+      "required": ["artifact_type", "goal", "use_scenario"],
+      "properties": {
+        "artifact_type": { "type": ["string", "null"] },
+        "goal": { "type": ["string", "null"] },
+        "use_scenario": { "type": ["string", "null"] }
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["artifact_type", "goal", "use_scenario"] }
+    },
+    "direction_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "artifact_type", "goal", "use_scenario", "audience", "fit", "tradeoff", "recommended"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "artifact_type": { "type": "string", "minLength": 1 },
+          "goal": { "type": "string", "minLength": 1 },
+          "use_scenario": { "type": "string", "minLength": 1 },
+          "audience": { "type": "string", "minLength": 1 },
+          "fit": { "type": "string", "minLength": 1 },
+          "tradeoff": { "type": "string", "minLength": 1 },
+          "recommended": { "type": "boolean" }
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["field", "prompt"],
+        "properties": {
+          "field": { "enum": ["artifact_type", "goal", "use_scenario"] },
+          "prompt": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "confirmed_brief": {
+      "type": ["object", "null"],
+      "properties": {
+        "artifact_type": { "type": "string", "minLength": 1 },
+        "goal": { "type": "string", "minLength": 1 },
+        "use_scenario": { "type": "string", "minLength": 1 },
+        "audience": { "type": "string", "minLength": 1 },
+        "selection_source": { "enum": ["user_explicit", "user_selected_direction"] },
+        "selected_direction_id": { "type": ["string", "null"] },
+        "accepted_tradeoff": { "type": ["string", "null"] },
+        "confirmation_evidence": { "type": "string", "minLength": 1 },
+        "source_materials": { "type": "array" }
+      }
+    }
+  }
+}

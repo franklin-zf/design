@@ -1,0 +1,15 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {
+      "id": "activation-trend-up",
+      "text": "Activation_rate moved from 0.34 in 2025-11 to 0.47 in 2026-06.",
+      "status": "verified",
+      "source_refs": ["source.csv", "examples/chart-frame-pass/source.csv"],
+      "evidence_quotes": [
+        { "source_ref": "source.csv", "quote": "2025-11,0.34" },
+        { "source_ref": "source.csv", "quote": "2026-06,0.47" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "review_status": "approved",
+  "findings": [],
+  "checks": {
+    "source_fidelity": "not_checked",
+    "number_integrity": "not_checked",
+    "logic": "not_checked",
+    "aesthetic_fit": "not_checked",
+    "visual_defects": "not_checked"
+  },
+  "content_ownership": {
+    "status": "not_checked",
+    "why_this_composition_belongs": "",
+    "evidence_refs": []
+  },
+  "assurance": {
+    "highest_passed_stage": null,
+    "stages": [],
+    "unverified_items": []
+  },
+  "remaining_risks": []
+}

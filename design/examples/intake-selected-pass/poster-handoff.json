@@ -1,0 +1,34 @@
+{
+  "role": "poster",
+  "intake_direction_ref": "intake-direction.json",
+  "artifact_type": "ppt-handoff",
+  "goal": "帮助评审人判断项目是否进入建设准备",
+  "use_scenario": "由项目负责人在领导评审会上现场讲解",
+  "audience": "项目评审人与业务负责人",
+  "selection_source": "user_selected_direction",
+  "selected_direction_id": "executive-review-deck",
+  "accepted_tradeoff": "现场节奏优先，不在每页承载全部源文档细节",
+  "confirmation_evidence": "用户选择了 executive-review-deck 方向并接受现场节奏优先的取舍。",
+  "source_materials": [
+    "source.txt"
+  ],
+  "constraints": [],
+  "summary_policy": {
+    "preserve_meaning": true,
+    "preserve_numbers_verbatim": true,
+    "plain_language": true
+  },
+  "known_gaps": [],
+  "reader_decision": "",
+  "reader_job": "",
+  "decision_context": "",
+  "one_sentence_message": "",
+  "narrative_spine": [],
+  "evidence_sequence": [],
+  "omission_rationale": [],
+  "must_keep_facts": [],
+  "must_not_say": [],
+  "must_not_visualize": [],
+  "anti_slop_language_checks": [],
+  "source_refs": []
+}

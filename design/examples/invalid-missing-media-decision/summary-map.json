@@ -1,0 +1,20 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "missing-media-cover",
+      "source": "examples/deck-pass/source-notes.txt",
+      "source_quote": "Right form before polish.",
+      "summary_text": "Right form before polish",
+      "meaning_preserved": true,
+      "numbers_preserved": true,
+      "preserved_numbers": [],
+      "forbidden_jargon": [],
+      "review_notes": "Matches fixture heading."
+    }
+  ]
+}

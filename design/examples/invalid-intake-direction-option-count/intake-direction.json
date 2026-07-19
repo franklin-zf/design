@@ -1,0 +1,42 @@
+{
+  "schema_version": "design-intake-direction/v1",
+  "status": "needs_clarification",
+  "known": {
+    "artifact_type": null,
+    "goal": null,
+    "use_scenario": null
+  },
+  "missing_fields": [
+    "artifact_type",
+    "goal",
+    "use_scenario"
+  ],
+  "direction_options": [
+    {
+      "id": "executive-review-deck",
+      "label": "领导评审汇报",
+      "artifact_type": "ppt-handoff",
+      "goal": "支持项目评审决策",
+      "use_scenario": "现场汇报",
+      "audience": "项目评审人",
+      "fit": "适合现场决策",
+      "tradeoff": "细节容量有限",
+      "recommended": true
+    }
+  ],
+  "questions": [
+    {
+      "field": "artifact_type",
+      "prompt": "请选择产物方向。"
+    },
+    {
+      "field": "goal",
+      "prompt": "请确认目标。"
+    },
+    {
+      "field": "use_scenario",
+      "prompt": "请确认使用场景。"
+    }
+  ],
+  "confirmed_brief": null
+}

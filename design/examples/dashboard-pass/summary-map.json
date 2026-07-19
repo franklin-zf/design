@@ -1,0 +1,100 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "dashboard-title",
+      "summary_text": "Operations Dashboard Weekly operating review · source freshness 24 hours",
+      "status": "manual_reviewed",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"freshness_hours\": 24" }
+      ],
+      "preserved_numbers": ["24"]
+    },
+    {
+      "id": "freshness-summary",
+      "summary_text": "Freshness: 24 hours",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"freshness_hours\": 24" }
+      ],
+      "preserved_numbers": ["24"]
+    },
+    {
+      "id": "active-accounts-kpi",
+      "summary_text": "Active accounts 428 current source value",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"active_accounts\": 428" }
+      ],
+      "preserved_numbers": ["428"]
+    },
+    {
+      "id": "weekly-growth-kpi",
+      "summary_text": "Weekly_growth 0.064 current source value",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"weekly_growth\": 0.064" }
+      ],
+      "preserved_numbers": ["0.064"]
+    },
+    {
+      "id": "incidents-kpi",
+      "summary_text": "Open incidents 2 current source value",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"incidents\": 2" }
+      ],
+      "preserved_numbers": ["2"]
+    },
+    {
+      "id": "freshness-kpi",
+      "summary_text": "Freshness 24 hours",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"freshness_hours\": 24" }
+      ],
+      "preserved_numbers": ["24"]
+    },
+    {
+      "id": "incident-guardrail",
+      "summary_text": "Guardrail Incident count source value: 2",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"incidents\": 2" }
+      ],
+      "preserved_numbers": ["2"]
+    },
+    {
+      "id": "churn-driver",
+      "summary_text": "Driver watch Churn accounts: -12",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"driver\": \"Churn\", \"accounts\": -12" }
+      ],
+      "preserved_numbers": ["-12"]
+    },
+    {
+      "id": "activity-summary",
+      "summary_text": "Active_accounts moved from 386 in 2026-W18 to 428 in 2026-W25.",
+      "status": "manual_reviewed",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "source_quotes": [
+        { "source_ref": "source.json", "quote": "\"week\": \"2026-W18\", \"active_accounts\": 386" },
+        { "source_ref": "source.json", "quote": "\"week\": \"2026-W25\", \"active_accounts\": 428" }
+      ],
+      "preserved_numbers": ["386", "2026", "428"]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "role": "poster",
+  "intake_direction_ref": "",
+  "artifact_type": "",
+  "goal": "",
+  "use_scenario": "",
+  "audience": "",
+  "selection_source": "",
+  "selected_direction_id": null,
+  "accepted_tradeoff": null,
+  "confirmation_evidence": "",
+  "source_materials": [],
+  "constraints": [],
+  "summary_policy": {
+    "preserve_meaning": true,
+    "preserve_numbers_verbatim": true,
+    "plain_language": true
+  },
+  "known_gaps": [],
+  "analysis_requests": [],
+  "reader_decision": "",
+  "reader_job": "",
+  "decision_context": "",
+  "one_sentence_message": "",
+  "narrative_spine": [],
+  "evidence_sequence": [],
+  "omission_rationale": [],
+  "must_keep_facts": [],
+  "must_not_say": [],
+  "must_not_visualize": [],
+  "anti_slop_language_checks": [],
+  "source_refs": []
+}

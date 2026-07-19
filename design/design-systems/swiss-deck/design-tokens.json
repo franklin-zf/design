@@ -1,0 +1,27 @@
+{
+  "schema_version": "design-tokens/v1",
+  "colors": {
+    "surface": "#f4f4f0",
+    "panel": "#ffffff",
+    "panel_alt": "#e9e9e2",
+    "text": "#111111",
+    "muted": "#5f6368",
+    "line": "#d7d7d2",
+    "accent": "#0047ff",
+    "accent_2": "#d7ff00"
+  },
+  "typography": {
+    "display": "Inter, Helvetica, Arial, sans-serif",
+    "body": "Inter, Helvetica, Arial, sans-serif",
+    "mono": "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+  },
+  "spacing": {
+    "page": "6vw",
+    "section": "32px",
+    "gap": "20px",
+    "tight": "10px"
+  },
+  "radius": {
+    "default": "0px"
+  }
+}

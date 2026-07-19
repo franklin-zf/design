@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-poster-plan/v1",
+  "poster_goal": "concept",
+  "audience": "validator",
+  "single_message": "重塑未来。",
+  "visual_hook": "Emoji hook.",
+  "layout_lock": "poster-type-led",
+  "design_system": "swiss-deck",
+  "source_materials": ["source.txt"],
+  "image_strategy": "typography-only",
+  "claim_integrity": "source-backed",
+  "anti_ai_slop_checks": ["expected to fail"]
+}

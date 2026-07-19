@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invalid Horizontal Overflow</title>
+  <style>
+    body { margin:0; font:16px/1.5 system-ui,sans-serif; }
+    main { padding:24px; }
+    .wide { width:2200px; border:1px solid #999; padding:12px; }
+  </style>
+</head>
+<body>
+  <main data-design-id="overflow-fixture">
+    <h1>Overflow fixture</h1>
+    <p class="wide">This paragraph intentionally exceeds the viewport width and should fail strict layout smoke.</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "role": "designer",
+  "style_preset": "swiss-deck",
+  "template_family": "swiss-evidence-deck",
+  "layout_plan": [
+    {
+      "slide": 1,
+      "layout": "D01-cover",
+      "purpose": "state the workflow promise"
+    },
+    {
+      "slide": 2,
+      "layout": "D07-system-map",
+      "purpose": "show the triad flow"
+    }
+  ],
+  "image_plan": [
+    {
+      "slide": 2,
+      "slot": "s17-system-16x9",
+      "kind": "flowchart"
+    }
+  ],
+  "icon_plan": [],
+  "motion_plan": [],
+  "aesthetic_risks": [
+    "Fixture is intentionally minimal and not a production design."
+  ]
+}

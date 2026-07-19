@@ -1,0 +1,276 @@
+{
+  "schema_version": "design-template-registry/v1",
+  "templates": [
+    {
+      "id": "source-backed-report",
+      "name": "Source Backed Report",
+      "artifact_types": [
+        "data-report",
+        "chart-frame"
+      ],
+      "style_presets": [
+        "neutral-analytic",
+        "editorial-report"
+      ],
+      "source": "bundled",
+      "best_for": [
+        "executive answer-first analysis",
+        "claim-to-source explanation",
+        "decision memo"
+      ],
+      "avoid_when": [
+        "the user needs sequential presentation rhythm",
+        "the default view must monitor live metrics"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "summary-map.json",
+        "claim-map.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-summary-map",
+        "validate-claim-map"
+      ],
+      "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-claim-map"],
+      "thinking_ref": "references/report-dashboard.md",
+      "showcase_refs": []
+    },
+    {
+      "id": "poster-type-led",
+      "name": "Type Led Poster",
+      "artifact_types": [
+        "poster"
+      ],
+      "style_presets": [
+        "swiss-deck",
+        "magazine-deck"
+      ],
+      "source": "open-design-inspired",
+      "best_for": [
+        "one-message announcement",
+        "campaign or launch visual",
+        "source-backed concept poster"
+      ],
+      "avoid_when": [
+        "the source needs sequential explanation",
+        "the message cannot be reduced without changing meaning"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "poster-plan.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-poster-contract",
+        "validate-poster-anti-ai-slop"
+      ],
+      "validation_gate_ids": ["validate-design-output", "validate-poster-contract", "validate-poster-anti-ai-slop"],
+      "thinking_ref": "references/poster-design.md",
+      "showcase_refs": []
+    },
+    {
+      "id": "swiss-evidence-deck",
+      "name": "Swiss Evidence Deck",
+      "artifact_types": [
+        "html-deck",
+        "ppt-handoff"
+      ],
+      "style_presets": [
+        "swiss-deck"
+      ],
+      "source": "guizang-inspired",
+      "best_for": [
+        "technical or product presentation",
+        "source-backed project report",
+        "system maps, process diagrams, and image evidence"
+      ],
+      "avoid_when": [
+        "the content needs a long-form reading report",
+        "images or diagrams cannot be verified and schematic status is not acceptable"
+      ],
+      "required_assets": [
+        "slide-plan.json",
+        "summary-map.json",
+        "images/",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-summary-map",
+        "validate-aesthetic-contract",
+        "validate-asset-contract",
+        "validate-layout-lock",
+        "validate-visual-rhythm",
+        "render-smoke",
+        "manual reviewer pass"
+      ],
+      "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
+      "thinking_ref": "references/deck-ppt.md",
+      "showcase_refs": []
+    },
+    {
+      "id": "swiss-evidence-deck-production",
+      "name": "Swiss Evidence Deck Production",
+      "artifact_types": [
+        "html-deck",
+        "ppt-handoff"
+      ],
+      "style_presets": [
+        "swiss-deck"
+      ],
+      "source": "open-design-mit-adopted-and-design-owned",
+      "upstream_commit": "1925fe6086180c7e8987ac95dead63a622c688b2",
+      "license": "MIT",
+      "template_path": "assets/templates/swiss-evidence-deck.html",
+      "production_status": "validated_vertical_slice",
+      "best_for": [
+        "source-backed executive presentation",
+        "technical or product decision narrative",
+        "evidence, system, metric, risk, and decision flow"
+      ],
+      "avoid_when": [
+        "calculation provenance is incomplete",
+        "the content cannot support eight distinct reader jobs"
+      ],
+      "required_assets": [
+        "data-provenance.json",
+        "slide-plan.json",
+        "summary-map.json",
+        "claim-map.json",
+        "quality-report.md",
+        "qa/"
+      ],
+      "validation_gates": [
+        "validate-data-provenance --execute-trusted",
+        "validate-design-output",
+        "validate-summary-map",
+        "validate-claim-map",
+        "validate-aesthetic-contract",
+        "validate-asset-contract",
+        "validate-layout-lock",
+        "validate-visual-rhythm",
+        "render-smoke --strict-layout",
+        "manual reviewer pass"
+      ],
+      "validation_gate_ids": ["validate-data-provenance", "validate-design-output", "validate-summary-map", "validate-claim-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
+      "thinking_ref": "references/template-adoption-plan.md",
+      "showcase_refs": ["showcases/swiss-evidence-deck-production/case.json"]
+    },
+    {
+      "id": "operational-dashboard",
+      "name": "Operational Dashboard",
+      "artifact_types": [
+        "dashboard"
+      ],
+      "style_presets": [
+        "operational-dashboard"
+      ],
+      "source": "open-design-inspired",
+      "best_for": [
+        "monitoring",
+        "metric triage",
+        "repeat-use operational view"
+      ],
+      "avoid_when": [
+        "the reader needs a one-time narrative recommendation",
+        "metrics lack definitions, grain, or freshness"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "claim-map.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-claim-map",
+        "render-smoke"
+      ],
+      "validation_gate_ids": ["validate-design-output", "validate-claim-map", "render-smoke"],
+      "thinking_ref": "references/report-dashboard.md",
+      "showcase_refs": []
+    },
+    {
+      "id": "screenshot-evidence-board",
+      "name": "Screenshot Evidence Board",
+      "artifact_types": [
+        "screenshot-evidence"
+      ],
+      "style_presets": [
+        "neutral-analytic",
+        "swiss-deck"
+      ],
+      "source": "bundled",
+      "best_for": [
+        "before and after UI review",
+        "visual evidence grouping",
+        "screenshot-backed critique"
+      ],
+      "avoid_when": [
+        "screenshots contain unresolved sensitive data",
+        "the user needs exact source document summarization instead"
+      ],
+      "required_assets": [
+        "images/",
+        "manifest.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "render-smoke",
+        "manual reviewer pass"
+      ],
+      "validation_gate_ids": ["validate-design-output", "render-smoke", "manual-reviewer-pass"],
+      "thinking_ref": "references/screenshot-ui-evidence.md",
+      "showcase_refs": []
+    },
+    {
+      "id": "tweakable-artifact",
+      "name": "Tweakable Artifact",
+      "artifact_types": [
+        "tweakable-artifact"
+      ],
+      "style_presets": [
+        "tweakable-lab"
+      ],
+      "source": "open-design-inspired",
+      "best_for": [
+        "interactive exploration",
+        "design parameter comparison",
+        "reader-controlled presentation"
+      ],
+      "avoid_when": [
+        "defaults are not polished",
+        "controls expose arbitrary knobs with no reader value"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "quality-report.md"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "tweakable-smoke",
+        "render-smoke"
+      ],
+      "validation_gate_ids": ["validate-design-output", "tweakable-smoke", "render-smoke"],
+      "thinking_ref": "references/template-library.md",
+      "showcase_refs": []
+    },
+    {
+      "id": "design-system-package",
+      "name": "Design System Package",
+      "artifact_types": ["design-system"],
+      "style_presets": ["neutral-analytic"],
+      "source": "bundled",
+      "best_for": ["token and component handoff"],
+      "avoid_when": ["the artifact is a user-facing report"],
+      "required_assets": ["manifest.json", "DESIGN.md", "tokens.css", "quality-report.md"],
+      "validation_gates": ["validate-design-output", "validate-design-system-package", "manual reviewer pass"],
+      "validation_gate_ids": ["validate-design-output", "validate-design-system-package", "manual-reviewer-pass"],
+      "thinking_ref": "references/design-system.md",
+      "showcase_refs": []
+    }
+  ]
+}

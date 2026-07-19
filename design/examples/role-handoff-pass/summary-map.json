@@ -1,0 +1,43 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": [
+      "direct",
+      "clear",
+      "no_unnecessary_jargon"
+    ]
+  },
+  "summaries": [
+    {
+      "id": "s01-summary",
+      "summary_text": "设计交付要先形成汇报主线，再做视觉系统，最后审核事实、数字、逻辑和美感。",
+      "status": "manual_reviewed",
+      "source_refs": [
+        "source-notes.txt"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source-notes.txt",
+          "quote": "设计交付要先形成汇报主线，再做视觉系统，最后审核事实、数字、逻辑和美感。"
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "s02-summary",
+      "summary_text": "poster 负责价值反馈，designer 负责逻辑与美学，reviewer 负责数字不变和内容正确。",
+      "status": "manual_reviewed",
+      "source_refs": [
+        "source-notes.txt"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source-notes.txt",
+          "quote": "poster 负责价值反馈，designer 负责逻辑与美学，reviewer 负责数字不变和内容正确。"
+        }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

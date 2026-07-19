@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operations Dashboard</title>
+  <style>
+    :root { --bg:#f3f5f7; --panel:#ffffff; --panel-alt:#edf1f4; --text:#17212b; --muted:#64748b; --accent:#256f5b; --line:#d7dde4; --warning:#b87918; --negative:#b42318; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:14px/1.45 Inter,system-ui,sans-serif; }
+    main { padding:24px; }
+    h1 { margin:0 0 4px; font-size:28px; letter-spacing:0; }
+    h2 { margin:0 0 12px; font-size:20px; }
+    .top { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; margin-bottom:16px; }
+    .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:14px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:16px; }
+    .kpi { grid-column:span 3; }
+    .wide { grid-column:span 8; }
+    .side { grid-column:span 4; }
+    .full { grid-column:1/-1; }
+    .guardrails { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; background:var(--panel-alt); border:0; }
+    .metric { font-size:30px; font-weight:760; font-variant-numeric:tabular-nums; }
+    .muted { color:var(--muted); font-size:12px; }
+    .badge { display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:5px 10px; background:var(--panel); }
+    svg { width:100%; height:auto; display:block; }
+    .gridline { stroke:var(--line); stroke-width:1; }
+    .axis { stroke:var(--muted); stroke-width:1; }
+    .line { fill:none; stroke:var(--accent); stroke-width:4; }
+    .point { fill:var(--accent); }
+    .bar-pos { fill:var(--accent); }
+    .bar-neg { fill:var(--negative); }
+    .label { fill:var(--muted); font:12px Inter,system-ui,sans-serif; }
+    .value { fill:var(--text); font:12px Inter,system-ui,sans-serif; font-weight:700; }
+    table { width:100%; border-collapse:collapse; }
+    th,td { text-align:left; border-bottom:1px solid var(--line); padding:10px 8px; }
+    @media (max-width:900px) { .kpi,.wide,.side,.full,.guardrails { grid-column:1/-1; } .guardrails { grid-template-columns:1fr; } .top { display:block; } }
+  </style>
+</head>
+<body>
+  <main data-design-id="dashboard" data-style-preset="operational-dashboard">
+    <header class="top" data-design-id="topbar">
+      <div data-summary-id="dashboard-title">
+        <h1>Operations Dashboard</h1>
+        <p class="muted">Weekly operating review · source freshness 24 hours</p>
+      </div>
+      <div class="badge" data-summary-id="freshness-summary" data-guidance-field="freshness">Freshness: 24 hours</div>
+      <div class="badge" data-guidance-field="filters">Filters: none applied</div>
+    </header>
+    <div class="grid" data-design-id="dashboard-grid">
+      <section class="card kpi" data-summary-id="active-accounts-kpi"><div class="muted">Active accounts</div><div class="metric">428</div><div class="muted">current source value</div></section>
+      <section class="card kpi" data-summary-id="weekly-growth-kpi"><div class="muted">Weekly_growth</div><div class="metric">0.064</div><div class="muted">current source value</div></section>
+      <section class="card kpi" data-summary-id="incidents-kpi"><div class="muted">Open incidents</div><div class="metric">2</div><div class="muted">current source value</div></section>
+      <section class="card kpi" data-summary-id="freshness-kpi"><div class="muted">Freshness</div><div class="metric">24</div><div class="muted">hours</div></section>
+      <section class="card guardrails" data-design-id="guardrails" data-guidance-field="guardrails">
+        <div data-summary-id="incident-guardrail"><strong>Guardrail</strong><div class="muted">Incident count source value: 2</div></div>
+        <div data-summary-id="churn-driver"><strong>Driver watch</strong><div class="muted">Churn accounts: -12</div></div>
+        <div><strong>Next check</strong><div class="muted">Segment review if incidents rise</div></div>
+      </section>
+      <section class="card wide">
+        <h2 data-summary-id="activity-summary">Active_accounts moved from 386 in 2026-W18 to 428 in 2026-W25.</h2>
+        <svg viewBox="0 0 720 260" role="img" aria-label="Eight week active account trend from 386 to 428" data-chart-id="activity">
+          <line class="gridline" x1="50" y1="210" x2="690" y2="210"></line>
+          <line class="gridline" x1="50" y1="130" x2="690" y2="130"></line>
+          <line class="gridline" x1="50" y1="50" x2="690" y2="50"></line>
+          <line class="axis" x1="50" y1="30" x2="50" y2="210"></line>
+          <line class="axis" x1="50" y1="210" x2="690" y2="210"></line>
+          <polyline class="line" points="50,158 141,146 232,128 323,116 414,102 505,94 596,86 687,74"></polyline>
+          <circle class="point" cx="50" cy="158" r="4"></circle>
+          <circle class="point" cx="141" cy="146" r="4"></circle>
+          <circle class="point" cx="232" cy="128" r="4"></circle>
+          <circle class="point" cx="323" cy="116" r="4"></circle>
+          <circle class="point" cx="414" cy="102" r="4"></circle>
+          <circle class="point" cx="505" cy="94" r="4"></circle>
+          <circle class="point" cx="596" cy="86" r="4"></circle>
+          <circle class="point" cx="687" cy="74" r="5"></circle>
+          <text class="label" x="12" y="214">360</text>
+          <text class="label" x="12" y="134">400</text>
+          <text class="label" x="12" y="54">440</text>
+          <text class="value" x="610" y="58">428 accounts</text>
+        </svg>
+      </section>
+      <section class="card side" data-guidance-field="drivers">
+        <h2>Drivers</h2>
+        <svg viewBox="0 0 320 260" role="img" aria-label="Current week account movement drivers" data-chart-id="drivers">
+          <line class="axis" x1="160" y1="30" x2="160" y2="220"></line>
+          <text class="label" x="148" y="238">0</text>
+          <text class="label" x="20" y="66">Expansion</text>
+          <rect class="bar-pos" x="160" y="48" width="130" height="24"></rect>
+          <text class="value" x="268" y="66">+28</text>
+          <text class="label" x="20" y="126">Reactivation</text>
+          <rect class="bar-pos" x="160" y="108" width="88" height="24"></rect>
+          <text class="value" x="226" y="126">+19</text>
+          <text class="label" x="20" y="186">Churn</text>
+          <rect class="bar-neg" x="104" y="168" width="56" height="24"></rect>
+          <text class="value" x="86" y="186">-12</text>
+        </svg>
+      </section>
+      <section class="card full" data-design-id="detail-table">
+        <h2>Segment detail</h2>
+        <table>
+          <thead><tr><th>Segment</th><th>Active accounts</th><th>Weekly growth</th><th>Incidents</th></tr></thead>
+          <tbody>
+            <tr><td>Enterprise</td><td>126</td><td>0.051</td><td>0</td></tr>
+            <tr><td>Mid-market</td><td>184</td><td>0.072</td><td>1</td></tr>
+            <tr><td>SMB</td><td>118</td><td>0.066</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

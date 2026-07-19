@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Morrow — Glass Field</title>
+  <link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+  <main class="field" data-style-preset="tweakable-lab" data-design-id="morrow-field">
+    <div class="atmosphere" aria-hidden="true">
+      <span class="atmosphere__sun"></span>
+      <span class="atmosphere__water"></span>
+      <span class="atmosphere__line atmosphere__line--one"></span>
+      <span class="atmosphere__line atmosphere__line--two"></span>
+    </div>
+
+    <header class="field-veil" data-design-id="field-veil">
+      <a class="wordmark" href="#listening-field" aria-label="Morrow home">Morrow</a>
+      <p class="field-veil__place"><span aria-hidden="true"></span> Western reach · 21:40</p>
+      <button class="text-control" id="notes-open" type="button" aria-controls="context-sheet" aria-expanded="false">
+        Material notes
+      </button>
+    </header>
+
+    <section class="hero" id="listening-field" data-design-id="listening-field" aria-labelledby="scene-title">
+      <div class="hero__copy">
+        <p class="eyebrow">Listening field / 04</p>
+        <h1 id="scene-title">Low tide,<br>held open.</h1>
+        <p class="hero__lede">A quiet scene built from distance, warm air, and the last line of water.</p>
+      </div>
+      <div class="field-index" aria-label="Scene sequence">
+        <span>01</span>
+        <span class="field-index__line" aria-hidden="true"><i></i></span>
+        <span>04</span>
+      </div>
+    </section>
+
+    <section class="focus-lens" data-design-id="focus-lens" aria-label="Current listening scene">
+      <div class="focus-lens__signal" aria-hidden="true"></div>
+      <button class="play" id="scene-toggle" type="button" aria-pressed="false" aria-label="Start Low Tide scene">
+        <span class="play__mark" aria-hidden="true"></span>
+      </button>
+      <div class="scene-copy" aria-live="polite">
+        <p class="scene-copy__label">Now</p>
+        <strong id="scene-state">Low Tide</strong>
+        <span id="scene-detail">Ready · 12 min</span>
+      </div>
+      <div class="progress" aria-label="Scene progress">
+        <span class="progress__track"><i></i></span>
+        <div class="progress__labels" aria-hidden="true">
+          <span>Air</span><span>Waterline</span><span>Night</span>
+        </div>
+      </div>
+      <p class="scene-time" aria-label="Duration 12 minutes">12:00</p>
+    </section>
+
+    <aside class="context-sheet" id="context-sheet" data-design-id="context-sheet" aria-labelledby="notes-title" hidden>
+      <div class="context-sheet__head">
+        <div>
+          <p class="eyebrow">Material logic</p>
+          <h2 id="notes-title">Three roles.<br>One field.</h2>
+        </div>
+        <button class="close" id="notes-close" type="button" aria-label="Close material notes">Close</button>
+      </div>
+      <ol class="role-list">
+        <li><span>01</span><div><strong>Field Veil</strong><p>Keeps place and identity present without cutting the horizon.</p></div></li>
+        <li><span>02</span><div><strong>Focus Lens</strong><p>Gives the active scene the clearest edge and strongest foreground.</p></div></li>
+        <li><span>03</span><div><strong>Context Sheet</strong><p>Reveals supporting detail only when it is requested.</p></div></li>
+      </ol>
+      <p class="context-sheet__foot">Glass is used for hierarchy, not decoration.</p>
+    </aside>
+
+    <aside class="tweak-panel" data-design-id="tweak-panel" aria-labelledby="tune-title">
+      <div class="tweak-panel__heading">
+        <p class="eyebrow" id="tune-title">Field tuning</p>
+        <button id="reset" type="button">Reset</button>
+      </div>
+      <div class="tweak-group">
+        <label for="mode">Atmosphere</label>
+        <select id="mode">
+          <option value="light">Afterglow</option>
+          <option value="dark">Nightfall</option>
+        </select>
+      </div>
+      <div class="tweak-group">
+        <label for="accent">Edge signal</label>
+        <select id="accent">
+          <option value="#d67546">Ember</option>
+          <option value="#3d7d6b">Reed</option>
+          <option value="#426f91">Deep water</option>
+        </select>
+      </div>
+      <div class="tweak-pair">
+        <div class="tweak-group">
+          <label for="scale">Type scale</label>
+          <select id="scale">
+            <option value=".9">Compact</option>
+            <option value="1" selected>Balanced</option>
+            <option value="1.12">Expanded</option>
+          </select>
+        </div>
+        <div class="tweak-group">
+          <label for="density">Air spacing</label>
+          <select id="density">
+            <option value=".8">Close</option>
+            <option value="1" selected>Open</option>
+            <option value="1.25">Wide</option>
+          </select>
+        </div>
+      </div>
+    </aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

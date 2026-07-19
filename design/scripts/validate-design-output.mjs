@@ -1,0 +1,680 @@
+#!/usr/bin/env node
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { basename, dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const dir = process.argv[2];
+if (!dir) {
+  console.error('Usage: node scripts/validate-design-output.mjs <artifact-dir>');
+  process.exit(2);
+}
+
+const scriptDir = dirname(fileURLToPath(import.meta.url));
+const skillRoot = resolve(scriptDir, '..');
+const errors = [];
+const warnings = [];
+const requiredFiles = ['index.html', 'manifest.json', 'quality-report.md'];
+for (const file of requiredFiles) {
+  if (!existsSync(join(dir, file))) errors.push(`Missing required file: ${file}`);
+}
+
+function readJson(path, label) {
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'));
+  } catch (error) {
+    errors.push(`${label} is invalid JSON: ${error.message}`);
+    return null;
+  }
+}
+
+function resolveJsonPointer(value, pointer) {
+  if (typeof pointer !== 'string' || !pointer.startsWith('/')) return undefined;
+  let current = value;
+  for (const rawPart of pointer.slice(1).split('/')) {
+    const part = rawPart.replace(/~1/g, '/').replace(/~0/g, '~');
+    if (current === null || typeof current !== 'object' || !(part in current)) return undefined;
+    current = current[part];
+  }
+  return current;
+}
+
+function normalizeHex(hex) {
+  const value = hex.toLowerCase();
+  if (/^#[0-9a-f]{3}$/.test(value)) {
+    return `#${value[1]}${value[1]}${value[2]}${value[2]}${value[3]}${value[3]}`;
+  }
+  if (/^#[0-9a-f]{4}$/.test(value)) {
+    return `#${value[1]}${value[1]}${value[2]}${value[2]}${value[3]}${value[3]}${value[4]}${value[4]}`;
+  }
+  return value;
+}
+
+function collectHexValues(value, out = new Set()) {
+  if (typeof value === 'string') {
+    for (const match of value.matchAll(/#[0-9a-f]{3,8}\b/gi)) out.add(normalizeHex(match[0]));
+  } else if (Array.isArray(value)) {
+    for (const item of value) collectHexValues(item, out);
+  } else if (value && typeof value === 'object') {
+    for (const item of Object.values(value)) collectHexValues(item, out);
+  }
+  return out;
+}
+
+function sourceExists(source) {
+  if (typeof source !== 'string') return true;
+  return existsSync(source) || existsSync(join(dir, source)) || existsSync(join(process.cwd(), source));
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function hasHtmlMarker(source, marker) {
+  if (typeof marker !== 'string' || !marker.trim()) return false;
+  const escaped = escapeRegExp(marker.trim());
+  return new RegExp(`(?:data-guidance-field|data-acceptance-metric|data-design-id|data-summary-id|id)=["']${escaped}["']`, 'i').test(source);
+}
+
+function registryGateIds(entry) {
+  if (Array.isArray(entry?.validation_gate_ids)) return entry.validation_gate_ids;
+  return (entry?.validation_gates || []).map((gate) => String(gate).split(/\s+/)[0]).filter(Boolean);
+}
+
+function validateSvgTextPolicy(asset, filePath, stylePreset, aestheticContract) {
+  if (typeof asset?.file !== 'string' || !filePath.toLowerCase().endsWith('.svg') || !existsSync(filePath)) return;
+  const svg = readFileSync(filePath, 'utf8');
+  if (!/<text\b/i.test(svg)) return;
+  const policy = aestheticContract?.svg_text_policy;
+  const swissDefault = stylePreset === 'swiss-deck';
+  const allowAuditedException = policy === 'allow_audited_exception' && asset.text_policy === 'audited_visible_text_exception';
+  if (allowAuditedException) {
+    const exception = asset.svg_text_exception;
+    for (const field of ['reason', 'source_ref', 'reviewer', 'approved_at']) {
+      if (typeof exception?.[field] !== 'string' || !exception[field].trim()) {
+        errors.push(`SVG text policy exception for ${asset.file} must include ${field}.`);
+      }
+    }
+    if (exception?.source_ref && !sourceExists(exception.source_ref)) {
+      errors.push(`SVG text policy exception source is not readable: ${exception.source_ref}`);
+    }
+    return;
+  }
+  if (swissDefault || policy === 'forbid_visible_text_in_swiss_assets') {
+    errors.push(`SVG text policy violation: ${asset.file} contains visible <text>; Swiss SVG text is forbidden unless an audited exception is declared.`);
+  }
+}
+
+const presetsPath = join(skillRoot, 'assets/themes/presets.json');
+const presetData = existsSync(presetsPath) ? readJson(presetsPath, 'assets/themes/presets.json') : null;
+const registryPath = join(skillRoot, 'assets/templates/registry.json');
+const registryData = existsSync(registryPath) ? readJson(registryPath, 'assets/templates/registry.json') : null;
+const registryTemplates = Array.isArray(registryData?.templates) ? registryData.templates : [];
+
+let manifest = null;
+const manifestPath = join(dir, 'manifest.json');
+if (existsSync(manifestPath)) {
+  manifest = readJson(manifestPath, 'manifest.json');
+}
+let provenance = null;
+const provenancePath = join(dir, 'data-provenance.json');
+if (existsSync(provenancePath)) {
+  provenance = readJson(provenancePath, 'data-provenance.json');
+}
+
+const requiredFields = [
+  'schema_version',
+  'artifact_type',
+  'audience',
+  'surface',
+  'style_preset',
+  'template_id',
+  'template_selection',
+  'validation',
+  'schematic',
+  'source_materials',
+  'data_sources',
+  'metrics',
+  'charts',
+  'layouts',
+  'assumptions',
+  'missing_data',
+  'unverified_items'
+];
+
+const allowedTypes = new Set(['data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff', 'poster', 'screenshot-evidence', 'tweakable-artifact', 'design-system', 'multi-artifact']);
+const allowedPresets = new Set(['neutral-analytic', 'editorial-report', 'swiss-deck', 'magazine-deck', 'operational-dashboard', 'tweakable-lab']);
+const claimMapRequiredTypes = new Set(['data-report', 'dashboard', 'chart-frame']);
+const summaryMapRequiredTypes = new Set(['data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff']);
+const chartContractTypes = new Set(['data-report', 'dashboard', 'chart-frame']);
+const requiredChartFields = ['id', 'family', 'source', 'unit', 'question', 'takeaway', 'grain', 'fields', 'sample_size', 'visual_encoding'];
+const requiredEncodingFields = ['mark', 'x', 'y', 'scale_type', 'baseline', 'domain', 'label_policy'];
+const allowedVisualAssetKinds = new Set(['image', 'diagram', 'flowchart', 'mind-map', 'screenshot', 'icon-set', 'data-block', 'ui-scenario', 'generated-schematic']);
+let slidePlan = null;
+let selectedTemplate = null;
+
+if (manifest) {
+  for (const field of requiredFields) {
+    if (!(field in manifest)) errors.push(`manifest.json missing field: ${field}`);
+  }
+  if (manifest.schema_version !== 'design-artifact/v1') errors.push('manifest.schema_version must be design-artifact/v1.');
+  if (!allowedTypes.has(manifest.artifact_type)) errors.push(`Unsupported artifact_type: ${manifest.artifact_type}`);
+  if (!allowedPresets.has(manifest.style_preset)) errors.push(`Unsupported style_preset: ${manifest.style_preset}`);
+  for (const field of ['source_materials', 'data_sources', 'metrics', 'charts', 'layouts', 'assumptions', 'missing_data', 'unverified_items']) {
+    if (field in manifest && !Array.isArray(manifest[field])) errors.push(`manifest.${field} must be an array.`);
+  }
+  if (typeof manifest.template_id !== 'string' || !manifest.template_id.trim()) {
+    errors.push('manifest.template_id is required for template traceability.');
+  } else {
+    selectedTemplate = registryTemplates.find((template) => template.id === manifest.template_id);
+    if (!selectedTemplate) {
+      errors.push(`manifest.template_id is not registered: ${manifest.template_id}`);
+    } else {
+      if (!selectedTemplate.artifact_types?.includes(manifest.artifact_type)) {
+        errors.push(`manifest.template_id ${manifest.template_id} does not support artifact_type ${manifest.artifact_type}.`);
+      }
+      if (!selectedTemplate.style_presets?.includes(manifest.style_preset)) {
+        errors.push(`manifest.template_id ${manifest.template_id} does not support style_preset ${manifest.style_preset}.`);
+      }
+    }
+  }
+  if (!manifest.template_selection || typeof manifest.template_selection !== 'object') {
+    errors.push('manifest.template_selection is required for selection traceability.');
+  } else {
+    if (manifest.template_selection.template_id !== manifest.template_id) {
+      errors.push('manifest.template_selection.template_id must match manifest.template_id.');
+    }
+    for (const field of ['reader_job', 'rationale']) {
+      if (typeof manifest.template_selection[field] !== 'string' || !manifest.template_selection[field].trim()) {
+        errors.push(`manifest.template_selection.${field} must be a non-empty string.`);
+      }
+    }
+    if (!Array.isArray(manifest.template_selection.rejected_alternatives)) {
+      errors.push('manifest.template_selection.rejected_alternatives must be an array.');
+    }
+  }
+  const validation = manifest.validation && typeof manifest.validation === 'object' ? manifest.validation : null;
+  const applicableGates = validation?.applicable_gates;
+  const gateResults = validation?.results;
+  if (!Array.isArray(applicableGates) || applicableGates.length === 0) {
+    errors.push('manifest.validation.applicable_gates is required for gate traceability.');
+  }
+  if (!Array.isArray(gateResults)) {
+    errors.push('manifest.validation.results is required for gate traceability.');
+  }
+  if (selectedTemplate && Array.isArray(applicableGates)) {
+    const registeredGates = new Set(registryGateIds(selectedTemplate));
+    for (const gate of applicableGates) {
+      if (typeof gate !== 'string' || !registeredGates.has(gate)) {
+        errors.push(`manifest.validation.applicable_gates contains an unregistered gate: ${gate}`);
+      }
+    }
+    const expected = registryGateIds(selectedTemplate);
+    if (expected.length !== applicableGates.length || expected.some((gate, index) => gate !== applicableGates[index])) {
+      errors.push(`manifest.validation.applicable_gates must match registry order for template ${selectedTemplate.id}.`);
+    }
+  }
+  if (Array.isArray(gateResults) && Array.isArray(applicableGates)) {
+    const resultByGate = new Map();
+    for (const result of gateResults) {
+      if (!result || typeof result.gate_id !== 'string') {
+        errors.push('manifest.validation.results entries must include gate_id.');
+        continue;
+      }
+      if (resultByGate.has(result.gate_id)) errors.push(`manifest.validation.results duplicates gate_id: ${result.gate_id}`);
+      resultByGate.set(result.gate_id, result);
+      if (!['passed', 'failed', 'not_run', 'not_applicable'].includes(result.status)) {
+        errors.push(`manifest.validation.results has unsupported status for ${result.gate_id}: ${result.status}`);
+      }
+      if (typeof result.evidence !== 'string' || !result.evidence.trim()) {
+        errors.push(`manifest.validation.results.${result.gate_id} must include evidence.`);
+      }
+    }
+    for (const gate of applicableGates) {
+      if (!resultByGate.has(gate)) errors.push(`manifest.validation.results is missing applicable gate: ${gate}`);
+    }
+    for (const gate of resultByGate.keys()) {
+      if (!applicableGates.includes(gate)) errors.push(`manifest.validation.results contains non-applicable gate: ${gate}`);
+    }
+  }
+  if ('acceptance_metrics' in manifest) {
+    if (!Array.isArray(manifest.acceptance_metrics)) {
+      errors.push('manifest.acceptance_metrics must be an array.');
+    } else {
+      for (const [idx, metric] of manifest.acceptance_metrics.entries()) {
+        for (const field of ['id', 'label', 'source_ref']) {
+          if (typeof metric?.[field] !== 'string' || !metric[field].trim()) errors.push(`manifest.acceptance_metrics[${idx}] missing ${field}.`);
+        }
+      }
+    }
+  }
+  const guidanceTypes = new Map([
+    ['data-report', ['answer', 'caveats', 'next_step']],
+    ['chart-frame', ['answer', 'caveats', 'next_step']],
+    ['dashboard', ['drivers', 'guardrails', 'filters', 'freshness']]
+  ]);
+  if (guidanceTypes.has(manifest.artifact_type) && manifest.schematic !== true) {
+    const guidanceFields = manifest.guidance_fields;
+    if (!guidanceFields || typeof guidanceFields !== 'object') {
+      errors.push(`manifest.guidance_fields is required for ${manifest.artifact_type} readability.`);
+    } else {
+      for (const field of guidanceTypes.get(manifest.artifact_type)) {
+        const guidance = guidanceFields[field];
+        if (!guidance || typeof guidance !== 'object') {
+          errors.push(`manifest.guidance_fields.${field} is required.`);
+          continue;
+        }
+        if (typeof guidance.html_id !== 'string' || !guidance.html_id.trim()) errors.push(`manifest.guidance_fields.${field}.html_id is required.`);
+        if (!Array.isArray(guidance.source_refs) || guidance.source_refs.length === 0) errors.push(`manifest.guidance_fields.${field}.source_refs must be non-empty.`);
+        for (const source of guidance.source_refs || []) {
+          if (!sourceExists(source)) errors.push(`manifest.guidance_fields.${field} source is not readable: ${source}`);
+        }
+      }
+    }
+  }
+  if (manifest.data_provenance_ref) {
+    if (manifest.data_provenance_ref !== 'data-provenance.json') {
+      errors.push('manifest.data_provenance_ref must be data-provenance.json.');
+    }
+    if (!provenance) errors.push('manifest.data_provenance_ref requires a readable data-provenance.json.');
+  }
+  const derivations = new Map((provenance?.derivations || []).map((item) => [item.id, item]));
+  const derivationIds = new Set(derivations.keys());
+  for (const [idx, metric] of (manifest.metrics || []).entries()) {
+    if (manifest.data_provenance_ref && !metric?.value_origin) {
+      errors.push(`manifest.metrics[${idx}] must declare value_origin when data_provenance_ref is present.`);
+    }
+    if (metric?.value_origin === 'code_derived') {
+      if (!manifest.data_provenance_ref) {
+        errors.push(`manifest.metrics[${idx}] code_derived values require data_provenance_ref.`);
+      }
+      if (!metric.derivation_ref) {
+        errors.push(`manifest.metrics[${idx}] code_derived values require derivation_ref.`);
+      } else if (!derivationIds.has(metric.derivation_ref)) {
+        errors.push(`manifest.metrics[${idx}] references unknown derivation_ref: ${metric.derivation_ref}`);
+      }
+      if (!metric.value_pointer) {
+        errors.push(`manifest.metrics[${idx}] code_derived values require value_pointer.`);
+      } else if (derivations.has(metric.derivation_ref)) {
+        const outputPath = join(dir, derivations.get(metric.derivation_ref).output_ref);
+        const output = existsSync(outputPath) ? readJson(outputPath, `derivation output ${metric.derivation_ref}`) : null;
+        if (output && resolveJsonPointer(output, metric.value_pointer) === undefined) {
+          errors.push(`manifest.metrics[${idx}] value_pointer does not resolve: ${metric.value_pointer}`);
+        }
+      }
+    }
+  }
+  for (const [idx, chart] of (manifest.charts || []).entries()) {
+    if (manifest.data_provenance_ref && !chart?.data_origin) {
+      errors.push(`manifest.charts[${idx}] must declare data_origin when data_provenance_ref is present.`);
+    }
+    if (chart?.data_origin === 'code_derived') {
+      if (!manifest.data_provenance_ref) {
+        errors.push(`manifest.charts[${idx}] code_derived data require data_provenance_ref.`);
+      }
+      if (!chart.derivation_ref) {
+        errors.push(`manifest.charts[${idx}] code_derived data require derivation_ref.`);
+      } else if (!derivationIds.has(chart.derivation_ref)) {
+        errors.push(`manifest.charts[${idx}] references unknown derivation_ref: ${chart.derivation_ref}`);
+      }
+    }
+  }
+  if ('visual_assets' in manifest) {
+    if (!Array.isArray(manifest.visual_assets)) {
+      errors.push('manifest.visual_assets must be an array.');
+    } else {
+      for (const [idx, asset] of manifest.visual_assets.entries()) {
+        for (const field of ['id', 'file', 'slot']) {
+          if (!(field in asset)) errors.push(`manifest.visual_assets[${idx}] missing ${field}.`);
+        }
+        if (asset.file && !existsSync(join(dir, asset.file))) {
+          errors.push(`manifest.visual_assets[${idx}].file is not readable: ${asset.file}`);
+        }
+        if (asset.kind && !allowedVisualAssetKinds.has(asset.kind)) {
+          errors.push(`manifest.visual_assets[${idx}].kind is unsupported: ${asset.kind}`);
+        }
+        if (asset.file) {
+          validateSvgTextPolicy(asset, join(dir, asset.file), manifest.style_preset, manifest.aesthetic_contract);
+        }
+      }
+    }
+  }
+  if (manifest.schematic !== true && (!manifest.source_materials || manifest.source_materials.length === 0)) {
+    errors.push('Non-schematic artifacts must declare at least one source_material.');
+  }
+  for (const [idx, source] of (manifest.source_materials || []).entries()) {
+    if (!sourceExists(source)) errors.push(`manifest.source_materials[${idx}] is not a readable local source: ${source}`);
+  }
+  if (manifest.artifact_type === 'screenshot-evidence') {
+    if (!manifest.source_materials?.length) errors.push('screenshot-evidence artifacts must declare source screenshots in source_materials.');
+    const schematicSource = JSON.stringify(manifest.source_materials).match(/stand-?in|mock|fixture|generated/i);
+    if (schematicSource && manifest.schematic !== true) {
+      errors.push('screenshot-evidence artifacts using stand-in, mock, fixture, or generated sources must set schematic: true.');
+    }
+  }
+  if (claimMapRequiredTypes.has(manifest.artifact_type) && manifest.schematic !== true && !existsSync(join(dir, 'claim-map.json'))) {
+    errors.push(`${manifest.artifact_type} artifacts must include claim-map.json when schematic is false.`);
+  }
+  if (summaryMapRequiredTypes.has(manifest.artifact_type) && manifest.schematic !== true && !existsSync(join(dir, 'summary-map.json'))) {
+    errors.push(`${manifest.artifact_type} artifacts must include summary-map.json when schematic is false.`);
+  }
+  if (chartContractTypes.has(manifest.artifact_type) && manifest.schematic !== true) {
+    if (!manifest.charts?.length) errors.push(`${manifest.artifact_type} artifacts must declare at least one chart in manifest.charts.`);
+    for (const [idx, chart] of (manifest.charts || []).entries()) {
+      for (const field of requiredChartFields) {
+        if (!(field in chart)) errors.push(`manifest.charts[${idx}] missing ${field}.`);
+      }
+      if ('fields' in chart && (!Array.isArray(chart.fields) || chart.fields.length === 0)) {
+        errors.push(`manifest.charts[${idx}].fields must be a non-empty array.`);
+      }
+      if ('sample_size' in chart && (!Number.isFinite(chart.sample_size) || chart.sample_size < 1)) {
+        errors.push(`manifest.charts[${idx}].sample_size must be a positive number.`);
+      }
+      if (chart.family === 'trend' && Number.isFinite(chart.sample_size) && chart.sample_size < 8) {
+        errors.push(`manifest.charts[${idx}] trend charts need at least 8 comparable points or a non-trend fallback.`);
+      }
+      if (chart.visual_encoding && typeof chart.visual_encoding === 'object') {
+        for (const field of requiredEncodingFields) {
+          if (!(field in chart.visual_encoding)) errors.push(`manifest.charts[${idx}].visual_encoding missing ${field}.`);
+        }
+      } else if ('visual_encoding' in chart) {
+        errors.push(`manifest.charts[${idx}].visual_encoding must be an object.`);
+      }
+    }
+  }
+  if (manifest.artifact_type === 'dashboard' && manifest.schematic !== true) {
+    const layouts = new Set(manifest.layouts || []);
+    for (const required of ['kpi-strip', 'detail-table']) {
+      if (!layouts.has(required)) errors.push(`dashboard artifacts must include ${required} in manifest.layouts.`);
+    }
+    if ((manifest.charts || []).length < 2) errors.push('dashboard artifacts must declare at least two charts or visual data regions.');
+  }
+}
+
+const htmlPath = join(dir, 'index.html');
+let html = '';
+if (existsSync(htmlPath)) {
+  html = readFileSync(htmlPath, 'utf8');
+  if (!/<!doctype html>/i.test(html)) errors.push('index.html must be a complete HTML document with doctype.');
+  if (!/<meta\s+name=["']viewport["']/i.test(html)) errors.push('index.html missing viewport meta.');
+  const placeholderRe = /\bTODO\b|\[必填\]|lorem ipsum|placeholder text|sample content|Metric A|Metric B|\{\{[^}]+\}\}|Trend chart region|Driver chart region/i;
+  if (placeholderRe.test(html)) errors.push('index.html contains placeholder text, empty chart regions, or unreplaced template tokens.');
+  if (!/data-design-id=/.test(html)) warnings.push('index.html has no data-design-id regions.');
+  if (manifest && !new RegExp(`data-style-preset=["']${manifest.style_preset}["']`).test(html)) {
+    errors.push(`index.html must declare data-style-preset="${manifest.style_preset}" on a visible root container.`);
+  }
+
+  const htmlChartIds = [...html.matchAll(/\bdata-chart-id=["']([^"']+)["']/gi)].map((match) => match[1]);
+  if (htmlChartIds.length && manifest) {
+    const manifestChartIds = new Set((manifest.charts || []).map((chart) => chart.id));
+    for (const chartId of htmlChartIds) {
+      if (!manifestChartIds.has(chartId)) errors.push(`HTML data-chart-id "${chartId}" has no matching manifest.charts entry.`);
+    }
+  }
+  if (manifest && chartContractTypes.has(manifest.artifact_type) && manifest.schematic !== true) {
+    const htmlChartSet = new Set(htmlChartIds);
+    for (const chart of manifest.charts || []) {
+      if (!htmlChartSet.has(chart.id)) errors.push(`manifest.charts id "${chart.id}" is not rendered by any HTML data-chart-id.`);
+      if ((/percent|rate|ratio/i.test(`${chart.unit} ${chart.family} ${chart.question}`)) && !chart.denominator && !JSON.stringify(manifest.missing_data || []).match(/denominator/i)) {
+        errors.push(`manifest.charts id "${chart.id}" uses rate/percent semantics and must declare denominator or missing_data.`);
+      }
+    }
+  }
+  if (manifest?.artifact_type === 'dashboard' && manifest.schematic !== true && !/<table\b/i.test(html)) {
+    errors.push('dashboard artifacts must include a detail table in the default view.');
+  }
+
+  if (manifest?.acceptance_metrics?.length) {
+    for (const metric of manifest.acceptance_metrics) {
+      if (!hasHtmlMarker(html, metric.id)) errors.push(`acceptance metric ${metric.id} is not rendered with a traceable HTML marker.`);
+      if (!html.includes(metric.label)) errors.push(`acceptance metric ${metric.id} label is not visible in HTML: ${metric.label}`);
+      if (metric.source_ref && !sourceExists(metric.source_ref)) errors.push(`acceptance metric ${metric.id} source is not readable: ${metric.source_ref}`);
+    }
+  }
+  if (manifest?.guidance_fields && manifest.schematic !== true) {
+    for (const [field, guidance] of Object.entries(manifest.guidance_fields)) {
+      if (guidance?.html_id && !hasHtmlMarker(html, guidance.html_id)) {
+        errors.push(`guidance field ${field} is not visible at HTML marker: ${guidance.html_id}`);
+      }
+    }
+  }
+
+  if (manifest && manifest.artifact_type !== 'design-system' && presetData?.presets?.[manifest.style_preset]) {
+    const allowed = collectHexValues(presetData.presets[manifest.style_preset]);
+    collectHexValues(manifest.style_overrides || {}, allowed);
+    const used = collectHexValues(html);
+    const disallowed = [...used].filter((color) => !allowed.has(color));
+    if (disallowed.length) {
+      errors.push(`index.html uses colors outside preset ${manifest.style_preset}: ${disallowed.join(', ')}`);
+    }
+  }
+}
+
+if (manifest?.artifact_type === 'html-deck' || manifest?.artifact_type === 'ppt-handoff') {
+  const planPath = join(dir, 'slide-plan.json');
+  if (!existsSync(planPath)) {
+    errors.push('Deck artifacts must include slide-plan.json.');
+  } else {
+    try {
+      slidePlan = JSON.parse(readFileSync(planPath, 'utf8'));
+      if (slidePlan.schema_version && slidePlan.schema_version !== 'design-slide-plan/v1') {
+        errors.push('slide-plan.json schema_version must be design-slide-plan/v1 when present.');
+      }
+      if (!Array.isArray(slidePlan.slides) || slidePlan.slides.length === 0) errors.push('slide-plan.json must contain a non-empty slides array.');
+      for (const [idx, slide] of (slidePlan.slides || []).entries()) {
+        for (const field of ['slide', 'layout_id', 'purpose', 'theme', 'source', 'media_decision']) {
+          if (!(field in slide)) errors.push(`slide-plan slide ${idx + 1} missing ${field}.`);
+        }
+        const allowedMediaDecisions = new Set(['none', 'image', 'screenshot', 'mermaid', 'chart', 'icon', 'generated-schematic', 'flowchart', 'mind-map']);
+        if ('media_decision' in slide) {
+          if (!allowedMediaDecisions.has(slide.media_decision)) {
+            errors.push(`slide-plan slide ${idx + 1} has unsupported media_decision: ${slide.media_decision}`);
+          }
+          const hasImageSlot = typeof slide.image_slot === 'string' && slide.image_slot.length > 0;
+          const hasImageSlots = Array.isArray(slide.image_slots) && slide.image_slots.length > 0;
+          if (slide.media_decision !== 'none' && !hasImageSlot && !hasImageSlots) {
+            errors.push(`slide-plan slide ${idx + 1} media_decision ${slide.media_decision} must declare image_slot or image_slots.`);
+          }
+        }
+      }
+    } catch (error) {
+      errors.push(`slide-plan.json is invalid JSON: ${error.message}`);
+    }
+  }
+
+  const slideTags = [...html.matchAll(/<section\b[^>]*class=["'][^"']*\bslide\b[^"']*["'][^>]*>/gi)];
+  if (!slideTags.length) errors.push('Deck HTML must contain <section class="slide"> slides.');
+  for (const [idx, match] of slideTags.entries()) {
+    const tag = match[0];
+    if (!/\bdata-layout=["']/.test(tag)) errors.push(`Slide ${idx + 1} missing data-layout.`);
+    if (!/\bdata-purpose=["']/.test(tag)) errors.push(`Slide ${idx + 1} missing data-purpose.`);
+  }
+}
+
+if (manifest?.artifact_type === 'screenshot-evidence') {
+  if (!/data-image-slot=/.test(html)) errors.push('screenshot-evidence artifacts must bind images with data-image-slot.');
+  if (!/data-screenshot-mode=/.test(html)) errors.push('screenshot-evidence artifacts must declare data-screenshot-mode.');
+}
+
+if (manifest?.artifact_type === 'poster') {
+  if (!existsSync(join(dir, 'poster-plan.json'))) errors.push('poster artifacts must include poster-plan.json.');
+  if (!/data-poster-id=/.test(html)) errors.push('poster artifacts must declare data-poster-id.');
+  if ((html.match(/<h1\b/gi) || []).length !== 1) errors.push('poster artifacts must include exactly one primary h1.');
+}
+
+if (manifest?.artifact_type === 'design-system') {
+  for (const file of ['DESIGN.md', 'tokens.css']) {
+    if (!existsSync(join(dir, file))) errors.push(`design-system artifacts must include ${file}.`);
+  }
+}
+
+if (manifest?.artifact_type === 'tweakable-artifact') {
+  for (const marker of ['data-design-id="tweak-panel"', 'id="accent"', 'id="scale"', 'id="density"', 'id="mode"']) {
+    if (!html.includes(marker)) errors.push(`tweakable-artifact missing control marker: ${marker}`);
+  }
+}
+
+if (manifest?.artifact_type === 'ppt-handoff') {
+  const qualityPathForPpt = join(dir, 'quality-report.md');
+  if (existsSync(qualityPathForPpt)) {
+    const quality = readFileSync(qualityPathForPpt, 'utf8');
+    if (!/PPTX Conversion Notes/i.test(quality)) errors.push('ppt-handoff quality-report.md must include PPTX Conversion Notes.');
+  }
+}
+
+const localImages = [...html.matchAll(/<img\b[^>]*src=["'](?:\.\/)?images\//gi)];
+const htmlImageSlots = new Set();
+for (const [idx, match] of localImages.entries()) {
+  const rest = html.slice(match.index, html.indexOf('>', match.index) + 1);
+  if (!/\bdata-image-slot=["']/.test(rest)) errors.push(`Local image ${idx + 1} missing data-image-slot.`);
+  const slot = rest.match(/\bdata-image-slot=["']([^"']+)["']/)?.[1];
+  if (slot) htmlImageSlots.add(slot);
+  const src = rest.match(/\bsrc=["']([^"']+)["']/i)?.[1];
+  if (src && !existsSync(join(dir, src.replace(/^\.\//, '')))) {
+    errors.push(`Local image ${idx + 1} source is not readable: ${src}`);
+  }
+}
+
+if (manifest?.visual_assets?.length) {
+  const manifestSlots = new Set(manifest.visual_assets.map((asset) => asset.slot).filter(Boolean));
+  for (const slot of manifestSlots) {
+    if (!htmlImageSlots.has(slot)) errors.push(`manifest.visual_assets slot "${slot}" is not rendered by any HTML data-image-slot.`);
+  }
+}
+
+if (slidePlan?.slides?.length) {
+  const requiredSlots = new Set();
+  for (const slide of slidePlan.slides) {
+    if (typeof slide.image_slot === 'string' && slide.image_slot) requiredSlots.add(slide.image_slot);
+    if (Array.isArray(slide.image_slots)) {
+      for (const slot of slide.image_slots) {
+        if (typeof slot === 'string' && slot) requiredSlots.add(slot);
+        if (slot && typeof slot === 'object' && typeof slot.slot === 'string' && slot.slot) requiredSlots.add(slot.slot);
+      }
+    }
+  }
+  const manifestSlots = new Set((manifest?.visual_assets || []).map((asset) => asset.slot).filter(Boolean));
+  for (const slot of requiredSlots) {
+    if (!htmlImageSlots.has(slot)) errors.push(`slide-plan image slot "${slot}" is not rendered by HTML.`);
+    if (manifest?.visual_assets?.length && !manifestSlots.has(slot)) {
+      errors.push(`slide-plan image slot "${slot}" is not declared in manifest.visual_assets.`);
+    }
+  }
+}
+
+const qualityPath = join(dir, 'quality-report.md');
+if (existsSync(qualityPath)) {
+  const quality = readFileSync(qualityPath, 'utf8');
+  for (const heading of ['## Artifact', '## Sources', '## Assumptions', '## Validation', '## Status', '## Visual QA', '## Data Gaps', '## Remaining Risks']) {
+    if (!quality.includes(heading)) errors.push(`quality-report.md missing heading: ${heading}`);
+  }
+  const statusFields = {
+    artifact_status: ['ready', 'partial', 'blocked', 'schematic'],
+    claim_assurance: ['local_provenance_only', 'externally_verified', 'unverified', 'schematic'],
+    semantic_entailment: ['not_proven', 'manually_reviewed'],
+    summary_integrity: ['source_mapped', 'not_applicable', 'not_checked'],
+    number_integrity: ['verbatim_checked', 'not_applicable', 'not_checked'],
+    plain_language: ['manual_reviewed', 'not_applicable', 'not_checked'],
+    visual_qa: ['not_run', 'smoke_passed', 'manual_reviewed', 'blocked'],
+    accessibility: ['not_run', 'basic_checked', 'manually_reviewed', 'blocked'],
+    'runtime.browser_smoke': ['available', 'missing', 'not_checked', 'not_claimed'],
+    'runtime.browser_launch': ['available', 'missing', 'not_checked', 'not_claimed', 'blocked']
+  };
+  const parsedStatus = {};
+  for (const [field, values] of Object.entries(statusFields)) {
+    const escaped = field.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(`^${escaped}:\\s*(${values.join('|')})\\s*$`, 'm');
+    const match = quality.match(pattern);
+    if (!match) {
+      errors.push(`quality-report.md missing valid status field: ${field}`);
+    } else {
+      parsedStatus[field] = match[1];
+    }
+  }
+  if (/TODO|\[必填\]|lorem ipsum/i.test(quality)) errors.push('quality-report.md contains placeholders.');
+
+  const reportTemplateId = quality.match(/^template_id:\s*(\S+)\s*$/m)?.[1];
+  const reportApplicableGates = quality.match(/^applicable_gates:\s*(.+)$/m)?.[1]
+    ?.split(',')
+    .map((gate) => gate.trim())
+    .filter(Boolean);
+  const reportGateResults = [...quality.matchAll(/^- gate_id:\s*(\S+)\s*\n\s+status:\s*(passed|failed|not_run|not_applicable)\s*\n\s+evidence:\s*(.+)$/gm)]
+    .map((match) => ({ gate_id: match[1], status: match[2], evidence: match[3].trim() }));
+  if (manifest?.template_id) {
+    if (reportTemplateId !== manifest.template_id) errors.push('quality-report.md template_id must match manifest.template_id.');
+    const manifestApplicableGates = manifest.validation?.applicable_gates || [];
+    if (!reportApplicableGates || reportApplicableGates.join('|') !== manifestApplicableGates.join('|')) {
+      errors.push('quality-report.md applicable_gates must match manifest.validation.applicable_gates.');
+    }
+    const manifestResults = manifest.validation?.results || [];
+    const reportResultMap = new Map(reportGateResults.map((result) => [result.gate_id, result]));
+    for (const result of manifestResults) {
+      const reportResult = reportResultMap.get(result.gate_id);
+      if (!reportResult) errors.push(`quality-report.md is missing gate result: ${result.gate_id}`);
+      else if (reportResult.status !== result.status) errors.push(`quality-report.md gate status does not match manifest: ${result.gate_id}`);
+    }
+  }
+  if (manifest?.guidance_fields && manifest.schematic !== true) {
+    for (const field of Object.keys(manifest.guidance_fields)) {
+      const match = quality.match(new RegExp(`^${escapeRegExp(field)}:\\s*(.+)$`, 'm'));
+      if (!match || !match[1].trim()) errors.push(`quality-report.md missing readable guidance field: ${field}`);
+    }
+  }
+
+  if (parsedStatus.artifact_status === 'ready') {
+    if (parsedStatus.semantic_entailment !== 'manually_reviewed') {
+      errors.push('ready artifacts must set semantic_entailment: manually_reviewed.');
+    }
+    if (parsedStatus.summary_integrity !== 'source_mapped') {
+      errors.push('ready artifacts must set summary_integrity: source_mapped.');
+    }
+    if (parsedStatus.number_integrity !== 'verbatim_checked') {
+      errors.push('ready artifacts must set number_integrity: verbatim_checked.');
+    }
+    if (parsedStatus.plain_language !== 'manual_reviewed') {
+      errors.push('ready artifacts must set plain_language: manual_reviewed.');
+    }
+    if (!['smoke_passed', 'manual_reviewed'].includes(parsedStatus.visual_qa)) {
+      errors.push('ready artifacts must have visual_qa: smoke_passed or manual_reviewed.');
+    }
+    if (!['basic_checked', 'manually_reviewed'].includes(parsedStatus.accessibility)) {
+      errors.push('ready artifacts must have accessibility: basic_checked or manually_reviewed.');
+    }
+    if (manifest?.data_provenance_ref && !/^calculation_integrity:\s*code_tested\s*$/m.test(quality)) {
+      errors.push('ready artifacts with data_provenance_ref must set calculation_integrity: code_tested.');
+    }
+  }
+
+  if (parsedStatus.visual_qa === 'smoke_passed') {
+    const qaDir = join(dir, 'qa');
+    if (!existsSync(qaDir)) {
+      errors.push('visual_qa: smoke_passed requires a qa/ directory with screenshots.');
+    } else {
+      const qaFiles = readdirSync(qaDir).filter((file) => file.toLowerCase().endsWith('.png'));
+      const hasDesktop = qaFiles.some((file) => /desktop/i.test(file));
+      const hasMobile = qaFiles.some((file) => /mobile/i.test(file));
+      if (!hasDesktop || !hasMobile) {
+        errors.push('visual_qa: smoke_passed requires desktop and mobile PNG screenshots in qa/.');
+      }
+      for (const file of qaFiles) {
+        if (statSync(join(qaDir, file)).size === 0) errors.push(`visual QA screenshot is empty: qa/${file}`);
+      }
+    }
+  }
+
+  if (manifest?.schematic === true && parsedStatus.artifact_status === 'ready') {
+    errors.push('schematic artifacts should use artifact_status: schematic, not ready.');
+  }
+}
+
+if (warnings.length) {
+  console.warn('Warnings:');
+  for (const warning of warnings) console.warn(`- ${warning}`);
+}
+
+if (errors.length) {
+  console.error('Design artifact validation failed:');
+  for (const error of errors) console.error(`- ${error}`);
+  process.exit(1);
+}
+
+console.log(`Design artifact validation passed: ${dir}`);

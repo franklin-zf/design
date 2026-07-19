@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <style>
+    :root { --bg:#f7f8f6; --panel:#ffffff; --panel-alt:#f0f3f5; --text:#1f2933; --muted:#667085; --accent:#2f6f9f; --line:#d9dee3; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter,system-ui,sans-serif; }
+    main { width:min(1120px, calc(100vw - 40px)); margin:40px auto 64px; }
+    header { border-bottom:1px solid var(--line); padding-bottom:24px; margin-bottom:28px; }
+    h1 { font-size:clamp(34px,5vw,64px); line-height:1; margin:0 0 16px; letter-spacing:0; }
+    h2 { font-size:24px; margin:0 0 14px; }
+    .summary { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:24px 0; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:22px; }
+    .kpi { font-size:34px; font-weight:750; font-variant-numeric:tabular-nums; }
+    .label, .note { color:var(--muted); font-size:13px; }
+    .chart { min-height:280px; color:var(--text); }
+    section { margin:28px 0; padding-top:10px; border-top:1px solid var(--line); }
+    .metadata { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:18px 0; color:var(--muted); font-size:13px; }
+    .caveat { background:var(--panel-alt); border-radius:8px; padding:18px; }
+    @media (max-width: 760px) { main { width:calc(100vw - 24px); margin-top:24px; } .summary { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main data-design-id="report" data-style-preset="neutral-analytic">
+    <header data-design-id="report-header">
+      <p class="label">{{AUDIENCE}} · {{DATE_RANGE}}</p>
+      <h1>{{TITLE}}</h1>
+      <p data-summary-id="executive-summary">{{EXECUTIVE_SUMMARY}}</p>
+      <div class="metadata" data-design-id="report-context">
+        <span>{{QUESTION}}</span>
+        <span>{{DECISION_CONTEXT}}</span>
+        <span>{{TIME_WINDOW}}</span>
+        <span>{{SOURCE_FRESHNESS}}</span>
+      </div>
+    </header>
+    <div class="summary" data-design-id="kpi-strip">
+      <article class="card" data-summary-id="kpi-1"><div class="label">{{KPI_1_LABEL}}</div><div class="kpi">{{KPI_1_VALUE}}</div><div class="note">{{KPI_1_CONTEXT}}</div></article>
+      <article class="card" data-summary-id="kpi-2"><div class="label">{{KPI_2_LABEL}}</div><div class="kpi">{{KPI_2_VALUE}}</div><div class="note">{{KPI_2_CONTEXT}}</div></article>
+      <article class="card" data-summary-id="kpi-3"><div class="label">{{KPI_3_LABEL}}</div><div class="kpi">{{KPI_3_VALUE}}</div><div class="note">{{KPI_3_CONTEXT}}</div></article>
+    </div>
+    <section data-design-id="primary-finding">
+      <h2>{{FINDING_TITLE}}</h2>
+      <p data-summary-id="primary-finding-summary">{{FINDING_TEXT}}</p>
+      <div class="chart" data-chart-id="primary-chart">{{CHART_OR_IMAGE}}</div>
+      <p class="note">{{SOURCE_NOTE}}</p>
+    </section>
+    <section class="caveat" data-design-id="caveats">
+      <h2>{{CAVEATS_TITLE}}</h2>
+      <p>{{CAVEATS_TEXT}}</p>
+    </section>
+    <section data-design-id="next-step">
+      <h2>{{NEXT_STEP_TITLE}}</h2>
+      <p>{{NEXT_STEP_TEXT}}</p>
+    </section>
+  </main>
+</body>
+</html>

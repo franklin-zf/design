@@ -1,0 +1,29 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "data-report",
+  "audience": "executive",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "schematic": false,
+  "source_materials": ["examples/invalid-summary-missing-preserved-number/source.txt"],
+  "data_sources": [{"id": "source.txt", "type": "text"}],
+  "metrics": [],
+  "charts": [
+    {
+      "id": "revenue",
+      "family": "single-value",
+      "source": "source.txt",
+      "unit": "USD",
+      "question": "What revenue is shown?",
+      "takeaway": "Revenue is 151000 USD.",
+      "grain": "note",
+      "fields": ["revenue"],
+      "sample_size": 1,
+      "visual_encoding": {"mark":"text","x":"note","y":"revenue","scale_type":"none","baseline":"not applicable","domain":"single value","label_policy":"direct label"}
+    }
+  ],
+  "layouts": ["report-header"],
+  "assumptions": [],
+  "missing_data": [],
+  "unverified_items": []
+}

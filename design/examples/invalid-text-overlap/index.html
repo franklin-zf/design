@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invalid Text Overlap</title>
+  <style>
+    body { margin:0; font:18px/1.4 system-ui,sans-serif; }
+    main { position:relative; min-height:320px; padding:24px; }
+    .a, .b { position:absolute; left:24px; top:90px; width:360px; padding:12px; background:#fff; }
+  </style>
+</head>
+<body>
+  <main data-design-id="overlap-fixture">
+    <h1>Overlap fixture</h1>
+    <p class="a">This paragraph intentionally occupies the same visual box.</p>
+    <p class="b">This second paragraph overlaps the first and should fail.</p>
+  </main>
+</body>
+</html>

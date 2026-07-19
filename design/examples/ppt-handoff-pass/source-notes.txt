@@ -1,0 +1,5 @@
+PPT handoff fixture notes.
+PPT handoff package.
+HTML deck plus conversion notes.
+Convert with native deck runtime when available.
+Keep slide plan and source notes attached.

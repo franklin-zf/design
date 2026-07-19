@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design System Package",
+  "type": "object",
+  "required": ["schema_version", "id", "name", "files", "preview", "contracts"],
+  "properties": {
+    "schema_version": { "const": "design-system-package/v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "files": {
+      "type": "object",
+      "required": ["design", "tokens", "components", "components_manifest"],
+      "properties": {
+        "design": { "type": "string", "minLength": 1 },
+        "tokens": { "type": "string", "minLength": 1 },
+        "design_tokens": { "type": "string", "minLength": 1 },
+        "components": { "type": "string", "minLength": 1 },
+        "components_manifest": { "type": "string", "minLength": 1 }
+      }
+    },
+    "preview": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "role"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "role": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "required": ["layout_lock", "accent_policy", "svg_text_policy", "motion_policy"],
+      "properties": {
+        "layout_lock": { "type": "string", "minLength": 1 },
+        "accent_policy": { "type": "string", "minLength": 1 },
+        "svg_text_policy": { "type": "string", "minLength": 1 },
+        "motion_policy": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

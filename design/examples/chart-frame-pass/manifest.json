@@ -1,0 +1,42 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "chart-frame",
+  "audience": "product stakeholders",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "template_id": "source-backed-report",
+  "template_selection": {"template_id": "source-backed-report", "reader_job": "source-backed chart explanation", "rationale": "The fixture answers one analytical question with a bounded chart frame.", "rejected_alternatives": ["operational-dashboard", "swiss-evidence-deck"]},
+  "validation": {"applicable_gates": ["validate-design-output", "validate-summary-map", "validate-claim-map"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/chart-frame-pass"}, {"gate_id": "validate-summary-map", "status": "passed", "evidence": "node scripts/validate-summary-map.mjs examples/chart-frame-pass"}, {"gate_id": "validate-claim-map", "status": "passed", "evidence": "node scripts/validate-claim-map.mjs examples/chart-frame-pass"}]},
+  "guidance_fields": {"answer": {"html_id": "answer", "source_refs": ["examples/chart-frame-pass/source.csv"]}, "caveats": {"html_id": "caveats", "source_refs": ["examples/chart-frame-pass/source.csv"]}, "next_step": {"html_id": "next_step", "source_refs": ["examples/chart-frame-pass/source.csv"]}},
+  "schematic": false,
+  "source_materials": ["examples/chart-frame-pass/source.csv"],
+  "data_sources": [{"id": "source.csv", "type": "csv"}],
+  "metrics": [{"name": "Activation rate", "unit": "percent", "denominator": "eligible accounts"}],
+  "charts": [
+    {
+      "id": "activation-trend",
+      "family": "trend",
+      "source": "source.csv",
+      "unit": "activation_rate",
+      "denominator": "eligible accounts",
+      "question": "Has activation rate improved over the latest eight monthly points?",
+      "takeaway": "Activation_rate moved from 0.34 in 2025-11 to 0.47 in 2026-06.",
+      "grain": "monthly",
+      "fields": ["month", "activation_rate"],
+      "sample_size": 8,
+      "visual_encoding": {
+        "mark": "line with direct endpoint labels",
+        "x": "month",
+        "y": "activation_rate",
+        "scale_type": "linear",
+        "baseline": "zero shown by percent axis context",
+        "domain": "0.30 to 0.50",
+        "label_policy": "endpoint labels and axis ticks"
+      }
+    }
+  ],
+  "layouts": ["chart-frame"],
+  "assumptions": ["Eight monthly points are enough for this compact fixture trend claim."],
+  "missing_data": [],
+  "unverified_items": ["External source truth is not verified."]
+}

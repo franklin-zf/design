@@ -1,0 +1,49 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["direct", "clear", "no_unnecessary_jargon"]
+  },
+  "summaries": [
+    {
+      "id": "ppt-title",
+      "summary_text": "PPT handoff package",
+      "status": "verified",
+      "source_refs": ["examples/ppt-handoff-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/ppt-handoff-pass/source-notes.txt", "quote": "PPT handoff package." }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "ppt-subtitle",
+      "summary_text": "HTML deck plus conversion notes.",
+      "status": "verified",
+      "source_refs": ["examples/ppt-handoff-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/ppt-handoff-pass/source-notes.txt", "quote": "HTML deck plus conversion notes." }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "ppt-close",
+      "summary_text": "Convert with native deck runtime when available",
+      "status": "verified",
+      "source_refs": ["examples/ppt-handoff-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/ppt-handoff-pass/source-notes.txt", "quote": "Convert with native deck runtime when available." }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "ppt-source",
+      "summary_text": "Keep slide plan and source notes attached.",
+      "status": "verified",
+      "source_refs": ["examples/ppt-handoff-pass/source-notes.txt"],
+      "source_quotes": [
+        { "source_ref": "examples/ppt-handoff-pass/source-notes.txt", "quote": "Keep slide plan and source notes attached." }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

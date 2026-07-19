@@ -1,0 +1,43 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {
+      "id": "simulation-disclosure",
+      "text": "本仪表盘使用 36 款模拟产品数据。",
+      "status": "verified",
+      "claim_class": "source_fact",
+      "source_refs": ["source/simulated-products.json"],
+      "evidence_quotes": [{"source_ref": "source/simulated-products.json", "quote": "\"simulated\": true"}]
+    },
+    {
+      "id": "product-count",
+      "text": "本页展示 36 款产品。",
+      "status": "verified",
+      "claim_class": "computed_metric",
+      "source_refs": ["derived/dashboard-data.json"],
+      "evidence_quotes": [{"source_ref": "derived/dashboard-data.json", "quote": "\"product_count\": 36"}],
+      "derivation_refs": ["product-summary"],
+      "derived_values": [{"derivation_ref": "product-summary", "json_pointer": "/product_count", "token": "36"}]
+    },
+    {
+      "id": "summary-contract",
+      "text": "模拟数据汇总合同额为 113089000 元。",
+      "status": "verified",
+      "claim_class": "computed_metric",
+      "source_refs": ["derived/dashboard-data.json"],
+      "evidence_quotes": [{"source_ref": "derived/dashboard-data.json", "quote": "\"contract_amount\": 113089000"}],
+      "derivation_refs": ["product-summary"],
+      "derived_values": [{"derivation_ref": "product-summary", "json_pointer": "/summary/contract_amount", "token": "113089000"}]
+    },
+    {
+      "id": "summary-cash",
+      "text": "模拟数据汇总收现为 76352000 元。",
+      "status": "verified",
+      "claim_class": "computed_metric",
+      "source_refs": ["derived/dashboard-data.json"],
+      "evidence_quotes": [{"source_ref": "derived/dashboard-data.json", "quote": "\"cash_received\": 76352000"}],
+      "derivation_refs": ["product-summary"],
+      "derived_values": [{"derivation_ref": "product-summary", "json_pointer": "/summary/cash_received", "token": "76352000"}]
+    }
+  ]
+}

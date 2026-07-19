@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "product team",
+  "surface": "html",
+  "style_preset": "swiss-deck",
+  "schematic": false,
+  "source_materials": ["examples/deck-pass/source-notes.txt"],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["D01-cover"],
+  "assumptions": ["Negative fixture omits slide media_decision."],
+  "missing_data": [],
+  "unverified_items": ["Intentional contract failure."]
+}

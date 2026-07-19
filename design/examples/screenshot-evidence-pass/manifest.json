@@ -1,0 +1,19 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "screenshot-evidence",
+  "audience": "product design review",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "template_id": "screenshot-evidence-board",
+  "template_selection": {"template_id": "screenshot-evidence-board", "reader_job": "visual evidence grouping", "rationale": "The fixture preserves a source image in a reviewable evidence frame.", "rejected_alternatives": ["source-backed-report", "swiss-evidence-deck"]},
+  "validation": {"applicable_gates": ["validate-design-output", "render-smoke", "manual-reviewer-pass"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/screenshot-evidence-pass"}, {"gate_id": "render-smoke", "status": "passed", "evidence": "package render smoke"}, {"gate_id": "manual-reviewer-pass", "status": "passed", "evidence": "fixture review recorded in quality-report.md"}]},
+  "schematic": true,
+  "source_materials": ["examples/screenshot-evidence-pass/images/source.svg"],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "layouts": ["screenshot-evidence"],
+  "assumptions": ["Source SVG is a fixture screenshot stand-in."],
+  "missing_data": [],
+  "unverified_items": ["No real product screenshot supplied."]
+}

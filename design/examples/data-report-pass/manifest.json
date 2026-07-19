@@ -1,0 +1,58 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "data-report",
+  "audience": "executive",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "template_id": "source-backed-report",
+  "template_selection": {"template_id": "source-backed-report", "reader_job": "executive answer-first analysis", "rationale": "The source needs an answer, evidence, caveats, and next review in one reading surface.", "rejected_alternatives": ["operational-dashboard", "swiss-evidence-deck"]},
+  "validation": {"applicable_gates": ["validate-design-output", "validate-summary-map", "validate-claim-map"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/data-report-pass"}, {"gate_id": "validate-summary-map", "status": "passed", "evidence": "node scripts/validate-summary-map.mjs examples/data-report-pass"}, {"gate_id": "validate-claim-map", "status": "passed", "evidence": "node scripts/validate-claim-map.mjs examples/data-report-pass"}]},
+  "guidance_fields": {"answer": {"html_id": "answer", "source_refs": ["examples/data-report-pass/source.csv"]}, "caveats": {"html_id": "caveats", "source_refs": ["examples/data-report-pass/source.csv"]}, "next_step": {"html_id": "next-step", "source_refs": ["examples/data-report-pass/source.csv"]}},
+  "schematic": false,
+  "source_materials": ["examples/data-report-pass/source.csv"],
+  "data_sources": [
+    {
+      "id": "source.csv",
+      "type": "csv",
+      "description": "Example monthly revenue and activation summary"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "Revenue",
+      "unit": "USD",
+      "window": "2025-11 to 2026-06"
+    },
+    {
+      "name": "Activation rate",
+      "unit": "percent",
+      "denominator": "eligible accounts"
+    }
+  ],
+  "charts": [
+    {
+      "id": "revenue-trend",
+      "family": "trend",
+      "source": "source.csv",
+      "unit": "USD",
+      "question": "How has revenue moved over the last eight monthly points?",
+      "takeaway": "Revenue moved from 124000 USD in 2026-04 to 151000 USD in 2026-06.",
+      "grain": "monthly",
+      "fields": ["month", "revenue_usd"],
+      "sample_size": 8,
+      "visual_encoding": {
+        "mark": "line with points",
+        "x": "month",
+        "y": "revenue_usd",
+        "scale_type": "linear",
+        "baseline": "zero shown on axis label context",
+        "domain": "100000 to 160000 USD",
+        "label_policy": "direct endpoint labels and axis ticks"
+      }
+    }
+  ],
+  "layouts": ["report-header", "report-context", "kpi-strip", "primary-finding", "caveats", "next-step"],
+  "assumptions": ["Example fixture uses a small reviewed CSV with eight monthly points."],
+  "missing_data": [],
+  "unverified_items": ["External source truth is not verified for this fixture."]
+}

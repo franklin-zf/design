@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Q2 Revenue Momentum</title>
+  <style>
+    :root { --bg:#f7f8f6; --panel:#ffffff; --panel-alt:#f0f3f5; --text:#1f2933; --muted:#667085; --accent:#2f6f9f; --line:#d9dee3; --positive:#256f5b; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 Inter,system-ui,sans-serif; }
+    main { width:min(1040px, calc(100vw - 40px)); margin:40px auto 64px; }
+    header { border-bottom:1px solid var(--line); padding-bottom:24px; margin-bottom:24px; }
+    h1 { font-size:44px; line-height:1.04; margin:0 0 14px; letter-spacing:0; max-width:900px; }
+    h2 { font-size:22px; margin:0 0 12px; }
+    .muted { color:var(--muted); font-size:13px; }
+    .context { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:18px; }
+    .context span, .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0 28px; }
+    .kpi { font-size:34px; font-weight:760; font-variant-numeric:tabular-nums; }
+    section { margin:30px 0; padding-top:18px; border-top:1px solid var(--line); }
+    .chart-wrap { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:18px; }
+    svg { width:100%; height:auto; display:block; }
+    .axis { stroke:var(--muted); stroke-width:1; }
+    .grid { stroke:var(--line); stroke-width:1; }
+    .line { fill:none; stroke:var(--accent); stroke-width:4; }
+    .point { fill:var(--accent); }
+    .endpoint { fill:var(--panel); stroke:var(--accent); stroke-width:3; }
+    .label { fill:var(--muted); font:12px Inter,system-ui,sans-serif; }
+    .value { fill:var(--text); font:13px Inter,system-ui,sans-serif; font-weight:700; }
+    .caveat { background:var(--panel-alt); border-radius:8px; padding:18px; border:0; }
+    @media (max-width:760px) { main { width:calc(100vw - 24px); margin-top:24px; } h1 { font-size:34px; } .cards,.context { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main data-design-id="report" data-style-preset="neutral-analytic">
+    <header data-design-id="report-header">
+      <p class="muted">Executive · 2025-11 to 2026-06</p>
+      <h1>Revenue and activation changed in the supplied CSV</h1>
+      <p data-summary-id="main-summary">Revenue moved from 124000 USD in 2026-04 to 151000 USD in 2026-06 while activation_rate moved from 0.41 to 0.47.</p>
+      <div class="context muted" data-design-id="report-context">
+        <span>Question: is Q2 momentum real?</span>
+        <span>Decision: prioritize retention review</span>
+        <span>Window: eight monthly points</span>
+        <span>Source: local CSV fixture</span>
+        <span>Duplicates: none merged</span>
+      </div>
+    </header>
+    <div class="cards" data-design-id="kpi-strip">
+      <article class="card" data-summary-id="revenue-kpi"><div class="muted">Revenue</div><div class="kpi">151000</div><div class="muted">USD in 2026-06</div></article>
+      <article class="card" data-summary-id="activation-kpi"><div class="muted">Activation_rate</div><div class="kpi">0.47</div><div class="muted">in 2026-06</div></article>
+      <article class="card"><div class="muted">Source rows</div><div class="kpi">8</div><div class="muted">monthly points</div></article>
+    </div>
+    <section data-design-id="primary-finding" data-guidance-field="answer">
+      <h2>Revenue trend</h2>
+      <p data-summary-id="finding-summary">The supplied CSV rises across the reviewed months; the next review should test whether activation gains are durable.</p>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 760 320" role="img" aria-label="Monthly revenue line chart from 108000 USD in 2025-11 to 151000 USD in 2026-06" data-chart-id="revenue-trend">
+          <line class="grid" x1="60" y1="260" x2="720" y2="260"></line>
+          <line class="grid" x1="60" y1="180" x2="720" y2="180"></line>
+          <line class="grid" x1="60" y1="100" x2="720" y2="100"></line>
+          <line class="axis" x1="60" y1="40" x2="60" y2="260"></line>
+          <line class="axis" x1="60" y1="260" x2="720" y2="260"></line>
+          <polyline class="line" points="60,228 154,212 248,192 342,176 436,168 530,164 624,108 718,56"></polyline>
+          <circle class="point" cx="60" cy="228" r="5"></circle>
+          <circle class="point" cx="154" cy="212" r="5"></circle>
+          <circle class="point" cx="248" cy="192" r="5"></circle>
+          <circle class="point" cx="342" cy="176" r="5"></circle>
+          <circle class="point" cx="436" cy="168" r="5"></circle>
+          <circle class="point" cx="530" cy="164" r="5"></circle>
+          <circle class="point" cx="624" cy="108" r="5"></circle>
+          <circle class="endpoint" cx="718" cy="56" r="6"></circle>
+          <text class="label" x="8" y="264">100000</text>
+          <text class="label" x="8" y="184">120000</text>
+          <text class="label" x="8" y="104">140000</text>
+          <text class="label" x="60" y="294">Nov</text>
+          <text class="label" x="500" y="294">Apr</text>
+          <text class="label" x="700" y="294">Jun</text>
+          <text class="value" x="642" y="42">151000</text>
+        </svg>
+      </div>
+      <p class="muted">Source: examples/data-report-pass/source.csv. Linear scale, domain 100000-160000 USD.</p>
+    </section>
+    <section class="caveat" data-design-id="caveats" data-guidance-field="caveats">
+      <h2>What remains uncertain</h2>
+      <p>This fixture does not include segment, channel, or customer cohort detail, so it cannot explain the driver of the increase.</p>
+    </section>
+    <section data-design-id="next-step" data-guidance-field="next_step">
+      <h2>Next review</h2>
+      <p>Pair the revenue trend with segment and retention cohorts before making a channel-level decision.</p>
+    </section>
+  </main>
+</body>
+</html>

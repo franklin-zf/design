@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Swiss Deck Components</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="layouts.css">
+  <style>
+    body { margin: 0; overflow: auto; background: var(--ds-paper); color: var(--ds-ink); font-family: Inter, Helvetica, Arial, sans-serif; }
+    main { min-height: 100vh; display: grid; grid-template-columns: 5fr 7fr; }
+    .identity { padding: 48px; display: grid; grid-template-rows: auto 1fr auto; background: var(--ds-blue); color: var(--ds-panel); }
+    .meta { margin: 0; color: inherit; font: 700 14px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; }
+    .cover-title { align-self: center; max-width: 8ch; margin: 0; font-size: 78px; line-height: .92; letter-spacing: 0; }
+    .identity-footer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .swatch { height: 18px; border: 1px solid var(--ds-panel); }
+    .swatch.paper { background: var(--ds-paper); }
+    .swatch.ink { background: var(--ds-ink); }
+    .swatch.blue { background: var(--ds-blue); }
+    .swatch.marker { background: var(--ds-marker); }
+    .system { padding: 48px; display: grid; grid-template-rows: auto 1fr auto; gap: 28px; }
+    .system .meta { color: var(--ds-muted); }
+    .layout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .layout { min-height: 150px; padding: 18px; display: grid; grid-template-rows: auto 1fr; border-top: 3px solid var(--ds-ink); background: var(--ds-panel); }
+    .layout strong { align-self: end; max-width: 10ch; font-size: 25px; line-height: 1; }
+    .layout.blue { border-top-color: var(--ds-blue); }
+    .layout.ink { background: var(--ds-ink); color: var(--ds-paper); }
+    .ledger { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ds-line); border-bottom: 1px solid var(--ds-line); }
+    .metric { padding: 18px 12px; border-right: 1px solid var(--ds-line); }
+    .metric:last-child { border-right: 0; }
+    .metric-value { display: block; color: var(--ds-blue); font-size: 46px; line-height: 1; font-weight: 800; }
+    .metric-label { color: var(--ds-muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="identity" data-od-id="cover-component">
+      <p class="meta">Swiss evidence system / 01</p>
+      <h1 class="cover-title">Evidence before style</h1>
+      <div class="identity-footer" aria-label="Core color tokens"><span class="swatch paper"></span><span class="swatch ink"></span><span class="swatch blue"></span><span class="swatch marker"></span></div>
+    </section>
+    <section class="system" data-od-id="layout-system">
+      <p class="meta">Production components / Registered layouts</p>
+      <div class="layout-grid">
+        <div class="layout"><span class="meta">S03</span><strong>Statement</strong></div>
+        <div class="layout blue"><span class="meta">S11</span><strong>Process path</strong></div>
+        <div class="layout ink"><span class="meta">S17</span><strong>System map</strong></div>
+        <div class="layout ink"><span class="meta">S20</span><strong>Metric ledger</strong></div>
+        <div class="layout blue"><span class="meta">S21</span><strong>Risk control</strong></div>
+        <div class="layout"><span class="meta">S22</span><strong>Evidence image</strong></div>
+      </div>
+      <div class="ledger" data-od-id="metric-component">
+        <div class="metric"><strong class="metric-value">0</strong><span class="metric-label">Radius</span></div>
+        <div class="metric"><strong class="metric-value">0</strong><span class="metric-label">Shadow</span></div>
+        <div class="metric"><strong class="metric-value">1</strong><span class="metric-label">Large accent</span></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

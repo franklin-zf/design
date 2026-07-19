@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design"
+  short_description: "Trustworthy visual artifacts with risk-matched assurance and content-specific taste"
+  default_prompt: "Use $design to turn the supplied content or data into a trustworthy visual artifact. State the reader job, choose one shape, route explicit facts to Express, Standard, or Assured without downgrading unknown risk, and write visual_thesis, content_tension, signature_move, anti_reference, and restraint_rule before selecting a registry template. Preserve raw sources exactly, route every derived value through reproducible code, inspect the real surface, and report Proven, Not proven, and Next; never treat a fast path as human or audit approval."
+policy:
+  allow_implicit_invocation: true

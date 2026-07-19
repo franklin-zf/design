@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "data-report",
+  "audience": "executive",
+  "surface": "html",
+  "style_preset": "neutral-analytic",
+  "schematic": false,
+  "source_materials": ["examples/invalid-claim-quote-not-in-source/source.csv"],
+  "data_sources": [{ "id": "source.csv", "type": "csv" }],
+  "metrics": [{ "name": "Revenue", "unit": "USD" }],
+  "charts": [{ "id": "revenue", "family": "trend", "source": "source.csv" }],
+  "layouts": ["report"],
+  "assumptions": [],
+  "missing_data": [],
+  "unverified_items": []
+}

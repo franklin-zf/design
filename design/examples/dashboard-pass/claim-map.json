@@ -1,0 +1,33 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {
+      "id": "active-accounts",
+      "text": "The dashboard reports 428 active accounts.",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "evidence_quotes": [
+        { "source_ref": "source.json", "quote": "\"active_accounts\": 428" }
+      ]
+    },
+    {
+      "id": "weekly-growth",
+      "text": "The dashboard reports 0.064 weekly_growth.",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "evidence_quotes": [
+        { "source_ref": "source.json", "quote": "\"weekly_growth\": 0.064" }
+      ]
+    },
+    {
+      "id": "activity-trend",
+      "text": "Active_accounts moved from 386 in 2026-W18 to 428 in 2026-W25.",
+      "status": "verified",
+      "source_refs": ["source.json", "examples/dashboard-pass/source.json"],
+      "evidence_quotes": [
+        { "source_ref": "source.json", "quote": "\"week\": \"2026-W18\", \"active_accounts\": 386" },
+        { "source_ref": "source.json", "quote": "\"week\": \"2026-W25\", \"active_accounts\": 428" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "role": "designer",
+  "reader_job": "",
+  "visual_thesis": "",
+  "content_tension": {
+    "statement": "",
+    "source_refs": []
+  },
+  "direction_alternatives": [],
+  "direction_alternatives_not_needed_reason": "",
+  "signature_move": {
+    "move": "",
+    "reader_value": ""
+  },
+  "anti_reference": [],
+  "restraint_rule": "",
+  "style_preset": "",
+  "design_system_package": "",
+  "template_id": "",
+  "rejected_template_ids": [],
+  "preview_plan": [],
+  "inspect_plan": [],
+  "swiss_layout_lock": "",
+  "layout_plan": [],
+  "image_slots": [],
+  "image_plan": [],
+  "icon_plan": [],
+  "motion_recipe_by_slide": [],
+  "anti_ai_slop_visual_checks": [],
+  "motion_plan": [],
+  "aesthetic_risks": []
+}
