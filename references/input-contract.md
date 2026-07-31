@@ -1,6 +1,6 @@
 # Input Contract
 
-## REQ-002 Minimum Contract
+## Minimum Contract
 
 The input is complete only when it tells the system what to make, why it is
 needed, who will use it, and what evidence may support it. These are the
@@ -20,8 +20,9 @@ If a required field is absent, the task is `needs_clarification`; it is not
 ready for artifact selection. `source_materials` may say `none`, but it must
 also state why and what claims are therefore out of scope.
 
-The following compact record is an implementation suggestion, not a claim that
-the current validator accepts this exact object:
+The following compact record is the product input contract. Validator coverage
+is documented separately in `references/validation.md`; fields without a
+validator still require explicit human review rather than an inferred pass:
 
 ```json
 {
@@ -142,5 +143,12 @@ Record one of these outcomes before production:
 - `ready_for_production`: the minimum fields are present and source/summary/calculation rules are set;
 - `blocked`: a required source, permission, or safety condition prevents the requested output.
 
-This outcome is a product-contract suggestion for REQ-002. It is not evidence
-that a validator currently emits these exact values.
+This outcome is a product decision record. It does not claim that one validator
+emits every field; the execution plan and reviewer preserve the enforcement
+boundary.
+
+## V2 Execution and Render Inputs
+
+Any derived execution declaration includes an artifact-relative `entrypoint`, dependency-lock identity, code/lock SHA-256 values, bounded argv/timeout/output, a registered `resource_limiter_id`, and explicit artifact-relative `read_allowlist` and `write_allowlist`. Missing or unsafe fields classify the code as untrusted and require zero spawn. A caller capability flag or reviewer approval is not an execution control.
+
+The render contract declares exactly the three viewports 1440, 390, and 320; uniquely identified selector or scroll-fraction segments; uniquely identified states with deterministic setup steps and at least one assertion; and a `deny_all` or origin-allowlist remote policy. The compiler canonicalizes these fields into the plan-bound `render_spec`; the runner and evidence validator require exact equality, not a generic default-state substitute.

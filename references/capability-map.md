@@ -44,4 +44,6 @@
 
 This package does not include a desktop daemon, app marketplace, BI connector, native Google Slides importer, native PowerPoint renderer, Figma plugin, or scheduled refresh service. It can produce contracts and handoffs for those surfaces when the host provides them.
 
+Playwright is a host runtime, not a vendored skill asset. Browser commands use the shared portable loader and fail closed unless a validated explicit, package-local, or current-user Codex bundled runtime and Chromium executable are present.
+
 The package includes one validated Open Design-based Swiss production path and one machine-validated calculation fixture. This does not imply native PPTX/PDF parity, the full Open Design template catalog, all Guizang layouts, universal visual fit, or safe execution of untrusted calculation code.

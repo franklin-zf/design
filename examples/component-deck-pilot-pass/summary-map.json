@@ -1,0 +1,73 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": [
+      "direct",
+      "clear",
+      "no_unnecessary_jargon"
+    ]
+  },
+  "summaries": [
+    {
+      "id": "deck-conclusion",
+      "summary_text": "The conclusion comes first.",
+      "status": "verified",
+      "source_refs": [
+        "examples/component-deck-pilot-pass/source-notes.txt"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "examples/component-deck-pilot-pass/source-notes.txt",
+          "quote": "The conclusion comes first."
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "deck-sequence",
+      "summary_text": "Evidence follows in three ordered steps: source, test, decision.",
+      "status": "verified",
+      "source_refs": [
+        "examples/component-deck-pilot-pass/source-notes.txt"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "examples/component-deck-pilot-pass/source-notes.txt",
+          "quote": "Evidence follows in three ordered steps: source, test, decision."
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "deck-caveat",
+      "summary_text": "Caveat: visual emphasis does not replace source verification.",
+      "status": "verified",
+      "source_refs": [
+        "examples/component-deck-pilot-pass/source-notes.txt"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "examples/component-deck-pilot-pass/source-notes.txt",
+          "quote": "Caveat: visual emphasis does not replace source verification."
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "deck-source",
+      "summary_text": "Source: controlled pilot brief.",
+      "status": "verified",
+      "source_refs": [
+        "examples/component-deck-pilot-pass/source-notes.txt"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "examples/component-deck-pilot-pass/source-notes.txt",
+          "quote": "Source: controlled pilot brief."
+        }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

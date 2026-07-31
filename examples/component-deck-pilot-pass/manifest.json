@@ -1,0 +1,127 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "design review team",
+  "surface": "html",
+  "style_preset": "swiss-deck",
+  "template_id": "swiss-evidence-deck",
+  "template_selection": {
+    "template_id": "swiss-evidence-deck",
+    "reader_job": "Follow a conclusion and its ordered evidence",
+    "rationale": "The source is a short narrative with one conclusion, one sequence, one caveat, and one source note.",
+    "rejected_alternatives": [
+      "source-backed-report",
+      "operational-dashboard"
+    ]
+  },
+  "component_refs": [
+    "design-owned-staged-evidence-reveal"
+  ],
+  "validation": {
+    "applicable_gates": [
+      "validate-design-output",
+      "validate-summary-map",
+      "validate-aesthetic-contract",
+      "validate-asset-contract",
+      "validate-layout-lock",
+      "validate-visual-rhythm",
+      "render-smoke",
+      "validate-component-usage",
+      "manual-reviewer-pass"
+    ],
+    "results": [
+      {
+        "gate_id": "validate-design-output",
+        "status": "passed",
+        "evidence": "node scripts/validate-design-output.mjs examples/component-deck-pilot-pass"
+      },
+      {
+        "gate_id": "validate-summary-map",
+        "status": "passed",
+        "evidence": "node scripts/validate-summary-map.mjs examples/component-deck-pilot-pass"
+      },
+      {
+        "gate_id": "validate-aesthetic-contract",
+        "status": "passed",
+        "evidence": "node scripts/validate-aesthetic-contract.mjs examples/component-deck-pilot-pass"
+      },
+      {
+        "gate_id": "validate-asset-contract",
+        "status": "passed",
+        "evidence": "node scripts/validate-asset-contract.mjs examples/component-deck-pilot-pass"
+      },
+      {
+        "gate_id": "validate-layout-lock",
+        "status": "passed",
+        "evidence": "node scripts/validate-layout-lock.mjs examples/component-deck-pilot-pass"
+      },
+      {
+        "gate_id": "validate-visual-rhythm",
+        "status": "passed",
+        "evidence": "node scripts/validate-visual-rhythm.mjs examples/component-deck-pilot-pass"
+      },
+      {
+        "gate_id": "render-smoke",
+        "status": "passed",
+        "evidence": "strict render smoke passed at 1440, 390, and 320 pixels"
+      },
+      {
+        "gate_id": "validate-component-usage",
+        "status": "passed",
+        "evidence": "node scripts/validate-component-pilots.mjs examples/component-deck-pilot-pass"
+      },
+      {
+        "gate_id": "manual-reviewer-pass",
+        "status": "not_run",
+        "evidence": "Independent P1 review is pending."
+      }
+    ]
+  },
+  "schematic": false,
+  "source_materials": [
+    "examples/component-deck-pilot-pass/source-notes.txt"
+  ],
+  "data_sources": [],
+  "metrics": [],
+  "charts": [],
+  "design_system": {
+    "id": "swiss-deck"
+  },
+  "aesthetic_contract": {
+    "layout_lock": "swiss-s01-s22",
+    "accent_policy": {
+      "accent_2": "marker_only",
+      "max_accent_uses": 3
+    },
+    "svg_text_policy": "forbid_visible_text_in_swiss_assets",
+    "motion_policy": "semantic_with_reduced_motion",
+    "expression_level": "L2-motion",
+    "semantic_job": "sequence",
+    "reader_value": "Make the evidence order visible while preserving complete static meaning.",
+    "attention_budget": {
+      "primary_attention_region": "evidence-sequence",
+      "signature_move_count": 1,
+      "ambient_field_count": 0
+    },
+    "fallback": {
+      "reduced_motion": "Show all evidence steps in their final state.",
+      "static_html": "Keep every statement in DOM reading order.",
+      "ppt_handoff": "Print the complete labeled sequence."
+    },
+    "component_provenance_ref": "assets/components/registry.json#design-owned-staged-evidence-reveal",
+    "visual_rhythm": {
+      "max_same_weight_run": 2,
+      "min_unique_layouts_for_8_slides": 4
+    }
+  },
+  "layouts": [
+    "S01"
+  ],
+  "assumptions": [
+    "The controlled source brief is sufficient for a component parity test."
+  ],
+  "missing_data": [],
+  "unverified_items": [
+    "No real-user comprehension outcome is claimed."
+  ]
+}

@@ -2,7 +2,7 @@
 import { mkdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { chromium } from 'playwright';
+import { loadPlaywrightRuntime } from './lib/playwright-runtime.mjs';
 
 const htmlArg = process.argv[2];
 if (!htmlArg) {
@@ -22,6 +22,7 @@ const viewports = [
   { name: 'mobile', width: 390, height: 844 }
 ];
 const errors = [];
+const { chromium } = await loadPlaywrightRuntime();
 
 mkdirSync(qaDir, { recursive: true });
 const browser = await chromium.launch({ headless: true });

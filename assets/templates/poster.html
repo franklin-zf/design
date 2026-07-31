@@ -10,8 +10,6 @@
       --ink: #111111;
       --muted: #5f625f;
       --line: #d8d8d0;
-      --accent: #0047ff;
-      --marker: #d7ff00;
     }
 
     * {
@@ -70,32 +68,9 @@
 
     .hook {
       aspect-ratio: 1;
-      border: 2px solid var(--ink);
-      display: grid;
-      place-items: center;
       position: relative;
       overflow: hidden;
-    }
-
-    .hook::before,
-    .hook::after {
-      content: "";
-      position: absolute;
-      background: var(--accent);
-    }
-
-    .hook::before {
-      width: 66%;
-      height: 16%;
-      transform: rotate(-18deg);
-    }
-
-    .hook::after {
-      width: 18%;
-      height: 70%;
-      background: var(--marker);
-      mix-blend-mode: multiply;
-      transform: rotate(18deg);
+      min-height: 220px;
     }
 
     .foot {
@@ -141,7 +116,9 @@
         <h1 id="poster-title">核心信息</h1>
         <p class="message">一句直接、清晰、保留原意的说明。</p>
       </div>
-      <div class="hook" aria-hidden="true"></div>
+      <!-- Unselected by design: replace with a message-specific type, image,
+           data, product, or diagram hook and record it in poster-plan.json. -->
+      <div class="hook" data-hook-status="unselected" aria-hidden="true"></div>
     </section>
     <footer class="foot">
       <span>Source: local source material</span>

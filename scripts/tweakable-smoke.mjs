@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { isAbsolute, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { loadPlaywrightRuntime } from './lib/playwright-runtime.mjs';
 
 const target = process.argv[2];
 if (!target) {
@@ -10,9 +11,9 @@ if (!target) {
 
 let chromium;
 try {
-  ({ chromium } = await import('playwright'));
-} catch {
-  console.error('Playwright is not installed in this environment. Install it before running tweakable interaction smoke.');
+  ({ chromium } = await loadPlaywrightRuntime());
+} catch (error) {
+  console.error(error.message);
   process.exit(2);
 }
 

@@ -1,6 +1,6 @@
 # Reports And Dashboards
 
-## REQ-002 Guidance Contract
+## Guidance Contract
 
 An answer is useful only when the reader can tell what to decide or check
 next. For decision-support reports and dashboards, keep this small guidance
@@ -20,8 +20,8 @@ record close to the answer or primary KPI:
 These fields describe what the evidence can guide. They do not permit the
 author to invent an owner, action, threshold, outcome, or confidence. If the
 input does not provide one, use `unknown` or `not_requested` and explain why.
-The fields are a REQ-002 contract proposal; the current artifact validators do
-not claim to enforce them.
+These fields are the product guidance contract. When an automatic validator
+does not cover one, record human review or `not_checked`; do not infer a pass.
 
 ## Report Contract
 

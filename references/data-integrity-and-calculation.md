@@ -82,6 +82,6 @@ Raw source paths must never be derivation output paths.
 
 ## Current Enforcement Boundary
 
-Run `node scripts/validate-data-provenance.mjs <artifact-dir> --execute-trusted` for trusted local calculation code. The validator checks artifact-root path containment, rejects symbolic links and source/output aliasing, recomputes source/code/test/output hashes, reruns calculation and tests in a temporary copy with argv and no shell, verifies output identity, and rejects source mutation.
+Run `node scripts/validate-data-provenance.mjs <artifact-dir>` for static lineage checks. It checks artifact-root containment, rejects symbolic links and source/output aliasing, and recomputes source/code/test/output hashes. Executable argv must enter through a digest-verified `design-execution-request/v2` and `run-execution-plan.mjs`; the legacy `--execute-trusted` option is rejected so it cannot bypass machine policy.
 
-Computed summaries and claims also bind every visible derived token to an exact JSON Pointer in the declared output; token coincidence elsewhere in a file is not evidence. The validator proves identity and reproducibility for the declared fixture. It does not prove external source truth, formula intent, tamper-proof storage, or safe execution of untrusted code. Unknown external artifacts must not use `--execute-trusted`; keep them static or blocked until code review.
+Computed summaries and claims also bind every visible derived token to an exact JSON Pointer in the declared output; token coincidence elsewhere in a file is not evidence. Static provenance validation proves declared identity, not execution, external source truth, formula intent, tamper-proof storage, or safe code. Untrusted artifacts remain `zero_spawn`; human review changes assurance only.

@@ -2,7 +2,7 @@
 import { existsSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { chromium } from 'playwright';
+import { loadPlaywrightRuntime } from './lib/playwright-runtime.mjs';
 
 const artifactArg = process.argv[2];
 if (!artifactArg) {
@@ -17,6 +17,7 @@ const sheets = [
   { html: 'contact-sheet-reduced.html', output: 'contact-sheet-reduced.png', suffix: '-desktop-reduced.png' }
 ];
 const errors = [];
+const { chromium } = await loadPlaywrightRuntime();
 const browser = await chromium.launch({ headless: true });
 
 try {

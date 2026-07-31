@@ -84,7 +84,7 @@ try {
     writeJson(path, data);
   });
 
-  runCase('source-overwrite', 'source layout-inventory hash mismatch after calculation inventory-counts', (dir) => {
+  runCase('source-overwrite', '--execute-trusted is disabled', (dir) => {
     const codePath = join(dir, 'calculations/inventory.mjs');
     const code = readFileSync(codePath, 'utf8');
     const modified = code.replace(
@@ -98,7 +98,7 @@ try {
     writeJson(path, data);
   }, provenanceValidator, true);
 
-  runCase('calculation-failure', 'calculation command inventory-counts exited with 7', (dir) => {
+  runCase('calculation-failure', '--execute-trusted is disabled', (dir) => {
     const codePath = join(dir, 'calculations/inventory.mjs');
     writeFileSync(codePath, 'process.exit(7);\n');
     const path = join(dir, 'data-provenance.json');
@@ -107,7 +107,7 @@ try {
     writeJson(path, data);
   }, provenanceValidator, true);
 
-  runCase('test-failure', 'test command calculations/inventory.test.mjs exited with 1', (dir) => {
+  runCase('test-failure', '--execute-trusted is disabled', (dir) => {
     const testPath = join(dir, 'calculations/inventory.test.mjs');
     writeFileSync(testPath, "import assert from 'node:assert/strict';\nassert.fail('forced test failure');\n");
     const path = join(dir, 'data-provenance.json');

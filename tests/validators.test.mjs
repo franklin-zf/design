@@ -40,13 +40,25 @@ function copyFixture(name) {
   return { tempRoot, copy };
 }
 
-test('runtime bytes match the provenance record and installed copy', () => {
+test('runtime bytes match the provenance record', () => {
   const runtimePath = join(root, 'assets/vendor/open-design-html-ppt/runtime.js');
-  const installedPath = '/Users/zhangfeng/.codex/skills/design/assets/vendor/open-design-html-ppt/runtime.js';
   const provenance = readJson(join(root, 'assets/vendor/open-design-html-ppt/PROVENANCE.json'));
   const declared = provenance.files.find((file) => file.destination === 'runtime.js');
 
   assert.equal(hashFile(runtimePath), declared.sha256);
+});
+
+test('installed runtime bytes match when DESIGN_INSTALLED_SKILL is provided', {
+  skip: !process.env.DESIGN_INSTALLED_SKILL
+}, () => {
+  const runtimePath = join(root, 'assets/vendor/open-design-html-ppt/runtime.js');
+  const installedPath = join(
+    resolve(process.env.DESIGN_INSTALLED_SKILL),
+    'assets/vendor/open-design-html-ppt/runtime.js'
+  );
+  const provenance = readJson(join(root, 'assets/vendor/open-design-html-ppt/PROVENANCE.json'));
+  const declared = provenance.files.find((file) => file.destination === 'runtime.js');
+
   assert.equal(hashFile(installedPath), declared.sha256);
   assert.deepEqual(readFileSync(runtimePath), readFileSync(installedPath));
 });
@@ -60,7 +72,24 @@ test('schema instance validation rejects a conditional contract violation', () =
   assert.match(validateJsonInstance(schema, invalid).join('\n'), /required|evidence_quotes/);
 });
 
-test('provenance execution reports a missing output after a command', () => {
+test('runtime validator rejects a manifest missing canonical template and validation fields', () => {
+  for (const field of ['template_id', 'template_selection', 'validation']) {
+    const { tempRoot, copy } = copyFixture('chart-frame-pass');
+    try {
+      const manifestPath = join(copy, 'manifest.json');
+      const manifest = readJson(manifestPath);
+      delete manifest[field];
+      writeJson(manifestPath, manifest);
+      const failed = runScript('validate-design-output.mjs', copy);
+      assert.notEqual(failed.status, 0);
+      assert.match(output(failed), new RegExp(`missing field: ${field}|${field} is required`));
+    } finally {
+      rmSync(tempRoot, { recursive: true, force: true });
+    }
+  }
+});
+
+test('legacy provenance execution flag is disabled and cannot bypass the policy runner', () => {
   const { tempRoot, copy } = copyFixture('swiss-evidence-deck-production-pass');
   try {
     const codePath = join(copy, 'calculations/inventory.mjs');
@@ -76,7 +105,8 @@ test('provenance execution reports a missing output after a command', () => {
       { cwd: root, encoding: 'utf8' }
     );
     assert.notEqual(result.status, 0);
-    assert.match(output(result), /output inventory-counts is missing after calculation inventory-counts/);
+    assert.match(output(result), /--execute-trusted is disabled.*run-execution-plan/i);
+    assert.equal(readJson(join(copy, 'data-provenance.json')).derivations[0].code_sha256, hashFile(codePath));
   } finally {
     rmSync(tempRoot, { recursive: true, force: true });
   }
@@ -108,5 +138,41 @@ test('claim and summary maps validate declared source SHA-256 values', () => {
     } finally {
       rmSync(tempRoot, { recursive: true, force: true });
     }
+  }
+});
+
+test('enhanced aesthetic contracts require semantic, attention, and fallback fields', () => {
+  const { tempRoot, copy } = copyFixture('swiss-deck-pass');
+  try {
+    const manifestPath = join(copy, 'manifest.json');
+    const manifest = readJson(manifestPath);
+    manifest.aesthetic_contract.expression_level = 'L2-motion';
+    writeJson(manifestPath, manifest);
+
+    const incomplete = runScript('validate-aesthetic-contract.mjs', copy);
+    assert.notEqual(incomplete.status, 0);
+    assert.match(output(incomplete), /missing semantic_job/);
+    assert.match(output(incomplete), /missing attention_budget/);
+    assert.match(output(incomplete), /missing fallback/);
+
+    Object.assign(manifest.aesthetic_contract, {
+      semantic_job: 'sequence',
+      reader_value: 'Clarifies the evidence order without hiding any step.',
+      attention_budget: {
+        primary_attention_region: 'core evidence',
+        signature_move_count: 1,
+        ambient_field_count: 0
+      },
+      fallback: {
+        reduced_motion: 'Show the complete ordered evidence immediately.',
+        static_html: 'Show the complete ordered evidence immediately.',
+        ppt_handoff: 'Use numbered editable evidence groups.'
+      }
+    });
+    writeJson(manifestPath, manifest);
+    const complete = runScript('validate-aesthetic-contract.mjs', copy);
+    assert.equal(complete.status, 0, output(complete));
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
   }
 });

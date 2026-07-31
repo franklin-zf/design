@@ -1,0 +1,596 @@
+{
+  "schema_version": "design-component-catalogue/v1",
+  "catalogue_policy": {
+    "default_decision": "deny",
+    "control_plane_authority": "template-compiler-runner-evidence",
+    "third_party_source_included": false,
+    "runtime_dependencies_allowed": false,
+    "runtime_network_allowed": false
+  },
+  "components": [
+    {
+      "id": "design-owned-operational-control-feedback",
+      "name": "Operational Control Feedback",
+      "decision": "admitted",
+      "ownership": "design_owned",
+      "technical_class": "html_css",
+      "provenance": {
+        "source_kind": "design_owned",
+        "source_ref": "design-owned://component-spec/operational-control-feedback/v1",
+        "author": "Design skill maintainers",
+        "retrieved_at": "2026-07-30",
+        "hash_status": "verified",
+        "source_sha256": "ca3dd4c6eb266f020059b6939f7d9c86958c67631d5fb517a748acd42bc5ac9f"
+      },
+      "license": {
+        "status": "known",
+        "id": "Design-owned pattern specification",
+        "scope": "Metadata-only interaction contract with no copied third-party source.",
+        "redistribution": "not_applicable",
+        "notice_requirement": "not_required",
+        "evidence_ref": "references/aesthetic-principles.md"
+      },
+      "semantics": {
+        "semantic_job": "action_feedback",
+        "reader_value": "Makes an existing control state and completed action easier to identify without hiding the native control.",
+        "expression_level": "L1-interactive"
+      },
+      "implementation": {
+        "source_code_included": false,
+        "runtime_dependencies": [],
+        "remote_origins": [],
+        "adapter_id": "html_css",
+        "materialized_files": []
+      },
+      "compatibility": {
+        "artifact_types": [
+          "dashboard",
+          "tweakable-artifact"
+        ],
+        "template_ids": [
+          "operational-dashboard",
+          "tweakable-artifact"
+        ]
+      },
+      "fallback": {
+        "static_html": {
+          "status": "required",
+          "description": "Native control label and state remain visible without enhancement."
+        },
+        "reduced_motion": {
+          "status": "required",
+          "description": "State changes remain visible with no decorative transition."
+        },
+        "ppt_handoff": {
+          "status": "not_applicable",
+          "description": "Operational controls are not exported as interactive PPT controls."
+        }
+      },
+      "accessibility": {
+        "keyboard": "required",
+        "focus_visible": "required",
+        "accessible_name": "required",
+        "screen_reader": "required",
+        "contrast": "required",
+        "reduced_motion": "required"
+      },
+      "performance": {
+        "status": "bounded",
+        "max_js_bytes": 0,
+        "max_css_bytes": 8192,
+        "max_asset_bytes": 0,
+        "max_dom_nodes": 24,
+        "max_continuous_loops": 0
+      },
+      "required_gate_ids": [
+        "render-smoke",
+        "validate-component-usage"
+      ],
+      "evidence_refs": [
+        "references/aesthetic-principles.md",
+        "references/motion-policy.md"
+      ],
+      "limitations": [
+        "Admission authorizes the pattern contract, not a prebuilt implementation."
+      ]
+    },
+    {
+      "id": "design-owned-staged-evidence-reveal",
+      "name": "Staged Evidence Reveal",
+      "decision": "admitted",
+      "ownership": "design_owned",
+      "technical_class": "html_css",
+      "provenance": {
+        "source_kind": "design_owned",
+        "source_ref": "design-owned://component-spec/staged-evidence-reveal/v1",
+        "author": "Design skill maintainers",
+        "retrieved_at": "2026-07-30",
+        "hash_status": "verified",
+        "source_sha256": "652ed76da006bc9d6a7d1e5a105a5c42b8aaca6f4f765e44ad84f0cdecb8e461"
+      },
+      "license": {
+        "status": "known",
+        "id": "Design-owned pattern specification",
+        "scope": "Metadata-only motion contract with no copied third-party source.",
+        "redistribution": "not_applicable",
+        "notice_requirement": "not_required",
+        "evidence_ref": "references/motion-policy.md"
+      },
+      "semantics": {
+        "semantic_job": "sequence",
+        "reader_value": "Makes an existing evidence order easier to follow while keeping all evidence present in static and reduced-motion states.",
+        "expression_level": "L2-motion"
+      },
+      "implementation": {
+        "source_code_included": false,
+        "runtime_dependencies": [],
+        "remote_origins": [],
+        "adapter_id": "html_css",
+        "materialized_files": []
+      },
+      "compatibility": {
+        "artifact_types": [
+          "html-deck",
+          "ppt-handoff"
+        ],
+        "template_ids": [
+          "swiss-evidence-deck",
+          "swiss-evidence-deck-production"
+        ]
+      },
+      "fallback": {
+        "static_html": {
+          "status": "required",
+          "description": "All evidence remains visible in the source reading order."
+        },
+        "reduced_motion": {
+          "status": "required",
+          "description": "The final state is shown immediately without translation or autoplay."
+        },
+        "ppt_handoff": {
+          "status": "required",
+          "description": "The same evidence order is represented by static layout and numbering."
+        }
+      },
+      "accessibility": {
+        "keyboard": "not_applicable",
+        "focus_visible": "not_applicable",
+        "accessible_name": "not_applicable",
+        "screen_reader": "required",
+        "contrast": "required",
+        "reduced_motion": "required"
+      },
+      "performance": {
+        "status": "bounded",
+        "max_js_bytes": 0,
+        "max_css_bytes": 12288,
+        "max_asset_bytes": 0,
+        "max_dom_nodes": 32,
+        "max_continuous_loops": 0
+      },
+      "required_gate_ids": [
+        "render-smoke",
+        "validate-aesthetic-contract",
+        "validate-component-usage"
+      ],
+      "evidence_refs": [
+        "references/aesthetic-principles.md",
+        "references/motion-policy.md"
+      ],
+      "limitations": [
+        "Motion cannot carry meaning that is absent from the static reading order."
+      ]
+    },
+    {
+      "id": "design-owned-static-focus-field",
+      "name": "Static Focus Field",
+      "decision": "admitted",
+      "ownership": "design_owned",
+      "technical_class": "html_css",
+      "provenance": {
+        "source_kind": "design_owned",
+        "source_ref": "design-owned://component-spec/static-focus-field/v1",
+        "author": "Design skill maintainers",
+        "retrieved_at": "2026-07-30",
+        "hash_status": "verified",
+        "source_sha256": "2bd3855b6fc19084bae12e26876cb3d83b61e192f04c5f1566c5416f01ba2e67"
+      },
+      "license": {
+        "status": "known",
+        "id": "Design-owned pattern specification",
+        "scope": "Metadata-only composition contract with no copied third-party source.",
+        "redistribution": "not_applicable",
+        "notice_requirement": "not_required",
+        "evidence_ref": "references/aesthetic-principles.md"
+      },
+      "semantics": {
+        "semantic_job": "evidence_emphasis",
+        "reader_value": "Creates one clear attention center without changing source meaning.",
+        "expression_level": "L0-static"
+      },
+      "implementation": {
+        "source_code_included": false,
+        "runtime_dependencies": [],
+        "remote_origins": [],
+        "adapter_id": "html_css",
+        "materialized_files": []
+      },
+      "compatibility": {
+        "artifact_types": [
+          "html-deck",
+          "poster",
+          "ppt-handoff"
+        ],
+        "template_ids": [
+          "poster-type-led",
+          "swiss-evidence-deck",
+          "swiss-evidence-deck-production"
+        ]
+      },
+      "fallback": {
+        "static_html": {
+          "status": "required",
+          "description": "Primary emphasis remains visible through type, spacing, and contrast."
+        },
+        "reduced_motion": {
+          "status": "not_applicable",
+          "description": "The pattern is static."
+        },
+        "ppt_handoff": {
+          "status": "required",
+          "description": "The same hierarchy is represented with native static layout."
+        }
+      },
+      "accessibility": {
+        "keyboard": "not_applicable",
+        "focus_visible": "not_applicable",
+        "accessible_name": "not_applicable",
+        "screen_reader": "required",
+        "contrast": "required",
+        "reduced_motion": "not_applicable"
+      },
+      "performance": {
+        "status": "bounded",
+        "max_js_bytes": 0,
+        "max_css_bytes": 8192,
+        "max_asset_bytes": 0,
+        "max_dom_nodes": 24,
+        "max_continuous_loops": 0
+      },
+      "required_gate_ids": [
+        "validate-component-usage"
+      ],
+      "evidence_refs": [
+        "references/aesthetic-principles.md"
+      ],
+      "limitations": [
+        "Visual area must not imply a quantitative magnitude that the source does not support."
+      ]
+    },
+    {
+      "id": "react-bits-motion-grammar-reference",
+      "name": "React Bits Motion Grammar Reference",
+      "decision": "inspiration_only",
+      "ownership": "third_party_reference",
+      "technical_class": "static_snapshot",
+      "provenance": {
+        "source_kind": "third_party_reference",
+        "source_ref": "https://github.com/DavidHDev/react-bits",
+        "author": "React Bits contributors",
+        "retrieved_at": "2026-07-30",
+        "hash_status": "unknown"
+      },
+      "license": {
+        "status": "known",
+        "id": "MIT with Commons Clause",
+        "scope": "Final-product use is allowed; component redistribution and ports are restricted.",
+        "redistribution": "forbidden",
+        "notice_requirement": "required",
+        "evidence_ref": "https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md"
+      },
+      "semantics": {
+        "semantic_job": "sequence",
+        "reader_value": "Provides references for expressing order and direction without adopting source code.",
+        "expression_level": "L2-motion"
+      },
+      "implementation": {
+        "source_code_included": false,
+        "runtime_dependencies": [],
+        "remote_origins": [],
+        "adapter_id": "static_snapshot",
+        "materialized_files": []
+      },
+      "compatibility": {
+        "artifact_types": [
+          "html-deck",
+          "ppt-handoff"
+        ],
+        "template_ids": [
+          "swiss-evidence-deck",
+          "swiss-evidence-deck-production"
+        ]
+      },
+      "fallback": {
+        "static_html": {
+          "status": "unknown",
+          "description": "No individual implementation has been selected."
+        },
+        "reduced_motion": {
+          "status": "unknown",
+          "description": "No individual implementation has been selected."
+        },
+        "ppt_handoff": {
+          "status": "unknown",
+          "description": "No individual implementation has been selected."
+        }
+      },
+      "accessibility": {
+        "keyboard": "unknown",
+        "focus_visible": "unknown",
+        "accessible_name": "unknown",
+        "screen_reader": "unknown",
+        "contrast": "unknown",
+        "reduced_motion": "unknown"
+      },
+      "performance": {
+        "status": "unknown"
+      },
+      "required_gate_ids": [
+        "render-smoke",
+        "validate-aesthetic-contract",
+        "validate-component-usage"
+      ],
+      "evidence_refs": [
+        "https://github.com/DavidHDev/react-bits",
+        "https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md"
+      ],
+      "limitations": [
+        "No third-party source is included.",
+        "Unknown provenance hash and implementation evidence keep this record non-admitted."
+      ]
+    },
+    {
+      "id": "aceternity-spatial-composition-reference",
+      "name": "Aceternity Spatial Composition Reference",
+      "decision": "inspiration_only",
+      "ownership": "third_party_reference",
+      "technical_class": "static_snapshot",
+      "provenance": {
+        "source_kind": "third_party_reference",
+        "source_ref": "https://ui.aceternity.com/ai-recommendations",
+        "author": "Aceternity UI",
+        "retrieved_at": "2026-07-30",
+        "hash_status": "verified",
+        "source_sha256": "7a98dd1e39888a9009fec5e8a9560ec9a11532f0865b51d605209a5b08cd606e"
+      },
+      "license": {
+        "status": "conflicted",
+        "id": "Free component redistribution unresolved",
+        "scope": "Copy and CLI documentation exists, but a uniform free-component redistribution licence was not verified.",
+        "redistribution": "unknown",
+        "notice_requirement": "unknown",
+        "evidence_ref": "https://ui.aceternity.com/licence"
+      },
+      "semantics": {
+        "semantic_job": "evidence_emphasis",
+        "reader_value": "Provides composition references for priority and spatial focus without adopting source code.",
+        "expression_level": "L0-static"
+      },
+      "implementation": {
+        "source_code_included": false,
+        "runtime_dependencies": [],
+        "remote_origins": [],
+        "adapter_id": "static_snapshot",
+        "materialized_files": []
+      },
+      "compatibility": {
+        "artifact_types": [
+          "html-deck",
+          "poster",
+          "ppt-handoff"
+        ],
+        "template_ids": [
+          "poster-type-led",
+          "swiss-evidence-deck",
+          "swiss-evidence-deck-production"
+        ]
+      },
+      "fallback": {
+        "static_html": {
+          "status": "unknown",
+          "description": "No individual implementation has been selected."
+        },
+        "reduced_motion": {
+          "status": "unknown",
+          "description": "No individual implementation has been selected."
+        },
+        "ppt_handoff": {
+          "status": "unknown",
+          "description": "No individual implementation has been selected."
+        }
+      },
+      "accessibility": {
+        "keyboard": "unknown",
+        "focus_visible": "unknown",
+        "accessible_name": "unknown",
+        "screen_reader": "unknown",
+        "contrast": "unknown",
+        "reduced_motion": "unknown"
+      },
+      "performance": {
+        "status": "unknown"
+      },
+      "required_gate_ids": [
+        "validate-component-usage"
+      ],
+      "evidence_refs": [
+        "https://ui.aceternity.com/ai-recommendations",
+        "https://ui.aceternity.com/licence"
+      ],
+      "limitations": [
+        "No third-party source is included.",
+        "Licence conflict and missing implementation evidence keep this record non-admitted."
+      ]
+    },
+    {
+      "id": "uiverse-item-adaptation-boundary",
+      "name": "Uiverse Item Adaptation Boundary",
+      "decision": "blocked",
+      "ownership": "third_party_reference",
+      "technical_class": "html_css",
+      "provenance": {
+        "source_kind": "third_party_reference",
+        "source_ref": "https://uiverse.io/",
+        "author": "Uiverse community",
+        "retrieved_at": "2026-07-30",
+        "hash_status": "verified",
+        "source_sha256": "f8aa1a33d5e7d360923d137654002659243a338be745d50a23f607f4c116c84d"
+      },
+      "license": {
+        "status": "unknown",
+        "id": "MIT site-level claim; no item selected",
+        "scope": "A specific item, author, item URL, notice and source hash are required before item-level review.",
+        "redistribution": "unknown",
+        "notice_requirement": "unknown",
+        "evidence_ref": "https://uiverse.io/legal/fair-use"
+      },
+      "semantics": {
+        "semantic_job": "action_feedback",
+        "reader_value": "Defines the evidence required before any community micro-interaction can be considered.",
+        "expression_level": "L1-interactive"
+      },
+      "implementation": {
+        "source_code_included": false,
+        "runtime_dependencies": [],
+        "remote_origins": [],
+        "adapter_id": "html_css",
+        "materialized_files": []
+      },
+      "compatibility": {
+        "artifact_types": [
+          "dashboard",
+          "tweakable-artifact"
+        ],
+        "template_ids": [
+          "operational-dashboard",
+          "tweakable-artifact"
+        ]
+      },
+      "fallback": {
+        "static_html": {
+          "status": "unknown",
+          "description": "No individual item has been selected."
+        },
+        "reduced_motion": {
+          "status": "unknown",
+          "description": "No individual item has been selected."
+        },
+        "ppt_handoff": {
+          "status": "not_applicable",
+          "description": "Operational controls are not exported as interactive PPT controls."
+        }
+      },
+      "accessibility": {
+        "keyboard": "unknown",
+        "focus_visible": "unknown",
+        "accessible_name": "unknown",
+        "screen_reader": "unknown",
+        "contrast": "unknown",
+        "reduced_motion": "unknown"
+      },
+      "performance": {
+        "status": "unknown"
+      },
+      "required_gate_ids": [
+        "render-smoke",
+        "validate-component-usage"
+      ],
+      "evidence_refs": [
+        "https://uiverse.io/",
+        "https://uiverse.io/legal/fair-use"
+      ],
+      "limitations": [
+        "No third-party source is included.",
+        "The site-level reference cannot be selected as a component."
+      ]
+    },
+    {
+      "id": "project-local-native-react-boundary",
+      "name": "Project-local Native React Boundary",
+      "decision": "project_local",
+      "ownership": "design_owned",
+      "technical_class": "native_react",
+      "provenance": {
+        "source_kind": "design_owned",
+        "source_ref": "design-owned://component-policy/native-react/v1",
+        "author": "Design skill maintainers",
+        "retrieved_at": "2026-07-30",
+        "hash_status": "unknown"
+      },
+      "license": {
+        "status": "known",
+        "id": "Design-owned policy record",
+        "scope": "Policy metadata only; project dependencies and source require separate user authorization.",
+        "redistribution": "not_applicable",
+        "notice_requirement": "not_required",
+        "evidence_ref": "assets/components/registry.json"
+      },
+      "semantics": {
+        "semantic_job": "state",
+        "reader_value": "Separates project-local React work from shared self-contained Design outputs.",
+        "expression_level": "L1-interactive"
+      },
+      "implementation": {
+        "source_code_included": false,
+        "runtime_dependencies": [],
+        "remote_origins": [],
+        "adapter_id": "native_react",
+        "materialized_files": []
+      },
+      "compatibility": {
+        "artifact_types": [
+          "multi-artifact"
+        ],
+        "template_ids": [
+          "design-system-package"
+        ]
+      },
+      "fallback": {
+        "static_html": {
+          "status": "unknown",
+          "description": "A project-specific implementation and fallback are required."
+        },
+        "reduced_motion": {
+          "status": "unknown",
+          "description": "A project-specific implementation and fallback are required."
+        },
+        "ppt_handoff": {
+          "status": "unknown",
+          "description": "A project-specific static handoff is required."
+        }
+      },
+      "accessibility": {
+        "keyboard": "unknown",
+        "focus_visible": "unknown",
+        "accessible_name": "unknown",
+        "screen_reader": "unknown",
+        "contrast": "unknown",
+        "reduced_motion": "unknown"
+      },
+      "performance": {
+        "status": "unknown"
+      },
+      "required_gate_ids": [
+        "render-smoke",
+        "validate-component-usage"
+      ],
+      "evidence_refs": [
+        "assets/components/registry.json"
+      ],
+      "limitations": [
+        "This policy record is never admitted to the shared-skill compiler.",
+        "No package installation, runtime dependency or remote registry action is authorized."
+      ]
+    }
+  ]
+}

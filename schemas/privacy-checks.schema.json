@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/privacy-checks.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_digest", "resolved_plan_digest", "method", "classification_scope", "authorized_remote_origins", "retention_policy", "deletion_policy", "checked_at", "findings", "checks"],
+  "properties": {
+    "schema_version": { "const": "design-privacy-checks/v2" },
+    "artifact_digest": { "$ref": "#/$defs/sha256" },
+    "resolved_plan_digest": { "$ref": "#/$defs/sha256" },
+    "method": { "enum": ["request-inventory", "data-flow-review", "manual-audit"] },
+    "classification_scope": { "enum": ["public", "internal", "confidential", "restricted"] },
+    "authorized_remote_origins": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^https?://" } },
+    "retention_policy": { "type": "string", "minLength": 1 },
+    "deletion_policy": { "type": "string", "minLength": 1 },
+    "checked_at": { "type": "string", "minLength": 20 },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+    "checks": { "type": "array", "minItems": 5, "items": { "$ref": "#/$defs/check" } }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "check": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "status", "method", "scope", "evidence_ref", "evidence_sha256"],
+      "properties": {
+        "id": { "enum": ["remote-requests", "sensitive-data-exposure", "redaction-review", "retention-policy", "deletion-policy"] },
+        "status": { "enum": ["passed", "failed"] },
+        "method": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "evidence_ref": { "type": "string", "minLength": 1 },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "finding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "severity", "status", "summary", "evidence_refs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["info", "minor", "major", "blocking"] },
+        "status": { "enum": ["open", "resolved"] },
+        "summary": { "type": "string", "minLength": 1 },
+        "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  }
+}

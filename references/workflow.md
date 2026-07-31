@@ -36,7 +36,7 @@ Build the right visual artifact for the user's data or content. The workflow is 
    - reviewer: source fidelity, numbers, logic, aesthetic quality, visual defects.
 8. Route Poster `analysis_requests` to executable code. Code, tests, derived outputs, and provenance must exist before derived values return to Poster or enter a chart.
 9. Build from the deepest registered template that fits the reader job. Follow `references/template-adoption-plan.md`; do not replace a production template with a shallow generic seed.
-10. Validate structurally, validate source/calculation evidence, validate aesthetic/asset contracts when present, then inspect visually in the real final surface when possible.
+10. Validate structurally, validate source/calculation evidence, execute the immutable render-spec viewport/state/segment matrix, validate complete accessibility/privacy sidecars, validate aesthetic/asset contracts when present, then inspect visually in the real final surface when possible.
 11. Deliver artifact paths plus a concise quality report.
 
 ## Ask Or Proceed
@@ -73,4 +73,6 @@ Proceed with stated assumptions when the missing information only affects polish
 - Chart family chosen before the analytical question.
 - Style preset mixed with arbitrary color additions.
 - Validator passed but browser layout was never inspected.
+- A fabricated default-state render profile stands in for declared filtered, empty, error, modal, or scroll-segment states.
+- A CSS/geometry-hidden schematic disclosure or unauthorized remote request is treated as valid evidence.
 - Template is labeled Open Design-inspired or Guizang-inspired but no source asset, license, adaptation record, fixture, or rendered QA exists.

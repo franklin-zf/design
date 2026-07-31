@@ -1,18 +1,13 @@
 #!/usr/bin/env node
 import { createHash } from 'node:crypto';
-import { spawnSync } from 'node:child_process';
 import {
-  cpSync,
   existsSync,
   lstatSync,
-  mkdtempSync,
   readFileSync,
   realpathSync,
-  rmSync,
   statSync
 } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { basename, isAbsolute, join, relative, resolve } from 'node:path';
+import { isAbsolute, join, relative, resolve } from 'node:path';
 
 const dir = process.argv[2];
 if (!dir) {
@@ -22,6 +17,9 @@ if (!dir) {
 const executeTrusted = process.argv.includes('--execute-trusted');
 
 const errors = [];
+if (executeTrusted) {
+  errors.push('--execute-trusted is disabled. Compile a design-execution-request/v2 and execute only through run-execution-plan.mjs so resolved-plan policy cannot be bypassed.');
+}
 const provenancePath = join(dir, 'data-provenance.json');
 const sha256Pattern = /^[a-f0-9]{64}$/;
 const artifactRoot = existsSync(dir) ? realpathSync(dir) : null;
@@ -88,49 +86,6 @@ function hashFile(path) {
   return createHash('sha256').update(readFileSync(path)).digest('hex');
 }
 
-function verifyExecutionHash(root, pathRef, expected, label, phase) {
-  const candidate = resolve(root, pathRef || '');
-  if (!pathRef || !isInside(root, candidate)) {
-    errors.push(`${label} is invalid after ${phase}: ${pathRef || '(missing)'}`);
-    return;
-  }
-  if (!existsSync(candidate)) {
-    errors.push(`${label} is missing after ${phase}: ${pathRef}`);
-    return;
-  }
-
-  try {
-    const real = realpathSync(candidate);
-    if (!isInside(root, real)) {
-      errors.push(`${label} resolves outside the artifact root after ${phase}: ${pathRef}`);
-      return;
-    }
-    if (lstatSync(candidate).isSymbolicLink() || !statSync(real).isFile()) {
-      errors.push(`${label} must remain a regular non-symlink file after ${phase}: ${pathRef}`);
-      return;
-    }
-    const actual = hashFile(real);
-    if (actual !== expected) {
-      errors.push(`${label} hash mismatch after ${phase}: expected ${expected}, got ${actual}.`);
-    }
-  } catch (error) {
-    errors.push(`${label} could not be verified after ${phase}: ${error.message}`);
-  }
-}
-
-function verifyAllExecutionHashes(root, provenance, phase) {
-  for (const source of provenance.sources || []) {
-    verifyExecutionHash(root, source.path, source.sha256, `source ${source.id}`, phase);
-  }
-  for (const derivation of provenance.derivations || []) {
-    verifyExecutionHash(root, derivation.output_ref, derivation.output_sha256, `output ${derivation.id}`, phase);
-    verifyExecutionHash(root, derivation.code_ref, derivation.code_sha256, `code ${derivation.id}`, phase);
-    for (const test of derivation.tests || []) {
-      verifyExecutionHash(root, test.test_ref, test.test_sha256, `test ${test.test_ref}`, phase);
-    }
-  }
-}
-
 function validateHash(expected, file, label) {
   if (!sha256Pattern.test(String(expected || ''))) {
     errors.push(`${label} must be a lowercase SHA-256 value.`);
@@ -153,29 +108,6 @@ function assertRolePath(pathRef, prefix, label) {
   if (typeof pathRef === 'string' && !pathRef.startsWith(`${prefix}/`)) {
     errors.push(`${label} must be inside ${prefix}/: ${pathRef}`);
   }
-}
-
-function runCommand(command, cwd, label) {
-  const result = spawnSync(command[0], command.slice(1), {
-    cwd,
-    shell: false,
-    encoding: 'utf8',
-    timeout: 30000,
-    maxBuffer: 1048576,
-    env: { ...process.env, TZ: 'UTC', LC_ALL: 'C', LANG: 'C' }
-  });
-  if (result.error) {
-    errors.push(`${label} failed to start: ${result.error.message}`);
-    return null;
-  }
-  if (result.signal) {
-    errors.push(`${label} terminated by signal: ${result.signal}`);
-    return null;
-  }
-  if (result.status !== 0) {
-    errors.push(`${label} exited with ${result.status}: ${(result.stderr || result.stdout).trim()}`);
-  }
-  return result.status;
 }
 
 if (!existsSync(provenancePath)) errors.push('Missing data-provenance.json.');
@@ -273,24 +205,6 @@ if (provenance) {
     }
   }
 
-  if (executeTrusted && errors.length === 0) {
-    const tempParent = mkdtempSync(join(tmpdir(), 'design-provenance-'));
-    const tempArtifact = join(tempParent, basename(artifactRoot));
-    try {
-      cpSync(artifactRoot, tempArtifact, { recursive: true });
-      const executionRoot = realpathSync(tempArtifact);
-      for (const derivation of provenance.derivations || []) {
-        runCommand(derivation.command, executionRoot, `calculation command ${derivation.id}`);
-        verifyAllExecutionHashes(executionRoot, provenance, `calculation ${derivation.id}`);
-        for (const test of derivation.tests || []) {
-          runCommand(test.command, executionRoot, `test command ${test.test_ref}`);
-          verifyAllExecutionHashes(executionRoot, provenance, `test ${test.test_ref}`);
-        }
-      }
-    } finally {
-      rmSync(tempParent, { recursive: true, force: true });
-    }
-  }
 }
 
 if (errors.length) {

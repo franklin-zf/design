@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, relative, resolve } from 'node:path';
-import { z } from 'playwright-core/lib/utilsBundle';
+import { join, relative, resolve } from 'node:path';
+import {
+  compileSchema,
+  validateJsonInstance as validateWithSchema
+} from './lib/json-schema.mjs';
 
 const manifestRequired = [
   'schema_version',
@@ -10,6 +13,9 @@ const manifestRequired = [
   'audience',
   'surface',
   'style_preset',
+  'template_id',
+  'template_selection',
+  'validation',
   'schematic',
   'source_materials',
   'data_sources',
@@ -22,6 +28,17 @@ const manifestRequired = [
 ];
 
 const schemaFiles = [
+  'schemas/component-catalogue.schema.json',
+  'schemas/execution-plan.schema.json',
+  'schemas/evidence-contract.schema.json',
+  'schemas/accessibility-checks.schema.json',
+  'schemas/privacy-checks.schema.json',
+  'schemas/reviewer-record.schema.json',
+  'schemas/machine-attestation.schema.json',
+  'schemas/reviewer-registry.schema.json',
+  'schemas/reviewer-attestation.schema.json',
+  'schemas/showcase-case.schema.json',
+  'schemas/render-spec.schema.json',
   'schemas/intake-direction.schema.json',
   'schemas/data-provenance.schema.json',
   'schemas/deck-plan.schema.json',
@@ -46,86 +63,12 @@ const instanceSchemaByName = {
   'poster-plan.json': 'schemas/poster-plan.schema.json',
   'visual-asset.json': 'schemas/visual-asset.schema.json',
   'layout-registry.json': 'schemas/layout-registry.schema.json',
-  'intake-direction.json': 'schemas/intake-direction.schema.json'
+  'intake-direction.json': 'schemas/intake-direction.schema.json',
+  'evidence-contract.json': 'schemas/evidence-contract.schema.json'
 };
 
-function stripConditionals(value) {
-  if (Array.isArray(value)) return value.map(stripConditionals);
-  if (!value || typeof value !== 'object') return value;
-
-  const result = {};
-  for (const [key, child] of Object.entries(value)) {
-    if (key !== 'if' && key !== 'then' && key !== 'else') {
-      result[key] = stripConditionals(child);
-    }
-  }
-  if (!Object.hasOwn(result, 'type')) {
-    if (result.properties || result.required || result.additionalProperties) result.type = 'object';
-    else if (result.items || result.minItems !== undefined || result.maxItems !== undefined || result.uniqueItems !== undefined) {
-      result.type = 'array';
-    }
-  }
-  return result;
-}
-
-function formatIssue(issue) {
-  const path = issue.path?.length ? `/${issue.path.join('/')}` : '/';
-  return `${path}: ${issue.message}`;
-}
-
-function baseValidation(schema, instance) {
-  const validator = z.fromJSONSchema(stripConditionals(schema));
-  const result = validator.safeParse(instance);
-  return result.success ? [] : result.error.issues.map(formatIssue);
-}
-
-function prefixErrors(errors, path) {
-  return errors.map((error) => `${path || '/'} ${error}`);
-}
-
-function validateConditionalNodes(schema, instance, path, errors) {
-  if (!schema || typeof schema !== 'object') return;
-
-  if (schema.if) {
-    const conditionMatches = baseValidation(schema.if, instance).length === 0;
-    const branch = conditionMatches ? schema.then : schema.else;
-    if (branch) {
-      errors.push(...prefixErrors(validateJsonInstance(branch, instance), path));
-    }
-  }
-
-  if (schema.properties && instance && typeof instance === 'object' && !Array.isArray(instance)) {
-    for (const [property, propertySchema] of Object.entries(schema.properties)) {
-      if (Object.hasOwn(instance, property)) {
-        validateConditionalNodes(propertySchema, instance[property], `${path}/${property}`, errors);
-      }
-    }
-  }
-
-  if (schema.items && Array.isArray(instance)) {
-    for (const [index, item] of instance.entries()) {
-      validateConditionalNodes(schema.items, item, `${path}/${index}`, errors);
-    }
-  }
-
-  for (const key of ['allOf', 'anyOf', 'oneOf']) {
-    for (const child of schema[key] || []) {
-      validateConditionalNodes(child, instance, path, errors);
-    }
-  }
-}
-
-// Validate a JSON instance against a draft-2020-12 schema. Zod is bundled by
-// the existing Playwright dependency; this adapter preserves the conditional
-// keywords used by these schemas.
 export function validateJsonInstance(schema, instance) {
-  try {
-    const errors = baseValidation(schema, instance);
-    validateConditionalNodes(schema, instance, '', errors);
-    return errors;
-  } catch (error) {
-    return [`schema compilation failed: ${error.message}`];
-  }
+  return validateWithSchema(schema, instance);
 }
 
 function readJson(path, label, errors) {
@@ -196,6 +139,14 @@ export function validateSchemas(root = '.') {
     for (const lock of aestheticLayoutLocks) {
       if (!manifestLockSet.has(lock)) errors.push(`artifact-manifest.schema.json missing layout_lock enum: ${lock}`);
     }
+
+    const manifestAesthetic = manifestSchema.$defs?.aesthetic_contract || {};
+    for (const field of ['required', 'properties', 'allOf']) {
+      if (JSON.stringify(manifestAesthetic[field] || null)
+          !== JSON.stringify(aestheticSchema[field] || null)) {
+        errors.push(`Aesthetic schema drift detected for ${field}.`);
+      }
+    }
   }
 
   for (const relativePath of [
@@ -207,7 +158,7 @@ export function validateSchemas(root = '.') {
     const schema = readJson(path, relativePath, errors);
     if (schema) {
       try {
-        z.fromJSONSchema(stripConditionals(schema));
+        compileSchema(schema);
         schemas.set(relativePath, schema);
       } catch (error) {
         errors.push(`${relativePath} is not a supported valid schema: ${error.message}`);

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/reviewer-registry.schema.json",
+  "title": "Design host reviewer registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "registry_id", "reviewers"],
+  "properties": {
+    "schema_version": { "const": "design-reviewer-registry/v1" },
+    "registry_id": { "type": "string", "minLength": 1 },
+    "reviewers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "role", "status"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "role": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["active", "revoked"] }
+        }
+      }
+    }
+  }
+}

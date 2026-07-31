@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operations enhanced</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f3f5f7; color: #17212b; font: 15px/1.4 Arial, sans-serif; }
+    header, main { padding: 24px clamp(18px, 4vw, 56px); }
+    header { border-bottom: 1px solid #d7dde4; display: flex; justify-content: space-between; gap: 16px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 32px; }
+    .metrics { display: flex; gap: 32px; border-bottom: 1px solid #d7dde4; padding-bottom: 24px; }
+    .metric strong { display: block; font: 700 34px/1.1 Georgia, serif; }
+    .exception { padding: 22px 0; border-bottom: 1px solid #d7dde4; border-top: 5px solid #b42318; }
+    .exception h1 { margin: 6px 0; font-size: 32px; }
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; }
+    .bar { height: 10px; background: #256f5b; margin: 6px 0 12px; }
+    .bar.blocked { background: #b42318; }
+    input { width: 18px; height: 18px; margin: 0 8px 0 0; accent-color: #256f5b; vertical-align: middle; }
+    label { display: inline-block; padding: 9px 12px; border: 1px solid #17212b; cursor: pointer; }
+    input:focus-visible { outline: 3px solid #256f5b; outline-offset: 3px; }
+    input:checked + label::after { content: " - acknowledged"; font-weight: 700; }
+    .handoff-detail { margin: 0; padding: 14px 0; border-bottom: 1px solid #d7dde4; }
+    input:checked ~ .handoff-detail { border-left: 4px solid #256f5b; padding-left: 12px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { padding: 10px 0; border-bottom: 1px solid #d7dde4; text-align: left; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto; animation: none; transition: none; }
+    }
+    @media (max-width: 700px) {
+      header { display: grid; gap: 8px; }
+      .layout, .charts { grid-template-columns: 1fr; }
+      .metrics { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 360px) {
+      .metrics { grid-template-columns: 1fr; }
+      .metric strong { font-size: 28px; }
+    }
+    @media print {
+      body { background: #ffffff; }
+      input, label { display: none; }
+      .layout { grid-template-columns: 2fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header id="freshness">
+    <strong>Operations queue</strong>
+    <span data-content-id="snapshot" data-summary-id="snapshot-summary" data-claim-id="snapshot">Snapshot: 2026-07-30 09:00 CST</span>
+  </header>
+  <main data-design-id="operational-pilot" data-style-preset="operational-dashboard">
+    <div class="layout">
+      <section>
+        <div class="metrics">
+          <div class="metric"><strong data-content-id="queue" data-summary-id="queue-summary" data-claim-id="queue-total">24 requests in queue</strong><span>Current state</span></div>
+          <div class="metric"><strong data-content-id="affected" data-summary-id="metric-summary" data-claim-id="blocked-total">3 blocked requests</strong><span>Affected metric</span></div>
+        </div>
+        <section class="exception" id="guardrails" data-design-component="design-owned-operational-control-feedback">
+          <small>Priority exception</small>
+          <h1 data-content-id="exception" data-summary-id="exception-summary" data-claim-id="priority-exception">Identity review blocked</h1>
+          <p data-content-id="action" data-summary-id="action-summary">Open owner handoff</p>
+          <div id="filters">
+            <input id="owner-handoff" type="checkbox">
+            <label data-content-id="control-label" for="owner-handoff">Acknowledge owner handoff</label>
+            <p class="handoff-detail" data-content-id="owner-detail">Owner: Identity operations. Review the blocked request evidence before reassignment.</p>
+          </div>
+        </section>
+        <div class="charts" id="drivers">
+          <section data-chart-id="queue-status">
+            <h2>Queue status</h2>
+            <span data-content-id="queue-ontrack">On track 21</span><div class="bar" style="width: 88%"></div>
+            <span data-content-id="queue-blocked">Blocked 3</span><div class="bar blocked" style="width: 13%"></div>
+          </section>
+          <section data-chart-id="age-distribution">
+            <h2>Request age</h2>
+            <span data-content-id="age-under">Under 1 day 18</span><div class="bar" style="width: 75%"></div>
+            <span data-content-id="age-mid">1-2 days 3</span><div class="bar" style="width: 13%"></div>
+            <span data-content-id="age-over">Over 2 days 3</span><div class="bar" style="width: 13%"></div>
+          </section>
+        </div>
+      </section>
+      <aside>
+        <h2>Next action</h2>
+        <p data-content-id="next-action-aside">Open owner handoff</p>
+        <table>
+          <thead><tr><th>Item</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr data-content-id="table-identity"><td>Identity review</td><td>Blocked</td></tr>
+            <tr data-content-id="table-evidence"><td>Evidence check</td><td>Required</td></tr>
+          </tbody>
+        </table>
+        <p data-content-id="source-note" data-summary-id="source-note-summary">Source: source.json</p>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>

@@ -14,17 +14,24 @@ import { spawnSync } from 'node:child_process';
 const root = process.argv[2] || '.';
 const checkedExtensions = new Set(['.js', '.mjs', '.cjs', '.json', '.md', '.yaml', '.yml']);
 const ignoredDirectories = new Set(['.git', 'node_modules', 'vendor']);
+const ignoredRootDirectories = new Set(['.exp-skill']);
 const errors = [];
 
 function toPosix(path) {
   return path.split('\\').join('/');
 }
 
+function shouldIgnoreDirectory(directory, name) {
+  if (ignoredDirectories.has(name)) return true;
+  const pathFromRoot = toPosix(relative(root, join(directory, name)));
+  return ignoredRootDirectories.has(pathFromRoot);
+}
+
 function listFiles(directory) {
   const files = [];
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     if (entry.isDirectory()) {
-      if (!ignoredDirectories.has(entry.name)) {
+      if (!shouldIgnoreDirectory(directory, entry.name)) {
         files.push(...listFiles(join(directory, entry.name)));
       }
       continue;

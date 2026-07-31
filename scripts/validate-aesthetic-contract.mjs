@@ -52,6 +52,28 @@ if (manifest) {
     if (contract.motion_policy === 'semantic_with_reduced_motion' && html && !/prefers-reduced-motion/i.test(html)) {
       errors.push('motion_policy semantic_with_reduced_motion requires prefers-reduced-motion fallback.');
     }
+    if (['L1-interactive', 'L2-motion'].includes(contract.expression_level)) {
+      for (const field of ['semantic_job', 'reader_value', 'attention_budget', 'fallback']) {
+        if (!(field in contract)) errors.push(`aesthetic_contract ${contract.expression_level} missing ${field}.`);
+      }
+    }
+    if (contract.expression_level === 'L2-motion'
+        && contract.motion_policy !== 'semantic_with_reduced_motion') {
+      errors.push('aesthetic_contract L2-motion requires semantic_with_reduced_motion.');
+    }
+    if ((contract.attention_budget?.signature_move_count ?? 0) > 1) {
+      errors.push('aesthetic_contract attention budget allows at most one signature move.');
+    }
+    if ((contract.attention_budget?.ambient_field_count ?? 0) > 1) {
+      errors.push('aesthetic_contract attention budget allows at most one ambient field.');
+    }
+    if (contract.fallback) {
+      for (const field of ['reduced_motion', 'static_html', 'ppt_handoff']) {
+        if (!String(contract.fallback[field] || '').trim()) {
+          errors.push(`aesthetic_contract fallback missing ${field}.`);
+        }
+      }
+    }
   }
 }
 

@@ -1,11 +1,13 @@
 # Validation
 
-## REQ-002 Ready Gate Proposal
+## Delivery Gate And Assurance
 
-This is the product contract for a future implementation. It is a suggested
-gate, not a claim that the current scripts implement these checks.
+Use `references/assurance-ladder.md` to report what the available evidence
+actually proves. Existing `ready` fields are legacy compatibility labels, not a
+substitute for the ladder and never evidence of `user_validated`.
 
-An artifact may be called `ready` only when all applicable gates below pass:
+An artifact may be delivered as decision-ready only when all applicable gates
+below pass:
 
 1. **Input complete.** `artifact_type`, `goal`, `use_scenario`, `audience`,
    `source_materials`, `output_surface`, and `constraints` are present. The
@@ -31,7 +33,7 @@ An artifact may be called `ready` only when all applicable gates below pass:
    claim-map, visual, and runtime checks pass, or their unavailable state and
    effect on readiness are recorded.
 
-The smallest gate result should expose:
+The smallest gate result exposes both compatibility status and assurance:
 
 ```json
 {
@@ -39,12 +41,50 @@ The smallest gate result should expose:
   "blocking_reasons": [],
   "passed_gates": [],
   "not_claimed": [],
-  "reviewer_record_ref": ""
+  "reviewer_record_ref": "",
+  "assurance": [
+    {
+      "stage": "structure_passed|evidence_traced|visually_reviewed|decision_ready|user_validated",
+      "status": "passed|failed|not_run|not_applicable",
+      "evidence": [],
+      "reason": ""
+    }
+  ]
 }
 ```
 
-The fields and result above are implementation guidance for REQ-002. They are
-not current validator output.
+Where scripts do not emit these fields directly, the execution plan and
+Reviewer assemble them from actual command evidence. Missing evidence remains
+`not_run` or `failed`; it cannot become an inferred pass.
+
+## Gate Composition Rule
+
+The effective validation plan is the union of:
+
+1. template base gates from `assets/templates/registry.json`;
+2. compiler-added risk gates from explicit source, derived-data, execution, sensitivity, interaction, decision, and publication facts;
+3. non-cacheable human and independent gates.
+
+Registry base gates remain mandatory but are never sufficient by themselves. A template base pass proves only those checks ran; it cannot close source-summary, calculation-lineage, execution-policy, semantic, visual, independent-review, freshness, or release risk unless the corresponding evidence also exists.
+
+Risk supplements are conditional and must not be over-applied:
+
+- Source-backed visible summaries require `summary-map.json` and `validate-summary-map` even if the selected template does not list that gate.
+- Source-backed visible claims require `claim-map.json` and `validate-claim-map` even if the selected template does not list that gate.
+- Derived values require separate calculation code, deterministic tests, derived output, `data-provenance.json`, and provenance validation.
+- Every lane requires non-cacheable `real-surface-visual-review`.
+- Source-backed work requires non-cacheable `source-freshness-review` and `semantic-claims-review`.
+- Derived work requires non-cacheable `code-and-formula-review` in addition to calculation/provenance evidence.
+- Untrusted code is `zero_spawn`. It may be reconsidered only through a new request whose machine-verifiable registry, path, capability, and hash facts compile to trusted or restricted; human credentials are irrelevant to admission.
+- Interactive work requires non-cacheable `interaction-review`.
+- Assured work adds `independent-high-assurance-review`; publication adds `publication-approval`.
+- A no-derived artifact does not require calculation/provenance assets solely because its lane is Assured. Other Assured human, visual, interaction, freshness, or release gates may still apply.
+
+Every listed human gate is pending until direct evidence exists. `manual-reviewer-pass` remains separate when selected from the registry or Standard contract. Human review affects assurance and delivery only, never execution admission.
+
+Do not edit or resume an untrusted plan. Create a new v2 request with new machine-verifiable execution facts and compile a new digest; the old plan remains blocked.
+
+If the current compiler cannot append a mandatory supplement, record the execution plan as incomplete and block the affected assurance claim. This is a compiler-plan defect, not evidence that the shape-compatible template itself is invalid or must be bypassed.
 
 ## Reviewer Record
 
@@ -85,9 +125,13 @@ node scripts/validate-intake-direction.mjs <intake-direction.json-or-directory> 
 node scripts/validate-design-output.mjs <artifact-dir>
 node scripts/validate-summary-map.mjs <artifact-dir>
 node scripts/validate-claim-map.mjs <artifact-dir>
+node scripts/validate-evidence-contract.mjs <artifact-dir> --machine-attestation=<host-path> --reviewer-registry=<host-path> --reviewer-attestation=<host-path>
+node scripts/validate-showcase-registry.mjs .
 node scripts/validate-design-skill.mjs <skill-dir>
 node scripts/validate-design-system-package.mjs <skill-dir> swiss-deck
 node scripts/validate-aesthetic-contract.mjs <artifact-dir>
+node scripts/validate-component-catalogue.mjs <skill-dir>
+node scripts/validate-component-usage.mjs <artifact-dir> --resolution=<artifact-dir>/.design/component-resolution.json
 node scripts/validate-asset-contract.mjs <artifact-dir>
 node scripts/validate-layout-lock.mjs <artifact-dir>
 node scripts/validate-visual-rhythm.mjs <artifact-dir>
@@ -95,20 +139,33 @@ node scripts/validate-poster-contract.mjs <artifact-dir>
 node scripts/validate-poster-anti-ai-slop.mjs <artifact-dir>
 node scripts/capability-preflight.mjs --require=browser_smoke
 node scripts/capability-preflight.mjs --require=browser_launch
-node scripts/render-smoke.mjs <artifact-dir>/index.html --viewports=desktop,mobile
+node scripts/render-smoke.mjs <artifact-dir>/index.html --viewports=desktop,mobile,small-phone --strict-layout --spec=<artifact-dir>/.design/render-spec.json --profile-out=<artifact-dir>/render-profile.json --artifact-digest=<sha256> --plan-digest=<sha256>
 node scripts/render-smoke.mjs <artifact-dir>/index.html --viewports=desktop,mobile --strict-layout
 node scripts/tweakable-smoke.mjs <artifact-dir>/index.html
 ```
 
-These scripts check intake direction completeness, required files, manifest fields, placeholder text, deck layout metadata, image slots, source declarations, visible summary mappings, verbatim summary numbers, plain-language status, claim evidence quotes, style preset usage, chart contracts, aesthetic contracts, visual asset provenance, registered layout locks, visual rhythm, poster contracts, anti-AI-slop patterns, visual QA evidence, browser rendering, and optional interaction behavior.
+These scripts check intake direction completeness, required files, manifest fields, placeholder text, deck layout metadata, image slots, source declarations, visible summary mappings, verbatim summary numbers, plain-language status, claim evidence quotes, style preset usage, chart contracts, aesthetic contracts, component catalogue admission and artifact binding, visual asset provenance, registered layout locks, visual rhythm, poster contracts, anti-AI-slop patterns, visual QA evidence, browser rendering, and optional interaction behavior.
 
-For artifacts with derived values, run `node scripts/validate-data-provenance.mjs <artifact-dir> --execute-trusted` only on reviewed local calculation code. It verifies source/code/test/output hashes, path containment, source/output separation, rerun output identity, deterministic test exit, and source stability in a temporary copy. Without this evidence, derived artifacts cannot be `ready`.
+For artifacts with derived values, `node scripts/validate-data-provenance.mjs <artifact-dir>` performs static identity, containment, role, and hash checks. The legacy `--execute-trusted` path is disabled. Any calculation execution must enter through a digest-verified v2 plan and `run-execution-plan.mjs`; otherwise it is a policy bypass and must fail. Without policy-run evidence, derived artifacts cannot be `ready`.
 
 For triad-driven work, also inspect `agent-handoffs/` or the project `.exp-skill/runs/<run-id>/role-handoffs/` directory. Reviewer approval or documented residual risk is required before claiming the artifact is ready.
 
+In the V2 evidence contract, all published accessibility and privacy check ids are mandatory: `failed` blocks and `not_applicable` is not an allowed status. Privacy findings record id, severity, open/resolved status, summary, and evidence references; any open privacy finding blocks `ready`. Artifact-local sidecars and reviewer records remain diagnostic inputs but cannot authorize `ready`. Ready requires a runner-produced machine attestation outside the artifact, bound to a frozen execution-event snapshot, render profile, artifact digest, and plan digest. It also requires a host-supplied reviewer registry and reviewer attestation outside the artifact; the reviewer must be active, differ from the host-supplied artifact author, approve all seven checks, and review evidence no older than the machine attestation. Missing host identity or external evidence fails closed. These are filesystem and digest boundaries, not cryptographic identity or authentication.
+
+Ready review is intentionally two-stage. First run the plan with `--artifact-author-id=<host-id>`; after `render-smoke`, the runner writes machine evidence under the external trust directory, while `ready` remains closed without reviewer inputs. A host reviewer then inspects the digest-bound artifact/render evidence and writes the external registry and attestation. Rerun the same canonical plan with `--machine-attestation=<first-run-path> --reviewer-registry=<host-path> --reviewer-attestation=<host-path>`. The second run consumes, and does not overwrite, the prior runner attestation; any artifact, plan, render-profile, registry, identity, or freshness drift fails validation.
+
 For substantial work, base-validate `intake-direction.json` while collecting direction input. Immediately before Poster, rerun with `--require-confirmed --poster=<poster-handoff.json>`. A `needs_clarification` result is a deliberate pause state, not permission to infer the missing product brief.
 
-`render-smoke.mjs` is optional and requires Playwright from the host environment. Use it when browser loading, console-error checks, screenshot evidence, or responsive smoke coverage matters. It can write desktop and mobile screenshots under `<artifact-dir>/qa/`.
+`render-smoke.mjs` is optional only outside a resolved-plan evidence contract and requires Playwright from the host environment. In V2 profile mode it installs a context route before page creation or navigation. `deny_all` aborts every HTTP(S) request before send; `allowlist` continues exact allowed origins and aborts all others. Attempted requests remain in evidence, and any unauthorized attempt fails the gate. It then executes every declared setup/assertion and segment at 1440/390/320, measures strict layout and computed schematic disclosure, and hashes screenshots under `<artifact-dir>/qa/`. A missing state/segment, failed assertion, unauthorized request, or screenshot mismatch blocks evidence validation.
+
+Component selection is valid only through the existing compiler and runner.
+`validate-component-catalogue.mjs` fails closed on unknown provenance, license,
+dependency, fallback, compatibility, accessibility, or performance facts.
+`validate-component-usage.mjs` binds the manifest ids, visible HTML markers,
+catalogue record digests, artifact digest, and runner-written resolution
+sidecar. A passing catalogue fixture proves contract compatibility, not
+production beauty, accessibility completeness, legal interpretation, or
+reader value.
 
 Use `--strict-layout` when obvious horizontal overflow, broken media, clipped text, or obvious visible text overlap would materially affect trust. Strict layout is heuristic. It does not prove aesthetic quality, all overlap cases, full accessibility, or native PPTX/PDF/Figma fidelity.
 
@@ -116,7 +173,7 @@ When `quality-report.md` says `visual_qa: smoke_passed`, the artifact directory 
 
 `schemas/*.schema.json` are the published interchange contracts. `validate-schemas.mjs` checks that the manifest schema's required fields stay aligned with the validator's required fields. The final pass/fail behavior is defined by the scripts in `scripts/`.
 
-For source-backed reports, dashboards, and chart frames, include `claim-map.json` and run `validate-claim-map.mjs`. Verified claims need `evidence_quotes` that are present in local source files. This proves local source support only; it does not prove external truth or complete semantic entailment.
+For source-backed reports, dashboards, and chart frames, include `claim-map.json` and run `validate-claim-map.mjs`. V2 numeric evidence additionally requires the signed value, currency, unit, metric, entity, period, denominator, grain, source id, exact evidence text, and occurrence count to match both local source evidence and the exactly-once visible `data-claim-id`. This proves local source support only; it does not prove external truth or complete semantic entailment.
 
 For source-backed reports, dashboards, chart frames, decks, and PPT handoffs, include `summary-map.json` and run `validate-summary-map.mjs`. The summary validator checks that mapped visible summaries exist in HTML, source quotes are local and readable, summary numbers appear verbatim in those source quotes, and plain-language review is recorded.
 
@@ -129,6 +186,8 @@ For posters, run `validate-poster-contract.mjs` and `validate-poster-anti-ai-slo
 For reusable design systems, run `validate-design-system-package.mjs`. This verifies the Open Design-style package shape: manifest, design rationale, tokens, components, previews, and source evidence.
 
 Run `capability-preflight.mjs` before claiming browser smoke, native PPTX, PDF export, Figma, live connector, or Open Design daemon coverage. `browser_smoke` checks package/binary availability; `browser_launch` verifies a real Chromium launch and may require host permissions. Missing optional runtimes should remain `not_claimed`, not silently become capabilities.
+
+Browser entrypoints share `scripts/lib/playwright-runtime.mjs`. It resolves, in order: `DESIGN_PLAYWRIGHT_PATH` when explicitly configured as a Playwright module/package/`node_modules` root; package-local `node_modules/playwright`; then `<current-user-home>/.cache/codex-runtimes/*/dependencies/node/node_modules/playwright`, preferring `codex-primary-runtime`. Each candidate must export `chromium` with launch/executable APIs and point to an existing Chromium executable. Failure output lists attempted paths and the configuration action. This discovery avoids bundling or copying `node_modules` into the skill.
 
 ## Manual Validation
 
@@ -158,6 +217,10 @@ Close only the risks that have direct evidence:
 - Interaction risk is closed only for the controls exercised by `tweakable-smoke.mjs` or an equivalent targeted smoke.
 - Swiss deck aesthetic-contract risk is closed only when the aesthetic, asset, layout-lock, and rhythm validators pass on the artifact.
 - Poster anti-AI-slop risk is closed only when the poster contract and poster anti-AI-slop validators pass on the artifact.
+- Component control-path risk is closed only when catalogue validation,
+  digest-bound compiler resolution, runner-side component-usage validation,
+  strict browser evidence, and independent aesthetic review all pass for the
+  same artifact.
 - Calculation-lineage risk is machine-checked for the trusted local production fixture. Formula correctness, source truth, and untrusted-code execution remain separate reviewer/security gates.
 
 These are explicit non-claims, not open engineering risks in this package:

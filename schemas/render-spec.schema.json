@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/render-spec.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "resolved_plan_digest", "artifact_digest", "viewports", "segments", "states", "remote_policy", "spec_digest"],
+  "properties": {
+    "schema_version": { "const": "design-render-spec/v2" },
+    "resolved_plan_digest": { "$ref": "#/$defs/sha256" },
+    "artifact_digest": { "$ref": "#/$defs/sha256" },
+    "viewports": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "enum": [1440, 390, 320] } },
+    "segments": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/segment" } },
+    "states": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/state" } },
+    "remote_policy": {
+      "type": "object", "additionalProperties": false, "required": ["mode", "allowed_origins"],
+      "properties": {
+        "mode": { "enum": ["deny_all", "allowlist"] },
+        "allowed_origins": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^https?://" } }
+      }
+    },
+    "spec_digest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "segment": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["selector", "scroll_fraction"] },
+        "selector": { "type": "string", "minLength": 1 },
+        "fraction": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "state": {
+      "type": "object", "additionalProperties": false, "required": ["id", "setup", "assertions"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "setup": { "type": "array", "items": { "type": "object" } },
+        "assertions": { "type": "array", "minItems": 1, "items": { "type": "object" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": [
+      "direct",
+      "clear",
+      "no_unnecessary_jargon"
+    ]
+  },
+  "summaries": [
+    {
+      "id": "queue-summary",
+      "summary_text": "24 requests in queue",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"total_requests\": 24"
+        }
+      ],
+      "preserved_numbers": [
+        "24"
+      ]
+    },
+    {
+      "id": "exception-summary",
+      "summary_text": "Identity review blocked",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"priority_exception\": \"Identity review blocked\""
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "metric-summary",
+      "summary_text": "3 blocked requests",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"affected_metric\": \"3 blocked requests\""
+        }
+      ],
+      "preserved_numbers": [
+        "3"
+      ]
+    },
+    {
+      "id": "action-summary",
+      "summary_text": "Open owner handoff",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"next_action\": \"Open owner handoff\""
+        }
+      ],
+      "preserved_numbers": []
+    },
+    {
+      "id": "snapshot-summary",
+      "summary_text": "Snapshot: 2026-07-30 09:00 CST",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"snapshot\": \"2026-07-30 09:00 CST\""
+        }
+      ],
+      "preserved_numbers": [
+        "2026",
+        "07",
+        "30",
+        "09",
+        "00"
+      ]
+    },
+    {
+      "id": "source-note-summary",
+      "summary_text": "Source: source.json",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "source_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"source_note\": \"Source: source.json\""
+        }
+      ],
+      "preserved_numbers": []
+    }
+  ]
+}

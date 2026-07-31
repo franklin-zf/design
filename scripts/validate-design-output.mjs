@@ -2,6 +2,10 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  loadComponentCatalogue,
+  resolveComponentSelection
+} from './lib/component-catalogue.mjs';
 
 const dir = process.argv[2];
 if (!dir) {
@@ -109,6 +113,15 @@ const presetData = existsSync(presetsPath) ? readJson(presetsPath, 'assets/theme
 const registryPath = join(skillRoot, 'assets/templates/registry.json');
 const registryData = existsSync(registryPath) ? readJson(registryPath, 'assets/templates/registry.json') : null;
 const registryTemplates = Array.isArray(registryData?.templates) ? registryData.templates : [];
+let componentCatalogue = null;
+try {
+  componentCatalogue = loadComponentCatalogue(
+    join(skillRoot, 'assets/components/registry.json'),
+    join(skillRoot, 'schemas/component-catalogue.schema.json')
+  );
+} catch (error) {
+  errors.push(`Component catalogue is invalid: ${error.message}`);
+}
 
 let manifest = null;
 const manifestPath = join(dir, 'manifest.json');
@@ -127,6 +140,9 @@ const requiredFields = [
   'audience',
   'surface',
   'style_preset',
+  'template_id',
+  'template_selection',
+  'validation',
   'schematic',
   'source_materials',
   'data_sources',
@@ -190,8 +206,8 @@ if (manifest) {
     }
   }
   const validation = manifest.validation && typeof manifest.validation === 'object' ? manifest.validation : null;
-  const applicableGates = validation?.applicable_gates || manifest.applicable_validation_gates;
-  const gateResults = validation?.results || manifest.validation_results;
+  const applicableGates = validation?.applicable_gates;
+  const gateResults = validation?.results;
   if (!Array.isArray(applicableGates) || applicableGates.length === 0) {
     errors.push('manifest.validation.applicable_gates is required for gate traceability.');
   }
@@ -199,13 +215,34 @@ if (manifest) {
     errors.push('manifest.validation.results is required for gate traceability.');
   }
   if (selectedTemplate && Array.isArray(applicableGates)) {
-    const registeredGates = new Set(registryGateIds(selectedTemplate));
+    const expected = registryGateIds(selectedTemplate);
+    if (manifest.component_refs?.length && componentCatalogue) {
+      try {
+        const resolution = resolveComponentSelection({
+          catalogue: componentCatalogue,
+          componentIds: manifest.component_refs,
+          templateId: manifest.template_id,
+          artifactType: manifest.artifact_type
+        });
+        const componentGates = resolution.selected.flatMap(
+          (component) => component.required_gate_ids
+        );
+        const insertAt = expected.indexOf('manual-reviewer-pass');
+        for (const gate of componentGates) {
+          if (expected.includes(gate)) continue;
+          if (insertAt === -1) expected.push(gate);
+          else expected.splice(expected.indexOf('manual-reviewer-pass'), 0, gate);
+        }
+      } catch (error) {
+        errors.push(`manifest.component_refs are invalid: ${error.message}`);
+      }
+    }
+    const registeredGates = new Set(expected);
     for (const gate of applicableGates) {
       if (typeof gate !== 'string' || !registeredGates.has(gate)) {
         errors.push(`manifest.validation.applicable_gates contains an unregistered gate: ${gate}`);
       }
     }
-    const expected = registryGateIds(selectedTemplate);
     if (expected.length !== applicableGates.length || expected.some((gate, index) => gate !== applicableGates[index])) {
       errors.push(`manifest.validation.applicable_gates must match registry order for template ${selectedTemplate.id}.`);
     }
@@ -598,11 +635,11 @@ if (existsSync(qualityPath)) {
     .map((match) => ({ gate_id: match[1], status: match[2], evidence: match[3].trim() }));
   if (manifest?.template_id) {
     if (reportTemplateId !== manifest.template_id) errors.push('quality-report.md template_id must match manifest.template_id.');
-    const manifestApplicableGates = manifest.validation?.applicable_gates || manifest.applicable_validation_gates || [];
+    const manifestApplicableGates = manifest.validation?.applicable_gates || [];
     if (!reportApplicableGates || reportApplicableGates.join('|') !== manifestApplicableGates.join('|')) {
       errors.push('quality-report.md applicable_gates must match manifest.validation.applicable_gates.');
     }
-    const manifestResults = manifest.validation?.results || manifest.validation_results || [];
+    const manifestResults = manifest.validation?.results || [];
     const reportResultMap = new Map(reportGateResults.map((result) => [result.gate_id, result]));
     for (const result of manifestResults) {
       const reportResult = reportResultMap.get(result.gate_id);

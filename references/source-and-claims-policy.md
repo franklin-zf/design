@@ -1,6 +1,6 @@
 # Source And Claims Policy
 
-## REQ-002 Source Identity
+## Source Identity
 
 For each source-backed input, record a source entry with at least:
 
@@ -20,10 +20,10 @@ and keep the artifact partial or blocked; a URL string alone is not a source
 hash. The hash proves file identity at the check time. It does not prove that
 the source is true, current, complete, or correctly interpreted.
 
-The current data-provenance validator already checks SHA-256 for its declared
-provenance files. The broader source-entry and semantic-review fields below
-are contract recommendations; this document does not claim that current
-validators enforce all of them.
+The data-provenance validator checks SHA-256 for its declared provenance files.
+The broader source-entry and semantic-review fields below remain product
+contract requirements even where enforcement is human; validator success must
+not imply that an unimplemented semantic check passed.
 
 ## Claim Classes
 
@@ -130,6 +130,8 @@ For source-backed artifacts, use `claim-map.json`:
 - `verified` claims must include `evidence_quotes`, each with `source_ref` and a short `quote` found in the local source file.
 - `assumption` claims should be labeled as interpretation and tied to supporting sources when available.
 - `unverified` claims must also appear in `manifest.unverified_items`.
+- Each claim id must appear exactly once in the map and exactly once as visible `data-claim-id` content.
+- Each numeric fact records `value`, `sign`, `currency`, `unit`, `metric`, `entity`, `period`, `denominator`, `grain`, `source_id`, exact `evidence_text`, and `occurrence_count`. The signed value and every context token must occur in both the evidence text and visible claim; the signed value count must match exactly. Do not treat Chinese units, currencies, signs, or repeated tokens as interchangeable.
 
 `evidence_quotes` prove local provenance only. They do not prove external truth, complete semantic entailment, data freshness, or that the artifact's interpretation is correct. `summary-map.json` closes only local summary coverage, verbatim number preservation, and plain-language review for mapped summaries.
 

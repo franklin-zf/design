@@ -1,0 +1,189 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "dashboard",
+  "audience": "operations team",
+  "surface": "html",
+  "style_preset": "operational-dashboard",
+  "template_id": "operational-dashboard",
+  "template_selection": {
+    "template_id": "operational-dashboard",
+    "reader_job": "Scan state, exception, evidence, and next action",
+    "rationale": "The source is a current operational snapshot with two comparison regions and a concrete exception path.",
+    "rejected_alternatives": [
+      "source-backed-report",
+      "swiss-evidence-deck"
+    ]
+  },
+  "component_refs": [
+    "design-owned-operational-control-feedback"
+  ],
+  "validation": {
+    "applicable_gates": [
+      "validate-design-output",
+      "validate-claim-map",
+      "render-smoke",
+      "validate-component-usage"
+    ],
+    "results": [
+      {
+        "gate_id": "validate-design-output",
+        "status": "passed",
+        "evidence": "node scripts/validate-design-output.mjs examples/component-operational-pilot-pass"
+      },
+      {
+        "gate_id": "validate-claim-map",
+        "status": "passed",
+        "evidence": "node scripts/validate-claim-map.mjs examples/component-operational-pilot-pass"
+      },
+      {
+        "gate_id": "render-smoke",
+        "status": "passed",
+        "evidence": "strict render smoke passed at 1440, 390, and 320 pixels"
+      },
+      {
+        "gate_id": "validate-component-usage",
+        "status": "passed",
+        "evidence": "node scripts/validate-component-pilots.mjs examples/component-operational-pilot-pass"
+      }
+    ]
+  },
+  "guidance_fields": {
+    "drivers": {
+      "html_id": "drivers",
+      "source_refs": [
+        "examples/component-operational-pilot-pass/source.json"
+      ]
+    },
+    "guardrails": {
+      "html_id": "guardrails",
+      "source_refs": [
+        "examples/component-operational-pilot-pass/source.json"
+      ]
+    },
+    "filters": {
+      "html_id": "filters",
+      "source_refs": [
+        "examples/component-operational-pilot-pass/source.json"
+      ]
+    },
+    "freshness": {
+      "html_id": "freshness",
+      "source_refs": [
+        "examples/component-operational-pilot-pass/source.json"
+      ]
+    }
+  },
+  "schematic": false,
+  "source_materials": [
+    "examples/component-operational-pilot-pass/source.json"
+  ],
+  "data_sources": [
+    {
+      "id": "source.json",
+      "type": "json"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "Total requests",
+      "unit": "requests"
+    },
+    {
+      "name": "Blocked requests",
+      "unit": "requests"
+    }
+  ],
+  "charts": [
+    {
+      "id": "queue-status",
+      "family": "comparison",
+      "source": "source.json",
+      "unit": "requests",
+      "question": "How many requests are on track or blocked?",
+      "takeaway": "21 requests are on track and 3 requests are blocked.",
+      "grain": "status",
+      "fields": [
+        "status",
+        "requests"
+      ],
+      "sample_size": 2,
+      "visual_encoding": {
+        "mark": "horizontal bars with direct labels",
+        "x": "requests",
+        "y": "status",
+        "scale_type": "linear",
+        "baseline": "zero",
+        "domain": "0 to 24 requests",
+        "label_policy": "direct value and status labels"
+      }
+    },
+    {
+      "id": "age-distribution",
+      "family": "distribution",
+      "source": "source.json",
+      "unit": "requests",
+      "question": "How old are current requests?",
+      "takeaway": "18 requests are under 1 day, 3 are 1-2 days, and 3 are over 2 days.",
+      "grain": "age band",
+      "fields": [
+        "age",
+        "requests"
+      ],
+      "sample_size": 3,
+      "visual_encoding": {
+        "mark": "horizontal bars with direct labels",
+        "x": "requests",
+        "y": "age",
+        "scale_type": "linear",
+        "baseline": "zero",
+        "domain": "0 to 24 requests",
+        "label_policy": "direct value and age-band labels"
+      }
+    }
+  ],
+  "aesthetic_contract": {
+    "layout_lock": "not_applicable",
+    "accent_policy": {
+      "accent_2": "forbidden",
+      "max_accent_uses": 0
+    },
+    "svg_text_policy": "not_applicable",
+    "motion_policy": "static",
+    "expression_level": "L1-interactive",
+    "semantic_job": "action_feedback",
+    "reader_value": "Keep state, exception, evidence, and next action in one stable scan path.",
+    "attention_budget": {
+      "primary_attention_region": "priority-exception",
+      "signature_move_count": 0,
+      "ambient_field_count": 0
+    },
+    "fallback": {
+      "reduced_motion": "Use an immediate state change with no animation.",
+      "static_html": "Keep the owner detail in document order.",
+      "ppt_handoff": "Print the owner detail and omit the checkbox."
+    },
+    "component_provenance_ref": "assets/components/registry.json#design-owned-operational-control-feedback",
+    "visual_rhythm": {
+      "max_same_weight_run": 3,
+      "min_unique_layouts_for_8_slides": 1
+    }
+  },
+  "layouts": [
+    "topbar",
+    "kpi-strip",
+    "guardrails",
+    "filters",
+    "freshness",
+    "drivers",
+    "queue-status",
+    "age-distribution",
+    "detail-table"
+  ],
+  "assumptions": [
+    "The local JSON snapshot is a controlled operational fixture."
+  ],
+  "missing_data": [],
+  "unverified_items": [
+    "No live freshness or user outcome is claimed."
+  ]
+}

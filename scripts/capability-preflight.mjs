@@ -1,8 +1,5 @@
 #!/usr/bin/env node
-import { existsSync } from 'node:fs';
-import { createRequire } from 'node:module';
-
-const require = createRequire(import.meta.url);
+import { loadPlaywrightRuntime } from './lib/playwright-runtime.mjs';
 const required = new Set();
 const requireArg = process.argv.find((arg) => arg.startsWith('--require='));
 if (requireArg) {
@@ -50,13 +47,10 @@ const capabilities = {
 };
 
 try {
-  const playwrightPath = require.resolve('playwright');
-  const { chromium } = await import('playwright');
-  const executable = chromium.executablePath();
-  capabilities.browser_smoke = existsSync(executable)
-    ? { status: 'available', evidence: `playwright resolved at ${playwrightPath}; Chromium executable exists at ${executable}` }
-    : { status: 'missing', evidence: `playwright resolved at ${playwrightPath}; Chromium executable missing at ${executable}` };
-  if (shouldCheckBrowserLaunch && existsSync(executable)) {
+  const runtime = await loadPlaywrightRuntime();
+  const { chromium, executablePath: executable } = runtime;
+  capabilities.browser_smoke = { status: 'available', evidence: runtime.evidence };
+  if (shouldCheckBrowserLaunch) {
     let browser = null;
     try {
       browser = await chromium.launch();

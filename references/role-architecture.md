@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Every substantial design artifact uses three core roles. They are not decorative personas. Each role owns a different failure mode and must leave file-backed handoff evidence when the host supports multi-agent work.
+Standard and Assured artifacts use the roles required by their execution plan. They are not decorative personas: each role owns a different failure mode and leaves file-backed handoff evidence. Express still records the same domain decisions in a compact sequential handoff, without implying independent concurrency.
 
 ## Core Roles
 
@@ -81,13 +81,40 @@ Operating principles:
 - Use hierarchy, grid, type, color, image, icon, and motion to make the right thing easy to see.
 - Choose one visual system per artifact and enforce it.
 
-Required handoff:
+Required handoff. Complete the Taste Contract before selecting a preset or template; see `references/taste-loop.md`:
 
 ```json
 {
   "role": "designer",
+  "reader_job": "",
+  "visual_thesis": "",
+  "content_tension": {
+    "statement": "",
+    "source_refs": []
+  },
+  "direction_alternatives": [
+    {
+      "id": "",
+      "thesis": "",
+      "cost": "",
+      "status": "selected|rejected",
+      "reason": ""
+    }
+  ],
+  "signature_move": {
+    "move": "",
+    "reader_value": ""
+  },
+  "anti_reference": [
+    {
+      "reference": "",
+      "avoid_because": ""
+    }
+  ],
+  "restraint_rule": "",
   "style_preset": "",
-  "template_family": "",
+  "template_id": "",
+  "rejected_template_ids": [],
   "layout_plan": [],
   "image_plan": [],
   "icon_plan": [],
@@ -107,6 +134,8 @@ Operating principles:
 - Logic must remain valid after summarization and slide sequencing.
 - Aesthetic review is concrete: hierarchy, density, typography, color, image fit, motion purpose, and visual defects.
 - Validator pass is necessary but not sufficient.
+- Explain why the composition belongs to this content by connecting the reader job, visual thesis, content tension, signature move, and restraint rule.
+- Report the assurance stage actually evidenced; do not translate internal review into `user_validated`.
 
 Required JSON review:
 
@@ -131,6 +160,15 @@ Required JSON review:
     "aesthetic_fit": "pass|fail|not_checked",
     "visual_defects": "pass|fail|not_checked"
   },
+  "content_ownership": {
+    "status": "pass|fail|not_checked",
+    "why_this_composition_belongs": "",
+    "evidence_refs": []
+  },
+  "assurance": {
+    "highest_passed_stage": "structure_passed|evidence_traced|visually_reviewed|decision_ready|user_validated|null",
+    "unverified_items": []
+  },
   "remaining_risks": []
 }
 ```
@@ -141,15 +179,16 @@ Required JSON review:
 2. Orchestrator snapshots immutable source identity before synthesis.
 3. Poster locks the reader job, decision context, source facts, narrative spine, non-claims, and any `proposed_not_computed` analysis requests.
 4. A code-owning analyst or builder executes each accepted request, tests it, and emits a derived artifact with provenance. Poster receives results only after this gate.
-5. Designer selects the template family, style preset, layout rhythm, images, diagrams, icons, and motion without modifying source values.
+5. Designer completes the content-specific Taste Contract, then selects a registry `template_id`, style preset, layout rhythm, images, diagrams, icons, and motion without modifying source values.
 6. Builder implements the artifact from registered templates and records source, calculation, and visible-summary mappings.
 7. Reviewer checks source immutability, calculation lineage, numbers, logic, visual quality, accessibility basics, and runtime evidence.
-8. Blocking or major findings return to the owning role for the smallest correction.
-9. Delivery happens only after reviewer approval or explicit user acceptance of residual risk.
+8. Reviewer answers why the composition belongs to the content and records the assurance stages actually evidenced.
+9. Blocking or major findings return to the owning role for the smallest correction.
+10. Delivery happens only after reviewer approval or explicit user acceptance of residual risk; user acceptance is not evidence of `user_validated` without observed task evidence.
 
 ## When Subagents Are Available
 
-Use independent contexts for poster, designer, and reviewer when the task is broad, high stakes, source-backed, style-heavy, or explicitly multi-agent. Record handoffs under `artifact/agent-handoffs/` or a project `.exp-skill/runs/<run-id>/role-handoffs/` directory.
+Use independent contexts when the Standard or Assured execution plan requires them, or when the user explicitly requests multi-agent work. Assured independent review must use a context that did not implement the artifact. Record handoffs under `artifact/agent-handoffs/` or a project `.exp-skill/runs/<run-id>/role-handoffs/` directory.
 
 ## When Subagents Are Not Available
 

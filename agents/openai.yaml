@@ -1,6 +1,6 @@
 interface:
   display_name: "Design"
-  short_description: "Beautiful, accurate visual reports from immutable content and data"
-  default_prompt: "Use $design to turn user-supplied content or data into a beautiful, accurate visual report. Confirm artifact type, goal, and use scenario; preserve raw sources exactly; route every derived calculation through reproducible code; then build from a registered production template and validate source, calculation, visual, and delivery quality."
+  short_description: "Trustworthy visual artifacts with risk-matched assurance and content-specific taste"
+  default_prompt: "Use $design to turn the supplied content or data into a trustworthy visual artifact. State the reader job, choose one shape, route explicit facts to Express, Standard, or Assured without downgrading unknown risk, and write visual_thesis, content_tension, signature_move, anti_reference, and restraint_rule before selecting a registry template. Preserve raw sources exactly, route every derived value through reproducible code, inspect the real surface, and report Proven, Not proven, and Next; never treat a fast path as human or audit approval."
 policy:
   allow_implicit_invocation: true
