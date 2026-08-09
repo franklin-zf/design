@@ -1,11 +1,11 @@
 {
   "schema_version": "design-showcase-review/v1",
-  "reviewer_id": "product-design-reviewer",
-  "reviewed_at": "2026-07-19T00:00:01Z",
+  "reviewer_id": "slice1-independent-qa-20260810",
+  "reviewed_at": "2026-08-09T16:27:09Z",
   "status": "approved",
   "review_scope": "retrospective_visual_and_evidence_review",
   "assurance_basis": "curated_retrospective_record",
-  "artifact_digest": "0582b6b0635e0248008dd566ea48909b53cb61e1e34567f3c0dedd96a59e1cad",
+  "artifact_digest": "f537ce443fd71a9853cf0c9dd39871fad30b0d7ba6d39ed939c93666645a8380",
   "surface_evidence_digest": "3ad1cd32a87806387fdeaa994669cd5f4a020dd6e622703f5d62fc9900851c85",
   "non_claims": [
     "This curated review record is digest-bound but is not cryptographically authenticated.",

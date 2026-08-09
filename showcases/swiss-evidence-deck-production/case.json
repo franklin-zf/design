@@ -69,7 +69,7 @@
     "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-mobile.png"
   ],
   "artifact_binding": {
-    "artifact_digest": "0582b6b0635e0248008dd566ea48909b53cb61e1e34567f3c0dedd96a59e1cad",
+    "artifact_digest": "f537ce443fd71a9853cf0c9dd39871fad30b0d7ba6d39ed939c93666645a8380",
     "source_bindings": [
       {
         "ref": "examples/swiss-evidence-deck-production-pass/source/decision-brief.md",
@@ -85,7 +85,7 @@
       },
       {
         "ref": "examples/swiss-evidence-deck-production-pass/quality-report.md",
-        "sha256": "4ce39e4a7eec94cdcac226c95da7d324005c333556be460e18a0cd2d0ce51d0b"
+        "sha256": "7002c0e2d3786c9a8e4bcc1bbe177b2c254f14c26551fb7cc7edbcec9ebb7481"
       },
       {
         "ref": "examples/swiss-evidence-deck-production-pass/slide-plan.json",
@@ -124,11 +124,11 @@
   },
   "review_binding": {
     "status": "approved",
-    "reviewer_id": "product-design-reviewer",
-    "reviewed_at": "2026-07-19T00:00:01Z",
+    "reviewer_id": "slice1-independent-qa-20260810",
+    "reviewed_at": "2026-08-09T16:27:09Z",
     "review_evidence_ref": "showcases/swiss-evidence-deck-production/review.json",
-    "review_evidence_sha256": "1dc13199175a1260e38395146b9c1bbc429aaf370133555f775707a8d1aba465",
-    "artifact_digest": "0582b6b0635e0248008dd566ea48909b53cb61e1e34567f3c0dedd96a59e1cad",
+    "review_evidence_sha256": "95d7162c5d133ea0bc377c75adf973e0fd901895ff2b1a06a30752493ca59c93",
+    "artifact_digest": "f537ce443fd71a9853cf0c9dd39871fad30b0d7ba6d39ed939c93666645a8380",
     "surface_evidence_digest": "3ad1cd32a87806387fdeaa994669cd5f4a020dd6e622703f5d62fc9900851c85"
   },
   "retrospective": {

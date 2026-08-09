@@ -7,11 +7,12 @@ import {
   loadComponentCatalogue,
   resolveComponentSelection
 } from './lib/component-catalogue.mjs';
+import { computeSkillIdentity } from './lib/skill-identity.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
 const packageRoot = resolve(dirname(modulePath), '..');
 export const currentCompilerVersion = 'design-risk-compiler/v2';
-export const planSchemaVersion = 'design-resolved-gate-plan/v2';
+export const planSchemaVersion = 'design-resolved-gate-plan/v3';
 
 export const automaticGateIds = new Set([
   'validate-aesthetic-contract', 'validate-asset-contract', 'validate-claim-map',
@@ -339,9 +340,15 @@ export function compileExecutionPlan(rawRequest, options = {}) {
     remote_policy: request.conditional_policies.render.remote_policy
   };
   const renderSpec = { ...renderSpecPayload, spec_digest: sha256Value(renderSpecPayload) };
+  const currentSkillIdentity = computeSkillIdentity(packageRoot);
   const payload = {
     schema_version: planSchemaVersion,
     compiler_version: compilerVersion,
+    skill_identity: {
+      schema_version: currentSkillIdentity.schema_version,
+      digest: currentSkillIdentity.digest,
+      entry_count: currentSkillIdentity.entry_count
+    },
     normalized_request: request,
     artifact: { ...request.output_surface, workspace_root: request.constraints.workspace_root },
     profile,
@@ -354,16 +361,16 @@ export function compileExecutionPlan(rawRequest, options = {}) {
     result_contract: {
       execution_status: ['not_started', 'blocked_untrusted', 'complete', 'failed', 'terminated'],
       assurance_status: ['pending', 'passed', 'failed'],
-      delivery_status: ['blocked', 'schematic_only', 'ready']
+      delivery_status: ['blocked', 'schematic_only', 'candidate_ready']
     },
     evidence_contract: {
-      trusted_ready_boundary: 'host_external_v1',
+      trusted_candidate_ready_boundary: 'host_external_v1',
       source_hashes_required: request.source_materials.mode === 'provided',
       bidirectional_claim_map_required: request.source_materials.mode === 'provided',
       numeric_semantics_required: request.conditional_policies.derived_data.mode === 'derived',
-      reviewer_binding_required_for_ready: true,
-      machine_attestation_required_for_ready: true,
-      reviewer_attestation_required_for_ready: true,
+      reviewer_binding_required_for_candidate_ready: true,
+      machine_attestation_required_for_candidate_ready: true,
+      reviewer_attestation_required_for_candidate_ready: true,
       schematic_disclosure_required: request.conditional_policies.schematic.enabled,
       render_profile: request.conditional_policies.render,
       accessibility_standard: request.conditional_policies.accessibility.standard,

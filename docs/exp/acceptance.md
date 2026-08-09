@@ -2,11 +2,11 @@
 
 ## Summary
 
-本文件定义 `design skill` 优化实施的最终验收方式。当前交付仅包含需求、方案、工程计划和验收计划；未修改 Skill 实现、未重建 PPT/HTML/Poster、未安装或发布，因此所有实现 QA 结果保持 `PENDING`。
+本文件定义 `design skill` 优化实施的最终验收方式。Slice 1 已完成本地状态上限、审批失效、Assured 边界和打包身份机制；未重建 PPT/HTML/Poster、未安装或发布，因此最终交付和真实安装一致性仍保持 `PENDING`。
 
-Implementation contributors: none; plan-only delivery
+Implementation contributors: codex-main, implementation-agent-019fe742-ecb1-7f40-a548-4424cf3b902b
 
-Fixed planning base: HEAD `f74611a4ceceaf8eac52e5b507fe443b45eb44ce`; pre-existing dirty paths and digests are frozen in [workspace-baseline.md](/Users/zhangfeng/Downloads/workspace/design/docs/exp/workspace-baseline.md). Each implementation slice must recheck that baseline and review only its explicit allowed paths.
+Fixed Slice 1 implementation base: HEAD `55105c3`; the earlier dirty state was audited and committed as `9450d6e`, and the implementation plan was committed as `55105c3`. Each later slice must review only its explicit allowed paths.
 
 ## Success Gate
 
@@ -68,7 +68,7 @@ Fixed planning base: HEAD `f74611a4ceceaf8eac52e5b507fe443b45eb44ce`; pre-existi
 
 | Slice | Focused Tests | Regression Tests | Independent Reviewer | Result |
 | --- | --- | --- | --- | --- |
-| 1 | `node --test tests/install-parity.test.mjs tests/evidence-contract.test.mjs` | `npm run validate` | Must differ from artifact author | PENDING |
+| 1 | `node --test tests/install-parity.test.mjs tests/evidence-contract.test.mjs tests/execution-plan.test.mjs tests/validators.test.mjs tests/showcase-registry.test.mjs`: 43 passed, 1 optional skip | `npm test`: 83 passed, 1 optional skip; `npm run test:strict`: browser and all target captures passed | `slice1-independent-qa-20260810`; final showcase bindings reviewed; implementation identities excluded; actual install switch remains RISK-001 in Slice 6 | PASS |
 | 2 | `node --test tests/source-extraction.test.mjs tests/content-chain.test.mjs tests/validators.test.mjs` | `npm test` | Independent source-semantics review | PENDING |
 | 3 | `node --test tests/ppt-studio.test.mjs` plus host adapter run | `npm test` | Independent PPT target-surface review | PENDING |
 | 4 | `node --test tests/html-studio-browser.test.mjs` | `npm run test:strict` | Independent HTML direction and surface review | PENDING |
@@ -79,28 +79,28 @@ Fixed planning base: HEAD `f74611a4ceceaf8eac52e5b507fe443b45eb44ce`; pre-existi
 
 | ID | Severity | Requirement ID | Problem | Evidence | Owner | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| RISK-001 | major | REQ-004 | 当前工作区与已安装 Skill 的版本漂移仍存在 | Root-cause report and current repository state | Slice 1 owner | open |
-| RISK-002 | major | REQ-006, REQ-011 | 当前自报 `ready` 与 `smoke_passed` 误放行路径尚未删除 | Existing validators and root-cause report | Slice 1 owner | open |
+| RISK-001 | major | REQ-004 | 当前工作区与已安装 Skill 的版本漂移仍存在；新校验器已稳定阻断，但尚未执行安装切换 | `node scripts/validate-install-parity.mjs /Users/zhangfeng/.codex/skills/design` returns nonzero with exact drift list | Slice 6 owner | open |
+| RISK-002 | major | REQ-006, REQ-011 | 自报 `ready`、`smoke_passed` 误放行和未知 Assured profile 绕过 | Local status/evidence/profile negative tests plus independent review | Slice 1 owner | resolved |
 | RISK-003 | major | REQ-007, REQ-011 | 当前包未声明 native PPTX/PDF capability | `capability-preflight.mjs` and HTML-only capture script | Slice 3 owner | open |
 
 ## Scope Audit
 
-- Declared allowed paths for this planning turn: `docs/exp/requirements.md`, `docs/exp/solution.md`, `docs/exp/engineering.md`, `docs/exp/acceptance.md`, `docs/exp/workspace-baseline.md`, and the single Shadcn license-evidence row in `/Users/zhangfeng/Downloads/workspace/design-reference-study-2026-08-09/REFERENCE_INVENTORY.md`.
-- Actual changed paths for this planning turn: the five planning files plus that evidence-row correction; all other `design` dirty paths match the frozen pre-existing baseline.
-- Pre-existing repository changes: present; excluded from this review and must remain untouched.
+- Declared allowed paths for Slice 1: the Slice 1 row in [engineering.md](/Users/zhangfeng/Downloads/workspace/design/docs/exp/engineering.md), plus this acceptance record.
+- Actual changed paths for Slice 1: status/evidence/identity schemas and validators, focused tests, affected positive quality reports, and independently rebound production showcase records.
+- Pre-existing repository changes: none at Slice 1 base `55105c3`.
 - Out-of-scope changes: none
 - Generated clutter: none
-- Obsolete or compatibility code: not introduced in this planning turn; old protocol removal is planned in Slice 6 with no import path.
+- Obsolete or compatibility code: old protocol removal remains planned in Slice 6; Slice 1 introduced no compatibility path.
 
 ## Verification
 
 - Delivery validator: the plan must pass `validate_delivery.py --phase engineering`; full acceptance is expected to fail until all implementation rows are real `PASS` and the final Reviewer approves.
-- Repository checks for this planning turn: Markdown structure, requirement ID coverage, internal path existence and changed-path audit.
-- Fixed review base: `f74611a4ceceaf8eac52e5b507fe443b45eb44ce` plus normalized dirty snapshot `25a46eab280621e9b272da837a96abb87d93cb3598e95c2082134efcdfbff9b2`; refresh only by explicit approval.
+- Repository checks for Slice 1: focused Node tests, `npm test`, `npm run test:strict`, schema/style/skill validators, package extraction parity, installed-copy negative check, screenshot pre/post hashes and changed-path audit.
+- Fixed review base: `55105c3`; final package identity `cecddded5adf550866a45822ad61916e50308b370d5cd049f2de82dcfa818741` over 112 shipped files.
 - Specification-fidelity review: independent QA must compare all four documents with the root-cause report and REQ-001–REQ-012.
 - Standards/code-health review: planned for each implementation slice and final `npm run test:strict`.
-- Rendered UI review when relevant: mandatory in Slice 5; not performed in this planning turn.
-- Unverified surfaces: all code changes, regenerated PPT/HTML/Poster, host adapter trust, target-player PPT rendering, installed-copy parity, host user-confirmation state and efficiency improvement.
+- Rendered UI review: strict Playwright browser suite passed; three rewritten component-deck baselines were detected by hash audit and restored, after which all tracked PNG hashes matched the pre-test snapshot.
+- Unverified surfaces: regenerated product-management PPT/HTML/Poster, host adapter trust, target-player PPT rendering, actual installed-copy parity, host user-confirmation state and efficiency improvement.
 
 ### Frozen Benchmark Inputs
 
@@ -112,10 +112,12 @@ Fixed planning base: HEAD `f74611a4ceceaf8eac52e5b507fe443b45eb44ce`; pre-existi
 
 ## QA Decision
 
-Decision: pending implementation and final delivery review
+Decision: pending Slices 2-6 and final delivery review
 
-Reviewer: pending
+Reviewer: final-review-pending; Slice 1 reviewer `slice1-independent-qa-20260810`
 
 Plan QA: `PASS_FOR_IMPLEMENTATION` by independent Reviewer `019fe706-58b6-73a1-85aa-8cc5113b8484`; this does not satisfy final delivery acceptance.
 
-Remaining minor risks: brand rules, primary PPT player, media/font licensing and the 20% efficiency baseline must be resolved or measured at implementation intake.
+Slice 1 QA: local `ready` is rejected; `candidate_ready` binds independent content/artifact/surface/machine evidence; later user/host rejection invalidates unchanged bytes; package mutation/deletion/addition and actual install drift fail closed.
+
+Remaining risks: actual installed-copy parity, native PPT capability, brand rules, primary PPT player, media/font licensing and the 20% efficiency baseline remain unresolved in their planned slices.

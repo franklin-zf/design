@@ -6,6 +6,8 @@ import {
   loadComponentCatalogue,
   resolveComponentSelection
 } from './lib/component-catalogue.mjs';
+import { computeSkillIdentity } from './lib/skill-identity.mjs';
+import { validateEvidenceContract } from './validate-evidence-contract.mjs';
 
 const dir = process.argv[2];
 if (!dir) {
@@ -602,7 +604,7 @@ if (existsSync(qualityPath)) {
     if (!quality.includes(heading)) errors.push(`quality-report.md missing heading: ${heading}`);
   }
   const statusFields = {
-    artifact_status: ['ready', 'partial', 'blocked', 'schematic'],
+    artifact_status: ['candidate_ready', 'partial', 'blocked', 'schematic'],
     claim_assurance: ['local_provenance_only', 'externally_verified', 'unverified', 'schematic'],
     semantic_entailment: ['not_proven', 'manually_reviewed'],
     summary_integrity: ['source_mapped', 'not_applicable', 'not_checked'],
@@ -654,27 +656,45 @@ if (existsSync(qualityPath)) {
     }
   }
 
-  if (parsedStatus.artifact_status === 'ready') {
+  if (parsedStatus.artifact_status === 'candidate_ready') {
     if (parsedStatus.semantic_entailment !== 'manually_reviewed') {
-      errors.push('ready artifacts must set semantic_entailment: manually_reviewed.');
+      errors.push('candidate_ready artifacts must set semantic_entailment: manually_reviewed.');
     }
     if (parsedStatus.summary_integrity !== 'source_mapped') {
-      errors.push('ready artifacts must set summary_integrity: source_mapped.');
+      errors.push('candidate_ready artifacts must set summary_integrity: source_mapped.');
     }
     if (parsedStatus.number_integrity !== 'verbatim_checked') {
-      errors.push('ready artifacts must set number_integrity: verbatim_checked.');
+      errors.push('candidate_ready artifacts must set number_integrity: verbatim_checked.');
     }
     if (parsedStatus.plain_language !== 'manual_reviewed') {
-      errors.push('ready artifacts must set plain_language: manual_reviewed.');
+      errors.push('candidate_ready artifacts must set plain_language: manual_reviewed.');
     }
-    if (!['smoke_passed', 'manual_reviewed'].includes(parsedStatus.visual_qa)) {
-      errors.push('ready artifacts must have visual_qa: smoke_passed or manual_reviewed.');
+    if (parsedStatus.visual_qa !== 'manual_reviewed') {
+      errors.push('candidate_ready artifacts must set visual_qa: manual_reviewed; smoke_passed alone is insufficient.');
     }
     if (!['basic_checked', 'manually_reviewed'].includes(parsedStatus.accessibility)) {
-      errors.push('ready artifacts must have accessibility: basic_checked or manually_reviewed.');
+      errors.push('candidate_ready artifacts must have accessibility: basic_checked or manually_reviewed.');
     }
     if (manifest?.data_provenance_ref && !/^calculation_integrity:\s*code_tested\s*$/m.test(quality)) {
-      errors.push('ready artifacts with data_provenance_ref must set calculation_integrity: code_tested.');
+      errors.push('candidate_ready artifacts with data_provenance_ref must set calculation_integrity: code_tested.');
+    }
+    const reviewerResult = manifest?.validation?.results?.find(
+      (result) => result.gate_id === 'manual-reviewer-pass'
+    );
+    if (!reviewerResult || reviewerResult.status !== 'passed' || !reviewerResult.evidence?.trim()) {
+      errors.push('candidate_ready artifacts require passed manual-reviewer-pass evidence.');
+    }
+    const candidateEvidenceErrors = validateEvidenceContract(dir, {
+      requireHostEvidence: false
+    });
+    for (const error of candidateEvidenceErrors) {
+      errors.push(`candidate_ready reviewer evidence: ${error}`);
+    }
+    const currentIdentity = computeSkillIdentity(skillRoot);
+    if (manifest?.skill_identity?.schema_version !== currentIdentity.schema_version
+        || manifest?.skill_identity?.digest !== currentIdentity.digest
+        || manifest?.skill_identity?.entry_count !== currentIdentity.entry_count) {
+      errors.push('candidate_ready artifacts require the current workspace skill_identity.');
     }
   }
 
@@ -695,8 +715,8 @@ if (existsSync(qualityPath)) {
     }
   }
 
-  if (manifest?.schematic === true && parsedStatus.artifact_status === 'ready') {
-    errors.push('schematic artifacts should use artifact_status: schematic, not ready.');
+  if (manifest?.schematic === true && parsedStatus.artifact_status === 'candidate_ready') {
+    errors.push('schematic artifacts should use artifact_status: schematic, not candidate_ready.');
   }
 }
 

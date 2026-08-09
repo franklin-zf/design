@@ -59,7 +59,7 @@ applicable_gates: validate-data-provenance, validate-design-output, validate-sum
 
 ## Status
 
-artifact_status: ready
+artifact_status: partial
 claim_assurance: local_provenance_only
 semantic_entailment: manually_reviewed
 summary_integrity: source_mapped

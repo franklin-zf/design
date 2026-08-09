@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.local/design/reviewer-attestation.schema.json",
-  "title": "Design host reviewer attestation v1",
+  "title": "Design host reviewer attestation v2",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -11,6 +11,9 @@
     "reviewed_at",
     "review_status",
     "artifact_digest",
+    "content_digest",
+    "surface_digest",
+    "machine_attestation_sha256",
     "resolved_plan_digest",
     "reviewer_registry_sha256",
     "host_assertions",
@@ -20,12 +23,15 @@
     "non_claims"
   ],
   "properties": {
-    "schema_version": { "const": "design-reviewer-attestation/v1" },
+    "schema_version": { "const": "design-reviewer-attestation/v2" },
     "reviewer_id": { "type": "string", "minLength": 1 },
     "artifact_author_id": { "type": "string", "minLength": 1 },
     "reviewed_at": { "type": "string", "minLength": 1 },
     "review_status": { "enum": ["approved", "changes_required"] },
     "artifact_digest": { "$ref": "#/$defs/sha256" },
+    "content_digest": { "$ref": "#/$defs/sha256" },
+    "surface_digest": { "$ref": "#/$defs/sha256" },
+    "machine_attestation_sha256": { "$ref": "#/$defs/sha256" },
     "resolved_plan_digest": { "$ref": "#/$defs/sha256" },
     "reviewer_registry_sha256": { "$ref": "#/$defs/sha256" },
     "host_assertions": {

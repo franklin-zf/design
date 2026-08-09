@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 import { validateJsonInstance } from '../scripts/validate-schemas.mjs';
+import { computeSkillIdentity } from '../scripts/lib/skill-identity.mjs';
 
 const root = resolve('.');
 
@@ -61,6 +62,75 @@ test('installed runtime bytes match when DESIGN_INSTALLED_SKILL is provided', {
 
   assert.equal(hashFile(installedPath), declared.sha256);
   assert.deepEqual(readFileSync(runtimePath), readFileSync(installedPath));
+});
+
+test('local ready is rejected and candidate_ready requires manual reviewer evidence', () => {
+  const { tempRoot, copy } = copyFixture('swiss-deck-pass');
+  try {
+    const manifestPath = join(copy, 'manifest.json');
+    const qualityPath = join(copy, 'quality-report.md');
+    const manifest = readJson(manifestPath);
+    const identity = computeSkillIdentity(root);
+    manifest.skill_identity = {
+      schema_version: 'design-skill-identity/v1',
+      digest: identity.digest,
+      entry_count: identity.entry_count
+    };
+    writeJson(manifestPath, manifest);
+
+    const quality = readFileSync(qualityPath, 'utf8');
+    writeFileSync(
+      qualityPath,
+      quality.replace(/^artifact_status:\s*\S+$/m, 'artifact_status: candidate_ready')
+    );
+    const candidate = runScript('validate-design-output.mjs', copy);
+    assert.notEqual(candidate.status, 0);
+    assert.match(
+      output(candidate),
+      /candidate_ready reviewer evidence: evidence contract.*missing|candidate_ready reviewer evidence: evidence contract.*safe/i
+    );
+
+    writeFileSync(
+      qualityPath,
+      readFileSync(qualityPath, 'utf8').replace('visual_qa: manual_reviewed', 'visual_qa: smoke_passed')
+    );
+    const smokeOnly = runScript('validate-design-output.mjs', copy);
+    assert.notEqual(smokeOnly.status, 0);
+    assert.match(output(smokeOnly), /candidate_ready.*visual_qa: manual_reviewed/i);
+
+    writeFileSync(
+      qualityPath,
+      readFileSync(qualityPath, 'utf8')
+        .replace('artifact_status: candidate_ready', 'artifact_status: ready')
+        .replace('visual_qa: smoke_passed', 'visual_qa: manual_reviewed')
+    );
+    const localReady = runScript('validate-design-output.mjs', copy);
+    assert.notEqual(localReady.status, 0);
+    assert.match(output(localReady), /missing valid status field: artifact_status/i);
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
+});
+
+test('unknown assurance profiles cannot bypass evidence validation', () => {
+  const result = spawnSync(
+    process.execPath,
+    [join(root, 'scripts/design.mjs'), 'check', 'examples/component-operational-pilot-pass', '--profile=assured-fixture'],
+    { cwd: root, encoding: 'utf8' }
+  );
+  assert.notEqual(result.status, 0);
+  assert.match(output(result), /Unsupported profile: assured-fixture/i);
+  assert.doesNotMatch(readFileSync(join(root, 'scripts/design.mjs'), 'utf8'), /assured-fixture/);
+});
+
+test('assured profile always runs the evidence contract validator', () => {
+  const result = spawnSync(
+    process.execPath,
+    [join(root, 'scripts/design.mjs'), 'check', 'examples/component-operational-pilot-pass', '--profile=assured'],
+    { cwd: root, encoding: 'utf8' }
+  );
+  assert.notEqual(result.status, 0);
+  assert.match(output(result), /validate-evidence-contract\.mjs|evidence contract/i);
 });
 
 test('schema instance validation rejects a conditional contract violation', () => {

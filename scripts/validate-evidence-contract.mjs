@@ -14,6 +14,7 @@ const reviewerSchema = JSON.parse(readFileSync(join(skillRoot, 'schemas/reviewer
 const machineAttestationSchema = JSON.parse(readFileSync(join(skillRoot, 'schemas/machine-attestation.schema.json'), 'utf8'));
 const reviewerRegistrySchema = JSON.parse(readFileSync(join(skillRoot, 'schemas/reviewer-registry.schema.json'), 'utf8'));
 const reviewerAttestationSchema = JSON.parse(readFileSync(join(skillRoot, 'schemas/reviewer-attestation.schema.json'), 'utf8'));
+const approvalRejectionSchema = JSON.parse(readFileSync(join(skillRoot, 'schemas/approval-rejection.schema.json'), 'utf8'));
 const renderSpecSchema = JSON.parse(readFileSync(join(skillRoot, 'schemas/render-spec.schema.json'), 'utf8'));
 const shaPattern = /^[a-f0-9]{64}$/;
 
@@ -130,11 +131,18 @@ export function validateEvidenceContract(directory, options = {}) {
   if (!html) errors.push('index.html is required');
   if (manifest.schematic === true) {
     if (!hasVisibleSchematicDisclosure(html)) errors.push('schematic artifact requires visible data-schematic-disclosure');
-    if (contract.delivery_status === 'ready') errors.push('schematic artifact cannot use delivery_status ready');
+    if (contract.delivery_status === 'candidate_ready') {
+      errors.push('schematic artifact cannot use delivery_status candidate_ready');
+    }
   }
 
   const inventoryFile = readJson(contract.source_inventory_ref, 'source inventory');
   const claimFile = readJson(contract.claim_map_ref, 'claim map');
+  const contentDigest = inventoryFile && claimFile ? sha256(stable({
+    source_inventory_sha256: sha256(readFileSync(inventoryFile.path)),
+    claim_map_sha256: sha256(readFileSync(claimFile.path))
+  })) : null;
+  if (contract.content_digest !== contentDigest) errors.push('evidence contract content_digest mismatch');
   const sourceBacked = manifest.schematic !== true && Array.isArray(manifest.source_materials) && manifest.source_materials.length > 0;
   const inventory = inventoryFile?.value;
   if (sourceBacked && (!inventory || inventory.schema_version !== 'design-source-inventory/v2' || !Array.isArray(inventory.sources) || !inventory.sources.length)) {
@@ -251,6 +259,8 @@ export function validateEvidenceContract(directory, options = {}) {
   if (renderSpec?.resolved_plan_digest !== contract.resolved_plan_digest) errors.push('render spec resolved_plan_digest mismatch');
   const renderFile = readJson(contract.render_profile_ref, 'render profile');
   const render = renderFile?.value;
+  const surfaceDigest = renderFile ? sha256(readFileSync(renderFile.path)) : null;
+  if (contract.surface_digest !== surfaceDigest) errors.push('evidence contract surface_digest mismatch');
   if (!render || render.schema_version !== 'design-render-profile/v2') errors.push('render profile must be design-render-profile/v2');
   if (render?.artifact_digest !== coreDigest) errors.push('render profile artifact_digest mismatch');
   if (render?.resolved_plan_digest !== contract.resolved_plan_digest) errors.push('render profile resolved_plan_digest mismatch');
@@ -300,33 +310,49 @@ export function validateEvidenceContract(directory, options = {}) {
   const allowedOrigins = new Set(privacy?.authorized_remote_origins || []);
   for (const profile of profiles) for (const request of profile.remote_requests || []) if (!allowedOrigins.has(request.origin)) errors.push(`privacy sidecar does not authorize remote origin ${request.origin}`);
 
-  if (contract.delivery_status === 'ready') {
+  if (contract.delivery_status === 'candidate_ready') {
     const reviewerFile = readJson(contract.reviewer_record_ref, 'reviewer record');
     const reviewer = reviewerFile?.value;
     const digest = coreDigest;
-    if (!reviewer || reviewer.schema_version !== 'design-reviewer-record/v2' || reviewer.review_status !== 'approved') errors.push('ready requires approved reviewer record');
+    if (!reviewer || reviewer.schema_version !== 'design-reviewer-record/v3' || reviewer.review_status !== 'approved') {
+      errors.push('candidate_ready requires approved reviewer record');
+    }
     if (reviewer) errors.push(...validateJsonInstance(reviewerSchema, reviewer).map((error) => `reviewer record ${error}`));
     if (reviewer && Number.isNaN(Date.parse(reviewer.reviewed_at))) errors.push('reviewer record reviewed_at must be an ISO timestamp');
+    if (reviewer?.reviewer_id === reviewer?.artifact_author_id) {
+      errors.push('reviewer record reviewer_id must differ from artifact_author_id');
+    }
     const reviewerChecks = (reviewer?.checks || []).map((check) => check.id);
     for (const id of ['source-identity', 'claim-semantics', 'numeric-semantics', 'accessibility', 'privacy', 'render', 'visual-review']) {
       if (reviewerChecks.filter((value) => value === id).length !== 1) errors.push(`reviewer record requires exactly one ${id} check`);
     }
     for (const check of reviewer?.checks || []) {
-      if (check.status !== 'passed') errors.push(`approved ready reviewer check ${check.id || '<missing>'} must be passed`);
+      if (check.status !== 'passed') {
+        errors.push(`approved candidate_ready reviewer check ${check.id || '<missing>'} must be passed`);
+      }
     }
     if ((reviewer?.findings || []).some((finding) => finding.status === 'open' && ['major', 'blocking'].includes(finding.severity))) {
-      errors.push('approved ready reviewer record cannot contain unresolved major or blocking findings');
+      errors.push('approved candidate_ready reviewer record cannot contain unresolved major or blocking findings');
     }
     if ((privacy?.findings || []).some((finding) => finding.status === 'open')) {
-      errors.push('ready delivery cannot contain unresolved privacy findings');
+      errors.push('candidate_ready delivery cannot contain unresolved privacy findings');
     }
     if (reviewer?.artifact_digest !== digest) errors.push('reviewer record artifact_digest mismatch');
+    if (reviewer?.content_digest !== contentDigest) errors.push('reviewer record content_digest mismatch');
+    if (reviewer?.surface_digest !== surfaceDigest) errors.push('reviewer record surface_digest mismatch');
     if (reviewer?.resolved_plan_digest !== contract.resolved_plan_digest) errors.push('reviewer record resolved_plan_digest mismatch');
-    if (!a11yPassed || !privacyPassed) errors.push('ready requires passed accessibility and privacy evidence');
+    if (!a11yPassed || !privacyPassed) {
+      errors.push('candidate_ready requires passed accessibility and privacy evidence');
+    }
+
+    if (options.requireHostEvidence === false) return errors;
 
     const machineFile = readExternalJson(options.machineAttestationPath, 'runner machine attestation');
     const registryFile = readExternalJson(options.reviewerRegistryPath, 'host reviewer registry');
     const attestationFile = readExternalJson(options.reviewerAttestationPath, 'host reviewer attestation');
+    const rejectionFile = options.rejectionEventPath
+      ? readExternalJson(options.rejectionEventPath, 'host approval rejection event')
+      : null;
     const machine = machineFile?.value;
     const registry = registryFile?.value;
     const attestation = attestationFile?.value;
@@ -388,8 +414,15 @@ export function validateEvidenceContract(directory, options = {}) {
     if (attestation) {
       errors.push(...validateJsonInstance(reviewerAttestationSchema, attestation).map((error) => `host reviewer attestation ${error}`));
       if (Number.isNaN(Date.parse(attestation.reviewed_at))) errors.push('host reviewer attestation reviewed_at must be an ISO timestamp');
-      if (attestation.review_status !== 'approved') errors.push('ready requires an approved host reviewer attestation');
+      if (attestation.review_status !== 'approved') {
+        errors.push('candidate_ready requires an approved host reviewer attestation');
+      }
       if (attestation.artifact_digest !== coreDigest) errors.push('host reviewer attestation artifact_digest mismatch');
+      if (attestation.content_digest !== contentDigest) errors.push('host reviewer attestation content_digest mismatch');
+      if (attestation.surface_digest !== surfaceDigest) errors.push('host reviewer attestation surface_digest mismatch');
+      if (machineFile && attestation.machine_attestation_sha256 !== machineFile.sha256) {
+        errors.push('host reviewer attestation machine_attestation_sha256 mismatch');
+      }
       if (attestation.resolved_plan_digest !== contract.resolved_plan_digest) errors.push('host reviewer attestation resolved_plan_digest mismatch');
       if (registryFile && attestation.reviewer_registry_sha256 !== registryFile.sha256) {
         errors.push('host reviewer attestation reviewer_registry_sha256 mismatch');
@@ -417,6 +450,31 @@ export function validateEvidenceContract(directory, options = {}) {
         errors.push('approved host reviewer attestation cannot contain unresolved major or blocking findings');
       }
     }
+    if (rejectionFile) {
+      const rejection = rejectionFile.value;
+      errors.push(...validateJsonInstance(approvalRejectionSchema, rejection)
+        .map((error) => `host approval rejection event ${error}`));
+      if (Number.isNaN(Date.parse(rejection?.rejected_at))) {
+        errors.push('host approval rejection event rejected_at must be an ISO timestamp');
+      }
+      for (const [field, expected] of [
+        ['artifact_digest', coreDigest],
+        ['content_digest', contentDigest],
+        ['surface_digest', surfaceDigest],
+        ['resolved_plan_digest', contract.resolved_plan_digest]
+      ]) {
+        if (rejection?.[field] !== expected) {
+          errors.push(`host approval rejection event ${field} mismatch`);
+        }
+      }
+      const rejectedAt = Date.parse(rejection?.rejected_at);
+      const reviewedAt = Date.parse(attestation?.reviewed_at);
+      if (!Number.isNaN(rejectedAt) && !Number.isNaN(reviewedAt) && rejectedAt < reviewedAt) {
+        errors.push('host approval rejection event predates the current reviewer approval');
+      } else if (rejection?.event === 'user_rejected' || rejection?.event === 'host_rejected') {
+        errors.push(`stale approval: ${rejection.event} invalidates candidate_ready`);
+      }
+    }
   }
   return errors;
 }
@@ -424,14 +482,15 @@ export function validateEvidenceContract(directory, options = {}) {
 if (process.argv[1] && resolve(process.argv[1]) === modulePath) {
   const dir = process.argv[2];
   if (!dir) {
-    console.error('Usage: node scripts/validate-evidence-contract.mjs <artifact-dir> [--machine-attestation=<path>] [--reviewer-registry=<path>] [--reviewer-attestation=<path>]');
+    console.error('Usage: node scripts/validate-evidence-contract.mjs <artifact-dir> [--machine-attestation=<path>] [--reviewer-registry=<path>] [--reviewer-attestation=<path>] [--rejection-event=<path>]');
     process.exit(2);
   }
   const option = (name) => process.argv.find((arg) => arg.startsWith(`--${name}=`))?.slice(name.length + 3);
   const errors = validateEvidenceContract(dir, {
     machineAttestationPath: option('machine-attestation'),
     reviewerRegistryPath: option('reviewer-registry'),
-    reviewerAttestationPath: option('reviewer-attestation')
+    reviewerAttestationPath: option('reviewer-attestation'),
+    rejectionEventPath: option('rejection-event')
   });
   if (errors.length) {
     console.error('Evidence contract validation failed:');

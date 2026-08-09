@@ -28,7 +28,7 @@ const accessibilityIds = ['document-title', 'html-lang', 'main-landmark', 'headi
 const privacyIds = ['remote-requests', 'sensitive-data-exposure', 'redaction-review', 'retention-policy', 'deletion-policy'];
 const reviewerIds = ['source-identity', 'claim-semantics', 'numeric-semantics', 'accessibility', 'privacy', 'render', 'visual-review'];
 
-function trustedReadyEvidence(dir, overrides = {}) {
+function trustedCandidateEvidence(dir, overrides = {}) {
   const hostDir = mkdtempSync(join(tmpdir(), 'design-host-evidence-'));
   const artifactDigest = readJson(dir, 'accessibility-checks.json').artifact_digest;
   const eventPath = join(hostDir, 'render-execution-events.ndjson');
@@ -68,13 +68,17 @@ function trustedReadyEvidence(dir, overrides = {}) {
   };
   writeFileSync(machinePath, `${JSON.stringify(machine, null, 2)}\n`);
   const reviewerPath = join(hostDir, 'reviewer-attestation.json');
+  const contract = readJson(dir, 'evidence-contract.json');
   const reviewer = {
-    schema_version: 'design-reviewer-attestation/v1',
+    schema_version: 'design-reviewer-attestation/v2',
     reviewer_id: 'reviewer-1',
     artifact_author_id: 'artifact-author-1',
     reviewed_at: '2026-07-19T00:00:02Z',
     review_status: 'approved',
     artifact_digest: artifactDigest,
+    content_digest: contract.content_digest,
+    surface_digest: contract.surface_digest,
+    machine_attestation_sha256: sha(readFileSync(machinePath)),
     resolved_plan_digest: planDigest,
     reviewer_registry_sha256: sha(readFileSync(registryPath)),
     host_assertions: { independent: true, did_not_author_artifact: true },
@@ -99,7 +103,7 @@ function trustedReadyEvidence(dir, overrides = {}) {
   };
 }
 
-async function validFixture({ schematic = false, delivery = 'ready' } = {}) {
+async function validFixture({ schematic = false, delivery = 'candidate_ready' } = {}) {
   const { computeArtifactDigest } = await import('../scripts/validate-evidence-contract.mjs');
   const dir = mkdtempSync(join(tmpdir(), 'design-evidence-v2-'));
   mkdirSync(join(dir, 'evidence'));
@@ -111,7 +115,7 @@ async function validFixture({ schematic = false, delivery = 'ready' } = {}) {
   writeFileSync(join(dir, 'index.html'), schematic
     ? '<!doctype html><html lang="zh-CN"><head><title>示意</title></head><body><main><h1>示意</h1><p class="disclosure" data-schematic-disclosure>Illustrative schematic only</p></main></body></html>'
     : `<!doctype html><html lang="zh-CN"><head><title>报告</title></head><body><main><h1>报告</h1><p data-claim-id="revenue">${numericEvidence}</p></main></body></html>`);
-  writeFileSync(join(dir, 'quality-report.md'), 'artifact_status: ready\naccessibility: externally_checked\nprivacy: externally_checked\n');
+  writeFileSync(join(dir, 'quality-report.md'), 'artifact_status: candidate_ready\naccessibility: externally_checked\nprivacy: externally_checked\n');
   writeJson(dir, 'manifest.json', {
     schema_version: 'design-artifact/v1', schematic,
     source_materials: schematic ? [] : ['source.csv']
@@ -186,19 +190,27 @@ async function validFixture({ schematic = false, delivery = 'ready' } = {}) {
       }]
     }))
   });
+  const contentDigest = sha(stable({
+    source_inventory_sha256: sha(readFileSync(join(dir, 'source-inventory.json'))),
+    claim_map_sha256: sha(readFileSync(join(dir, 'claim-map.json')))
+  }));
+  const surfaceDigest = sha(readFileSync(join(dir, 'render-profile.json')));
   writeJson(dir, 'evidence-contract.json', {
-    schema_version: 'design-evidence-contract/v2', resolved_plan_digest: planDigest,
+    schema_version: 'design-evidence-contract/v3', resolved_plan_digest: planDigest,
+    content_digest: contentDigest, surface_digest: surfaceDigest,
     delivery_status: schematic ? 'schematic_only' : delivery,
     source_inventory_ref: 'source-inventory.json', claim_map_ref: 'claim-map.json',
     accessibility_check_ref: 'accessibility-checks.json', privacy_check_ref: 'privacy-checks.json',
     render_spec_ref: '.design/render-spec.json', render_profile_ref: 'render-profile.json',
-    ...(delivery === 'ready' && !schematic ? { reviewer_record_ref: 'reviewer-record.json' } : {})
+    ...(delivery === 'candidate_ready' && !schematic ? { reviewer_record_ref: 'reviewer-record.json' } : {})
   });
-  if (delivery === 'ready' && !schematic) {
+  if (delivery === 'candidate_ready' && !schematic) {
     writeJson(dir, 'reviewer-record.json', {
-      schema_version: 'design-reviewer-record/v2', reviewer_id: 'reviewer-1', reviewer_role: 'independent-reviewer',
+      schema_version: 'design-reviewer-record/v3', reviewer_id: 'reviewer-1', artifact_author_id: 'artifact-author-1',
+      reviewer_role: 'independent-reviewer',
       reviewed_at: checkedAt, review_scope: ['source identity', 'claims', 'rendered artifact'], review_status: 'approved',
-      artifact_digest: coreDigest, resolved_plan_digest: planDigest,
+      artifact_digest: coreDigest, content_digest: contentDigest, surface_digest: surfaceDigest,
+      resolved_plan_digest: planDigest,
       checks: reviewerIds.map((id) => ({ id, status: 'passed', evidence_refs: ['evidence-contract.json'] })),
       findings: [], remaining_risks: [], non_claims: ['Approval covers only the bound artifact and plan digests.']
     });
@@ -206,10 +218,10 @@ async function validFixture({ schematic = false, delivery = 'ready' } = {}) {
   return dir;
 }
 
-test('source-backed ready evidence validates strict claims, sidecars, exact render execution, and reviewer binding', async () => {
+test('source-backed candidate_ready evidence validates strict claims, surfaces, and reviewer binding', async () => {
   const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
   const dir = await validFixture();
-  const trusted = trustedReadyEvidence(dir);
+  const trusted = trustedCandidateEvidence(dir);
   try { assert.deepEqual(validateEvidenceContract(dir, trusted.options), []); }
   finally {
     rmSync(dir, { recursive: true, force: true });
@@ -217,7 +229,118 @@ test('source-backed ready evidence validates strict claims, sidecars, exact rend
   }
 });
 
-test('artifact-authored all-passed sidecars cannot authorize ready delivery', async () => {
+test('local ready is outside the evidence contract status ceiling', async () => {
+  const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
+  const dir = await validFixture({ delivery: 'ready' });
+  try {
+    assert.match(
+      validateEvidenceContract(dir).join('\n'),
+      /delivery_status.*allowed values|delivery_status.*candidate_ready/i
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('candidate approval becomes stale after artifact or content digest changes', async () => {
+  const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
+  for (const [name, mutate] of [
+    ['artifact', (dir) => writeFileSync(join(dir, 'index.html'), '<main>changed artifact</main>')],
+    ['content', (dir) => writeFileSync(join(dir, 'source.csv'), 'changed source content\n')]
+  ]) {
+    const dir = await validFixture();
+    const trusted = trustedCandidateEvidence(dir);
+    try {
+      assert.deepEqual(validateEvidenceContract(dir, trusted.options), [], name);
+      mutate(dir);
+      assert.match(
+        validateEvidenceContract(dir, trusted.options).join('\n'),
+        /artifact_digest mismatch|content_digest mismatch|SHA-256 mismatch/i,
+        name
+      );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+      rmSync(trusted.hostDir, { recursive: true, force: true });
+    }
+  }
+});
+
+test('candidate approval becomes stale after target-surface evidence changes', async () => {
+  const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
+  const dir = await validFixture();
+  const trusted = trustedCandidateEvidence(dir);
+  try {
+    assert.deepEqual(validateEvidenceContract(dir, trusted.options), []);
+    const screenshotPath = join(dir, 'qa/render-1440-default-main.png');
+    writeFileSync(screenshotPath, 'changed surface bytes');
+    const profile = readJson(dir, 'render-profile.json');
+    profile.profiles[0].states[0].segments[0].screenshot_sha256 = sha(readFileSync(screenshotPath));
+    writeJson(dir, 'render-profile.json', profile);
+    assert.match(
+      validateEvidenceContract(dir, trusted.options).join('\n'),
+      /surface_digest mismatch/i
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+    rmSync(trusted.hostDir, { recursive: true, force: true });
+  }
+});
+
+test('host reviewer approval binds the exact machine attestation', async () => {
+  const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
+  const dir = await validFixture();
+  const trusted = trustedCandidateEvidence(dir);
+  try {
+    const attestationPath = trusted.options.reviewerAttestationPath;
+    const attestation = JSON.parse(readFileSync(attestationPath, 'utf8'));
+    attestation.machine_attestation_sha256 = '0'.repeat(64);
+    writeFileSync(attestationPath, `${JSON.stringify(attestation, null, 2)}\n`);
+    assert.match(
+      validateEvidenceContract(dir, trusted.options).join('\n'),
+      /host reviewer attestation machine_attestation_sha256 mismatch/i
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+    rmSync(trusted.hostDir, { recursive: true, force: true });
+  }
+});
+
+test('a later host user-rejection event invalidates unchanged candidate bytes', async () => {
+  const {
+    computeArtifactDigest,
+    validateEvidenceContract
+  } = await import('../scripts/validate-evidence-contract.mjs');
+  const dir = await validFixture();
+  const trusted = trustedCandidateEvidence(dir);
+  try {
+    const artifactDigest = computeArtifactDigest(dir);
+    const contract = readJson(dir, 'evidence-contract.json');
+    assert.deepEqual(validateEvidenceContract(dir, trusted.options), []);
+    const rejectionPath = join(trusted.hostDir, 'user-rejection.json');
+    writeFileSync(rejectionPath, `${JSON.stringify({
+      schema_version: 'design-approval-rejection/v1',
+      event: 'user_rejected',
+      rejected_by: 'requesting-user',
+      rejected_at: '2026-07-19T00:00:03Z',
+      reason: 'The exact reviewed artifact was rejected by the user.',
+      artifact_digest: artifactDigest,
+      content_digest: contract.content_digest,
+      surface_digest: contract.surface_digest,
+      resolved_plan_digest: planDigest
+    }, null, 2)}\n`);
+    const errors = validateEvidenceContract(dir, {
+      ...trusted.options,
+      rejectionEventPath: rejectionPath
+    }).join('\n');
+    assert.equal(computeArtifactDigest(dir), artifactDigest);
+    assert.match(errors, /stale approval.*user_rejected/i);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+    rmSync(trusted.hostDir, { recursive: true, force: true });
+  }
+});
+
+test('artifact-authored all-passed sidecars cannot authorize candidate_ready delivery', async () => {
   const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
   const dir = await validFixture();
   try {
@@ -228,7 +351,7 @@ test('artifact-authored all-passed sidecars cannot authorize ready delivery', as
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('ready fails when host reviewer is the author, unregistered, or predates machine evidence', async () => {
+test('candidate_ready fails when the host reviewer is not independent and current', async () => {
   const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
   for (const reviewer of [
     { reviewer_id: 'artifact-author-1' },
@@ -236,7 +359,7 @@ test('ready fails when host reviewer is the author, unregistered, or predates ma
     { reviewed_at: '2026-07-18T23:59:59Z' }
   ]) {
     const dir = await validFixture();
-    const trusted = trustedReadyEvidence(dir, { reviewer });
+    const trusted = trustedCandidateEvidence(dir, { reviewer });
     try {
       const errors = validateEvidenceContract(dir, trusted.options).join('\n');
       if (reviewer.reviewer_id === 'artifact-author-1') {
@@ -250,6 +373,22 @@ test('ready fails when host reviewer is the author, unregistered, or predates ma
       rmSync(dir, { recursive: true, force: true });
       rmSync(trusted.hostDir, { recursive: true, force: true });
     }
+  }
+});
+
+test('candidate_ready rejects a local reviewer record authored by the artifact author', async () => {
+  const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
+  const dir = await validFixture();
+  try {
+    const reviewer = readJson(dir, 'reviewer-record.json');
+    reviewer.reviewer_id = reviewer.artifact_author_id;
+    writeJson(dir, 'reviewer-record.json', reviewer);
+    assert.match(
+      validateEvidenceContract(dir, { requireHostEvidence: false }).join('\n'),
+      /reviewer_id must differ from artifact_author_id/i
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
   }
 });
 
@@ -322,7 +461,7 @@ test('quality-report cannot self-award checks and shallow sidecars or reviewer r
   try {
     writeJson(dir, 'accessibility-checks.json', { schema_version: 'design-accessibility-checks/v2', artifact_digest: '0'.repeat(64), resolved_plan_digest: planDigest, checks: [] });
     writeJson(dir, 'privacy-checks.json', { schema_version: 'design-privacy-checks/v2', artifact_digest: '0'.repeat(64), resolved_plan_digest: '1'.repeat(64), checks: [] });
-    writeJson(dir, 'reviewer-record.json', { schema_version: 'design-reviewer-record/v2', reviewer_id: 'reviewer-1', review_status: 'approved', artifact_digest: '0'.repeat(64), resolved_plan_digest: '1'.repeat(64) });
+    writeJson(dir, 'reviewer-record.json', { schema_version: 'design-reviewer-record/v3', reviewer_id: 'reviewer-1', review_status: 'approved', artifact_digest: '0'.repeat(64), content_digest: '0'.repeat(64), surface_digest: '0'.repeat(64), resolved_plan_digest: '1'.repeat(64) });
     const errors = validateEvidenceContract(dir).join('\n');
     assert.match(errors, /accessibility sidecar.*required property method/i);
     assert.match(errors, /accessibility sidecar requires exactly one keyboard-focus check/i);
@@ -346,11 +485,11 @@ test('mandatory accessibility and privacy checks cannot all self-waive as not_ap
     const errors = validateEvidenceContract(dir).join('\n');
     assert.match(errors, /accessibility sidecar.*status.*allowed values|accessibility mandatory check document-title must be passed/i);
     assert.match(errors, /privacy sidecar.*status.*allowed values|privacy mandatory check remote-requests must be passed/i);
-    assert.match(errors, /ready requires passed accessibility and privacy evidence/i);
+    assert.match(errors, /candidate_ready requires passed accessibility and privacy evidence/i);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('an unresolved privacy finding blocks ready delivery', async () => {
+test('an unresolved privacy finding blocks candidate_ready delivery', async () => {
   const { validateEvidenceContract } = await import('../scripts/validate-evidence-contract.mjs');
   const dir = await validFixture();
   try {
@@ -360,7 +499,7 @@ test('an unresolved privacy finding blocks ready delivery', async () => {
       evidence_refs: ['evidence/privacy.txt']
     });
     writeJson(dir, 'privacy-checks.json', privacy);
-    assert.match(validateEvidenceContract(dir).join('\n'), /ready delivery cannot contain unresolved privacy findings/i);
+    assert.match(validateEvidenceContract(dir).join('\n'), /candidate_ready delivery cannot contain unresolved privacy findings/i);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
@@ -371,7 +510,7 @@ test('approved reviewer record cannot contain a failed mandatory check', async (
     const reviewer = readJson(dir, 'reviewer-record.json');
     reviewer.checks.find((check) => check.id === 'numeric-semantics').status = 'failed';
     writeJson(dir, 'reviewer-record.json', reviewer);
-    assert.match(validateEvidenceContract(dir).join('\n'), /approved ready reviewer check numeric-semantics must be passed/i);
+    assert.match(validateEvidenceContract(dir).join('\n'), /approved candidate_ready reviewer check numeric-semantics must be passed/i);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
@@ -387,7 +526,7 @@ test('approved reviewer record cannot contain a not_checked mandatory check or u
     });
     writeJson(dir, 'reviewer-record.json', reviewer);
     const errors = validateEvidenceContract(dir).join('\n');
-    assert.match(errors, /approved ready reviewer check visual-review must be passed/i);
+    assert.match(errors, /approved candidate_ready reviewer check visual-review must be passed/i);
     assert.match(errors, /cannot contain unresolved major or blocking findings/i);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });

@@ -45,6 +45,16 @@
         }
       }
     },
+    "skill_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "digest", "entry_count"],
+      "properties": {
+        "schema_version": { "const": "design-skill-identity/v1" },
+        "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "entry_count": { "type": "integer", "minimum": 1 }
+      }
+    },
     "component_refs": {
       "type": "array",
       "maxItems": 3,

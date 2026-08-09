@@ -39,21 +39,27 @@ test('Input Contract is a hard gate and clarification results have no plan ident
   assert.match(result.errors.join(' '), /legacy v1.*import-only.*recompiled/i);
 });
 
-test('compiler emits one deterministic resolved plan digest and a three-state result contract', async () => {
+test('compiler emits one deterministic resolved plan digest and a candidate-only local delivery contract', async () => {
   const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
   const first = compileExecutionPlan(v2Request(), { registry, compilerVersion: 'test-v2' });
   const second = compileExecutionPlan(v2Request(), { registry, compilerVersion: 'test-v2' });
   assert.deepEqual(first, second);
+  assert.equal(first.schema_version, 'design-resolved-gate-plan/v3');
   assert.match(first.plan_id, /^[a-f0-9]{64}$/);
   assert.equal(first.plan_id, first.resolved_gate_plan_digest);
+  assert.equal(first.skill_identity.schema_version, 'design-skill-identity/v1');
+  assert.match(first.skill_identity.digest, /^[a-f0-9]{64}$/);
+  assert.ok(first.skill_identity.entry_count > 0);
   assert.deepEqual(first.result_contract.execution_status, ['not_started', 'blocked_untrusted', 'complete', 'failed', 'terminated']);
   assert.deepEqual(first.result_contract.assurance_status, ['pending', 'passed', 'failed']);
-  assert.deepEqual(first.result_contract.delivery_status, ['blocked', 'schematic_only', 'ready']);
+  assert.deepEqual(first.result_contract.delivery_status, ['blocked', 'schematic_only', 'candidate_ready']);
   assert.deepEqual(first.runner.cache, { mode: 'off' });
   assert.equal(first.runner.cache_capability, 'not_implemented');
-  assert.equal(first.evidence_contract.trusted_ready_boundary, 'host_external_v1');
-  assert.equal(first.evidence_contract.machine_attestation_required_for_ready, true);
-  assert.equal(first.evidence_contract.reviewer_attestation_required_for_ready, true);
+  assert.equal(first.evidence_contract.trusted_candidate_ready_boundary, 'host_external_v1');
+  assert.equal(first.evidence_contract.reviewer_binding_required_for_candidate_ready, true);
+  assert.equal(first.evidence_contract.machine_attestation_required_for_candidate_ready, true);
+  assert.equal(first.evidence_contract.reviewer_attestation_required_for_candidate_ready, true);
+  assert.equal(JSON.stringify(first).includes('trusted_ready_boundary'), false);
   assert.equal(JSON.stringify(first).includes('signature'), false);
   assert.equal(JSON.stringify(first).includes('authorize-untrusted'), false);
 });
@@ -92,7 +98,7 @@ test('policy classification is signature-free, fail-closed, and registry/hash ba
   assert.equal(trusted.execution_policy.decision, 'auto_standard_sandbox');
 });
 
-test('compiled plans satisfy the v2 execution-plan schema', async () => {
+test('compiled plans satisfy the v3 execution-plan schema', async () => {
   const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
   const { validateJsonInstance } = await import('../scripts/lib/json-schema.mjs');
   const schema = JSON.parse(readFileSync(join(root, 'schemas/execution-plan.schema.json'), 'utf8'));

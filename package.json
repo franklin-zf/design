@@ -14,6 +14,7 @@
   "scripts": {
     "design": "node scripts/design.mjs",
     "pack:skill": "node scripts/pack-skill.mjs",
+    "validate:install-parity": "node scripts/validate-install-parity.mjs",
     "preflight": "node scripts/design.mjs preflight",
     "validate": "node scripts/design.mjs validate",
     "test": "node scripts/design.mjs test",

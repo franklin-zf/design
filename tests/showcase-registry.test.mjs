@@ -79,7 +79,9 @@ test('surface evidence newer than its review is stale and ineligible', async () 
   try {
     const registry = readJson(join(root, 'showcases/registry.json'));
     const record = readJson(join(root, caseRef));
-    record.artifact_binding.surface_bindings[0].captured_at = '2026-07-20T00:00:00Z';
+    record.artifact_binding.surface_bindings[0].captured_at = new Date(
+      Date.parse(record.review_binding.reviewed_at) + 1000
+    ).toISOString();
     writeJson(join(root, caseRef), record);
     assert.match(validateShowcaseRegistry(registry, root).join('\n'), /review is stale relative to surface evidence/i);
   } finally { rmSync(root, { recursive: true, force: true }); }

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const script = (name) => join(root, 'scripts', name);
+const supportedProfiles = new Set(['express', 'standard', 'assured']);
 
 const positiveArtifacts = [
   'data-report-pass',
@@ -55,6 +56,7 @@ function readManifest(artifactRoot) {
 }
 
 function checkArtifact(artifact, profile = 'standard', assuranceArgs = []) {
+  if (!supportedProfiles.has(profile)) throw new Error(`Unsupported profile: ${profile}`);
   const artifactRoot = resolve(artifact);
   const manifest = readManifest(artifactRoot);
 
@@ -102,7 +104,7 @@ function validateRepository() {
       'examples/component-operational-pilot-pass'
     ]);
     checkArtifact('examples/component-deck-pilot-pass');
-    checkArtifact('examples/component-operational-pilot-pass', 'assured-fixture');
+    checkArtifact('examples/component-operational-pilot-pass', 'standard');
     runScript('validate-showcase-registry.mjs', ['.']);
     runScript('capability-preflight.mjs', ['--require=browser_smoke']);
   } else {
@@ -169,7 +171,7 @@ function validateNegativeFixtures() {
     ['validate-visual-rhythm.mjs', 'visual rhythm violation', 'invalid-swiss-rhythm'],
     ['validate-poster-anti-ai-slop.mjs', 'anti-ai-slop violation', 'invalid-poster-ai-slop'],
     ['validate-poster-contract.mjs', 'visual_hook', 'invalid-poster-missing-hook'],
-    ['validate-design-output.mjs', 'ready artifacts must set semantic_entailment', 'invalid-false-ready'],
+    ['validate-design-output.mjs', 'missing valid status field: artifact_status', 'invalid-false-ready'],
     ['validate-design-output.mjs', 'missing visual_encoding', 'invalid-chart-contract'],
     ['validate-design-output.mjs', 'colors outside preset', 'invalid-style-preset-mismatch'],
     ['validate-design-output.mjs', 'empty chart regions', 'invalid-empty-dashboard-chart'],
@@ -193,6 +195,7 @@ function runStandardTests() {
     'tests/execution-plan.test.mjs',
     'tests/execution-runner.test.mjs',
     'tests/evidence-contract.test.mjs',
+    'tests/install-parity.test.mjs',
     'tests/migration.test.mjs',
     'tests/showcase-registry.test.mjs',
     'tests/validators.test.mjs'
@@ -270,7 +273,7 @@ function main() {
     if (!args[0]) throw new Error('check requires an artifact directory');
     const profileArg = args.find((arg) => arg.startsWith('--profile='));
     const profile = profileArg?.slice(10) || 'standard';
-    if (!['express', 'standard', 'assured'].includes(profile)) {
+    if (!supportedProfiles.has(profile)) {
       throw new Error(`Unsupported profile: ${profile}`);
     }
     checkArtifact(args[0], profile, args.slice(1).filter((arg) => arg !== profileArg));

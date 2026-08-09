@@ -1,19 +1,29 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.local/design/execution-plan.schema.json",
-  "title": "Design resolved gate plan v2",
+  "title": "Design resolved gate plan v3",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema_version", "plan_id", "resolved_gate_plan_digest", "compiler_version",
+    "schema_version", "plan_id", "resolved_gate_plan_digest", "compiler_version", "skill_identity",
     "normalized_request", "artifact", "profile", "execution_policy", "render_spec", "automatic_gates",
     "human_gates", "stages", "result_contract", "evidence_contract", "runner", "shadow_mode"
   ],
   "properties": {
-    "schema_version": { "const": "design-resolved-gate-plan/v2" },
+    "schema_version": { "const": "design-resolved-gate-plan/v3" },
     "plan_id": { "$ref": "#/$defs/sha256" },
     "resolved_gate_plan_digest": { "$ref": "#/$defs/sha256" },
     "compiler_version": { "type": "string", "minLength": 1 },
+    "skill_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "digest", "entry_count"],
+      "properties": {
+        "schema_version": { "const": "design-skill-identity/v1" },
+        "digest": { "$ref": "#/$defs/sha256" },
+        "entry_count": { "type": "integer", "minimum": 1 }
+      }
+    },
     "normalized_request": { "type": "object" },
     "artifact": {
       "type": "object",
@@ -77,14 +87,16 @@
     "evidence_contract": {
       "type": "object",
       "required": [
-        "trusted_ready_boundary",
-        "machine_attestation_required_for_ready",
-        "reviewer_attestation_required_for_ready"
+        "trusted_candidate_ready_boundary",
+        "reviewer_binding_required_for_candidate_ready",
+        "machine_attestation_required_for_candidate_ready",
+        "reviewer_attestation_required_for_candidate_ready"
       ],
       "properties": {
-        "trusted_ready_boundary": { "const": "host_external_v1" },
-        "machine_attestation_required_for_ready": { "const": true },
-        "reviewer_attestation_required_for_ready": { "const": true }
+        "trusted_candidate_ready_boundary": { "const": "host_external_v1" },
+        "reviewer_binding_required_for_candidate_ready": { "const": true },
+        "machine_attestation_required_for_candidate_ready": { "const": true },
+        "reviewer_attestation_required_for_candidate_ready": { "const": true }
       }
     },
     "runner": {

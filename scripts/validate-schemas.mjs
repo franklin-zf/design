@@ -37,6 +37,7 @@ const schemaFiles = [
   'schemas/machine-attestation.schema.json',
   'schemas/reviewer-registry.schema.json',
   'schemas/reviewer-attestation.schema.json',
+  'schemas/approval-rejection.schema.json',
   'schemas/showcase-case.schema.json',
   'schemas/render-spec.schema.json',
   'schemas/intake-direction.schema.json',

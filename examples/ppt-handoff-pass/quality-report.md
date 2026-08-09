@@ -41,7 +41,7 @@ applicable_gates: validate-design-output, validate-summary-map, validate-aesthet
   evidence: fixture review recorded in quality-report.md
 
 ## Status
-artifact_status: ready
+artifact_status: partial
 claim_assurance: local_provenance_only
 semantic_entailment: manually_reviewed
 summary_integrity: source_mapped

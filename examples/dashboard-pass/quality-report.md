@@ -30,7 +30,7 @@ filters: none applied in the fixture view
 freshness: 24 hours from source.json
 
 ## Status
-artifact_status: ready
+artifact_status: partial
 claim_assurance: local_provenance_only
 semantic_entailment: manually_reviewed
 summary_integrity: source_mapped

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/approval-rejection.schema.json",
+  "title": "Design host approval rejection event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event",
+    "rejected_by",
+    "rejected_at",
+    "reason",
+    "artifact_digest",
+    "content_digest",
+    "surface_digest",
+    "resolved_plan_digest"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-approval-rejection/v1" },
+    "event": { "enum": ["user_rejected", "host_rejected"] },
+    "rejected_by": { "type": "string", "minLength": 1 },
+    "rejected_at": { "type": "string", "minLength": 20 },
+    "reason": { "type": "string", "minLength": 1 },
+    "artifact_digest": { "$ref": "#/$defs/sha256" },
+    "content_digest": { "$ref": "#/$defs/sha256" },
+    "surface_digest": { "$ref": "#/$defs/sha256" },
+    "resolved_plan_digest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}
