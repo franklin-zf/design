@@ -41,7 +41,7 @@ Do not turn every source section into a slide. A deck is a decision path, not a 
 
 ## Registered Layouts
 
-Use registered layout ids instead of inventing slide structures. For neutral decks, the D-series layouts are allowed. For Guizang/Open Design-inspired Swiss decks, use `references/swiss-layout-lock.md` and the S01-S22 registry.
+Use registered layout ids instead of inventing slide structures. For neutral decks, the D-series layouts are allowed. For Guizang/Open Design-inspired Swiss decks, use the Swiss package and S01-S22 registry described in `references/library.md`.
 
 | ID | Use |
 | --- | --- |

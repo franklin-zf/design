@@ -156,7 +156,7 @@
         "manual reviewer pass"
       ],
       "validation_gate_ids": ["validate-data-provenance", "validate-design-output", "validate-summary-map", "validate-claim-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
-      "thinking_ref": "references/template-adoption-plan.md",
+      "thinking_ref": "references/library.md",
       "showcase_refs": ["showcases/swiss-evidence-deck-production/case.json"]
     },
     {
@@ -223,7 +223,7 @@
         "manual reviewer pass"
       ],
       "validation_gate_ids": ["validate-design-output", "render-smoke", "manual-reviewer-pass"],
-      "thinking_ref": "references/screenshot-ui-evidence.md",
+      "thinking_ref": "references/media-design.md",
       "showcase_refs": []
     },
     {
@@ -255,7 +255,7 @@
         "render-smoke"
       ],
       "validation_gate_ids": ["validate-design-output", "tweakable-smoke", "render-smoke"],
-      "thinking_ref": "references/template-library.md",
+      "thinking_ref": "references/library.md",
       "showcase_refs": []
     },
     {
@@ -269,7 +269,7 @@
       "required_assets": ["manifest.json", "DESIGN.md", "tokens.css", "quality-report.md"],
       "validation_gates": ["validate-design-output", "validate-design-system-package", "manual reviewer pass"],
       "validation_gate_ids": ["validate-design-output", "validate-design-system-package", "manual-reviewer-pass"],
-      "thinking_ref": "references/design-system.md",
+      "thinking_ref": "references/library.md",
       "showcase_refs": []
     }
   ]

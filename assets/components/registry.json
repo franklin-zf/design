@@ -28,7 +28,7 @@
         "scope": "Metadata-only interaction contract with no copied third-party source.",
         "redistribution": "not_applicable",
         "notice_requirement": "not_required",
-        "evidence_ref": "references/aesthetic-principles.md"
+        "evidence_ref": "references/philosophy.md"
       },
       "semantics": {
         "semantic_job": "action_feedback",
@@ -87,8 +87,8 @@
         "validate-component-usage"
       ],
       "evidence_refs": [
-        "references/aesthetic-principles.md",
-        "references/motion-policy.md"
+        "references/philosophy.md",
+        "references/media-design.md"
       ],
       "limitations": [
         "Admission authorizes the pattern contract, not a prebuilt implementation."
@@ -114,7 +114,7 @@
         "scope": "Metadata-only motion contract with no copied third-party source.",
         "redistribution": "not_applicable",
         "notice_requirement": "not_required",
-        "evidence_ref": "references/motion-policy.md"
+        "evidence_ref": "references/media-design.md"
       },
       "semantics": {
         "semantic_job": "sequence",
@@ -174,8 +174,8 @@
         "validate-component-usage"
       ],
       "evidence_refs": [
-        "references/aesthetic-principles.md",
-        "references/motion-policy.md"
+        "references/philosophy.md",
+        "references/media-design.md"
       ],
       "limitations": [
         "Motion cannot carry meaning that is absent from the static reading order."
@@ -201,7 +201,7 @@
         "scope": "Metadata-only composition contract with no copied third-party source.",
         "redistribution": "not_applicable",
         "notice_requirement": "not_required",
-        "evidence_ref": "references/aesthetic-principles.md"
+        "evidence_ref": "references/philosophy.md"
       },
       "semantics": {
         "semantic_job": "evidence_emphasis",
@@ -261,7 +261,7 @@
         "validate-component-usage"
       ],
       "evidence_refs": [
-        "references/aesthetic-principles.md"
+        "references/philosophy.md"
       ],
       "limitations": [
         "Visual area must not imply a quantitative magnitude that the source does not support."
