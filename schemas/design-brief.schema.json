@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Brief",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reader_job",
+    "primary_relationship",
+    "secondary_relationships",
+    "content_density",
+    "brand_context"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-brief/v1" },
+    "reader_job": {
+      "enum": [
+        "executive-decision",
+        "operational-workflow",
+        "analytical-evidence",
+        "system-explanation",
+        "brand-communication",
+        "research-reading"
+      ]
+    },
+    "primary_relationship": {
+      "enum": [
+        "comparison",
+        "chronology",
+        "causality",
+        "system",
+        "metrics",
+        "decision",
+        "narrative"
+      ]
+    },
+    "secondary_relationships": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "comparison",
+          "chronology",
+          "causality",
+          "system",
+          "metrics",
+          "decision",
+          "narrative"
+        ]
+      }
+    },
+    "content_density": {
+      "enum": ["auto", "dense", "normal", "roomy"]
+    },
+    "brand_context": {
+      "enum": ["none", "provided"]
+    },
+    "brand_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "primary_preset_override": {
+      "$ref": "#/$defs/product_preset_id"
+    },
+    "secondary_preset_override": {
+      "$ref": "#/$defs/product_preset_id"
+    },
+    "override_reason": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "brand_context": { "const": "provided" } },
+        "required": ["brand_context"]
+      },
+      "then": { "required": ["brand_ref"] }
+    },
+    {
+      "if": {
+        "anyOf": [
+          { "required": ["primary_preset_override"] },
+          { "required": ["secondary_preset_override"] }
+        ]
+      },
+      "then": { "required": ["override_reason"] }
+    }
+  ],
+  "$defs": {
+    "product_preset_id": {
+      "enum": [
+        "executive-strategy",
+        "enterprise-saas",
+        "data-analytics",
+        "technical-architecture",
+        "consumer-brand",
+        "editorial-research"
+      ]
+    }
+  }
+}

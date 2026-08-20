@@ -60,6 +60,85 @@
     "component_resolution": {
       "$ref": "#/$defs/component_resolution"
     },
+    "design_profile": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "catalogue_digest",
+        "theme_digest",
+        "surface",
+        "primary_preset",
+        "topologies",
+        "style_preset",
+        "resolved_theme",
+        "resolved_rules",
+        "selection"
+      ],
+      "properties": {
+        "schema_version": { "const": "design-profile/v1" },
+        "catalogue_digest": { "$ref": "#/$defs/sha256" },
+        "theme_digest": { "$ref": "#/$defs/sha256" },
+        "surface": { "type": "object" },
+        "primary_preset": { "type": "string", "minLength": 1 },
+        "topologies": { "type": "array", "minItems": 1 },
+        "style_preset": { "type": "string", "minLength": 1 },
+        "resolved_theme": { "type": "object" },
+        "resolved_rules": { "type": "object" },
+        "selection": { "type": "object" }
+      }
+    },
+    "template_resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "status",
+        "candidate_status",
+        "artifact_type",
+        "style_preset",
+        "topologies",
+        "candidates",
+        "reason_codes",
+        "selected_template_id",
+        "selected_topology_layouts"
+      ],
+      "properties": {
+        "schema_version": { "const": "design-template-resolution/v1" },
+        "status": { "const": "selected" },
+        "candidate_status": {
+          "enum": ["resolved", "needs_direction_selection"]
+        },
+        "artifact_type": { "type": "string", "minLength": 1 },
+        "style_preset": { "type": "string", "minLength": 1 },
+        "topologies": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "candidates": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "object" }
+        },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "selected_template_id": { "type": "string", "minLength": 1 },
+        "selected_topology_layouts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
     "automatic_gates": { "type": "array", "items": { "$ref": "#/$defs/automatic_gate" } },
     "human_gates": { "type": "array", "items": { "$ref": "#/$defs/human_gate" } },
     "stages": {
@@ -115,6 +194,26 @@
     },
     "shadow_mode": { "type": "boolean" }
   },
+  "allOf": [
+    {
+      "if": {
+        "required": ["artifact"],
+        "properties": {
+          "artifact": {
+            "required": ["artifact_type"],
+            "properties": {
+              "artifact_type": {
+                "enum": ["html-deck", "ppt-handoff", "poster"]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": ["design_profile", "template_resolution"]
+      }
+    }
+  ],
   "$defs": {
     "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
     "relative_path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+" },

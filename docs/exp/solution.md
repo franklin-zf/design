@@ -6,7 +6,7 @@
 
 ## Chosen Solution
 
-采用 **单一内容真值链 + 体裁工作室 + 可失效审批**。
+采用 **单一内容真值链 + 受控设计档案 + 体裁工作室 + 可失效审批**。
 
 事实只整理一次；PPT、HTML、Poster 共享源版本、事实、结论边界和衍生计算，但分别完成叙事、构图、媒体、交互和目标表面验收。Swiss、Editorial、Product UI 等只是视觉语言，必须晚于内容拓扑选择。
 
@@ -24,6 +24,7 @@
 | --- | --- | --- |
 | Intake | 明确受众、任务、场景和体裁；信息不足时给出 2–3 个具体方向 | REQ-007, REQ-009 |
 | Content Spine | 冻结源版本、事实、限定词、衍生计算和结论边界 | REQ-001–REQ-005 |
+| Design Profile | 根据 reader job、内容关系和体裁解析一个主产品预设、最多一个辅助预设、内容拓扑和目标表面规则 | REQ-007, REQ-008, REQ-013 |
 | Art Direction | 提炼视觉命题，选择参考职责，比较两个实质不同的方向 | REQ-008–REQ-010 |
 | Format Studios | PPT、HTML、Poster 按目标表面独立设计和验证 | REQ-005, REQ-007, REQ-010 |
 | Review And Release | 内容复核、视觉反证、哈希绑定、用户确认与否决失效 | REQ-004, REQ-006, REQ-011 |
@@ -43,13 +44,14 @@
 ### Primary Flow
 
 1. 冻结源材料，建立内容真值账本；歧义、缺失或冲突进入 `blocked`。
-2. Poster 责任先确定主结论、证据顺序、限制条件和读者动作。
-3. 检索 2–3 个分别承担内容拓扑、视觉语言、媒体或交互职责的参考。
-4. 生成两个同尺寸、事实相同但构图或媒体策略明显不同的方向。
-5. 根据表达效果选择方向，不以“更炫”或组件更多为理由。
-6. 进入对应体裁工作室，设计并渲染真实目标表面。
-7. 本地自动检查与独立 Reviewer 最多把产物推进到 `candidate_ready`。
-8. 用户确认精确产物版本后，只有宿主任务可显示 `ready`；本地 artifact、manifest 和 Reviewer 文件均不能写入该状态。
+2. Content Strategist 责任先确定主结论、证据顺序、限制条件和读者动作。
+3. Design Profile 解析一个主产品预设、最多一个辅助预设、内容拓扑和体裁约束；辅助预设不能覆盖主预设的色彩、字体和构图。
+4. 检索 2–3 个分别承担内容拓扑、视觉语言、媒体或交互职责的参考。
+5. 生成两个同尺寸、事实相同但构图或媒体策略明显不同的方向。
+6. 根据表达效果选择方向，不以“更炫”或组件更多为理由。
+7. 进入对应体裁工作室，设计并渲染真实目标表面。
+8. 本地自动检查与独立 Reviewer 最多把产物推进到 `candidate_ready`。
+9. 用户确认精确产物版本后，只有宿主任务可显示 `ready`；本地 artifact、manifest 和 Reviewer 文件均不能写入该状态。
 
 ### States And Recovery
 
@@ -77,6 +79,7 @@ candidate_ready -- artifact/content/screenshot hash changes --> review_required
 源材料快照
   -> 内容真值账本
   -> 叙事模型
+  -> Design Profile
   -> 参考与视觉方向记录
   -> 体裁蓝图
   -> PPT / HTML / Poster
@@ -90,6 +93,7 @@ candidate_ready -- artifact/content/screenshot hash changes --> review_required
 - 衍生分析记录输入、程序、公式和输出，产物中明确标识 `derived`。
 - 叙事模型只组织主结论、证据顺序、风险、边界和读者动作，不改变事实强度。
 - 三类产物共享 `run_id`、source identity 和 content identity，不共享排版结果。
+- `design-profile/v1` 绑定产品预设注册表 digest，并记录主预设、有限辅助预设、内容拓扑、目标体裁和已解析主题。
 - 内容、源版本、产物或截图哈希变化后，下游审批自动失效。
 
 ## UI Direction
@@ -101,6 +105,19 @@ candidate_ready -- artifact/content/screenshot hash changes --> review_required
 - 产品类内容必须出现可理解的产品对象、真实 UI、系统关系或明确标注的内容专属示意图。
 - 中文标题、正文、数字、单位、关系词和换行分别做光学检查。
 - 毛玻璃、粒子、装饰网格和循环背景只有承担语义任务时才允许存在。
+
+### Default Product Presets
+
+| Preset | Aesthetic Thesis | Primary Use | Default Restraint |
+| --- | --- | --- | --- |
+| `executive-strategy` | 权威、克制、结论先行 | 战略、立项、管理层决策 | 不使用营销式 Hero 和装饰性卡片阵列 |
+| `enterprise-saas` | 理性、可靠、工作导向 | 平台、后台、流程和企业服务 | 不把工具界面做成品牌宣传页 |
+| `data-analytics` | 证据优先、精确、图表主导 | 指标、经营分析和研究数据 | 不使用装饰图表、误导坐标和无来源数字 |
+| `technical-architecture` | 结构严谨、边界明确、工程可信 | 架构、数据流、算法和基础设施 | 不允许随意连线、交叉关系和未标注语义 |
+| `consumer-brand` | 产品主导、鲜明、具有记忆点 | 品牌、发布、活动和消费产品 | 不使用无产品信号的抽象 AI 主视觉 |
+| `editorial-research` | 沉静、可信、具有出版节奏 | 研究、白皮书和案例分析 | 不使用无出处引文和机械重复页面 |
+
+产品预设不是可直接套用的页面模板。主预设控制色彩、字体、构图、媒体、数据表达和动效边界；辅助预设只能贡献内容拓扑与体裁强调。具体颜色和字体从受校验的 style preset 解析，避免产品预设与现有颜色校验形成平行真值源。
 
 ### Format Studios
 
@@ -176,10 +193,11 @@ Reference registry must record source URL, fixed SHA, code license, asset licens
 | REQ-010 | Semantic media contract | Media selection and format rendering | Records source, license, semantic job and fallback |
 | REQ-011 | Independent visual falsification | `candidate_ready` only after bound evidence | Stores screenshot hashes and falsification result |
 | REQ-012 | Reused content chain and topology library | Baseline -> pilot comparison | Records elapsed time and effective tool steps without overriding quality |
+| REQ-013 | Controlled product presets and surface rules | Design Profile before art direction and build | Binds catalogue digest, primary/secondary inheritance, topology and resolved theme |
 
 ## Scope Decisions
 
-- Keep: source-first priority, Taste Contract, L0/L1/L2 expression ladder, one attention center, assurance lanes, professional tool routing, license records and real target-surface checks.
+- Keep: source-first priority, Taste Contract, six controlled product presets, L0/L1/L2 expression ladder, one attention center, assurance lanes, professional tool routing, license records and real target-surface checks.
 - Simplify: summary, claim and provenance become views of one content ledger; roles are responsibilities rather than mandatory agents; templates are grouped by content topology; Standard uses one independent content review and one visual falsification pass.
 - Cut: fixed Swiss default, self-declared `ready`, `smoke_passed` as aesthetic proof, layout-count quality metrics, empty showcases, shared cross-format layout, historical artifact mixing and non-semantic effects.
 - Defer only when explicitly outside current scope: new output formats, brand-specific design systems, upstream dependency upgrades and any public distribution of third-party assets.

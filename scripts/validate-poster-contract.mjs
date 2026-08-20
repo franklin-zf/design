@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { loadLayoutRegistry } from './lib/layout-registry.mjs';
+import {
+  selectedTopologyLayouts,
+  validateExecutionPlanBinding
+} from './lib/execution-plan-binding.mjs';
 
 const dir = process.argv[2];
 if (!dir) {
@@ -9,16 +14,13 @@ if (!dir) {
 }
 
 const errors = [];
+const executionPlanArg = process.argv.find(
+  (arg) => arg.startsWith('--execution-plan=')
+);
 const allowedGoals = new Set(['announcement', 'concept', 'data-hero', 'event', 'product', 'quote', 'campaign']);
-const allowedLayouts = new Set([
-  'poster-type-led',
-  'poster-image-hero',
-  'poster-data-hero',
-  'poster-split-claim',
-  'poster-editorial',
-  'poster-product-shot',
-  'poster-event'
-]);
+const allowedLayouts = loadLayoutRegistry(
+  'assets/templates/layouts/poster.json'
+).ids;
 const allowedImageStrategies = new Set(['real-image', 'generated-image', 'typography-only', 'diagram', 'none']);
 const allowedClaimIntegrity = new Set(['source-backed', 'schematic', 'creative']);
 
@@ -34,6 +36,25 @@ function readJson(path, label) {
 const manifest = existsSync(join(dir, 'manifest.json')) ? readJson(join(dir, 'manifest.json'), 'manifest.json') : null;
 const plan = existsSync(join(dir, 'poster-plan.json')) ? readJson(join(dir, 'poster-plan.json'), 'poster-plan.json') : null;
 const html = existsSync(join(dir, 'index.html')) ? readFileSync(join(dir, 'index.html'), 'utf8') : '';
+const posterRootTag = html.match(
+  /<[^>]*\bdata-poster-id=["'][^"']+["'][^>]*>/i
+)?.[0] || '';
+const htmlLayout = posterRootTag.match(
+  /\bdata-layout=["']([^"']+)["']/i
+)?.[1] || null;
+let executionPlan = null;
+if (executionPlanArg) {
+  executionPlan = readJson(
+    executionPlanArg.slice('--execution-plan='.length),
+    'execution plan'
+  );
+  if (executionPlan) {
+    errors.push(...validateExecutionPlanBinding(executionPlan, {
+      artifactType: manifest?.artifact_type,
+      templateId: manifest?.template_id
+    }));
+  }
+}
 
 if (manifest?.artifact_type !== 'poster') {
   errors.push('poster contract requires manifest.artifact_type poster.');
@@ -58,6 +79,18 @@ if (!plan) {
   }
   if (!allowedGoals.has(plan.poster_goal)) errors.push(`poster-plan poster_goal is unsupported: ${plan.poster_goal}`);
   if (!allowedLayouts.has(plan.layout_lock)) errors.push(`poster-plan layout_lock is unsupported: ${plan.layout_lock}`);
+  if (!htmlLayout) {
+    errors.push('poster HTML root must declare data-layout.');
+  } else if (htmlLayout !== plan.layout_lock) {
+    errors.push(
+      `HTML poster layout ${htmlLayout} must match poster-plan layout_lock `
+      + plan.layout_lock
+    );
+  }
+  if (JSON.stringify(manifest?.layouts || [])
+      !== JSON.stringify([plan.layout_lock])) {
+    errors.push('manifest.layouts must contain exactly poster-plan layout_lock.');
+  }
   if (!allowedImageStrategies.has(plan.image_strategy)) errors.push(`poster-plan image_strategy is unsupported: ${plan.image_strategy}`);
   if (!allowedClaimIntegrity.has(plan.claim_integrity)) errors.push(`poster-plan claim_integrity is unsupported: ${plan.claim_integrity}`);
   if (typeof plan.single_message === 'string' && plan.single_message.length > 80) {
@@ -65,6 +98,18 @@ if (!plan) {
   }
   if (!Array.isArray(plan.anti_ai_slop_checks) || plan.anti_ai_slop_checks.length === 0) {
     errors.push('poster-plan anti_ai_slop_checks must be non-empty.');
+  }
+  if (executionPlan) {
+    for (const [topologyId, selectedLayouts] of Object.entries(
+      selectedTopologyLayouts(executionPlan)
+    )) {
+      if (!selectedLayouts.has(plan.layout_lock)) {
+        errors.push(
+          `poster layout ${plan.layout_lock} is incompatible with topology `
+          + `${topologyId}; choose one of: ${[...selectedLayouts].join(', ')}`
+        );
+      }
+    }
   }
 }
 

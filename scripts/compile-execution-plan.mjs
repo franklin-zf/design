@@ -7,6 +7,11 @@ import {
   loadComponentCatalogue,
   resolveComponentSelection
 } from './lib/component-catalogue.mjs';
+import {
+  loadDesignProfileAssets,
+  resolveSelectedTemplate,
+  validateResolvedDesignProfile
+} from './lib/design-profile.mjs';
 import { computeSkillIdentity } from './lib/skill-identity.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
@@ -26,6 +31,7 @@ const supportedArtifactTypes = new Set([
   'data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff', 'poster',
   'screenshot-evidence', 'tweakable-artifact', 'design-system', 'multi-artifact'
 ]);
+const designProfileArtifactTypes = new Set(['html-deck', 'ppt-handoff', 'poster']);
 const standardArtifactTypes = new Set([
   'data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff',
   'screenshot-evidence', 'design-system'
@@ -283,9 +289,34 @@ export function compileExecutionPlan(rawRequest, options = {}) {
   const request = normalizeRequest(rawRequest);
   const registry = options.registry;
   if (!registry || !Array.isArray(registry.templates)) throw new Error('template registry is required');
+  let designProfile;
+  let templateResolution;
+  if (options.designProfile) {
+    const designProfileAssets = options.designProfileAssets || loadDesignProfileAssets(packageRoot);
+    const designProfileErrors = validateResolvedDesignProfile(
+      options.designProfile,
+      request.output_surface.artifact_type,
+      designProfileAssets
+    );
+    if (designProfileErrors.length) {
+      throw new Error(`design profile is invalid:\n- ${designProfileErrors.join('\n- ')}`);
+    }
+    designProfile = structuredClone(options.designProfile);
+    templateResolution = resolveSelectedTemplate(
+      designProfile,
+      registry,
+      request.output_surface.template_id
+    );
+  } else if (designProfileArtifactTypes.has(request.output_surface.artifact_type)) {
+    throw new Error(
+      `${request.output_surface.artifact_type} requires --design-profile=<design-profile.json>`
+    );
+  }
   const template = registry.templates.find((item) => item.id === request.output_surface.template_id);
   if (!template) throw new Error(`unknown template: ${request.output_surface.template_id}`);
-  if (!template.artifact_types?.includes(request.output_surface.artifact_type)) throw new Error('template does not support requested artifact type');
+  if (!template.artifact_types?.includes(request.output_surface.artifact_type)) {
+    throw new Error('template does not support requested artifact type');
+  }
   const componentIds = request.output_surface.component_refs || [];
   let componentResolution;
   if (componentIds.length) {
@@ -351,6 +382,8 @@ export function compileExecutionPlan(rawRequest, options = {}) {
     },
     normalized_request: request,
     artifact: { ...request.output_surface, workspace_root: request.constraints.workspace_root },
+    ...(designProfile ? { design_profile: designProfile } : {}),
+    ...(templateResolution ? { template_resolution: templateResolution } : {}),
     profile,
     execution_policy: executionPolicy,
     render_spec: renderSpec,
@@ -392,14 +425,28 @@ export function compileExecutionPlan(rawRequest, options = {}) {
 function parseCli(argv) {
   const positional = argv.filter((arg) => !arg.startsWith('--'));
   const outArg = argv.find((arg) => arg.startsWith('--out='));
-  if (positional.length !== 1) throw new Error('Usage: node scripts/compile-execution-plan.mjs <request.json> [--out=<path>] [--shadow]');
-  return { requestPath: positional[0], outPath: outArg?.slice(6), shadowMode: argv.includes('--shadow') };
+  const designProfileArg = argv.find((arg) => arg.startsWith('--design-profile='));
+  if (positional.length !== 1) {
+    throw new Error(
+      'Usage: node scripts/compile-execution-plan.mjs <request.json> '
+      + '[--design-profile=<path>] [--out=<path>] [--shadow]'
+    );
+  }
+  return {
+    designProfilePath: designProfileArg?.slice('--design-profile='.length),
+    outPath: outArg?.slice(6),
+    requestPath: positional[0],
+    shadowMode: argv.includes('--shadow')
+  };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === modulePath) {
   try {
     const cli = parseCli(process.argv.slice(2));
     const request = JSON.parse(readFileSync(resolve(cli.requestPath), 'utf8'));
+    const designProfile = cli.designProfilePath
+      ? JSON.parse(readFileSync(resolve(cli.designProfilePath), 'utf8'))
+      : null;
     const registry = JSON.parse(readFileSync(resolve(packageRoot, 'assets/templates/registry.json'), 'utf8'));
     const componentCatalogue = loadComponentCatalogue(
       resolve(packageRoot, 'assets/components/registry.json'),
@@ -408,6 +455,7 @@ if (process.argv[1] && resolve(process.argv[1]) === modulePath) {
     const outputValue = compileExecutionPlan(request, {
       registry,
       componentCatalogue,
+      ...(designProfile ? { designProfile } : {}),
       shadowMode: cli.shadowMode
     });
     const output = `${JSON.stringify(outputValue, null, 2)}\n`;

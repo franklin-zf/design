@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { automaticGateIds, planSchemaVersion, sha256Value } from './compile-execution-plan.mjs';
 import { computeArtifactDigest } from './validate-evidence-contract.mjs';
 import { validateJsonInstance } from './lib/json-schema.mjs';
+import { validateExecutionPlanBinding } from './lib/execution-plan-binding.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
 const skillRoot = realpathSync(resolve(dirname(modulePath), '..'));
@@ -60,6 +61,13 @@ function validateCanonicalPlan(plan) {
   if (plan.plan_id !== plan.resolved_gate_plan_digest) throw new Error('plan_id and resolved_gate_plan_digest must match');
   const payload = Object.fromEntries(Object.entries(plan).filter(([key]) => key !== 'plan_id' && key !== 'resolved_gate_plan_digest'));
   if (sha256Value(payload) !== plan.resolved_gate_plan_digest) throw new Error('resolved gate plan digest mismatch; recompile before running');
+  const bindingErrors = validateExecutionPlanBinding(plan, {
+    artifactType: plan.artifact.artifact_type,
+    templateId: plan.artifact.template_id
+  });
+  if (bindingErrors.length) {
+    throw new Error(`invalid design plan binding: ${bindingErrors.join('; ')}`);
+  }
   if (plan.execution_policy.code_class === 'untrusted' && plan.execution_policy.decision !== 'zero_spawn') {
     throw new Error('untrusted plans must use zero_spawn');
   }
@@ -350,6 +358,14 @@ export function gateInvocation(
     args.push(`--resolution=${componentResolutionPath}`);
     evidence = componentResolutionPath;
   }
+  if (gate.gate_id === 'validate-design-output'
+      || gate.gate_id === 'validate-layout-lock'
+      || gate.gate_id === 'validate-poster-contract') {
+    if (!trustedReadyEvidence.executionPlanPath) {
+      throw new Error(`${gate.gate_id} requires an execution plan sidecar`);
+    }
+    args.push(`--execution-plan=${trustedReadyEvidence.executionPlanPath}`);
+  }
   if (gate.gate_id === 'validate-evidence-contract') {
     if (trustedReadyEvidence.machineAttestationPath) {
       args.push(`--machine-attestation=${trustedReadyEvidence.machineAttestationPath}`);
@@ -424,6 +440,13 @@ export async function runExecutionPlan(plan, options = {}) {
   }
 
   const digest = computeArtifactDigest(context.artifactRoot);
+  const executionPlanPath = prepareWritablePath(
+    join(context.artifactRoot, '.design', 'execution-plan.json'),
+    context.workspaceRoot,
+    'executionPlanPath',
+    'file'
+  );
+  secureWriteFile(executionPlanPath, `${JSON.stringify(plan, null, 2)}\n`);
   const renderSpecPath = prepareWritablePath(join(context.artifactRoot, '.design', 'render-spec.json'), context.workspaceRoot, 'renderSpecPath', 'file');
   const runtimeRenderSpec = {
     ...plan.render_spec,
@@ -459,6 +482,7 @@ export async function runExecutionPlan(plan, options = {}) {
       renderSpecPath,
       componentResolutionPath,
       {
+        executionPlanPath,
         machineAttestationPath,
         reviewerRegistryPath: options.reviewerRegistryPath,
         reviewerAttestationPath: options.reviewerAttestationPath

@@ -22,9 +22,10 @@ Beauty never excuses altered data. Validator success never proves visual quality
 1. **Frame**: identify audience, reader job, use scenario, target surface, and delivery format. If artifact type, goal, or scenario is materially missing, offer two or three concrete directions and wait for selection.
 2. **Freeze**: treat supplied files and raw values as read-only evidence. Preserve numbers, units, signs, dates, names, identifiers, and quoted wording exactly.
 3. **Shape**: choose one primary artifact form and write the one-sentence message, evidence order, caveats, and desired reader action. Use `references/workflow.md`.
-4. **Direct**: complete the Taste Contract before choosing a template, component, image, or effect. Use `references/philosophy.md`.
-5. **Build**: select the lightest capable tool and the lowest sufficient expression level. Start with a complete static state; add interaction or motion only for a named reader job. Use `references/tool-routing.md`.
-6. **Review**: pass the applicable Truth, Utility, Taste, and Surface gates in `references/quality-bar.md`. Inspect the real target surface before delivery.
+4. **Profile**: for PPT, HTML deck, or Poster, resolve a `design-profile/v1` from the confirmed reader job, primary content relationship, optional supporting relationships, density, and brand context. Use `node scripts/design.mjs profile ...`; the main preset owns color, type, and composition, while at most one supporting preset may contribute only topology and surface emphasis.
+5. **Direct**: complete the Taste Contract before choosing a template, component, image, or effect. Use `references/philosophy.md`.
+6. **Build**: select the lightest capable tool and the lowest sufficient expression level. Start with a complete static state; add interaction or motion only for a named reader job. Use `references/tool-routing.md`.
+7. **Review**: pass the applicable Truth, Utility, Taste, and Surface gates in `references/quality-bar.md`. Inspect the real target surface before delivery.
 
 ## Taste Contract
 
@@ -69,12 +70,15 @@ Prefer specialized native capabilities over rebuilding them inside this skill: p
 The unified local interface is:
 
 ```bash
-node scripts/design.mjs plan <request.json> [--out=execution-plan.json --shadow]
-node scripts/design.mjs check <artifact-dir> [--profile=express|standard|assured]
+node scripts/design.mjs profile <brief.json> --artifact-type=<ppt-handoff|html-deck|poster> [--out=design-profile.json]
+node scripts/design.mjs plan <request.json> --design-profile=design-profile.json [--out=execution-plan.json --shadow]
+node scripts/design.mjs check <artifact-dir> [--profile=express|standard|assured] [--execution-plan=execution-plan.json]
 node scripts/design.mjs render <artifact-dir>/index.html [render options]
 node scripts/design.mjs capture <artifact-dir>/index.html [capture options]
 node scripts/design.mjs preflight [capability options]
 ```
+
+`ppt-handoff`, `html-deck`, and `poster` checks require the same digest-valid execution plan used for generation. The Runner writes `.design/execution-plan.json` and passes it to Deck or Poster validators. A registered layout still fails when it does not satisfy the plan's selected topology.
 
 ## Load Only What You Need
 

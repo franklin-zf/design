@@ -5,7 +5,11 @@ export function v2Request(overrides = {}) {
     use_scenario: 'Internal design review',
     audience: ['design lead'],
     source_materials: { mode: 'none', claim_scope: 'No external factual claims' },
-    output_surface: { artifact_dir: 'artifact', artifact_type: 'poster', template_id: 'poster-type-led' },
+    output_surface: {
+      artifact_dir: 'artifact',
+      artifact_type: 'data-report',
+      template_id: 'source-backed-report'
+    },
     constraints: {
       workspace_root: '/private/tmp/design-workspace', changed_paths: [], sensitive_data: false,
       publication_target: false, multi_artifact: false, interactive: false, reversible: true,

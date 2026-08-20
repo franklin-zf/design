@@ -1,0 +1,410 @@
+{
+  "schema_version": "design-profile-catalogue/v1",
+  "product_presets": [
+    {
+      "id": "executive-strategy",
+      "aesthetic_thesis": "Make the decision, evidence, risk, and next action visible with restrained authority.",
+      "tone": ["authoritative", "restrained", "decisive", "evidence-led"],
+      "style_preset_by_surface": {
+        "ppt": "swiss-deck",
+        "html": "neutral-analytic",
+        "poster": "swiss-deck"
+      },
+      "typography_direction": {
+        "display_role": "Medium-weight sans serif with compact, declarative headings.",
+        "body_role": "Calm sans serif with short evidence blocks and explicit qualifiers.",
+        "numeric_role": "Tabular figures aligned for target, actual, and gap comparison."
+      },
+      "composition": {
+        "grid": "Twelve-column asymmetric grid with one dominant conclusion region.",
+        "density": "normal",
+        "primary_focus": "Conclusion first, evidence second, action last.",
+        "max_radius_px": 4
+      },
+      "media": {
+        "priority": ["decision evidence", "real product state", "verified system relationship"],
+        "icon_policy": "Use one restrained icon family only when labels alone scan poorly."
+      },
+      "data_visualization": {
+        "default": "Target gap, trend, comparison, and risk matrix with direct annotation.",
+        "avoid": "Decorative dashboards, unlabeled scores, and charts without a management question."
+      },
+      "motion": {
+        "default": "semantic_only",
+        "max_duration_ms": 320
+      },
+      "surface_emphasis": {
+        "ppt": "Use chapter, conclusion, evidence, and action pages with deliberate rhythm.",
+        "html": "Read as a decision brief, not a marketing landing page.",
+        "poster": "One strategic claim, a small proof set, and one action line."
+      },
+      "anti_patterns": [
+        "marketing hero composition",
+        "decorative card grid",
+        "glass surfaces without semantic value",
+        "empty strategic slogans"
+      ]
+    },
+    {
+      "id": "enterprise-saas",
+      "aesthetic_thesis": "Show the product as an orderly working system whose states, ownership, and flow are easy to scan.",
+      "tone": ["reliable", "ordered", "work-focused", "practical"],
+      "style_preset_by_surface": {
+        "ppt": "neutral-analytic",
+        "html": "operational-dashboard",
+        "poster": "swiss-deck"
+      },
+      "typography_direction": {
+        "display_role": "Compact sans serif headings sized for product and process sections.",
+        "body_role": "High-legibility system sans serif for repeated scanning.",
+        "numeric_role": "Stable tabular figures for status, time, owner, and volume."
+      },
+      "composition": {
+        "grid": "Stable twelve-column work grid with restrained bands and clear ownership lanes.",
+        "density": "dense",
+        "primary_focus": "Workflow state, product object, or operating exception.",
+        "max_radius_px": 6
+      },
+      "media": {
+        "priority": ["real interface", "workflow state", "system relationship"],
+        "icon_policy": "Use familiar functional icons with visible labels; never replace critical text."
+      },
+      "data_visualization": {
+        "default": "Status matrix, funnel, queue, workflow, and ownership view.",
+        "avoid": "Marketing metrics, decorative screenshots, and equal-weight card walls."
+      },
+      "motion": {
+        "default": "semantic_only",
+        "max_duration_ms": 240
+      },
+      "surface_emphasis": {
+        "ppt": "Explain current pain, capability, workflow change, rollout, and governance.",
+        "html": "Prioritize scanning, comparison, stable navigation, and responsive work density.",
+        "poster": "Use a product capability map or operating model with one headline."
+      },
+      "anti_patterns": [
+        "oversized marketing headline",
+        "cards nested inside cards",
+        "decorative product mockups",
+        "motion that delays repeated work"
+      ]
+    },
+    {
+      "id": "data-analytics",
+      "aesthetic_thesis": "Let the evidence dominate and make every comparison, scale, and caveat inspectable.",
+      "tone": ["precise", "clear", "evidence-first", "analytical"],
+      "style_preset_by_surface": {
+        "ppt": "neutral-analytic",
+        "html": "neutral-analytic",
+        "poster": "swiss-deck"
+      },
+      "typography_direction": {
+        "display_role": "Neutral sans serif headings that name the question or plotted measure.",
+        "body_role": "Compact explanatory text placed close to the evidence.",
+        "numeric_role": "Tabular figures with units, periods, denominator, and grain visible."
+      },
+      "composition": {
+        "grid": "Evidence-first grid where charts occupy the primary area and notes stay adjacent.",
+        "density": "normal",
+        "primary_focus": "One analytical question and the chart or table that answers it.",
+        "max_radius_px": 4
+      },
+      "media": {
+        "priority": ["chart", "table", "source evidence", "map"],
+        "icon_policy": "Icons are exceptional and may only clarify metric state or control intent."
+      },
+      "data_visualization": {
+        "default": "Trend, comparison, distribution, contribution, and uncertainty with direct labels.",
+        "avoid": "Three-dimensional marks, misleading axes, chartjunk, and unsupported takeaways."
+      },
+      "motion": {
+        "default": "static",
+        "max_duration_ms": 200
+      },
+      "surface_emphasis": {
+        "ppt": "Use question, evidence, interpretation, and decision as the page sequence.",
+        "html": "Allow bounded exploration without changing metric meaning or hiding the static answer.",
+        "poster": "Show one finding and enough evidence to verify it."
+      },
+      "anti_patterns": [
+        "chart used as decoration",
+        "truncated axis without disclosure",
+        "color-only encoding",
+        "large number without analytical context"
+      ]
+    },
+    {
+      "id": "technical-architecture",
+      "aesthetic_thesis": "Make system boundaries, dependency direction, and failure behavior structurally unambiguous.",
+      "tone": ["rigorous", "calm", "structural", "engineering-led"],
+      "style_preset_by_surface": {
+        "ppt": "swiss-deck",
+        "html": "swiss-deck",
+        "poster": "swiss-deck"
+      },
+      "typography_direction": {
+        "display_role": "Direct sans serif headings tied to system layers and decisions.",
+        "body_role": "Readable sans serif for contracts, constraints, and failure behavior.",
+        "numeric_role": "Monospace or tabular figures for limits, latency, versions, and capacity."
+      },
+      "composition": {
+        "grid": "Layered orthogonal grid with explicit lanes, boundaries, and directional flow.",
+        "density": "dense",
+        "primary_focus": "The critical path, system boundary, or architectural decision.",
+        "max_radius_px": 2
+      },
+      "media": {
+        "priority": ["architecture diagram", "data flow", "interface contract", "runtime evidence"],
+        "icon_policy": "Use standardized technical symbols only when their meaning is declared."
+      },
+      "data_visualization": {
+        "default": "Capacity, latency, error budget, dependency, and sequence views.",
+        "avoid": "Ambiguous arrows, crossed connectors, decorative nodes, and unlabeled boundaries."
+      },
+      "motion": {
+        "default": "semantic_only",
+        "max_duration_ms": 300
+      },
+      "surface_emphasis": {
+        "ppt": "Move from business boundary to layers, critical flow, risk, and evolution.",
+        "html": "Keep the complete static architecture visible before adding inspection controls.",
+        "poster": "Use one system map, data flow, or technical roadmap at inspection scale."
+      },
+      "anti_patterns": [
+        "curved connector tangle",
+        "icon-only architecture",
+        "unbounded system diagram",
+        "visual hierarchy unrelated to dependency"
+      ]
+    },
+    {
+      "id": "consumer-brand",
+      "aesthetic_thesis": "Make the real product or subject unmistakable and build one controlled, memorable visual moment around it.",
+      "tone": ["distinctive", "product-led", "energetic", "memorable"],
+      "style_preset_by_surface": {
+        "ppt": "magazine-deck",
+        "html": "magazine-deck",
+        "poster": "magazine-deck"
+      },
+      "typography_direction": {
+        "display_role": "One distinctive display voice with disciplined scale contrast.",
+        "body_role": "Simple sans serif support copy with short lines and strong contrast.",
+        "numeric_role": "Large, sparse proof points rather than a dashboard treatment."
+      },
+      "composition": {
+        "grid": "Image-led grid that can break one boundary while retaining text alignment.",
+        "density": "roomy",
+        "primary_focus": "The real product, person, place, or primary use state.",
+        "max_radius_px": 8
+      },
+      "media": {
+        "priority": ["real product", "real use state", "brand-owned image", "verified detail"],
+        "icon_policy": "Prefer product and brand assets; generic icons remain secondary and labeled."
+      },
+      "data_visualization": {
+        "default": "Use only sparse proof points, comparison, or social evidence that supports the offer.",
+        "avoid": "Dashboard chrome, abstract business charts, and numbers with no consumer meaning."
+      },
+      "motion": {
+        "default": "restrained_brand",
+        "max_duration_ms": 500
+      },
+      "surface_emphasis": {
+        "ppt": "Alternate product moments and proof; keep one message per page.",
+        "html": "Use an immersive first frame with a visible hint of the next section.",
+        "poster": "Unify product, headline, and action as one dominant composition."
+      },
+      "anti_patterns": [
+        "abstract AI gradient hero",
+        "product absent from first frame",
+        "blurred atmospheric stock image",
+        "glass card collage"
+      ]
+    },
+    {
+      "id": "editorial-research",
+      "aesthetic_thesis": "Create a calm publication rhythm that makes evidence, quotation, and interpretation easy to follow and verify.",
+      "tone": ["credible", "measured", "editorial", "reflective"],
+      "style_preset_by_surface": {
+        "ppt": "magazine-deck",
+        "html": "editorial-report",
+        "poster": "magazine-deck"
+      },
+      "typography_direction": {
+        "display_role": "Editorial display face for chapter openings and tightly controlled quotations.",
+        "body_role": "Highly readable sans serif for sustained Chinese and bilingual reading.",
+        "numeric_role": "Editorial figures with nearby source, period, unit, and caveat."
+      },
+      "composition": {
+        "grid": "Editorial column system with alternating openings, evidence pages, side notes, and pull quotes.",
+        "density": "roomy",
+        "primary_focus": "The current argument, finding, quotation, or evidence object.",
+        "max_radius_px": 4
+      },
+      "media": {
+        "priority": ["document evidence", "documentary image", "quotation", "annotated chart"],
+        "icon_policy": "Avoid generic icons; use captions, figure labels, and source marks instead."
+      },
+      "data_visualization": {
+        "default": "Annotated evidence charts with source, scope, and uncertainty visible.",
+        "avoid": "Detached infographics, unattributed quotations, and ornamental statistics."
+      },
+      "motion": {
+        "default": "static",
+        "max_duration_ms": 240
+      },
+      "surface_emphasis": {
+        "ppt": "Use magazine rhythm without turning report paragraphs into slide copy.",
+        "html": "Use stable reading width, chapters, navigation, figures, and notes.",
+        "poster": "Reduce the research to one finding or issue map with source context."
+      },
+      "anti_patterns": [
+        "unattributed quotation",
+        "long low-contrast paragraph",
+        "repeated identical page template",
+        "warm neutral palette without contrast"
+      ]
+    }
+  ],
+  "surface_contracts": [
+    {
+      "id": "ppt",
+      "artifact_type": "ppt-handoff",
+      "canvas": "16:9 fixed presentation canvas",
+      "grid": "Twelve-column fixed grid with slide-safe alignment",
+      "safe_area": "Keep critical text and media inside a minimum 5% edge inset",
+      "minimum_body_size": "18pt in the target player; 24pt preferred for projected narrative text",
+      "max_primary_claims": 1,
+      "interaction_policy": "The complete meaning must exist in the static slide state",
+      "delivery_mode": "handoff_only",
+      "required_checks": [
+        "projected readability",
+        "slide rhythm",
+        "full contact sheet",
+        "static completeness"
+      ]
+    },
+    {
+      "id": "html",
+      "artifact_type": "html-deck",
+      "canvas": "Responsive document at 1440px, 390px, and 320px",
+      "grid": "Twelve columns on desktop and four columns on mobile",
+      "safe_area": "No text, control, or media may clip or overflow at required viewports",
+      "minimum_body_size": "16px with no viewport-width font scaling",
+      "max_primary_claims": 1,
+      "interaction_policy": "Deep links, refresh, keyboard, static fallback, and reduced motion preserve meaning",
+      "delivery_mode": "responsive_document",
+      "required_checks": [
+        "responsive layout",
+        "keyboard and focus",
+        "route refresh",
+        "reduced motion",
+        "static completeness"
+      ]
+    },
+    {
+      "id": "poster",
+      "artifact_type": "poster",
+      "canvas": "User-confirmed fixed print or screen dimensions",
+      "grid": "Fixed composition grid with one dominant focal region",
+      "safe_area": "Keep critical content inside a minimum 5% edge inset",
+      "minimum_body_size": "Readable at target size and still identifiable in a 25% preview",
+      "max_primary_claims": 1,
+      "interaction_policy": "No meaning may depend on interaction or motion",
+      "delivery_mode": "fixed_canvas",
+      "required_checks": [
+        "target-size rendering",
+        "25% preview",
+        "three-second recall",
+        "single-claim hierarchy"
+      ]
+    }
+  ],
+  "topology_patterns": [
+    {
+      "id": "comparison-matrix",
+      "relationship": "comparison",
+      "reader_job": "Compare options, states, or segments without losing criteria.",
+      "composition": "Aligned columns or rows with one stable comparison axis.",
+      "required_evidence": "Comparable entities, shared criteria, units, and scope.",
+      "avoid_when": "The entities do not share a valid comparison basis."
+    },
+    {
+      "id": "timeline",
+      "relationship": "chronology",
+      "reader_job": "Understand sequence, phases, dependencies, and milestones.",
+      "composition": "Ordered path with stable time direction and explicit phase boundaries.",
+      "required_evidence": "Dates or verified order, milestones, and dependency notes.",
+      "avoid_when": "The order is inferred or dates are missing."
+    },
+    {
+      "id": "causal-chain",
+      "relationship": "causality",
+      "reader_job": "Follow drivers, mechanisms, outcomes, and uncertainty.",
+      "composition": "Directed chain or driver tree with labeled relationship meaning.",
+      "required_evidence": "Supported causal or contributory links and stated uncertainty.",
+      "avoid_when": "The source only supports correlation."
+    },
+    {
+      "id": "system-map",
+      "relationship": "system",
+      "reader_job": "See boundaries, actors, data, ownership, and dependency direction.",
+      "composition": "Layered or lane-based map with orthogonal flow and declared legend.",
+      "required_evidence": "Verified nodes, interfaces, directions, and boundaries.",
+      "avoid_when": "Nodes or links would need to be invented."
+    },
+    {
+      "id": "metric-evidence",
+      "relationship": "metrics",
+      "reader_job": "Inspect trend, gap, distribution, contribution, or uncertainty.",
+      "composition": "One primary chart with adjacent definition, annotation, and caveat.",
+      "required_evidence": "Metric definition, grain, period, unit, denominator, and source.",
+      "avoid_when": "The metric is undefined or not comparable."
+    },
+    {
+      "id": "decision-frame",
+      "relationship": "decision",
+      "reader_job": "Choose an action using explicit evidence, tradeoffs, and risk.",
+      "composition": "Recommendation first, followed by evidence, alternatives, risk, and action.",
+      "required_evidence": "Decision owner, options, criteria, risks, and next action.",
+      "avoid_when": "No decision or accountable action exists."
+    },
+    {
+      "id": "narrative-arc",
+      "relationship": "narrative",
+      "reader_job": "Follow context, tension, insight, response, and outcome.",
+      "composition": "A paced sequence with deliberate variation between scene, evidence, and conclusion.",
+      "required_evidence": "Verified context, transition, and outcome boundaries.",
+      "avoid_when": "Narrative framing would strengthen the source beyond its evidence."
+    }
+  ],
+  "routing": {
+    "reader_job_to_preset": {
+      "executive-decision": "executive-strategy",
+      "operational-workflow": "enterprise-saas",
+      "analytical-evidence": "data-analytics",
+      "system-explanation": "technical-architecture",
+      "brand-communication": "consumer-brand",
+      "research-reading": "editorial-research"
+    },
+    "relationship_to_topology": {
+      "comparison": "comparison-matrix",
+      "chronology": "timeline",
+      "causality": "causal-chain",
+      "system": "system-map",
+      "metrics": "metric-evidence",
+      "decision": "decision-frame",
+      "narrative": "narrative-arc"
+    },
+    "relationship_to_secondary_preset": {
+      "comparison": "data-analytics",
+      "chronology": "executive-strategy",
+      "causality": "data-analytics",
+      "system": "technical-architecture",
+      "metrics": "data-analytics",
+      "decision": "executive-strategy",
+      "narrative": "editorial-research"
+    },
+    "secondary_inheritance_fields": ["topology", "surface_emphasis"]
+  }
+}
