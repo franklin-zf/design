@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Resolved Design Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalogue_digest",
+    "theme_digest",
+    "brief",
+    "surface",
+    "primary_preset",
+    "topologies",
+    "style_preset",
+    "resolved_theme",
+    "resolved_rules",
+    "selection"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-profile/v1" },
+    "catalogue_digest": { "$ref": "#/$defs/sha256" },
+    "theme_digest": { "$ref": "#/$defs/sha256" },
+    "brief": { "type": "object" },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "artifact_type", "delivery_mode", "rules"],
+      "properties": {
+        "id": { "enum": ["ppt", "html", "poster"] },
+        "artifact_type": {
+          "enum": ["ppt-handoff", "html-deck", "poster"]
+        },
+        "delivery_mode": {
+          "enum": ["handoff_only", "responsive_document", "fixed_canvas"]
+        },
+        "rules": { "type": "object" }
+      }
+    },
+    "primary_preset": { "$ref": "#/$defs/product_preset_id" },
+    "secondary_preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contributes"],
+      "properties": {
+        "id": { "$ref": "#/$defs/product_preset_id" },
+        "contributes": {
+          "const": ["topology", "surface_emphasis"]
+        }
+      }
+    },
+    "topologies": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "style_preset": { "type": "string", "minLength": 1 },
+    "resolved_theme": { "type": "object" },
+    "resolved_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aesthetic_thesis",
+        "tone",
+        "typography_direction",
+        "composition",
+        "media",
+        "data_visualization",
+        "motion",
+        "surface_emphasis",
+        "anti_patterns"
+      ],
+      "properties": {
+        "aesthetic_thesis": { "type": "string", "minLength": 1 },
+        "tone": { "type": "array", "minItems": 3, "items": { "type": "string" } },
+        "typography_direction": { "type": "object" },
+        "composition": { "type": "object" },
+        "media": { "type": "object" },
+        "data_visualization": { "type": "object" },
+        "motion": { "type": "object" },
+        "surface_emphasis": { "type": "string", "minLength": 1 },
+        "anti_patterns": { "type": "array", "minItems": 3, "items": { "type": "string" } }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["override_used", "reason_codes", "brand_status"],
+      "properties": {
+        "override_used": { "type": "boolean" },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "brand_status": {
+          "enum": ["not_provided", "requires_verified_brand_merge"]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "product_preset_id": {
+      "enum": [
+        "executive-strategy",
+        "enterprise-saas",
+        "data-analytics",
+        "technical-architecture",
+        "consumer-brand",
+        "editorial-research"
+      ]
+    }
+  }
+}

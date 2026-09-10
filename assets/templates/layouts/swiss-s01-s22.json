@@ -1,0 +1,30 @@
+{
+  "schema_version": "layout-registry/v1",
+  "id": "swiss-s01-s22",
+  "layouts": [
+    { "id": "SWISS-COVER-ASCII", "name": "Swiss cover", "visual_weight": "special" },
+    { "id": "SWISS-CLOSING-ASCII", "name": "Swiss closing", "visual_weight": "special" },
+    { "id": "S01", "name": "Swiss layout S01", "visual_weight": "standard" },
+    { "id": "S02", "name": "Swiss layout S02", "visual_weight": "standard" },
+    { "id": "S03", "name": "Statement", "visual_weight": "dominant" },
+    { "id": "S04", "name": "Swiss layout S04", "visual_weight": "standard" },
+    { "id": "S05", "name": "Swiss layout S05", "visual_weight": "standard" },
+    { "id": "S06", "name": "Swiss layout S06", "visual_weight": "standard" },
+    { "id": "S07", "name": "Swiss layout S07", "visual_weight": "standard" },
+    { "id": "S08", "name": "Comparison", "visual_weight": "balanced" },
+    { "id": "S09", "name": "Swiss layout S09", "visual_weight": "standard" },
+    { "id": "S10", "name": "Swiss layout S10", "visual_weight": "standard" },
+    { "id": "S11", "name": "Process path", "visual_weight": "sequential" },
+    { "id": "S12", "name": "Swiss layout S12", "visual_weight": "standard" },
+    { "id": "S13", "name": "Swiss layout S13", "visual_weight": "standard" },
+    { "id": "S14", "name": "Swiss layout S14", "visual_weight": "standard" },
+    { "id": "S15", "name": "Image grid", "visual_weight": "visual" },
+    { "id": "S16", "name": "Image sequence", "visual_weight": "visual" },
+    { "id": "S17", "name": "System map", "visual_weight": "structural" },
+    { "id": "S18", "name": "Swiss layout S18", "visual_weight": "standard" },
+    { "id": "S19", "name": "Swiss layout S19", "visual_weight": "standard" },
+    { "id": "S20", "name": "Metric ledger", "visual_weight": "evidence" },
+    { "id": "S21", "name": "Risk control", "visual_weight": "decision" },
+    { "id": "S22", "name": "Evidence image", "visual_weight": "visual" }
+  ]
+}

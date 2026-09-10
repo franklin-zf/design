@@ -26,13 +26,14 @@ Confirmation: proceeding-with-explicit-assumptions — brand, PPT player, asset 
 - PPT、HTML、Poster 三类核心产物及其独立场景验收。
 - 参考检索、方向比较、模板选择、媒体选择和必要的图片、图表、流程图、图标、动效。
 - 内容审核、视觉反证、用户视觉确认和审批失效机制。
+- 面向不同产品语境的默认设计预设，以及 PPT、HTML、Poster 的体裁级设计规则。
 - 工作区、测试对象、安装入口和交付物之间的版本一致性。
 - 在质量不回退前提下缩短常规任务执行路径。
 
 ### Non-Goals
 
-- 本阶段不修改 `design` 源码、模板、脚本或注册版本。
-- 本阶段不重新生成当前 PPT、HTML、Poster，不提交、不安装、不发布。
+- 本切片不重新生成当前产品管理平台 PPT、HTML、Poster，不安装、不发布。
+- 本切片不实现源文件抽取、Native PPTX 适配器或最终效率基准；这些能力继续由后续切片独立验收。
 - 不复刻任何公司的品牌资产、专有模板或受限素材。
 - 不把毛玻璃、炫酷动画、图片数量、模板数量或布局 ID 数量当作质量目标。
 - 不强制所有产物使用 Apple、Swiss 或任一固定风格。
@@ -48,7 +49,7 @@ Confirmation: proceeding-with-explicit-assumptions — brand, PPT player, asset 
   - HTML 主视觉弱化或遗漏了 `约`、`≥`、`≤` 等关系语义。
   - 已被用户否决的产物仍可通过部分现有审美检查，说明检查存在误放行。
   - 当前产物缺少能够解释产品对象、界面或系统关系的有效媒体，模板轮廓重复。
-  - `design` 工作区存在用户既有修改，实施时不得覆盖、回滚或混入无关改动。
+  - 本切片开始时 `design` 工作区干净；实施仍不得覆盖、回滚或混入后续出现的无关改动。
   - 本轮复核时，先前给出的原始 `.doc` 路径已不可读；已有三个一致的 extracted `source.txt` 副本，但它们不能替代原文件抽取验收。
 - Assumed:
   - PPT、HTML、Poster 继续作为长期支持的三类核心格式。
@@ -61,7 +62,7 @@ Confirmation: proceeding-with-explicit-assumptions — brand, PPT player, asset 
   - PPT 主要播放环境是 Microsoft PowerPoint、Keynote 还是其他软件。
   - 外部图片、生成图片和商业字体的项目级授权边界。
   - 当前常规任务的中位执行耗时和有效工具步骤基线。
-  - 原始项目建议书 `.doc` 的当前可读位置；Slice 2 在原文件恢复前保持 blocked。
+  - 原始项目建议书 `.doc` 的当前可读位置；Slice 3 在原文件恢复前保持 blocked。
 
 ## Requirements
 
@@ -79,6 +80,7 @@ Confirmation: proceeding-with-explicit-assumptions — brand, PPT player, asset 
 | REQ-010 | P1 | 图片、图表、流程图、图标和动效必须承担语义任务。 | 每个媒体元素都能回答“帮助理解什么”；删除后不影响表达的装饰被移除；产品材料出现可理解的产品对象、界面或系统关系。 |
 | REQ-011 | P1 | 审美验收必须能够主动证伪。 | 产物通过内容专属性、三秒记忆、中文排版、目标尺寸、整套节奏和参考对照检查；审核记录绑定最终产物和截图哈希。 |
 | REQ-012 | P2 | 在不降低质量的前提下缩短执行链路。 | 使用固定的 3 个 source pack × 3 个体裁任务集；旧链和新链各预热 1 次、独立测量 3 次。主指标是从 confirmed intake 到 `candidate_ready` 的本机 active wall-clock 中位数，排除用户/调度队列等待，包含生成和 Reviewer active review time，目标降低至少 20%；每组旧/新配对由预先冻结的同一 Reviewer 身份、工具版本和计时边界审核。有效工具步骤是辅助指标且不得增加超过 10%。硬件、缓存策略、失败重试和原始日志固定留存，REQ-001 至 REQ-011 不得回退。 |
+| REQ-013 | P1 | PPT、HTML、Poster 必须从一套受控的默认设计规范中选择产品预设、体裁规则和内容拓扑。 | 注册表恰好包含 `executive-strategy`、`enterprise-saas`、`data-analytics`、`technical-architecture`、`consumer-brand`、`editorial-research` 六类主预设；每类定义审美命题、色彩方向、字体角色、布局、媒体、数据表达、动效和反模式。解析器根据 reader job、内容关系和体裁生成绑定注册表 digest 的 `design-profile/v1`；最多一个辅助预设，且不得覆盖主预设的配色、字体和构图规则。三体裁分别返回可执行约束，未知预设、缺失体裁规则、悬空样式或拓扑引用必须失败。 |
 
 ## Material Questions
 

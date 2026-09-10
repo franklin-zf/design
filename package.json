@@ -1,6 +1,6 @@
 {
   "name": "design",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "files": [
     "SKILL.md",
@@ -9,7 +9,8 @@
     "design-systems",
     "references",
     "schemas",
-    "scripts"
+    "scripts",
+    "showcases"
   ],
   "scripts": {
     "design": "node scripts/design.mjs",

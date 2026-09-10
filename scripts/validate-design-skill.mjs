@@ -1,8 +1,19 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { validateTemplateLayoutContract } from './lib/layout-registry.mjs';
 
 const root = process.argv[2] || '.';
+const designProfileArtifactTypes = new Set(['html-deck', 'ppt-handoff', 'poster']);
+const topologyIds = new Set([
+  'comparison-matrix',
+  'timeline',
+  'causal-chain',
+  'system-map',
+  'metric-evidence',
+  'decision-frame',
+  'narrative-arc'
+]);
 const required = [
   'SKILL.md',
   'agents/openai.yaml',
@@ -19,6 +30,9 @@ const required = [
   'references/workflow.md',
   'schemas/artifact-manifest.schema.json',
   'schemas/component-catalogue.schema.json',
+  'schemas/design-brief.schema.json',
+  'schemas/design-profile-catalogue.schema.json',
+  'schemas/design-profile.schema.json',
   'schemas/execution-plan.schema.json',
   'schemas/evidence-contract.schema.json',
   'schemas/accessibility-checks.schema.json',
@@ -47,6 +61,8 @@ const required = [
   'assets/templates/poster.html',
   'assets/templates/tweakable-artifact.html',
   'assets/templates/registry.json',
+  'assets/templates/layouts/poster.json',
+  'assets/templates/layouts/swiss-s01-s22.json',
   'assets/templates/handoffs/poster-handoff.json',
   'assets/templates/handoffs/intake-direction.json',
   'assets/templates/handoffs/designer-handoff.json',
@@ -60,6 +76,7 @@ const required = [
   'design-systems/_schema/design-system-package.schema.json',
   'design-systems/_schema/tokens.schema.json',
   'design-systems/_schema/components-manifest.schema.json',
+  'design-systems/defaults/design-profile-catalogue.json',
   'design-systems/swiss-deck/manifest.json',
   'design-systems/swiss-deck/DESIGN.md',
   'design-systems/swiss-deck/USAGE.md',
@@ -98,8 +115,14 @@ const required = [
   'scripts/validate-component-catalogue.mjs',
   'scripts/validate-component-pilots.mjs',
   'scripts/validate-component-usage.mjs',
+  'scripts/validate-design-profile-catalogue.mjs',
+  'scripts/validate-packed-references.mjs',
+  'scripts/resolve-design-profile.mjs',
   'scripts/validate-showcase-registry.mjs',
   'scripts/lib/component-catalogue.mjs',
+  'scripts/lib/design-profile.mjs',
+  'scripts/lib/execution-plan-binding.mjs',
+  'scripts/lib/layout-registry.mjs',
   'scripts/lib/skill-identity.mjs',
   'scripts/lib/playwright-runtime.mjs',
   'scripts/lib/json-schema.mjs',
@@ -177,6 +200,29 @@ if (existsSync(templateRegistryPath)) {
       }
       if (entry.thinking_ref && !existsSync(join(root, entry.thinking_ref))) {
         errors.push(`Template ${entry.id || index} thinking_ref does not exist: ${entry.thinking_ref}`);
+      }
+      const supportsProfileSurface = (entry.artifact_types || []).some(
+        (artifactType) => designProfileArtifactTypes.has(artifactType)
+      );
+      if (supportsProfileSurface) {
+        if (!entry.layout_registry_ref) {
+          errors.push(`Template ${entry.id || index} must declare layout_registry_ref.`);
+        }
+        if (!entry.topology_support || typeof entry.topology_support !== 'object') {
+          errors.push(`Template ${entry.id || index} must declare topology_support.`);
+        }
+        for (const [topologyId, layouts] of Object.entries(entry.topology_support || {})) {
+          if (!topologyIds.has(topologyId)) {
+            errors.push(`Template ${entry.id || index} has unknown topology: ${topologyId}`);
+          }
+          if (!Array.isArray(layouts) || layouts.length === 0
+              || layouts.some((layout) => typeof layout !== 'string' || !layout)) {
+            errors.push(
+              `Template ${entry.id || index} topology ${topologyId} needs layout ids.`
+            );
+          }
+        }
+        errors.push(...validateTemplateLayoutContract(entry, root));
       }
     }
   } catch (error) {

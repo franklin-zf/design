@@ -13,6 +13,10 @@ import {
   catalogueSha256,
   resolveComponentSelection
 } from '../scripts/lib/component-catalogue.mjs';
+import {
+  loadDesignProfileAssets,
+  resolveDesignProfile
+} from '../scripts/lib/design-profile.mjs';
 import { computeArtifactDigest } from '../scripts/validate-evidence-contract.mjs';
 import { validateComponentUsage } from '../scripts/validate-component-usage.mjs';
 import { v2Request } from './fixtures/execution-request.mjs';
@@ -24,6 +28,18 @@ const catalogue = JSON.parse(
 const templateRegistry = JSON.parse(
   readFileSync(join(root, 'assets/templates/registry.json'), 'utf8')
 );
+const designProfileAssets = loadDesignProfileAssets(root);
+
+function posterProfile() {
+  return resolveDesignProfile({
+    schema_version: 'design-brief/v1',
+    reader_job: 'executive-decision',
+    primary_relationship: 'decision',
+    secondary_relationships: [],
+    content_density: 'auto',
+    brand_context: 'none'
+  }, 'poster', designProfileAssets);
+}
 
 function artifactFixture({ componentIds = [], html = '<main>fixture</main>' } = {}) {
   const workspace = mkdtempSync(join(tmpdir(), 'design-component-'));
@@ -152,11 +168,13 @@ test('compiler deterministically unions component gates into one digest', async 
   const first = compileExecutionPlan(input, {
     registry: templateRegistry,
     componentCatalogue: catalogue,
+    designProfile: posterProfile(),
     compilerVersion: 'component-test'
   });
   const second = compileExecutionPlan(input, {
     registry: templateRegistry,
     componentCatalogue: catalogue,
+    designProfile: posterProfile(),
     compilerVersion: 'component-test'
   });
   assert.deepEqual(first, second);
@@ -207,7 +225,8 @@ test('runner uses the registered component-usage adapter only', async () => {
       }
     }), {
       registry: templateRegistry,
-      componentCatalogue: catalogue
+      componentCatalogue: catalogue,
+      designProfile: posterProfile()
     });
     const gateIds = [];
     const result = await runExecutionPlan(plan, {

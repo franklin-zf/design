@@ -55,12 +55,27 @@ function readManifest(artifactRoot) {
   return JSON.parse(readFileSync(path, 'utf8'));
 }
 
-function checkArtifact(artifact, profile = 'standard', assuranceArgs = []) {
+function checkArtifact(
+  artifact,
+  profile = 'standard',
+  assuranceArgs = [],
+  { executionPlanPath = null, requireCorePlan = false } = {}
+) {
   if (!supportedProfiles.has(profile)) throw new Error(`Unsupported profile: ${profile}`);
   const artifactRoot = resolve(artifact);
   const manifest = readManifest(artifactRoot);
+  const coreArtifactTypes = new Set(['html-deck', 'ppt-handoff', 'poster']);
+  if (requireCorePlan && coreArtifactTypes.has(manifest.artifact_type)
+      && !executionPlanPath) {
+    throw new Error(
+      `${manifest.artifact_type} check requires --execution-plan=<path>`
+    );
+  }
+  const planArgs = executionPlanPath
+    ? [`--execution-plan=${resolve(executionPlanPath)}`]
+    : [];
 
-  runScript('validate-design-output.mjs', [artifactRoot]);
+  runScript('validate-design-output.mjs', [artifactRoot, ...planArgs]);
   if (existsSync(join(artifactRoot, 'summary-map.json'))) {
     runScript('validate-summary-map.mjs', [artifactRoot]);
   }
@@ -77,11 +92,11 @@ function checkArtifact(artifact, profile = 'standard', assuranceArgs = []) {
     runScript('validate-asset-contract.mjs', [artifactRoot]);
   }
   if (manifest.aesthetic_contract?.layout_lock === 'swiss-s01-s22') {
-    runScript('validate-layout-lock.mjs', [artifactRoot]);
+    runScript('validate-layout-lock.mjs', [artifactRoot, ...planArgs]);
     runScript('validate-visual-rhythm.mjs', [artifactRoot]);
   }
   if (existsSync(join(artifactRoot, 'poster-plan.json'))) {
-    runScript('validate-poster-contract.mjs', [artifactRoot]);
+    runScript('validate-poster-contract.mjs', [artifactRoot, ...planArgs]);
     runScript('validate-poster-anti-ai-slop.mjs', [artifactRoot]);
   }
   if (profile === 'assured') {
@@ -95,6 +110,8 @@ function validateRepository() {
   runScript('validate-code-style.mjs', ['.']);
   runScript('validate-design-skill.mjs', ['.']);
   runScript('validate-schemas.mjs', ['.']);
+  runScript('validate-design-profile-catalogue.mjs', ['.']);
+  runScript('validate-packed-references.mjs', ['.']);
   runScript('validate-component-catalogue.mjs', ['.']);
   runScript('validate-vendor-provenance.mjs', ['.']);
   runScript('validate-design-system-package.mjs', ['.', 'swiss-deck']);
@@ -188,10 +205,12 @@ function runStandardTests() {
     '--test',
     'tests/code-style.test.mjs',
     'tests/component-catalogue.test.mjs',
+    'tests/design-profile.test.mjs',
     'tests/component-usage.test.mjs',
     'tests/component-pilots.test.mjs',
     'tests/json-schema.test.mjs',
     'tests/playwright-runtime.test.mjs',
+    'tests/packed-references.test.mjs',
     'tests/execution-plan.test.mjs',
     'tests/execution-runner.test.mjs',
     'tests/evidence-contract.test.mjs',
@@ -248,8 +267,9 @@ function runStrictTests() {
 
 function usage() {
   process.stdout.write(`Design CLI\n\n${[
-    'plan <request.json> [compiler options]',
-    'check <artifact-dir> [--profile=express|standard|assured] [assurance options]',
+    'profile <brief.json> --artifact-type=<ppt-handoff|html-deck|poster> [--out=<path>]',
+    'plan <request.json> [--design-profile=<path> --out=<path> --shadow]',
+    'check <artifact-dir> [--profile=express|standard|assured] [--execution-plan=<path>] [assurance options]',
     'render <index.html> [render options]',
     'capture <index.html> [capture options]',
     'preflight [capability options]',
@@ -269,14 +289,32 @@ function main() {
     runScript('compile-execution-plan.mjs', args);
     return;
   }
+  if (command === 'profile') {
+    if (!args[0]) throw new Error('profile requires a brief.json path');
+    runScript('resolve-design-profile.mjs', args);
+    return;
+  }
   if (command === 'check') {
     if (!args[0]) throw new Error('check requires an artifact directory');
     const profileArg = args.find((arg) => arg.startsWith('--profile='));
+    const executionPlanArg = args.find(
+      (arg) => arg.startsWith('--execution-plan=')
+    );
     const profile = profileArg?.slice(10) || 'standard';
     if (!supportedProfiles.has(profile)) {
       throw new Error(`Unsupported profile: ${profile}`);
     }
-    checkArtifact(args[0], profile, args.slice(1).filter((arg) => arg !== profileArg));
+    checkArtifact(
+      args[0],
+      profile,
+      args.slice(1).filter(
+        (arg) => arg !== profileArg && arg !== executionPlanArg
+      ),
+      {
+        executionPlanPath: executionPlanArg?.slice('--execution-plan='.length),
+        requireCorePlan: true
+      }
+    );
     return;
   }
   if (command === 'render') {

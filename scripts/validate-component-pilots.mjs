@@ -10,6 +10,10 @@ import {
   loadComponentCatalogue
 } from './lib/component-catalogue.mjs';
 import {
+  loadDesignProfileAssets,
+  resolveDesignProfile
+} from './lib/design-profile.mjs';
+import {
   computeArtifactDigest
 } from './validate-evidence-contract.mjs';
 import {
@@ -25,6 +29,7 @@ const componentCatalogue = loadComponentCatalogue(
   resolve(skillRoot, 'assets/components/registry.json'),
   resolve(skillRoot, 'schemas/component-catalogue.schema.json')
 );
+const designProfileAssets = loadDesignProfileAssets(skillRoot);
 
 function readJson(path, label, errors) {
   try {
@@ -90,6 +95,18 @@ function compilePilotPlan(root, manifest, contract) {
       sha256: sha256File(sourcePath)
     };
   });
+  const profileBrief = manifest.artifact_type === 'poster'
+    ? { reader_job: 'executive-decision', primary_relationship: 'decision' }
+    : { reader_job: 'system-explanation', primary_relationship: 'system' };
+  const designProfile = ['html-deck', 'ppt-handoff', 'poster'].includes(
+    manifest.artifact_type
+  ) ? resolveDesignProfile({
+      schema_version: 'design-brief/v1',
+      ...profileBrief,
+      secondary_relationships: [],
+      content_density: 'auto',
+      brand_context: 'none'
+    }, manifest.artifact_type, designProfileAssets) : null;
   return compileExecutionPlan({
     schema_version: 'design-execution-request/v2',
     goal: contract.reader_job,
@@ -135,6 +152,7 @@ function compilePilotPlan(root, manifest, contract) {
   }, {
     registry: templateRegistry,
     componentCatalogue,
+    ...(designProfile ? { designProfile } : {}),
     compilerVersion: 'design-component-pilot/v1',
     shadowMode: true
   });

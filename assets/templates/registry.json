@@ -69,6 +69,16 @@
       ],
       "validation_gate_ids": ["validate-design-output", "validate-poster-contract", "validate-poster-anti-ai-slop"],
       "thinking_ref": "references/poster-design.md",
+      "layout_registry_ref": "assets/templates/layouts/poster.json",
+      "topology_support": {
+        "comparison-matrix": ["poster-split-claim"],
+        "timeline": ["poster-editorial"],
+        "causal-chain": ["poster-split-claim"],
+        "system-map": ["poster-data-hero"],
+        "metric-evidence": ["poster-data-hero"],
+        "decision-frame": ["poster-type-led"],
+        "narrative-arc": ["poster-image-hero", "poster-editorial"]
+      },
       "showcase_refs": []
     },
     {
@@ -109,6 +119,16 @@
       ],
       "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
       "thinking_ref": "references/deck-ppt.md",
+      "layout_registry_ref": "assets/templates/layouts/swiss-s01-s22.json",
+      "topology_support": {
+        "comparison-matrix": ["S08"],
+        "timeline": ["S11"],
+        "causal-chain": ["S17"],
+        "system-map": ["S17"],
+        "metric-evidence": ["S20"],
+        "decision-frame": ["S03", "S21"],
+        "narrative-arc": ["S03", "S11", "S22"]
+      },
       "showcase_refs": []
     },
     {
@@ -157,6 +177,16 @@
       ],
       "validation_gate_ids": ["validate-data-provenance", "validate-design-output", "validate-summary-map", "validate-claim-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
       "thinking_ref": "references/library.md",
+      "layout_registry_ref": "assets/templates/layouts/swiss-s01-s22.json",
+      "topology_support": {
+        "comparison-matrix": ["S08"],
+        "timeline": ["S11"],
+        "causal-chain": ["S17"],
+        "system-map": ["S17"],
+        "metric-evidence": ["S20"],
+        "decision-frame": ["S03", "S21"],
+        "narrative-arc": ["S03", "S11", "S22"]
+      },
       "showcase_refs": ["showcases/swiss-evidence-deck-production/case.json"]
     },
     {

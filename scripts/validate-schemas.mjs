@@ -29,6 +29,9 @@ const manifestRequired = [
 
 const schemaFiles = [
   'schemas/component-catalogue.schema.json',
+  'schemas/design-brief.schema.json',
+  'schemas/design-profile-catalogue.schema.json',
+  'schemas/design-profile.schema.json',
   'schemas/execution-plan.schema.json',
   'schemas/evidence-contract.schema.json',
   'schemas/accessibility-checks.schema.json',
@@ -168,6 +171,32 @@ export function validateSchemas(root = '.') {
   }
 
   validatePositiveInstances(resolvedRoot, schemas, errors);
+
+  const layoutRegistrySchema = schemas.get('schemas/layout-registry.schema.json');
+  const layoutRegistryIds = new Map();
+  for (const relativePath of [
+    'assets/templates/layouts/poster.json',
+    'assets/templates/layouts/swiss-s01-s22.json'
+  ]) {
+    const registry = readJson(join(resolvedRoot, relativePath), relativePath, errors);
+    if (!registry || !layoutRegistrySchema) continue;
+    for (const issue of validateJsonInstance(layoutRegistrySchema, registry)) {
+      errors.push(`${relativePath} does not match layout registry schema: ${issue}`);
+    }
+    const ids = registry.layouts?.map((layout) => layout.id) || [];
+    if (new Set(ids).size !== ids.length) {
+      errors.push(`${relativePath} contains duplicate layout ids.`);
+    }
+    layoutRegistryIds.set(registry.id, ids);
+  }
+
+  const posterPlanSchema = schemas.get('schemas/poster-plan.schema.json');
+  const posterSchemaLayouts = posterPlanSchema?.properties?.layout_lock?.enum || [];
+  const posterRegistryLayouts = layoutRegistryIds.get('poster') || [];
+  if (JSON.stringify([...posterSchemaLayouts].sort())
+      !== JSON.stringify([...posterRegistryLayouts].sort())) {
+    errors.push('poster-plan layout_lock values must match the poster layout registry.');
+  }
 
   for (const artifactDir of ['examples/swiss-deck-pass', 'examples/poster-pass']) {
     const manifestPath = join(resolvedRoot, artifactDir, 'manifest.json');

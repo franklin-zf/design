@@ -1,12 +1,28 @@
 # Design Library
 
+## Default Product Profiles
+
+For `ppt-handoff`, `html-deck`, and `poster`, resolve a design profile before template selection:
+
+```bash
+node scripts/design.mjs profile brief.json --artifact-type=html-deck --out=design-profile.json
+node scripts/design.mjs plan request.json --design-profile=design-profile.json --out=execution-plan.json
+node scripts/design.mjs check artifact --execution-plan=execution-plan.json
+```
+
+The catalogue is `design-systems/defaults/design-profile-catalogue.json`. It contains exactly six product presets, three surface contracts, seven content topologies, and deterministic routing from structured reader jobs. Product presets reference existing style presets instead of copying HEX values or font stacks.
+
+The main preset owns the aesthetic thesis, resolved theme, typography direction, composition, media language, data-visualization language, motion, and anti-patterns. A supporting preset is optional and may contribute only topology and surface emphasis. A supplied brand reference remains `requires_verified_brand_merge`; the resolver never invents or silently applies brand tokens.
+
+`ppt-handoff` resolves to `handoff_only`. Do not call it native PPTX without separately verified host presentation capability and target-player evidence.
+
 ## Registries
 
 - Templates: `assets/templates/registry.json`.
 - Components: `assets/components/registry.json`.
 - Style presets: `assets/themes/presets.json`.
 - Packaged design systems: `design-systems/`.
-- Repository-only curated production cases: `showcases/registry.json` when present.
+- Packaged curated production cases: `showcases/registry.json` when present.
 
 Examples are validator fixtures, not aesthetic proof. A showcase must bind a real artifact, source identity, surface captures, and current review evidence.
 

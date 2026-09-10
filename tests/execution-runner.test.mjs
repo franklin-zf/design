@@ -340,6 +340,32 @@ test('evidence gate receives only explicit external trust inputs', async () => {
   } finally { rmSync(f.workspace, { recursive: true, force: true }); }
 });
 
+test('artifact gates receive the runner-owned execution plan sidecar', async () => {
+  const { gateInvocation } = await import('../scripts/run-execution-plan.mjs');
+  const f = fixture();
+  try {
+    const executionPlanPath = join(f.artifact, '.design', 'execution-plan.json');
+    for (const gateId of [
+      'validate-design-output',
+      'validate-layout-lock',
+      'validate-poster-contract'
+    ]) {
+      const invocation = gateInvocation(
+        { gate_id: gateId },
+        f.artifact,
+        'a'.repeat(64),
+        'b'.repeat(64),
+        join(f.artifact, '.design', 'render-spec.json'),
+        null,
+        { executionPlanPath }
+      );
+      assert.deepEqual(invocation.args.slice(2), [
+        `--execution-plan=${executionPlanPath}`
+      ]);
+    }
+  } finally { rmSync(f.workspace, { recursive: true, force: true }); }
+});
+
 test('dependency scheduler never starts evidence validation before render-smoke completes', async () => {
   const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
   const { runExecutionPlan } = await import('../scripts/run-execution-plan.mjs');

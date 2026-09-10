@@ -1,0 +1,13 @@
+{
+  "schema_version": "layout-registry/v1",
+  "id": "poster",
+  "layouts": [
+    { "id": "poster-type-led", "name": "Type led", "visual_weight": "typographic" },
+    { "id": "poster-image-hero", "name": "Image hero", "visual_weight": "visual" },
+    { "id": "poster-data-hero", "name": "Data hero", "visual_weight": "evidence" },
+    { "id": "poster-split-claim", "name": "Split claim", "visual_weight": "balanced" },
+    { "id": "poster-editorial", "name": "Editorial", "visual_weight": "narrative" },
+    { "id": "poster-product-shot", "name": "Product shot", "visual_weight": "product" },
+    { "id": "poster-event", "name": "Event", "visual_weight": "promotional" }
+  ]
+}

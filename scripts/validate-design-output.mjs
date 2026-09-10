@@ -7,6 +7,7 @@ import {
   resolveComponentSelection
 } from './lib/component-catalogue.mjs';
 import { computeSkillIdentity } from './lib/skill-identity.mjs';
+import { validateExecutionPlanBinding } from './lib/execution-plan-binding.mjs';
 import { validateEvidenceContract } from './validate-evidence-contract.mjs';
 
 const dir = process.argv[2];
@@ -19,6 +20,9 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const skillRoot = resolve(scriptDir, '..');
 const errors = [];
 const warnings = [];
+const executionPlanArg = process.argv.find(
+  (arg) => arg.startsWith('--execution-plan=')
+);
 const requiredFiles = ['index.html', 'manifest.json', 'quality-report.md'];
 for (const file of requiredFiles) {
   if (!existsSync(join(dir, file))) errors.push(`Missing required file: ${file}`);
@@ -129,6 +133,18 @@ let manifest = null;
 const manifestPath = join(dir, 'manifest.json');
 if (existsSync(manifestPath)) {
   manifest = readJson(manifestPath, 'manifest.json');
+}
+if (executionPlanArg && manifest) {
+  const executionPlan = readJson(
+    executionPlanArg.slice('--execution-plan='.length),
+    'execution plan'
+  );
+  if (executionPlan) {
+    errors.push(...validateExecutionPlanBinding(executionPlan, {
+      artifactType: manifest.artifact_type,
+      templateId: manifest.template_id
+    }));
+  }
 }
 let provenance = null;
 const provenancePath = join(dir, 'data-provenance.json');
