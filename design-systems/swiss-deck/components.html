@@ -25,6 +25,7 @@
     .layout strong { align-self: end; max-width: 10ch; font-size: 25px; line-height: 1; }
     .layout.blue { border-top-color: var(--ds-blue); }
     .layout.ink { background: var(--ds-ink); color: var(--ds-paper); }
+    .layout[data-image-slot] { outline: 1px solid var(--ds-line); outline-offset: -1px; }
     .ledger { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ds-line); border-bottom: 1px solid var(--ds-line); }
     .metric { padding: 18px 12px; border-right: 1px solid var(--ds-line); }
     .metric:last-child { border-right: 0; }
@@ -47,7 +48,7 @@
         <div class="layout ink"><span class="meta">S17</span><strong>System map</strong></div>
         <div class="layout ink"><span class="meta">S20</span><strong>Metric ledger</strong></div>
         <div class="layout blue"><span class="meta">S21</span><strong>Risk control</strong></div>
-        <div class="layout"><span class="meta">S22</span><strong>Evidence image</strong></div>
+        <div class="layout" data-image-slot="s22-evidence-preview"><span class="meta">S22</span><strong>Evidence image</strong></div>
       </div>
       <div class="ledger" data-od-id="metric-component">
         <div class="metric"><strong class="metric-value">0</strong><span class="metric-label">Radius</span></div>

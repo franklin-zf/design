@@ -1,0 +1,20 @@
+{
+  "schema_version": "design-slimming-source/v1",
+  "provenance": {
+    "authority": "docs/exp/engineering.md Slice 11 source-verbatim allowlist",
+    "handling": "verbatim_only",
+    "derived_metrics_allowed": false
+  },
+  "facts": [
+    {"id": "S-COG", "text": "101 → 75 lines; 13 → 10 refs"},
+    {"id": "S-RUN", "text": "131 → 125 package files; 737379B → 724633B unpacked; 166925B → 162924B tar; 33 → 0 runtime dangling; 0 → 0 root escape; 3 → 0 packaged showcases"},
+    {"id": "S-TEST", "text": "127 total / 125 pass / 1 fail / 1 skip; 唯一失败为 Playwright runtime 环境阻塞；browser_smoke missing 未解除；整体项目 browser/visual 状态继续 blocked"},
+    {"id": "S-COMMITS", "text": "commits 034b22f / fc93a9b / ceb7d81"},
+    {"id": "S-NEXT", "text": "解除 Playwright runtime / browser_smoke，并继续独立视觉验证；完成前保持 blocked"}
+  ],
+  "non_claims": [
+    "不提供 derived percentages、节省率、合成分数、面积编码比例或趋势外推",
+    "不提供未获批准的 fixture 通过结论",
+    "本 deck 不表示整体项目浏览器或视觉全量验收通过"
+  ]
+}

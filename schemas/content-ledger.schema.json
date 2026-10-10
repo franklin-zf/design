@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Canonical Content Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ledger_id", "entries"],
+  "properties": {
+    "schema_version": { "const": "design-content-ledger/v1" },
+    "ledger_id": { "type": "string", "minLength": 1 },
+    "data_provenance_ref": { "type": "string", "minLength": 1 },
+    "semantic_context": { "$ref": "#/$defs/semantic_context" },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+"
+    },
+    "non_empty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._-]*$"
+    },
+    "id_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "semantic_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_snapshot", "semantic_units", "relationships", "coverage", "conflicts", "review"],
+      "properties": {
+        "source_snapshot": { "$ref": "#/$defs/source_snapshot" },
+        "semantic_units": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/context_unit" }
+        },
+        "relationships": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/context_relationship" }
+        },
+        "coverage": { "$ref": "#/$defs/coverage" },
+        "conflicts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/context_conflict" }
+        },
+        "review": { "$ref": "#/$defs/context_review" }
+      }
+    },
+    "source_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_ref", "sha256", "extraction_status", "extraction_capability"],
+      "properties": {
+        "source_ref": { "$ref": "#/$defs/relative_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "extraction_status": { "enum": ["verified", "snapshot_only", "blocked"] },
+        "extraction_capability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "name", "version"],
+          "properties": {
+            "kind": { "enum": ["native", "text_snapshot", "ocr", "manual"] },
+            "name": { "$ref": "#/$defs/non_empty" },
+            "version": { "$ref": "#/$defs/non_empty" }
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/non_empty" }
+        }
+      }
+    },
+    "context_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "canonical_entry_id", "kind", "summary_text", "temporal_status",
+        "evidence_status", "must_keep", "protected_token_ids", "allowed_transformations",
+        "prohibited_rewrites"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "canonical_entry_id": { "$ref": "#/$defs/id" },
+        "kind": {
+          "enum": [
+            "fact", "target", "plan", "requirement", "assumption", "risk", "issue",
+            "question", "definition", "recommendation", "decision", "historical_state",
+            "current_state", "unknown"
+          ]
+        },
+        "summary_text": { "$ref": "#/$defs/non_empty" },
+        "temporal_status": { "enum": ["historical", "current", "planned", "target", "unknown", "mixed"] },
+        "evidence_status": { "enum": ["explicit", "computed", "inferred", "unknown", "conflict"] },
+        "scope": { "$ref": "#/$defs/non_empty" },
+        "condition": { "$ref": "#/$defs/non_empty" },
+        "must_keep": { "type": "boolean" },
+        "protected_token_ids": { "$ref": "#/$defs/id_array" },
+        "allowed_transformations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/non_empty" }
+        },
+        "prohibited_rewrites": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/non_empty" }
+        },
+        "relationship_ids": { "$ref": "#/$defs/id_array" }
+      }
+    },
+    "context_relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "from", "to", "evidence_status", "source_refs"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "type": {
+          "enum": [
+            "contains", "depends_on", "precedes", "compares", "target_of", "actual_of",
+            "supports", "limits", "caused_by", "causes", "associated_with", "conflicts_with",
+            "part_of", "addresses", "drives"
+          ]
+        },
+        "from": { "$ref": "#/$defs/id" },
+        "to": { "$ref": "#/$defs/id" },
+        "evidence_status": { "enum": ["explicit", "computed", "inferred", "unknown", "conflict"] },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relative_path" }
+        },
+        "rationale": { "$ref": "#/$defs/non_empty" }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "must_keep_ids", "represented_ids", "explicit_omissions", "unresolved_ids"],
+      "properties": {
+        "status": { "enum": ["complete", "partial", "blocked"] },
+        "must_keep_ids": { "$ref": "#/$defs/id_array" },
+        "represented_ids": { "$ref": "#/$defs/id_array" },
+        "explicit_omissions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "reason", "impact"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "reason": { "$ref": "#/$defs/non_empty" },
+              "impact": { "enum": ["none", "low", "material", "unknown"] }
+            }
+          }
+        },
+        "unresolved_ids": { "$ref": "#/$defs/id_array" }
+      }
+    },
+    "context_conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "unit_ids", "description", "status", "source_refs"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "unit_ids": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "description": { "$ref": "#/$defs/non_empty" },
+        "status": { "enum": ["unresolved", "resolved_by_source", "presented_as_unknown"] },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relative_path" }
+        }
+      }
+    },
+    "context_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewer", "method", "limitations"],
+      "properties": {
+        "status": { "enum": ["draft", "content_reviewed", "blocked"] },
+        "reviewer": { "$ref": "#/$defs/non_empty" },
+        "reviewed_at": { "$ref": "#/$defs/non_empty" },
+        "method": { "$ref": "#/$defs/non_empty" },
+        "limitations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/non_empty" }
+        }
+      }
+    },
+    "semantic_signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modality", "temporal_status", "evidence_status"],
+      "properties": {
+        "modality": {
+          "enum": ["plan", "requirement", "question", "precondition", "gate", "target", "assertion", "actual"]
+        },
+        "temporal_status": { "enum": ["historical", "current", "future", "timeless"] },
+        "evidence_status": {
+          "enum": ["unverified", "source_supported", "planned", "target", "verified", "actual", "derived_verified"]
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source_ref",
+        "source_sha256",
+        "source_quote",
+        "source_locator",
+        "semantic_signature",
+        "protected_tokens"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "source_quote": { "type": "string", "minLength": 1 },
+        "source_locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "start", "end"],
+          "properties": {
+            "kind": { "enum": ["paragraph", "page"] },
+            "start": { "type": "integer", "minimum": 1 },
+            "end": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "semantic_signature": { "$ref": "#/$defs/semantic_signature" },
+        "protected_tokens": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "text"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "text": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "derivation_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "semantic_signature": {
+                "properties": { "evidence_status": { "const": "derived_verified" } },
+                "required": ["evidence_status"]
+              }
+            },
+            "required": ["semantic_signature"]
+          },
+          "then": { "required": ["derivation_refs"] }
+        }
+      ]
+    }
+  }
+}

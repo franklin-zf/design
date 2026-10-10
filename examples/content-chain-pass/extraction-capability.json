@@ -1,0 +1,24 @@
+{
+  "schema_version": "design-source-extraction-capability/v1",
+  "capability_id": "design-content-chain-fixture-extractor/v1",
+  "tool": {
+    "name": "design-content-chain-fixture-extractor",
+    "version": "1.0.0"
+  },
+  "supported_sources": [
+    { "kind": "text", "media_type": "text/plain" }
+  ],
+  "output_contract": {
+    "media_type": "text/plain",
+    "encoding": "utf-8",
+    "locator_kinds": ["paragraph"],
+    "paragraph_separator": "\n",
+    "page_separator": "\n---PAGE---\n",
+    "locator_basis": "extracted_text_units"
+  },
+  "integrity": {
+    "deterministic": true,
+    "emits_locator_map": true,
+    "stable_utf8_byte_offsets": true
+  }
+}

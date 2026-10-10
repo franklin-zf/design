@@ -1,0 +1,38 @@
+{
+  "schema_version": "design-system-package/v1",
+  "id": "expressive-web",
+  "name": "Expressive Web Stage System",
+  "files": {
+    "design": "DESIGN.md",
+    "tokens": "tokens.css",
+    "design_tokens": "design-tokens.json",
+    "components": "components.html",
+    "components_manifest": "components.manifest.json",
+    "layouts": "layouts.css"
+  },
+  "preview": [
+    {
+      "path": "preview/colors.html",
+      "role": "colors"
+    },
+    {
+      "path": "preview/typography.html",
+      "role": "typography"
+    },
+    {
+      "path": "preview/spacing.html",
+      "role": "spacing"
+    },
+    {
+      "path": "preview/deck.html",
+      "role": "system-preview"
+    }
+  ],
+  "contracts": {
+    "layout_lock": "expressive-web-v1",
+    "accent_policy": "content-owned-primary-accent",
+    "color_policy": "subject-led",
+    "svg_text_policy": "html-text-for-visible-copy",
+    "motion_policy": "semantic-motion-with-static-and-reduced-motion-fallback"
+  }
+}

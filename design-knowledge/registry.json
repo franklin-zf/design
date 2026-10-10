@@ -1,0 +1,11 @@
+{
+  "schema_version": "design-knowledge-registry/v1",
+  "purpose": "Local, Git-synced design memory. Distilled design-spec records reused across projects; NOT packaged into the skill npm bundle and NOT a runtime reference closure.",
+  "standards_ref": "design-knowledge/DESIGN_STANDARDS.md",
+  "evaluation_policy_ref": "design-knowledge/evaluation-policy.json",
+  "record_root": "design-knowledge/spec-records",
+  "case_root": "design-knowledge/cases",
+  "spec_records": [],
+  "case_records": [],
+  "primitives": []
+}

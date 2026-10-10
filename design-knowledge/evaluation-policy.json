@@ -1,0 +1,22 @@
+{
+  "schema_version": "design-evaluation-policy/v1",
+  "status": "calibration_required",
+  "purpose": "Shared policy for three-second comprehension, blinded preference, and user-validation evidence.",
+  "required_by_lane": {
+    "express": ["surface_review"],
+    "standard": ["three_second", "blinded_preference", "surface_review"],
+    "assured": ["three_second", "blinded_preference", "surface_review", "independent_review"]
+  },
+  "evaluator_types": ["model_panel", "human_panel", "user_observed"],
+  "rules": {
+    "three_second": "Show the real target surface for three seconds, then record recall of the reader job, primary conclusion, and required action.",
+    "blinded_preference": "Compare anonymized directions or candidate and baseline at the same size and randomized order.",
+    "user_validation": "Observed task evidence is required; approval alone is not user validation.",
+    "thresholds": "Remain unset until a paired baseline study is completed and the policy is reviewed."
+  },
+  "non_claims": [
+    "A model panel is not a human panel.",
+    "A structural or screenshot pass does not prove comprehension or preference.",
+    "A preference result does not prove universal taste or business impact."
+  ]
+}

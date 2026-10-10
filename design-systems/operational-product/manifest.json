@@ -1,0 +1,90 @@
+{
+  "schema_version": "design-system-package/v1",
+  "id": "operational-product",
+  "name": "Operational Product System",
+  "files": {
+    "design": "DESIGN.md",
+    "tokens": "tokens.css",
+    "design_tokens": "design-tokens.json",
+    "components": "components.html",
+    "components_manifest": "components.manifest.json",
+    "layouts": "layouts.css",
+    "icon_sprite": "assets/icons.svg"
+  },
+  "visual_assets": [
+    {
+      "id": "ant-design-official-operational-icons",
+      "kind": "icon-set",
+      "family": "ant-design-official",
+      "source": "iconfont-local-svg",
+      "source_url": "https://www.iconfont.cn/collections/detail?cid=9402",
+      "project": "Ant Design 官方图标库",
+      "author": "Iconfont publisher 竹尔; copyright Ant UED",
+      "license": "MIT",
+      "license_url": "https://github.com/ant-design/ant-design-icons/blob/master/LICENSE",
+      "license_evidence_ref": "source/evidence.md",
+      "retrieved_at": "2026-10-10",
+      "file": "assets/icons.svg",
+      "sha256": "2907fd99e62d71c8414b0b92654f70fbbd3c3ec5df1c4612ca2ad05ba5d2e293",
+      "icons": [
+        {
+          "name": "dashboard",
+          "source_id": "4765881"
+        },
+        {
+          "name": "user",
+          "source_id": "4766293"
+        },
+        {
+          "name": "filter",
+          "source_id": "4766688"
+        },
+        {
+          "name": "audit",
+          "source_id": "4766507"
+        },
+        {
+          "name": "export",
+          "source_id": "4765958"
+        },
+        {
+          "name": "check-circle",
+          "source_id": "4765721"
+        },
+        {
+          "name": "warning-circle",
+          "source_id": "4765746"
+        }
+      ]
+    }
+  ],
+  "preview": [
+    {
+      "path": "preview/colors.html",
+      "role": "colors"
+    },
+    {
+      "path": "preview/typography.html",
+      "role": "typography"
+    },
+    {
+      "path": "preview/spacing.html",
+      "role": "spacing"
+    },
+    {
+      "path": "preview/deck.html",
+      "role": "system-preview"
+    },
+    {
+      "path": "preview/render-spec.json",
+      "role": "render-spec"
+    }
+  ],
+  "contracts": {
+    "layout_lock": "operational-product-v1",
+    "accent_policy": "content-owned-primary-accent",
+    "color_policy": "operational-state",
+    "svg_text_policy": "html-text-for-visible-copy",
+    "motion_policy": "static-first-with-semantic-state-feedback"
+  }
+}

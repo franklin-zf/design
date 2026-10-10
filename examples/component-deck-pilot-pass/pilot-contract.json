@@ -1,0 +1,34 @@
+{
+  "schema_version": "design-component-pilot/v1",
+  "id": "component-deck-pilot",
+  "reader_job": "Identify the conclusion, follow the evidence sequence, and retain the caveat and source.",
+  "use_scenario": "Internal component value review for a short HTML deck",
+  "interactive": false,
+  "baseline_html": "baseline.html",
+  "enhanced_html": "index.html",
+  "component_ref": "design-owned-staged-evidence-reveal",
+  "review_tasks": [
+    "State the primary conclusion.",
+    "Name the evidence order.",
+    "Repeat the caveat.",
+    "Identify the source note."
+  ],
+  "parity_fields": [
+    "visible_text",
+    "numbers",
+    "units",
+    "caveats",
+    "source_note",
+    "reading_order"
+  ],
+  "rollback": "Remove the component marker and enhanced trace styles; baseline.html remains the complete static artifact.",
+  "fallback": {
+    "static_html": "All content is present in DOM order before animation starts.",
+    "reduced_motion": "Every evidence step renders in its final state with no active animation.",
+    "ppt_handoff": "Print renders the full sequence and labels without animation."
+  },
+  "non_claims": [
+    "This controlled pilot does not prove production or real-user value.",
+    "The source is a local test brief, not external fact evidence."
+  ]
+}

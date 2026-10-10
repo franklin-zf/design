@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-content-ledger/v1",
+  "ledger_id": "invalid-plan-transition",
+  "entries": [{
+    "id": "fact-plan",
+    "source_ref": "source.txt",
+    "source_sha256": "e469c9db3fd1eb5644b42d3d8c1b17a3ca7fccb03033a6d736e2ed6eb828af77",
+    "source_quote": "计划：试运行将在九月开展，预计投入约17人月。",
+    "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+    "semantic_signature": { "modality": "plan", "temporal_status": "future", "evidence_status": "planned" },
+    "protected_tokens": [{ "id": "effort", "text": "约17人月" }]
+  }]
+}

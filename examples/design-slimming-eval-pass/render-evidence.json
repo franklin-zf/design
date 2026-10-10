@@ -1,0 +1,54 @@
+{
+  "schema_version": "design-slice-render-evidence/v1",
+  "entry": "index.html",
+  "method": "Independent Aime Chrome QA; Playwright prohibited for this Slice",
+  "status": "changes_required_pending_retest",
+  "observed_before_fix": {
+    "captured_at": "2026-08-27",
+    "viewports": [
+      {
+        "width": 1230,
+        "viewport_height": 724,
+        "document_width": 1230,
+        "slide_heights": {"slide3": 783.6, "slide5": 769.8, "slide6": 828.2},
+        "result": "failed_slide_height"
+      },
+      {
+        "width": 390,
+        "viewport_height": 724,
+        "document_width": 452,
+        "slide_heights": {"slide3": 1104.5, "slide4": 782.1, "slide6": 949.7},
+        "result": "failed_height_and_document_overflow",
+        "detail": "Slide 5 caused document overflow and title clipping."
+      },
+      {
+        "width": 320,
+        "viewport_height": 724,
+        "document_width": 375,
+        "slide_heights": {"slide3": 1076.8, "slide4": 835.2, "slide6": 974.7},
+        "result": "failed_height_and_document_overflow",
+        "detail": "Slide 5 caused document overflow and title clipping."
+      }
+    ]
+  },
+  "fix_applied": [
+    "All slide and nested grid items receive min-width: 0; grid tracks use minmax(0, 1fr).",
+    "Long titles and metric values can wrap without forcing document width.",
+    "Slide spacing, type, metrics, blocker, commits and convergence content are compressed into a fixed 724px slide canvas with bottom navigation clearance.",
+    "No global overflow hidden or overflow clip is used.",
+    "Programmatically focused slides receive a restrained inward focus-visible outline; button focus remains visible."
+  ],
+  "retest_required": {
+    "viewports": [1230, 390, 320],
+    "assertions": [
+      "Every slide height is at most 724px.",
+      "document.scrollWidth equals viewport width.",
+      "Slide 5 title is fully visible.",
+      "Fixed navigation does not cover slide content.",
+      "Button and programmatic slide focus remain visible.",
+      "Console and page errors are empty."
+    ]
+  },
+  "acceptance_entry": "index.html",
+  "remaining_blocker": "Aime Chrome retest and independent QA PASS are still required. Existing Playwright runtime / browser_smoke remains unresolved."
+}

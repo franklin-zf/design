@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-content-ledger/v1",
+  "ledger_id": "invalid-question-transition",
+  "entries": [{
+    "id": "fact-question",
+    "source_ref": "source.txt",
+    "source_sha256": "6d31d02f71c6e5ebf6d1c80e260df00e26614be77224704b8314946e51eb7d59",
+    "source_quote": "问题：是否具备大于等于100个并发会话的容量？",
+    "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+    "semantic_signature": { "modality": "question", "temporal_status": "current", "evidence_status": "unverified" },
+    "protected_tokens": [{ "id": "concurrency", "text": "大于等于100" }]
+  }]
+}

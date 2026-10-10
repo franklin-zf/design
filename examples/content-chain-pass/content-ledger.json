@@ -1,0 +1,81 @@
+{
+  "schema_version": "design-content-ledger/v1",
+  "ledger_id": "product-management-content-v1",
+  "entries": [
+    {
+      "id": "fact-plan",
+      "source_ref": "extracted/source.txt",
+      "source_sha256": "60c01b9586e3c87f1acd5c2700338f089db5596913060f3df162f13675dcf168",
+      "source_quote": "计划：试运行将在九月开展，预计投入约17人月。",
+      "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+      "semantic_signature": {
+        "modality": "plan",
+        "temporal_status": "future",
+        "evidence_status": "planned"
+      },
+      "protected_tokens": [
+        { "id": "effort", "text": "约17人月" }
+      ]
+    },
+    {
+      "id": "fact-requirement",
+      "source_ref": "extracted/source.txt",
+      "source_sha256": "60c01b9586e3c87f1acd5c2700338f089db5596913060f3df162f13675dcf168",
+      "source_quote": "要求：单批处理能力大于等于1000。",
+      "source_locator": { "kind": "paragraph", "start": 2, "end": 2 },
+      "semantic_signature": {
+        "modality": "requirement",
+        "temporal_status": "current",
+        "evidence_status": "source_supported"
+      },
+      "protected_tokens": [
+        { "id": "batch-capacity", "text": "大于等于1000" }
+      ]
+    },
+    {
+      "id": "fact-question",
+      "source_ref": "extracted/source.txt",
+      "source_sha256": "60c01b9586e3c87f1acd5c2700338f089db5596913060f3df162f13675dcf168",
+      "source_quote": "问题：是否具备大于等于100个并发会话的容量？",
+      "source_locator": { "kind": "paragraph", "start": 3, "end": 3 },
+      "semantic_signature": {
+        "modality": "question",
+        "temporal_status": "current",
+        "evidence_status": "unverified"
+      },
+      "protected_tokens": [
+        { "id": "concurrency", "text": "大于等于100" }
+      ]
+    },
+    {
+      "id": "fact-historical",
+      "source_ref": "extracted/source.txt",
+      "source_sha256": "60c01b9586e3c87f1acd5c2700338f089db5596913060f3df162f13675dcf168",
+      "source_quote": "历史计划（2025年）：响应时间优化到小于等于300 ms。",
+      "source_locator": { "kind": "paragraph", "start": 4, "end": 4 },
+      "semantic_signature": {
+        "modality": "plan",
+        "temporal_status": "historical",
+        "evidence_status": "source_supported"
+      },
+      "protected_tokens": [
+        { "id": "latency", "text": "小于等于300 ms" }
+      ]
+    },
+    {
+      "id": "fact-target",
+      "source_ref": "extracted/source.txt",
+      "source_sha256": "60c01b9586e3c87f1acd5c2700338f089db5596913060f3df162f13675dcf168",
+      "source_quote": "验收目标：任务耗时降低至少20%。",
+      "source_locator": { "kind": "paragraph", "start": 5, "end": 5 },
+      "semantic_signature": {
+        "modality": "target",
+        "temporal_status": "future",
+        "evidence_status": "target"
+      },
+      "protected_tokens": [
+        { "id": "reduction", "text": "至少20%" }
+      ]
+    }
+  ]
+}

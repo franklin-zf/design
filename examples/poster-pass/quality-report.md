@@ -26,7 +26,7 @@ applicable_gates: validate-design-output, validate-poster-contract, validate-pos
   evidence: node scripts/validate-poster-anti-ai-slop.mjs examples/poster-pass
 
 ## Status
-artifact_status: ready
+artifact_status: partial
 claim_assurance: local_provenance_only
 semantic_entailment: manually_reviewed
 summary_integrity: source_mapped

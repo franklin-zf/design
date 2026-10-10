@@ -1,0 +1,15 @@
+{
+  "schema_version": "design-summary-map/v1",
+  "plain_language": {
+    "status": "manual_reviewed",
+    "rules": ["结论先行", "双轨证据", "所有数值保持 source-verbatim", "明确保留 Playwright 阻塞"]
+  },
+  "summaries": [
+    {"id": "slide-01-summary", "summary_text": "瘦身有效；可靠性未被证据推翻。", "status": "manual_reviewed", "value_origin": "no_numeric_value", "source_refs": ["source.json"], "source_quotes": [{"source_ref": "source.json", "quote": "verbatim_only"}], "preserved_numbers": []},
+    {"id": "slide-02-summary", "summary_text": "入口更短，引用更少。", "status": "manual_reviewed", "value_origin": "no_numeric_value", "source_refs": ["source.json"], "source_quotes": [{"source_ref": "source.json", "quote": "101 → 75 lines; 13 → 10 refs"}], "preserved_numbers": []},
+    {"id": "slide-03-summary", "summary_text": "更小的包；更干净的运行时引用面。", "status": "manual_reviewed", "value_origin": "no_numeric_value", "source_refs": ["source.json"], "source_quotes": [{"source_ref": "source.json", "quote": "131 → 125 package files; 737379B → 724633B unpacked; 166925B → 162924B tar; 33 → 0 runtime dangling; 0 → 0 root escape; 3 → 0 packaged showcases"}], "preserved_numbers": []},
+    {"id": "slide-04-summary", "summary_text": "测试账本完整披露", "status": "manual_reviewed", "value_origin": "no_numeric_value", "source_refs": ["source.json"], "source_quotes": [{"source_ref": "source.json", "quote": "127 total / 125 pass / 1 fail / 1 skip"}], "preserved_numbers": []},
+    {"id": "slide-05-summary", "summary_text": "解除 Playwright runtime / browser_smoke。", "status": "verified", "value_origin": "no_numeric_value", "source_refs": ["source.json"], "source_quotes": [{"source_ref": "source.json", "quote": "解除 Playwright runtime / browser_smoke，并继续独立视觉验证；完成前保持 blocked"}], "preserved_numbers": []},
+    {"id": "slide-06-summary", "summary_text": "结构性瘦身成立；视觉可靠性仍待验证。", "status": "manual_reviewed", "value_origin": "no_numeric_value", "source_refs": ["source.json"], "source_quotes": [{"source_ref": "source.json", "quote": "本 deck 不表示整体项目浏览器或视觉全量验收通过"}], "preserved_numbers": []}
+  ]
+}

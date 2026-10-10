@@ -1,0 +1,46 @@
+{
+  "schema_version": "components-manifest/v1",
+  "system_id": "expressive-web",
+  "components": [
+    {
+      "id": "media-stage",
+      "role": "immersive first viewport",
+      "selectors": [
+        ".ds-stage",
+        ".ds-stage-media",
+        ".ds-stage-title"
+      ]
+    },
+    {
+      "id": "object-index",
+      "role": "narrative object introduction",
+      "selectors": [
+        ".ds-object-index",
+        ".ds-index-number",
+        ".ds-index-copy"
+      ]
+    },
+    {
+      "id": "proof-strip",
+      "role": "sparse proof points",
+      "selectors": [
+        ".ds-proof-strip",
+        ".ds-proof"
+      ]
+    },
+    {
+      "id": "scene-break",
+      "role": "chapter transition",
+      "selectors": [
+        ".ds-scene-break"
+      ]
+    },
+    {
+      "id": "static-motion-fallback",
+      "role": "semantic entrance with reduced motion",
+      "selectors": [
+        "@media (prefers-reduced-motion: no-preference)"
+      ]
+    }
+  ]
+}

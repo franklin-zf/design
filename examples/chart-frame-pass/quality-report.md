@@ -14,7 +14,7 @@ Expected to pass chart-frame checks for source, chart id, family, source, unit, 
 
 ## Template
 template_id: source-backed-report
-applicable_gates: validate-design-output, validate-summary-map, validate-claim-map
+applicable_gates: validate-design-output, validate-summary-map, validate-claim-map, validate-visual-encoding
 - gate_id: validate-design-output
   status: passed
   evidence: node scripts/validate-design-output.mjs examples/chart-frame-pass
@@ -24,12 +24,15 @@ applicable_gates: validate-design-output, validate-summary-map, validate-claim-m
 - gate_id: validate-claim-map
   status: passed
   evidence: node scripts/validate-claim-map.mjs examples/chart-frame-pass
+- gate_id: validate-visual-encoding
+  status: passed
+  evidence: node scripts/validate-visual-encoding.mjs examples/chart-frame-pass
 answer: source-backed chart finding
 caveats: segment and channel detail are absent
 next_step: review the next source slice before extending the chart
 
 ## Status
-artifact_status: ready
+artifact_status: partial
 claim_assurance: local_provenance_only
 semantic_entailment: manually_reviewed
 summary_integrity: source_mapped

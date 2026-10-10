@@ -23,9 +23,16 @@ Default structure:
 5. shift or tension;
 6. recommendation or close.
 
-Visible slide copy must face the audience. Do not expose planning notes.
+Visible slide copy and speaker notes must face the audience. Follow H1-H5 and the
+production-copy and no-obstruction rules in `references/design-standards.md`.
+Keep evidence hashes, extraction caveats, and test receipts in internal records.
+Use business labels such as planned duration, acceptance criteria, and budget
+awaiting confirmation; retain the actual uncertainty and required attribution.
 
-Audience-facing copy must still preserve source meaning. Any slide claim or source summary must use `data-summary-id`, map to `summary-map.json`, and keep visible numbers verbatim from source quotes.
+Audience-facing copy must still preserve source meaning. HTML summaries use
+`data-summary-id` and `summary-map.json`. Native slides bind their object/slide
+identities to equivalent source or calculation evidence; HTML attributes do not
+establish native PPTX coverage. Values remain source-verbatim or code-derived.
 
 ## Poster Narrative Gate
 
@@ -41,7 +48,7 @@ Do not turn every source section into a slide. A deck is a decision path, not a 
 
 ## Registered Layouts
 
-Use registered layout ids instead of inventing slide structures. For neutral decks, the D-series layouts are allowed. For Guizang/Open Design-inspired Swiss decks, use `references/swiss-layout-lock.md` and the S01-S22 registry.
+Use registered layout ids instead of inventing slide structures. For neutral decks, the D-series layouts are allowed. For Guizang/Open Design-inspired Swiss decks, use the Swiss package and S01-S22 registry described in `references/library.md`.
 
 | ID | Use |
 | --- | --- |
@@ -95,6 +102,11 @@ Use motion only to reveal sequence, hierarchy, or state. Deck motion should use 
 - When the user references Open Design-like quality, the artifact should use a design-system package, token contract, reusable component preview, and validator evidence; it does not mean claiming a live Open Design daemon.
 
 ## PPTX Handoff
+
+With native tooling, inspect the final PPTX's actual font family and fallback,
+text fit, chart labels, table cells, connector paths, and all slides after export.
+Keep editable charts/diagrams where supported. A local import/render pass is not
+proof of PowerPoint playback; state the untested player or cross-device font gap.
 
 When native PPTX tooling is unavailable, produce:
 

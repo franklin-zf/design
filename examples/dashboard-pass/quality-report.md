@@ -14,13 +14,16 @@ Expected to pass the design artifact validator.
 
 ## Template
 template_id: operational-dashboard
-applicable_gates: validate-design-output, validate-claim-map, render-smoke
+applicable_gates: validate-design-output, validate-claim-map, validate-visual-encoding, render-smoke
 - gate_id: validate-design-output
   status: passed
   evidence: node scripts/validate-design-output.mjs examples/dashboard-pass
 - gate_id: validate-claim-map
   status: passed
   evidence: node scripts/validate-claim-map.mjs examples/dashboard-pass
+- gate_id: validate-visual-encoding
+  status: passed
+  evidence: node scripts/validate-visual-encoding.mjs examples/dashboard-pass
 - gate_id: render-smoke
   status: passed
   evidence: node scripts/render-smoke.mjs examples/dashboard-pass/index.html --viewports=desktop,mobile
@@ -30,7 +33,7 @@ filters: none applied in the fixture view
 freshness: 24 hours from source.json
 
 ## Status
-artifact_status: ready
+artifact_status: partial
 claim_assurance: local_provenance_only
 semantic_entailment: manually_reviewed
 summary_integrity: source_mapped

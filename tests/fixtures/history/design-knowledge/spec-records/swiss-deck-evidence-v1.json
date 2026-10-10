@@ -1,0 +1,77 @@
+{
+  "schema_version": "design-spec-record/v1",
+  "id": "swiss-deck-evidence-v1",
+  "record_type": "design_spec_record",
+  "created_at": "2026-09-02",
+  "classification": {
+    "project_type": "product-and-analysis-reporting",
+    "artifact_type": "html-deck",
+    "experience_mode": "static",
+    "risk_lane": "standard",
+    "content_signals": {
+      "reader_job": "Give the reader a clear decision path with visible, source-backed evidence.",
+      "topology": "narrative-arc",
+      "content_role": "evidence-led",
+      "tags": ["source-backed", "technical-report", "restrained", "decision-path"]
+    }
+  },
+  "source": {
+    "kind": "design-system",
+    "ref": "design-systems/swiss-deck/manifest.json",
+    "tokens_ref": "design-systems/swiss-deck/design-tokens.json",
+    "review_ref": "showcases/swiss-evidence-deck-production/review.json",
+    "artifact_digest": "0fc4cb153480c9394117001ebd223c3b06952ec28f1a9bfaa1e62d8db97550ee"
+  },
+  "extracted": {
+    "colors": {
+      "surface": { "value": "#f4f4f0", "role": "warm neutral page ground" },
+      "panel": { "value": "#ffffff", "role": "evidence card/panel" },
+      "panel_alt": { "value": "#e9e9e2", "role": "subtle recessed surface" },
+      "text": { "value": "#111111", "role": "primary body/heading" },
+      "muted": { "value": "#5f6368", "role": "secondary/caption text" },
+      "line": { "value": "#d7d7d2", "role": "hairline rules and alignment" },
+      "accent": { "value": "#0047ff", "role": "single dominant accent for emphasis" },
+      "accent_2": { "value": "#d7ff00", "role": "marker only; never a surface, fill, or large background" }
+    },
+    "color_pairings": [
+      { "fg": "#111111", "bg": "#f4f4f0", "role": "body reading on warm-neutral ground" },
+      { "fg": "#0047ff", "bg": "#ffffff", "role": "dominant accent labels and links on panels" },
+      { "fg": "#111111", "bg": "#d7ff00", "role": "accent_2 marker highlight; marker-only, never a fill" }
+    ],
+    "typography": {
+      "display": "Inter, Helvetica, Arial, sans-serif",
+      "body": "Inter, Helvetica, Arial, sans-serif",
+      "mono": "JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    },
+    "spacing": { "page": "6vw", "section": "32px", "gap": "20px", "tight": "10px" },
+    "radius": { "default": "0px" },
+    "grid": "asymmetric editorial grid with hard alignment and negative space",
+    "density": "normal"
+  },
+  "judgment": {
+    "status": "reviewer_confirmed",
+    "reviewer": "slice1-independent-qa-20260810",
+    "review_ref": "showcases/swiss-evidence-deck-production/review.json",
+    "confirmed_at": "2026-08-09T16:27:09Z",
+    "signature_move": {
+      "move": "One dominant blue accent with an acid-lime marker on a warm-neutral, zero-radius asymmetric grid.",
+      "reader_value": "Establishes a strict decision-then-evidence reading order so source-backed decks stay scannable without a decorative card wall."
+    },
+    "why_it_works": "A single dominant accent over a warm-neutral ground, zero-radius hard alignment, large asymmetric type, and negative space carry hierarchy before any decoration. accent_2 is reserved as a marker and never becomes a surface, so emphasis stays semantic and source-backed evidence is never visually outranked by ornament.",
+    "tags": ["swiss", "evidence-led", "single-accent", "zero-radius", "hard-alignment", "negative-space"],
+    "anti_patterns": [
+      "Purple or blue trust gradients",
+      "Multi-card walls of equal visual weight",
+      "Three consecutive slides at the same visual weight",
+      "Arbitrary hex colors outside the active design system",
+      "Using accent_2 as a card fill or large background",
+      "Fake product screenshots"
+    ],
+    "confidence": "high"
+  },
+  "non_claims": [
+    "Retrospective, digest-bound record; it is not cryptographically authenticated.",
+    "No real-user validation or business impact is claimed.",
+    "The record does not prove this system fits non-deck artifact types; it is seeded from the swiss evidence deck."
+  ]
+}

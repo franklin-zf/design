@@ -1,0 +1,80 @@
+{
+  "schema_version": "design-tokens/v1",
+  "colors": {
+    "surface": "#090909",
+    "surface_alt": "#171717",
+    "text": "#F2F0E9",
+    "muted": "#AAA79F",
+    "line": "#45433F",
+    "accent": "#E42D24",
+    "inverse_text": "#080000",
+    "steel": "#B8BAB8"
+  },
+  "color_contract": {
+    "schema_version": "design-color-contract/v1",
+    "paradigm": "subject-led",
+    "foundation": "dark",
+    "chroma_budget": "expressive",
+    "primary_accent_roles": [
+      "brand-expression",
+      "chapter"
+    ],
+    "secondary_accent_mode": "forbidden",
+    "semantic_exception_roles": [],
+    "max_focal_hues": 2,
+    "color_alone": false,
+    "required_pairings": [
+      {
+        "foreground": "text",
+        "background": "surface",
+        "minimum_ratio": 7,
+        "usage": "body-text"
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "minimum_ratio": 4.5,
+        "usage": "supporting-text"
+      },
+      {
+        "foreground": "text",
+        "background": "surface_alt",
+        "minimum_ratio": 7,
+        "usage": "body-text"
+      },
+      {
+        "foreground": "muted",
+        "background": "surface_alt",
+        "minimum_ratio": 4.5,
+        "usage": "supporting-text"
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "minimum_ratio": 3,
+        "usage": "non-text-focus"
+      },
+      {
+        "foreground": "inverse_text",
+        "background": "accent",
+        "minimum_ratio": 4.5,
+        "usage": "inverse-text"
+      }
+    ]
+  },
+  "typography": {
+    "display": "\"Bodoni 72\", \"Times New Roman\", serif",
+    "body": "\"Avenir Next\", \"Helvetica Neue\", sans-serif",
+    "mono": "\"SFMono-Regular\", Menlo, monospace"
+  },
+  "spacing": {
+    "page": "clamp(24px, 5vw, 80px)",
+    "section": "clamp(72px, 12vw, 180px)",
+    "gap": "clamp(16px, 2.4vw, 36px)",
+    "tight": "8px"
+  },
+  "radius": {
+    "default": "2px",
+    "media": "0px"
+  }
+}

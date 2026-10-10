@@ -18,10 +18,44 @@
       }
     },
     "svg_text_policy": {
-      "enum": ["forbid_visible_text_in_swiss_assets", "allow_user_source_svg", "not_applicable"]
+      "enum": ["forbid_visible_text_in_swiss_assets", "allow_audited_exception", "allow_user_source_svg", "not_applicable"]
     },
     "motion_policy": {
       "enum": ["semantic_with_reduced_motion", "static", "not_applicable"]
+    },
+    "expression_level": {
+      "enum": ["L0-static", "L1-interactive", "L2-motion"]
+    },
+    "semantic_job": {
+      "enum": ["state", "direction", "sequence", "rhythm", "evidence_emphasis", "action_feedback"]
+    },
+    "reader_value": {
+      "type": "string",
+      "minLength": 1
+    },
+    "attention_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_attention_region", "signature_move_count", "ambient_field_count"],
+      "properties": {
+        "primary_attention_region": { "type": "string", "minLength": 1 },
+        "signature_move_count": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "ambient_field_count": { "type": "integer", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "fallback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reduced_motion", "static_html", "ppt_handoff"],
+      "properties": {
+        "reduced_motion": { "type": "string", "minLength": 1 },
+        "static_html": { "type": "string", "minLength": 1 },
+        "ppt_handoff": { "type": "string", "minLength": 1 }
+      }
+    },
+    "component_provenance_ref": {
+      "type": "string",
+      "minLength": 1
     },
     "visual_rhythm": {
       "type": "object",
@@ -31,5 +65,37 @@
         "min_unique_layouts_for_8_slides": { "type": "integer", "minimum": 1 }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "expression_level": {
+            "enum": ["L1-interactive", "L2-motion"]
+          }
+        },
+        "required": ["expression_level"]
+      },
+      "then": {
+        "required": ["semantic_job", "reader_value", "attention_budget", "fallback"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "expression_level": {
+            "const": "L2-motion"
+          }
+        },
+        "required": ["expression_level"]
+      },
+      "then": {
+        "properties": {
+          "motion_policy": {
+            "const": "semantic_with_reduced_motion"
+          }
+        }
+      }
+    }
+  ]
 }

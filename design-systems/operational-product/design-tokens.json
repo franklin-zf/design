@@ -1,0 +1,105 @@
+{
+  "schema_version": "design-tokens/v1",
+  "colors": {
+    "surface": "#F3F6FA",
+    "panel": "#FFFFFF",
+    "panel_alt": "#E9EEF5",
+    "text": "#172033",
+    "muted": "#5F6B7A",
+    "line": "#D6DEE8",
+    "accent": "#245EA8",
+    "positive": "#26705A",
+    "warning": "#8A5B00",
+    "danger": "#B33A32"
+  },
+  "color_contract": {
+    "schema_version": "design-color-contract/v1",
+    "paradigm": "operational-state",
+    "foundation": "light",
+    "chroma_budget": "restrained",
+    "primary_accent_roles": [
+      "active-control",
+      "primary-action",
+      "selection"
+    ],
+    "secondary_accent_mode": "semantic-support",
+    "semantic_exception_roles": [
+      "positive",
+      "warning",
+      "danger"
+    ],
+    "max_focal_hues": 1,
+    "color_alone": false,
+    "required_pairings": [
+      {
+        "foreground": "text",
+        "background": "surface",
+        "minimum_ratio": 7,
+        "usage": "body-text"
+      },
+      {
+        "foreground": "text",
+        "background": "panel",
+        "minimum_ratio": 7,
+        "usage": "body-text"
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "minimum_ratio": 4.5,
+        "usage": "supporting-text"
+      },
+      {
+        "foreground": "muted",
+        "background": "panel",
+        "minimum_ratio": 4.5,
+        "usage": "supporting-text"
+      },
+      {
+        "foreground": "accent",
+        "background": "panel",
+        "minimum_ratio": 4.5,
+        "usage": "interactive-text"
+      },
+      {
+        "foreground": "positive",
+        "background": "panel",
+        "minimum_ratio": 4.5,
+        "usage": "status-text"
+      },
+      {
+        "foreground": "warning",
+        "background": "panel",
+        "minimum_ratio": 4.5,
+        "usage": "status-text"
+      },
+      {
+        "foreground": "danger",
+        "background": "panel",
+        "minimum_ratio": 4.5,
+        "usage": "status-text"
+      }
+    ]
+  },
+  "typography": {
+    "display": "\"Avenir Next\", \"Helvetica Neue\", sans-serif",
+    "body": "\"Avenir Next\", \"Helvetica Neue\", sans-serif",
+    "mono": "\"SFMono-Regular\", Menlo, monospace"
+  },
+  "spacing": {
+    "page": "24px",
+    "section": "20px",
+    "gap": "12px",
+    "tight": "6px",
+    "row_inset": "14px",
+    "control_compact": "32px",
+    "control_regular": "40px",
+    "control_touch": "44px",
+    "icon_box": "20px",
+    "icon_text_gap": "6px"
+  },
+  "radius": {
+    "default": "6px",
+    "control": "4px"
+  }
+}

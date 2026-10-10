@@ -1,0 +1,61 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {
+      "id": "queue-total",
+      "text": "The queue contains 24 requests.",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "evidence_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"total_requests\": 24"
+        }
+      ]
+    },
+    {
+      "id": "blocked-total",
+      "text": "3 blocked requests",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "evidence_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"blocked_requests\": 3"
+        }
+      ]
+    },
+    {
+      "id": "priority-exception",
+      "text": "Identity review blocked",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "evidence_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"priority_exception\": \"Identity review blocked\""
+        }
+      ]
+    },
+    {
+      "id": "snapshot",
+      "text": "Snapshot: 2026-07-30 09:00 CST",
+      "status": "verified",
+      "source_refs": [
+        "source.json"
+      ],
+      "evidence_quotes": [
+        {
+          "source_ref": "source.json",
+          "quote": "\"snapshot\": \"2026-07-30 09:00 CST\""
+        }
+      ]
+    }
+  ]
+}

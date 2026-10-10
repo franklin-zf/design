@@ -1,0 +1,57 @@
+{
+  "schema_version": "design-artifact/v1",
+  "artifact_type": "html-deck",
+  "audience": "Design Skill 维护者与评审者",
+  "surface": "可离线浏览的响应式 HTML deck",
+  "style_preset": "swiss-deck",
+  "template_id": "swiss-evidence-deck",
+  "template_selection": {
+    "template_id": "swiss-evidence-deck",
+    "reader_job": "让 Skill 维护者在 60 秒内判断瘦身是否有效、是否牺牲可靠性、下一步是什么",
+    "rationale": "结构基线选用 examples/swiss-evidence-deck-production-pass；本任务只使用 source-verbatim 值，不引入计算派生链，因此选择 registry 中的 swiss-evidence-deck 模板契约。",
+    "rejected_alternatives": ["swiss-evidence-deck-production", "deck-pass"]
+  },
+  "entry": "index.html",
+  "experience": "keyboard-navigable-six-slide-deck",
+  "files": ["index.html", "manifest.json", "quality-report.md", "slide-plan.json", "source.json", "summary-map.json", "claim-map.json", "review-evidence.json", "render-evidence.json"],
+  "validation": {
+    "applicable_gates": ["validate-design-output", "validate-summary-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
+    "results": [
+      {"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/design-slimming-eval-pass"},
+      {"gate_id": "validate-summary-map", "status": "passed", "evidence": "node scripts/validate-summary-map.mjs examples/design-slimming-eval-pass"},
+      {"gate_id": "validate-aesthetic-contract", "status": "passed", "evidence": "node scripts/validate-aesthetic-contract.mjs examples/design-slimming-eval-pass"},
+      {"gate_id": "validate-asset-contract", "status": "passed", "evidence": "node scripts/validate-asset-contract.mjs examples/design-slimming-eval-pass"},
+      {"gate_id": "validate-layout-lock", "status": "passed", "evidence": "node scripts/validate-layout-lock.mjs examples/design-slimming-eval-pass"},
+      {"gate_id": "validate-visual-rhythm", "status": "passed", "evidence": "node scripts/validate-visual-rhythm.mjs examples/design-slimming-eval-pass"},
+      {"gate_id": "render-smoke", "status": "not_run", "evidence": "按要求不使用 Playwright；等待 Aime Chrome"},
+      {"gate_id": "manual-reviewer-pass", "status": "failed", "evidence": "独立 Aime Chrome QA：CHANGES_REQUIRED；MAJ-005、MAJ-006、MIN-001 修复后待复验"}
+    ]
+  },
+  "schematic": false,
+  "source_materials": ["source.json"],
+  "data_sources": [{"id": "approved-source", "path": "source.json"}],
+  "metrics": [
+    {"id": "cognitive-surface", "name": "认知表面", "unit": "source-verbatim", "value_origin": "source_verbatim"},
+    {"id": "runtime-integrity", "name": "运行时完整性", "unit": "source-verbatim", "value_origin": "source_verbatim"},
+    {"id": "test-ledger", "name": "测试账本", "unit": "source-verbatim", "value_origin": "source_verbatim"}
+  ],
+  "charts": [],
+  "visual_assets": [],
+  "design_system": {"id": "swiss-deck", "package_version": "1.1.0"},
+  "aesthetic_contract": {
+    "layout_lock": "swiss-s01-s22",
+    "accent_policy": {"accent_2": "marker_only", "max_accent_uses": 1},
+    "svg_text_policy": "forbid_visible_text_in_swiss_assets",
+    "motion_policy": "semantic_with_reduced_motion",
+    "expression_level": "L1-interactive",
+    "semantic_job": "sequence",
+    "reader_value": "键盘与按钮导航保持证据阅读顺序；reduced-motion 保留全部信息。",
+    "attention_budget": {"primary_attention_region": "每页单一标题与证据账本", "signature_move_count": 1, "ambient_field_count": 0},
+    "fallback": {"reduced_motion": "即时跳转", "static_html": "纵向连续阅读全部页面", "ppt_handoff": "not_applicable"},
+    "visual_rhythm": {"max_same_weight_run": 1}
+  },
+  "layouts": ["SWISS-COVER-ASCII", "S20", "S08", "S21", "S11", "SWISS-CLOSING-ASCII"],
+  "assumptions": [],
+  "missing_data": ["真实 Aime Chrome 视口验收结果"],
+  "unverified_items": ["Aime Chrome 1230/390/320 渲染与交互", "独立 QA 结论"]
+}

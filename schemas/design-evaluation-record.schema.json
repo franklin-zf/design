@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/design-evaluation-record.schema.json",
+  "title": "Design evaluation record v1",
+  "description": "A digest-bound record for three-second comprehension and blinded direction preference.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_ref",
+    "artifact_sha256",
+    "policy_ref",
+    "policy_sha256",
+    "evaluator_types",
+    "three_second",
+    "blinded_preference",
+    "non_claims"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-evaluation-record/v1" },
+    "artifact_ref": { "$ref": "#/$defs/relative_path" },
+    "artifact_sha256": { "$ref": "#/$defs/sha256" },
+    "policy_ref": { "$ref": "#/$defs/relative_path" },
+    "policy_sha256": { "$ref": "#/$defs/sha256" },
+    "baseline": { "$ref": "#/$defs/bound_file" },
+    "evaluator_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/evaluator_type" }
+    },
+    "three_second": { "$ref": "#/$defs/three_second" },
+    "blinded_preference": { "$ref": "#/$defs/blinded_preference" },
+    "non_claims": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![\\/~])(?![A-Za-z]:)(?!.*(?:^|[\\/])\\.\\.(?:[\\/]|$)).+"
+    },
+    "evaluator_type": {
+      "enum": ["model_panel", "human_panel", "user_observed"]
+    },
+    "status": {
+      "enum": ["not_run", "passed", "failed"]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/relative_path" }
+    },
+    "bound_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256"],
+      "properties": {
+        "ref": { "$ref": "#/$defs/relative_path" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "three_second": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evaluator_type", "sample_size", "evidence_refs", "recall"],
+      "properties": {
+        "status": { "$ref": "#/$defs/status" },
+        "evaluator_type": { "$ref": "#/$defs/evaluator_type" },
+        "sample_size": { "type": "integer", "minimum": 0 },
+        "evidence_refs": { "$ref": "#/$defs/evidence_refs" },
+        "recall": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reader_job_correct", "primary_conclusion_correct", "required_action_correct"],
+          "properties": {
+            "reader_job_correct": { "type": "integer", "minimum": 0 },
+            "primary_conclusion_correct": { "type": "integer", "minimum": 0 },
+            "required_action_correct": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "blinded_preference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "evaluator_type",
+        "sample_size",
+        "votes",
+        "evidence_refs"
+      ],
+      "properties": {
+        "status": { "$ref": "#/$defs/status" },
+        "evaluator_type": { "$ref": "#/$defs/evaluator_type" },
+        "direction_comparison_ref": { "$ref": "#/$defs/relative_path" },
+        "direction_comparison_sha256": { "$ref": "#/$defs/sha256" },
+        "randomized_order": { "type": "boolean" },
+        "anonymized": { "type": "boolean" },
+        "randomization_seed": { "type": "string", "minLength": 1 },
+        "labels": {
+          "const": ["A", "B"]
+        },
+        "sample_size": { "type": "integer", "minimum": 0 },
+        "votes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["A", "B", "tie"],
+          "properties": {
+            "A": { "type": "integer", "minimum": 0 },
+            "B": { "type": "integer", "minimum": 0 },
+            "tie": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "evidence_refs": { "$ref": "#/$defs/evidence_refs" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["status"],
+            "properties": {
+              "status": { "enum": ["passed", "failed"] }
+            }
+          },
+          "then": {
+            "required": [
+              "direction_comparison_ref",
+              "direction_comparison_sha256",
+              "randomized_order",
+              "anonymized",
+              "randomization_seed",
+              "labels"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

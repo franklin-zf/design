@@ -1,0 +1,29 @@
+{
+  "schema_version": "design-slice-review-evidence/v1",
+  "requirement": "REQ-025",
+  "review_status": "changes_required_pending_retest",
+  "independent": true,
+  "review_channel": "Aime Chrome QA",
+  "checks": [
+    {"id": "source-fidelity", "status": "retained", "evidence_refs": ["source.json", "claim-map.json", "summary-map.json"]},
+    {"id": "reader-job", "status": "retest_required", "evidence_refs": ["slide-plan.json", "index.html"]},
+    {"id": "two-track-convergence", "status": "retained", "evidence_refs": ["slide-plan.json", "index.html#slide-close"]},
+    {"id": "no-derived-claims", "status": "retained", "evidence_refs": ["source.json", "claim-map.json"]},
+    {"id": "responsive-operation", "status": "changes_required", "evidence_refs": ["render-evidence.json"]}
+  ],
+  "findings": [
+    {"id": "MAJ-005", "status": "fix_applied_retest_required", "summary": "Slides 3, 4 and 6 exceeded the 724px viewport at one or more required widths."},
+    {"id": "MAJ-006", "status": "fix_applied_retest_required", "summary": "Slide 5 forced document overflow at narrow widths and clipped its title."},
+    {"id": "MIN-001", "status": "fix_applied_retest_required", "summary": "Programmatic slide focus needed a restrained visible treatment without losing button focus."}
+  ],
+  "remaining_blockers": [
+    "1230 / 390 / 320 Aime Chrome retest has not yet confirmed the fixes",
+    "Independent QA has not issued PASS after the fixes",
+    "Existing Playwright runtime / browser_smoke remains unresolved"
+  ],
+  "non_claims": [
+    "This update does not claim browser PASS.",
+    "This update does not claim Slice 11 completed.",
+    "This update does not claim project-wide browser or visual acceptance."
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-content-ledger/v1",
+  "ledger_id": "invalid-requirement-transition",
+  "entries": [{
+    "id": "fact-requirement",
+    "source_ref": "source.txt",
+    "source_sha256": "5516dc1262e0afc72ea59f73178fc9b9215a6408e668b46697a7e3d053394531",
+    "source_quote": "要求：单批处理能力大于等于1000。",
+    "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+    "semantic_signature": { "modality": "requirement", "temporal_status": "current", "evidence_status": "source_supported" },
+    "protected_tokens": [{ "id": "batch-capacity", "text": "大于等于1000" }]
+  }]
+}

@@ -1,0 +1,119 @@
+{
+  "schema_version": "design-case-record/v1",
+  "id": "swiss-evidence-deck-production",
+  "record_type": "design_case_record",
+  "created_at": "2026-09-06T00:00:00Z",
+  "updated_at": "2026-09-06T00:00:00Z",
+  "classification": {
+    "project_type": "source-backed-production-deck",
+    "artifact_type": "html-deck",
+    "experience_mode": "navigational",
+    "risk_lane": "standard",
+    "content_signals": {
+      "reader_job": "inspect evidence chain and release decision",
+      "topology": "evidence-sequence",
+      "tags": ["swiss", "editorial", "source-backed", "decision"]
+    }
+  },
+  "source": {
+    "mode": "sanitized",
+    "artifact_ref": "showcases/swiss-evidence-deck-production/case.json",
+    "artifact_digest": "f537ce443fd71a9853cf0c9dd39871fad30b0d7ba6d39ed939c93666645a8380",
+    "source_materials": [
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/source/decision-brief.md",
+        "sha256": "6ad779feec4300c396054f17a5bdcfcadc0fc943a2aa480e3edd7196dabb5237",
+        "purpose": "decision and content brief"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/source/layout-inventory.csv",
+        "sha256": "3c208955d21a75f786006c0108824ec6c111cdf869880fa429d39c078abac810",
+        "purpose": "layout evidence"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/manifest.json",
+        "sha256": "26feb9e3b855684c1d4320d0edba9a3d5da5c251cf0f78a01b6f987b3ca3c92a",
+        "purpose": "artifact contract"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/quality-report.md",
+        "sha256": "7002c0e2d3786c9a8e4bcc1bbe177b2c254f14c26551fb7cc7edbcec9ebb7481",
+        "purpose": "quality evidence"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/slide-plan.json",
+        "sha256": "c9d5a3bb932e0624ab96c7e858be0c6ce8f1719de602fff9a94f8fc2aa0c2f36",
+        "purpose": "slide structure"
+      }
+    ],
+    "sensitivity": "redacted",
+    "license": "owned"
+  },
+  "reader_job": {
+    "statement": "Inspect the evidence chain, production boundary, and release decision.",
+    "scenario": "Review a source-backed offline HTML deck before reuse.",
+    "audience": "Design maintainers and independent reviewers"
+  },
+  "design_decisions": {
+    "visual_thesis": "Evidence before style: make the production chain inspectable through distinct semantic layouts.",
+    "content_tension": "A structural fixture can pass while a production deck still needs decisions, rhythm, evidence, and review.",
+    "creative_basis": ["content_native", "knowledge_recombination"],
+    "selected_direction": "Use one registered Swiss system to sequence evidence, exact data, risk, and decision close.",
+    "rejected_directions": [
+      {
+        "id": "swiss-evidence-deck",
+        "reason": "The lighter template was recorded as rejected; no stronger historical rationale is claimed.",
+        "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+      },
+      {
+        "id": "source-backed-report",
+        "reason": "A long-form report would not match the sequential presentation reader job.",
+        "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+      }
+    ],
+    "restraint_rule": "Use one Swiss visual system, keep the secondary accent marker-only, and forbid visible text inside generated SVG assets.",
+    "method_note": "This is a retrospective classification of the artifact, not evidence that the original build used the current Taste Contract."
+  },
+  "evaluation": {
+    "three_second": {
+      "status": "not_run",
+      "evidence_refs": []
+    },
+    "preference": {
+      "status": "not_run",
+      "evidence_refs": [],
+      "win_rate": null,
+      "sample_size": null
+    },
+    "evaluator_types": []
+  },
+  "judgment": {
+    "status": "reviewer_confirmed",
+    "reviewer": "slice1-independent-qa-20260810",
+    "review_ref": "showcases/swiss-evidence-deck-production/review.json",
+    "confirmed_at": "2026-08-09T16:27:09Z"
+  },
+  "lessons": {
+    "reusable_rules": [
+      "Vary visual weight by semantic role while staying inside one registered system.",
+      "Bind layout inventory, source mapping, calculations, media declarations, and target-surface captures.",
+      "Use a risk/control page and decision close when the reader must inspect release readiness."
+    ],
+    "anti_patterns": [
+      "Treating a structural fixture as proof of production quality.",
+      "Forcing long-form report reading into a sequential deck rhythm.",
+      "Reusing the system when calculation provenance or media truth is incomplete."
+    ],
+    "reuse_boundary": [
+      "Useful for source-backed evidence-sequence decks.",
+      "Do not reuse as proof of native PPTX, PDF, Figma, live-data, or external-fact capability.",
+      "Do not reuse the visual system when the current reader job or content topology differs materially."
+    ],
+    "standard_promotion": "candidate"
+  },
+  "non_claims": [
+    "This record does not claim real-user comprehension, satisfaction, business impact, or universal template fit.",
+    "The retrospective does not claim that the current Taste Contract was used during the original build.",
+    "This record does not prove native export fidelity or external source verification."
+  ]
+}

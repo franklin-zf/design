@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Source Extraction Capability",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "capability_id",
+    "tool",
+    "supported_sources",
+    "output_contract",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-source-extraction-capability/v1" },
+    "capability_id": { "type": "string", "minLength": 1 },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "supported_sources": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "media_type"],
+        "properties": {
+          "kind": { "enum": ["text", "binary"] },
+          "media_type": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "output_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "media_type",
+        "encoding",
+        "locator_kinds",
+        "paragraph_separator",
+        "page_separator",
+        "locator_basis"
+      ],
+      "properties": {
+        "media_type": { "const": "text/plain" },
+        "encoding": { "const": "utf-8" },
+        "locator_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["paragraph", "page"] }
+        },
+        "paragraph_separator": { "type": "string", "minLength": 1 },
+        "page_separator": { "type": "string", "minLength": 1 },
+        "locator_basis": { "const": "extracted_text_units" }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deterministic", "emits_locator_map", "stable_utf8_byte_offsets"],
+      "properties": {
+        "deterministic": { "const": true },
+        "emits_locator_map": { "const": true },
+        "stable_utf8_byte_offsets": { "const": true }
+      }
+    }
+  }
+}

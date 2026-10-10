@@ -1,0 +1,31 @@
+{
+  "schema_version": "layout-registry/v1",
+  "id": "editorial-evidence-v1",
+  "layouts": [
+    {
+      "id": "EE-CHAPTER",
+      "name": "Chapter opener",
+      "visual_weight": "narrative"
+    },
+    {
+      "id": "EE-READING",
+      "name": "Reading grid",
+      "visual_weight": "standard"
+    },
+    {
+      "id": "EE-FIGURE",
+      "name": "Annotated figure",
+      "visual_weight": "evidence"
+    },
+    {
+      "id": "EE-QUOTE",
+      "name": "Pull quote",
+      "visual_weight": "dominant"
+    },
+    {
+      "id": "EE-TABLE",
+      "name": "Evidence table",
+      "visual_weight": "comparison"
+    }
+  ]
+}

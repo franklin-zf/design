@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/showcase-case.schema.json",
+  "title": "Design showcase case v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "record_type",
+    "artifact_type",
+    "template_id",
+    "artifact_ref",
+    "source_refs",
+    "surface_evidence",
+    "artifact_binding",
+    "assurance",
+    "review_binding",
+    "non_claims"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-showcase-case/v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "record_type": { "enum": ["retrospective_case_record", "production_case_record"] },
+    "artifact_type": { "type": "string", "minLength": 1 },
+    "template_id": { "type": "string", "minLength": 1 },
+    "artifact_ref": { "$ref": "#/$defs/relative_path" },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/relative_path" }
+    },
+    "surface_evidence": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/relative_path" }
+    },
+    "artifact_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_digest", "source_bindings", "surface_bindings"],
+      "properties": {
+        "artifact_digest": { "$ref": "#/$defs/sha256" },
+        "source_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/file_binding" }
+        },
+        "surface_bindings": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "allOf": [
+              { "$ref": "#/$defs/file_binding" },
+              {
+                "type": "object",
+                "required": ["captured_at"],
+                "properties": {
+                  "captured_at": { "type": "string", "minLength": 1 }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "assurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structure_passed",
+        "evidence_traced",
+        "visually_reviewed",
+        "decision_ready",
+        "user_validated"
+      ],
+      "properties": {
+        "structure_passed": { "$ref": "#/$defs/assurance_state" },
+        "evidence_traced": { "$ref": "#/$defs/assurance_state" },
+        "visually_reviewed": { "$ref": "#/$defs/assurance_state" },
+        "decision_ready": { "$ref": "#/$defs/assurance_state" },
+        "user_validated": { "$ref": "#/$defs/assurance_state" }
+      }
+    },
+    "review_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reviewer_id",
+        "reviewed_at",
+        "review_evidence_ref",
+        "review_evidence_sha256",
+        "artifact_digest",
+        "surface_evidence_digest"
+      ],
+      "properties": {
+        "status": { "enum": ["approved", "changes_required", "not_reviewed"] },
+        "reviewer_id": { "type": "string", "minLength": 1 },
+        "reviewed_at": { "type": "string", "minLength": 1 },
+        "review_evidence_ref": { "$ref": "#/$defs/relative_path" },
+        "review_evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "artifact_digest": { "$ref": "#/$defs/sha256" },
+        "surface_evidence_digest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "non_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+"
+    },
+    "assurance_state": {
+      "enum": ["passed", "not_run", "not_claimed"]
+    },
+    "file_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256"],
+      "properties": {
+        "ref": { "$ref": "#/$defs/relative_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "captured_at": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

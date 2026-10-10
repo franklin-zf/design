@@ -28,6 +28,7 @@
     },
     "design_system": { "type": "string", "minLength": 1 },
     "source_materials": { "type": "array" },
+    "content_handoff_ref": { "type": "string", "minLength": 1 },
     "image_strategy": {
       "enum": ["real-image", "generated-image", "typography-only", "diagram", "none"]
     },

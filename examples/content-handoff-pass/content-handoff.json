@@ -1,0 +1,138 @@
+{
+  "schema_version": "design-content-handoff/v1",
+  "handoff_id": "product-management-platform-poster-content-v1",
+  "sender_role": "poster",
+  "recipient_role": "designer",
+  "artifact_type": "poster",
+  "ledger_ref": "content-ledger.json",
+  "ledger_sha256": "77dc497b2fda1372dd10cb7a05d5ff2e91c563aa1bdfb387a433b91138776a61",
+  "reader_job": "在一次浏览中理解平台定位、当前问题、建设目标、验收门槛和待确认边界。",
+  "one_sentence_message": "通过信息库与流程库建设统一的产品管理平台，项目管理边界仍需确认。",
+  "content_units": [
+    {
+      "id": "position",
+      "semantic_unit_id": "platform-position",
+      "display_text": "平台以产品全生命周期数据治理和流程闭环管理为核心，通过信息库标准化与流程库数字化连接经营、报账和研发系统。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": [],
+      "visual_priority": "primary",
+      "must_keep": true
+    },
+    {
+      "id": "fragmentation",
+      "semantic_unit_id": "information-fragmentation",
+      "display_text": "产品信息分散，数据源不统一，存在冗余与冲突；",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": [],
+      "visual_priority": "secondary",
+      "must_keep": true
+    },
+    {
+      "id": "data-target",
+      "semantic_unit_id": "information-governance-target",
+      "display_text": "目标：构建企业级产品数据治理中心。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": [],
+      "visual_priority": "secondary",
+      "must_keep": true
+    },
+    {
+      "id": "flow-target",
+      "semantic_unit_id": "lifecycle-flow",
+      "display_text": "目标：实现产品管理全流程数字化闭环。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": [],
+      "visual_priority": "secondary",
+      "must_keep": true
+    },
+    {
+      "id": "operations-target",
+      "semantic_unit_id": "operations-integration",
+      "display_text": "系统协同目标包括同步收入支出数据，并与产品成本、定价数据关联；毛利率分析和资源分配优化属于支持目标。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": [],
+      "visual_priority": "supporting",
+      "must_keep": true
+    },
+    {
+      "id": "quality-target",
+      "semantic_unit_id": "data-quality-governance",
+      "display_text": "目标：用完整性、一致性和时效性评价，以及BOM完整性检查、价格与成本匹配度分析，提升数据可信度。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": [],
+      "visual_priority": "supporting",
+      "must_keep": true
+    },
+    {
+      "id": "start-plan",
+      "semantic_unit_id": "project-start",
+      "display_text": "计划：本期项目于2025年6月启动建设。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": ["project-start#start-date"],
+      "visual_priority": "supporting",
+      "must_keep": true
+    },
+    {
+      "id": "acceptance",
+      "semantic_unit_id": "acceptance-criteria",
+      "display_text": "验收要求：完成以上功能模块开发，核心bug为0，其他bug关闭率≧98%。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": ["acceptance-criteria#core-bugs", "acceptance-criteria#other-bug-close-rate"],
+      "visual_priority": "supporting",
+      "must_keep": true
+    },
+    {
+      "id": "performance",
+      "semantic_unit_id": "performance-criteria",
+      "display_text": "性能验收要求：TPS大于等于1000，并发大于等于100，响应时间小于等于300 ms。",
+      "content_mode": "plain_summary",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": ["performance-criteria#tps", "performance-criteria#concurrency", "performance-criteria#response-time"],
+      "visual_priority": "supporting",
+      "must_keep": true
+    },
+    {
+      "id": "boundary-question",
+      "semantic_unit_id": "open-boundary-question",
+      "display_text": "待确认：项目是否属于研发过程管理平台范畴。",
+      "content_mode": "open_question",
+      "source_refs": ["source.txt"],
+      "protected_token_refs": [],
+      "visual_priority": "caveat",
+      "must_keep": true
+    }
+  ],
+  "must_keep_unit_ids": [
+    "platform-position",
+    "information-fragmentation",
+    "information-governance-target",
+    "lifecycle-flow",
+    "operations-integration",
+    "data-quality-governance",
+    "project-start",
+    "acceptance-criteria",
+    "performance-criteria",
+    "open-boundary-question"
+  ],
+  "explicit_omissions": [],
+  "must_not_say": [
+    "不得把计划写成已完成",
+    "不得将验收要求写成实测结果",
+    "不得回答原文提出但未确认的平台边界问题",
+    "不得修改任何数字、单位、日期、比较符号或数字语义"
+  ],
+  "review": {
+    "status": "draft",
+    "reviewer": "content-baseline-builder",
+    "reviewed_at": "2026-09-05",
+    "method": "基于同目录 canonical content ledger 做 lexical binding；原始 .doc 恢复后需进行人工语义复核。"
+  }
+}

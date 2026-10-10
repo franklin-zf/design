@@ -1,0 +1,45 @@
+{
+  "schema_version": "components-manifest/v1",
+  "system_id": "editorial-evidence",
+  "components": [
+    {
+      "id": "chapter-opener",
+      "role": "argument and reading entry",
+      "selectors": [
+        ".ds-chapter",
+        ".ds-deck"
+      ]
+    },
+    {
+      "id": "reading-grid",
+      "role": "sustained evidence reading",
+      "selectors": [
+        ".ds-reading",
+        ".ds-copy",
+        ".ds-source-rail"
+      ]
+    },
+    {
+      "id": "annotated-figure",
+      "role": "source-backed quantitative evidence",
+      "selectors": [
+        ".ds-figure",
+        ".ds-figure-chart"
+      ]
+    },
+    {
+      "id": "pull-quote",
+      "role": "bounded argument emphasis",
+      "selectors": [
+        ".ds-pullquote"
+      ]
+    },
+    {
+      "id": "evidence-table",
+      "role": "multi-dimensional comparison",
+      "selectors": [
+        ".ds-evidence-table"
+      ]
+    }
+  ]
+}

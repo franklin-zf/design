@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-content-ledger/v1",
+  "ledger_id": "invalid-temporal-transition",
+  "entries": [{
+    "id": "fact-historical",
+    "source_ref": "source.txt",
+    "source_sha256": "2df222808c2c75acdbd80870bad9278fb474fd4418e6e6387c2b18d3cd575955",
+    "source_quote": "历史计划（2025年）：响应时间优化到小于等于300 ms。",
+    "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+    "semantic_signature": { "modality": "plan", "temporal_status": "historical", "evidence_status": "source_supported" },
+    "protected_tokens": [{ "id": "latency", "text": "小于等于300 ms" }]
+  }]
+}

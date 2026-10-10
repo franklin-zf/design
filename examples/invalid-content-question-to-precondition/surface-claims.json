@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-surface-claims/v1",
+  "ledger_ref": "content-ledger.json",
+  "ledger_sha256": "73d47aff56159c0d195a9665493a3512cfa4f6a2ba1b5459bd083f4c82ef3616",
+  "surface": { "id": "invalid-question-html", "format": "html", "path": "index.html" },
+  "claims": [{
+    "id": "question",
+    "content_refs": ["fact-question"],
+    "visible_claim_id": "question",
+    "displayed_text": "大于等于100个并发会话是启动前提。",
+    "semantic_signature": { "modality": "precondition", "temporal_status": "current", "evidence_status": "unverified" },
+    "selected_protected_token_refs": ["fact-question#concurrency"]
+  }]
+}

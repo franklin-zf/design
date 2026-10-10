@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-surface-claims/v1",
+  "ledger_ref": "content-ledger.json",
+  "ledger_sha256": "9ac34fa1449d4607cdb1f9e1f42360ff0c68c6d652bc58a795014353be2eec34",
+  "surface": { "id": "invalid-target-html", "format": "html", "path": "index.html" },
+  "claims": [{
+    "id": "target",
+    "content_refs": ["fact-target"],
+    "visible_claim_id": "target",
+    "displayed_text": "任务耗时已降低至少20%。",
+    "semantic_signature": { "modality": "actual", "temporal_status": "current", "evidence_status": "actual" },
+    "selected_protected_token_refs": ["fact-target#reduction"]
+  }]
+}

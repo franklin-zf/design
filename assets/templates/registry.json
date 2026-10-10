@@ -31,9 +31,10 @@
       "validation_gates": [
         "validate-design-output",
         "validate-summary-map",
-        "validate-claim-map"
+        "validate-claim-map",
+        "validate-visual-encoding"
       ],
-      "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-claim-map"],
+      "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-claim-map", "validate-visual-encoding"],
       "thinking_ref": "references/report-dashboard.md"
     },
     {
@@ -59,6 +60,9 @@
       "required_assets": [
         "manifest.json",
         "poster-plan.json",
+        "source-extraction.json",
+        "content-ledger.json",
+        "surface-claims.json",
         "quality-report.md"
       ],
       "validation_gates": [
@@ -67,7 +71,18 @@
         "validate-poster-anti-ai-slop"
       ],
       "validation_gate_ids": ["validate-design-output", "validate-poster-contract", "validate-poster-anti-ai-slop"],
-      "thinking_ref": "references/poster-design.md"
+      "conditional_validation_gates": ["validate-source-extraction", "validate-content-chain", "validate-content-handoff"],
+      "thinking_ref": "references/poster-design.md",
+      "layout_registry_ref": "assets/templates/layouts/poster.json",
+      "topology_support": {
+        "comparison-matrix": ["poster-split-claim"],
+        "timeline": ["poster-editorial"],
+        "causal-chain": ["poster-split-claim"],
+        "system-map": ["poster-data-hero"],
+        "metric-evidence": ["poster-data-hero"],
+        "decision-frame": ["poster-type-led"],
+        "narrative-arc": ["poster-image-hero", "poster-editorial"]
+      }
     },
     {
       "id": "swiss-evidence-deck",
@@ -91,13 +106,14 @@
       ],
       "required_assets": [
         "slide-plan.json",
-        "summary-map.json",
+        "source-extraction.json",
+        "content-ledger.json",
+        "surface-claims.json",
         "images/",
         "quality-report.md"
       ],
       "validation_gates": [
         "validate-design-output",
-        "validate-summary-map",
         "validate-aesthetic-contract",
         "validate-asset-contract",
         "validate-layout-lock",
@@ -106,7 +122,24 @@
         "manual reviewer pass"
       ],
       "validation_gate_ids": ["validate-design-output", "validate-summary-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
-      "thinking_ref": "references/deck-ppt.md"
+      "conditional_validation_gates": ["validate-source-extraction", "validate-content-chain", "validate-content-handoff"],
+      "thinking_ref": "references/deck-ppt.md",
+      "runtime_refs": [
+        "assets/vendor/open-design-html-ppt/runtime.js",
+        "assets/runtime/deck-bootstrap.js",
+        "assets/runtime/human-factors.css",
+        "assets/runtime/human-factors.js"
+      ],
+      "layout_registry_ref": "assets/templates/layouts/swiss-s01-s22.json",
+      "topology_support": {
+        "comparison-matrix": ["S08"],
+        "timeline": ["S11"],
+        "causal-chain": ["S17"],
+        "system-map": ["S17"],
+        "metric-evidence": ["S20"],
+        "decision-frame": ["S03", "S21"],
+        "narrative-arc": ["S03", "S11", "S22"]
+      }
     },
     {
       "id": "swiss-evidence-deck-production",
@@ -135,16 +168,15 @@
       "required_assets": [
         "data-provenance.json",
         "slide-plan.json",
-        "summary-map.json",
-        "claim-map.json",
+        "source-extraction.json",
+        "content-ledger.json",
+        "surface-claims.json",
         "quality-report.md",
         "qa/"
       ],
       "validation_gates": [
         "validate-data-provenance --execute-trusted",
         "validate-design-output",
-        "validate-summary-map",
-        "validate-claim-map",
         "validate-aesthetic-contract",
         "validate-asset-contract",
         "validate-layout-lock",
@@ -153,7 +185,24 @@
         "manual reviewer pass"
       ],
       "validation_gate_ids": ["validate-data-provenance", "validate-design-output", "validate-summary-map", "validate-claim-map", "validate-aesthetic-contract", "validate-asset-contract", "validate-layout-lock", "validate-visual-rhythm", "render-smoke", "manual-reviewer-pass"],
-      "thinking_ref": "references/template-adoption-plan.md"
+      "conditional_validation_gates": ["validate-source-extraction", "validate-content-chain", "validate-content-handoff"],
+      "thinking_ref": "references/library.md",
+      "runtime_refs": [
+        "assets/vendor/open-design-html-ppt/runtime.js",
+        "assets/runtime/deck-bootstrap.js",
+        "assets/runtime/human-factors.css",
+        "assets/runtime/human-factors.js"
+      ],
+      "layout_registry_ref": "assets/templates/layouts/swiss-s01-s22.json",
+      "topology_support": {
+        "comparison-matrix": ["S08"],
+        "timeline": ["S11"],
+        "causal-chain": ["S17"],
+        "system-map": ["S17"],
+        "metric-evidence": ["S20"],
+        "decision-frame": ["S03", "S21"],
+        "narrative-arc": ["S03", "S11", "S22"]
+      }
     },
     {
       "id": "operational-dashboard",
@@ -182,9 +231,10 @@
       "validation_gates": [
         "validate-design-output",
         "validate-claim-map",
+        "validate-visual-encoding",
         "render-smoke"
       ],
-      "validation_gate_ids": ["validate-design-output", "validate-claim-map", "render-smoke"],
+      "validation_gate_ids": ["validate-design-output", "validate-claim-map", "validate-visual-encoding", "render-smoke"],
       "thinking_ref": "references/report-dashboard.md"
     },
     {
@@ -218,7 +268,7 @@
         "manual reviewer pass"
       ],
       "validation_gate_ids": ["validate-design-output", "render-smoke", "manual-reviewer-pass"],
-      "thinking_ref": "references/screenshot-ui-evidence.md"
+      "thinking_ref": "references/media-design.md"
     },
     {
       "id": "tweakable-artifact",
@@ -249,7 +299,161 @@
         "render-smoke"
       ],
       "validation_gate_ids": ["validate-design-output", "tweakable-smoke", "render-smoke"],
-      "thinking_ref": "references/template-index.md"
+      "thinking_ref": "references/library.md"
+    },
+    {
+      "id": "expressive-web-stage",
+      "name": "Expressive Web Stage",
+      "artifact_types": ["html-deck"],
+      "style_presets": ["magazine-deck"],
+      "source": "design-owned",
+      "template_path": "assets/templates/expressive-web-stage.html",
+      "production_status": "validated_vertical_slice",
+      "best_for": [
+        "brand, product, portfolio, venue, and campaign experiences",
+        "media-led narrative with one visual protagonist",
+        "responsive first-viewport and section rhythm"
+      ],
+      "avoid_when": [
+        "the reader performs repeated operational work",
+        "the primary subject or media provenance is unresolved",
+        "dense evidence needs sustained report reading"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "content-ledger.json",
+        "direction-comparison.json",
+        "quality-report.md",
+        "qa/"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-direction-evidence",
+        "validate-asset-contract",
+        "render-smoke",
+        "manual reviewer pass"
+      ],
+      "validation_gate_ids": [
+        "validate-design-output",
+        "validate-direction-evidence",
+        "validate-asset-contract",
+        "render-smoke",
+        "manual-reviewer-pass"
+      ],
+      "conditional_validation_gates": [
+        "validate-requirement-verification",
+        "validate-content-chain",
+        "validate-content-handoff"
+      ],
+      "thinking_ref": "references/media-design.md",
+      "layout_registry_ref": "assets/templates/layouts/expressive-web-v1.json",
+      "topology_support": {
+        "comparison-matrix": ["EW-PROOF-STRIP"],
+        "timeline": ["EW-OBJECT-INDEX"],
+        "causal-chain": ["EW-OBJECT-INDEX"],
+        "system-map": ["EW-OBJECT-INDEX"],
+        "metric-evidence": ["EW-PROOF-STRIP"],
+        "decision-frame": ["EW-HERO", "EW-PROOF-STRIP"],
+        "narrative-arc": ["EW-HERO", "EW-OBJECT-INDEX", "EW-SCENE-BREAK"]
+      }
+    },
+    {
+      "id": "operational-product",
+      "name": "Operational Product",
+      "artifact_types": ["dashboard"],
+      "style_presets": ["operational-dashboard"],
+      "source": "design-owned",
+      "template_path": "assets/templates/operational-product.html",
+      "production_status": "validated_vertical_slice",
+      "best_for": [
+        "SaaS, CRM, admin, queue, and triage workflows",
+        "state-heavy repeated work",
+        "dense comparison with stable actions"
+      ],
+      "avoid_when": [
+        "the reader needs a one-time brand narrative",
+        "the core workflow and states are unknown"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "claim-map.json",
+        "quality-report.md",
+        "qa/"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-claim-map",
+        "validate-visual-encoding",
+        "render-smoke",
+        "manual reviewer pass"
+      ],
+      "validation_gate_ids": [
+        "validate-design-output",
+        "validate-claim-map",
+        "validate-visual-encoding",
+        "render-smoke",
+        "manual-reviewer-pass"
+      ],
+      "conditional_validation_gates": [
+        "validate-requirement-verification"
+      ],
+      "thinking_ref": "references/report-dashboard.md"
+    },
+    {
+      "id": "editorial-evidence",
+      "name": "Editorial Evidence",
+      "artifact_types": ["data-report", "chart-frame", "html-deck"],
+      "style_presets": ["editorial-report"],
+      "source": "design-owned",
+      "template_path": "assets/templates/editorial-evidence.html",
+      "production_status": "validated_vertical_slice",
+      "best_for": [
+        "research reports and analytical narratives",
+        "evidence-led long-form reading",
+        "annotated figures, quotations, and source rails"
+      ],
+      "avoid_when": [
+        "the user needs repeated operational controls",
+        "the content has no evidence or reading spine"
+      ],
+      "required_assets": [
+        "manifest.json",
+        "summary-map.json",
+        "claim-map.json",
+        "quality-report.md",
+        "qa/"
+      ],
+      "validation_gates": [
+        "validate-design-output",
+        "validate-summary-map",
+        "validate-claim-map",
+        "validate-visual-encoding",
+        "render-smoke",
+        "manual reviewer pass"
+      ],
+      "validation_gate_ids": [
+        "validate-design-output",
+        "validate-summary-map",
+        "validate-claim-map",
+        "validate-visual-encoding",
+        "render-smoke",
+        "manual-reviewer-pass"
+      ],
+      "conditional_validation_gates": [
+        "validate-requirement-verification",
+        "validate-direction-evidence"
+      ],
+      "thinking_ref": "references/report-dashboard.md",
+      "layout_registry_ref": "assets/templates/layouts/editorial-evidence-v1.json",
+      "topology_support": {
+        "comparison-matrix": ["EE-TABLE", "EE-FIGURE"],
+        "timeline": ["EE-CHAPTER", "EE-READING"],
+        "causal-chain": ["EE-READING", "EE-FIGURE"],
+        "system-map": ["EE-FIGURE"],
+        "metric-evidence": ["EE-FIGURE", "EE-TABLE"],
+        "decision-frame": ["EE-CHAPTER", "EE-QUOTE"],
+        "narrative-arc": ["EE-CHAPTER", "EE-READING", "EE-QUOTE"]
+      }
     },
     {
       "id": "design-system-package",
@@ -262,7 +466,7 @@
       "required_assets": ["manifest.json", "DESIGN.md", "tokens.css", "quality-report.md"],
       "validation_gates": ["validate-design-output", "validate-design-system-package", "manual reviewer pass"],
       "validation_gate_ids": ["validate-design-output", "validate-design-system-package", "manual-reviewer-pass"],
-      "thinking_ref": "references/design-system.md"
+      "thinking_ref": "references/library.md"
     }
   ]
 }

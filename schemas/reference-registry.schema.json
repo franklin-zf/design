@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/reference-registry.schema.json",
+  "title": "Design reference registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "references"],
+  "properties": {
+    "schema_version": { "const": "design-reference-registry/v1" },
+    "artifact_type": { "enum": ["ppt-handoff", "html-deck", "poster"] },
+    "references": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/reference" }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "source_url",
+        "fixed_revision",
+        "snapshot_ref",
+        "snapshot_sha256",
+        "code_license",
+        "asset_license",
+        "adoption_mode",
+        "allowed_paths",
+        "forbidden_paths",
+        "design_takeaway"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "role": {
+          "enum": [
+            "content_topology",
+            "visual_language",
+            "media_strategy",
+            "interaction"
+          ]
+        },
+        "source_url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "fixed_revision": {
+          "oneOf": [
+            { "$ref": "#/$defs/sha256" },
+            { "const": "snapshot-only" }
+          ]
+        },
+        "snapshot_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?![A-Za-z]:[\\/])(?!.*(?:^|[\\/])\\.\\.(?:[\\/]|$)).+"
+        },
+        "snapshot_sha256": { "$ref": "#/$defs/sha256" },
+        "code_license": { "type": "string", "minLength": 1 },
+        "asset_license": { "type": "string", "minLength": 1 },
+        "adoption_mode": {
+          "enum": ["inspiration_only", "pattern_adoption", "licensed_code"]
+        },
+        "allowed_paths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "design_takeaway": { "type": "string", "minLength": 12 }
+      }
+    }
+  }
+}

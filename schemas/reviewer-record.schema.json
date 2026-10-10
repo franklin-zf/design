@@ -1,0 +1,385 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/reviewer-record.schema.json",
+  "title": "Design reviewer record v3 and v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reviewer_id",
+    "artifact_author_id",
+    "reviewer_role",
+    "reviewed_at",
+    "review_scope",
+    "review_status",
+    "artifact_digest",
+    "content_digest",
+    "surface_digest",
+    "resolved_plan_digest",
+    "checks",
+    "findings",
+    "remaining_risks",
+    "non_claims"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "design-reviewer-record/v3",
+        "design-reviewer-record/v4"
+      ]
+    },
+    "reviewer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_author_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewer_role": {
+      "enum": [
+        "independent-reviewer",
+        "quality-risk-auditor"
+      ]
+    },
+    "reviewed_at": {
+      "type": "string",
+      "minLength": 20
+    },
+    "review_scope": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "review_status": {
+      "enum": [
+        "approved",
+        "changes_required",
+        "blocked"
+      ]
+    },
+    "artifact_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "content_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "surface_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "resolved_plan_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "craft_review": {
+      "$ref": "#/$defs/craft_review"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "remaining_risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "non_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "design-reviewer-record/v4"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "craft_review"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "status",
+        "evidence_refs"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "source-identity",
+            "claim-semantics",
+            "numeric-semantics",
+            "accessibility",
+            "privacy",
+            "render",
+            "visual-review",
+            "alignment",
+            "locale",
+            "iconography",
+            "palette"
+          ]
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_checked"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "craft_dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "status",
+        "evidence_refs",
+        "rationale"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "composition",
+            "typography",
+            "color-material",
+            "media-art-direction",
+            "motion-interaction",
+            "responsive-adaptation",
+            "finish-micro-detail"
+          ]
+        },
+        "status": {
+          "enum": [
+            "scored",
+            "not_applicable"
+          ]
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 12
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "scored"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "score"
+            ]
+          }
+        }
+      ]
+    },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_specificity",
+        "world_coherence",
+        "memorable_element",
+        "rationale",
+        "evidence_refs"
+      ],
+      "properties": {
+        "content_specificity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "world_coherence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "memorable_element": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 20
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "craft_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "applicable_count",
+        "minimum_score",
+        "gate_status"
+      ],
+      "properties": {
+        "applicable_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "minimum_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "gate_status": {
+          "enum": [
+            "passed",
+            "failed"
+          ]
+        }
+      }
+    },
+    "craft_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rubric_version",
+        "experience_mode",
+        "dimensions",
+        "ownership",
+        "summary"
+      ],
+      "properties": {
+        "rubric_version": {
+          "const": "design-craft-rubric/v1"
+        },
+        "experience_mode": {
+          "enum": [
+            "operational",
+            "editorial",
+            "expressive",
+            "immersive"
+          ]
+        },
+        "dimensions": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "items": {
+            "$ref": "#/$defs/craft_dimension"
+          }
+        },
+        "ownership": {
+          "$ref": "#/$defs/ownership"
+        },
+        "summary": {
+          "$ref": "#/$defs/craft_summary"
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "severity",
+        "status",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "minor",
+            "major",
+            "blocking"
+          ]
+        },
+        "status": {
+          "enum": [
+            "open",
+            "resolved"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

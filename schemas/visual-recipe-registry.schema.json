@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Visual Recipe Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "recipes", "profiles"],
+  "properties": {
+    "schema_version": { "const": "visual-recipe-registry/v1" },
+    "recipes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/recipe" }
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/profile" }
+    }
+  },
+  "$defs": {
+    "provenance": {
+      "enum": [
+        "source-verbatim",
+        "accessibility-policy",
+        "content-constraint",
+        "profile-explicit",
+        "suggested-default"
+      ]
+    },
+    "recipe_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": {},
+        "unit": { "type": "string", "minLength": 1 },
+        "provenance": { "$ref": "#/$defs/provenance" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "value": { "type": "number" } }, "required": ["value"] },
+          "then": { "required": ["unit"] }
+        }
+      ]
+    },
+    "recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "dimension", "conflicts_with", "fallback"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "dimension": {
+          "enum": ["composition", "material", "lighting", "color", "typography", "accessibility"]
+        },
+        "conflicts_with": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "fallback": { "type": "string", "minLength": 1 }
+      }
+    },
+    "recipe_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recipe_id", "inputs"],
+      "properties": {
+        "recipe_id": { "type": "string", "minLength": 1 },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/recipe_input" }
+        }
+      }
+    },
+    "compatible_recipe_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recipe_id", "input_names"],
+      "properties": {
+        "recipe_id": { "type": "string", "minLength": 1 },
+        "input_names": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "variation_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": {},
+        "unit": { "type": "string", "minLength": 1 },
+        "provenance": { "const": "profile-explicit" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "value": { "type": "number" } }, "required": ["value"] },
+          "then": { "required": ["unit"] }
+        }
+      ]
+    },
+    "variation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "recipe_inputs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "recipe_inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["recipe_id", "inputs"],
+            "properties": {
+              "recipe_id": { "type": "string", "minLength": 1 },
+              "inputs": {
+                "type": "object",
+                "additionalProperties": { "$ref": "#/$defs/variation_input" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "cues", "recipe_uses"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "cues": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "recipe_uses": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/recipe_use" }
+        },
+        "compatible_recipe_inputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/compatible_recipe_input" }
+        },
+        "variations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/variation" }
+        }
+      }
+    }
+  }
+}

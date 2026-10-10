@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidence sequence baseline</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f4f4f0; color: #111111; font: 18px/1.45 Arial, sans-serif; }
+    main { min-height: 100vh; padding: 7vh 7vw; }
+    .slide { min-height: 86vh; display: grid; align-content: center; gap: 32px; }
+    .kicker, .source { font: 700 12px/1.3 Arial, sans-serif; text-transform: uppercase; }
+    h1 { max-width: 950px; margin: 0; font: 700 clamp(48px, 7vw, 100px)/0.98 Georgia, serif; }
+    .sequence { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1080px; }
+    .step { border-top: 2px solid #111111; padding-top: 14px; }
+    .step strong { display: block; margin-bottom: 8px; font-size: 13px; }
+    .caveat { max-width: 760px; border-left: 5px solid #0047ff; padding-left: 18px; }
+    @media (max-width: 640px) {
+      main { padding: 44px 22px; }
+      .slide { min-height: auto; }
+      .sequence { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main data-design-id="deck-pilot" data-style-preset="swiss-deck">
+    <section class="slide" data-layout="S01" data-purpose="conclusion">
+      <p class="kicker">Decision sequence</p>
+      <h1 data-content-id="conclusion" data-summary-id="deck-conclusion">The conclusion comes first.</h1>
+      <p data-content-id="sequence" data-summary-id="deck-sequence">Evidence follows in three ordered steps: source, test, decision.</p>
+      <div class="sequence" aria-label="Evidence sequence">
+        <div class="step" data-content-id="step-source"><strong>Source</strong><span>Read the supplied evidence.</span></div>
+        <div class="step" data-content-id="step-test"><strong>Test</strong><span>Verify the stated relationship.</span></div>
+        <div class="step" data-content-id="step-decision"><strong>Decision</strong><span>Choose only what the evidence supports.</span></div>
+      </div>
+      <p class="caveat" data-content-id="caveat" data-summary-id="deck-caveat">Caveat: visual emphasis does not replace source verification.</p>
+      <p class="source" data-content-id="source" data-summary-id="deck-source">Source: controlled pilot brief.</p>
+    </section>
+  </main>
+</body>
+</html>

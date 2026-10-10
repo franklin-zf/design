@@ -1,0 +1,12 @@
+{
+  "schema_version": "design-claim-map/v1",
+  "claims": [
+    {"id": "claim-cognitive", "text": "101 → 75 lines; 13 → 10 refs", "status": "verified", "claim_class": "source_fact", "source_refs": ["source.json"], "evidence_quotes": [{"source_ref": "source.json", "quote": "101 → 75 lines; 13 → 10 refs"}]},
+    {"id": "claim-package", "text": "131 → 125 package files; 737379B → 724633B unpacked; 166925B → 162924B tar", "status": "verified", "claim_class": "source_fact", "source_refs": ["source.json"], "evidence_quotes": [{"source_ref": "source.json", "quote": "131 → 125 package files; 737379B → 724633B unpacked; 166925B → 162924B tar"}]},
+    {"id": "claim-closure", "text": "33 → 0 runtime dangling; 0 → 0 root escape; 3 → 0 packaged showcases", "status": "verified", "claim_class": "source_fact", "source_refs": ["source.json"], "evidence_quotes": [{"source_ref": "source.json", "quote": "33 → 0 runtime dangling; 0 → 0 root escape; 3 → 0 packaged showcases"}]},
+    {"id": "claim-tests", "text": "127 total / 125 pass / 1 fail / 1 skip", "status": "verified", "claim_class": "source_fact", "source_refs": ["source.json"], "evidence_quotes": [{"source_ref": "source.json", "quote": "127 total / 125 pass / 1 fail / 1 skip"}]},
+    {"id": "claim-blocker", "text": "唯一失败为 Playwright runtime 环境阻塞；browser_smoke missing 未解除；整体项目 browser/visual 状态继续 blocked", "status": "verified", "claim_class": "source_fact", "source_refs": ["source.json"], "evidence_quotes": [{"source_ref": "source.json", "quote": "唯一失败为 Playwright runtime 环境阻塞；browser_smoke missing 未解除；整体项目 browser/visual 状态继续 blocked"}]},
+    {"id": "claim-commits", "text": "commits 034b22f / fc93a9b / ceb7d81", "status": "verified", "claim_class": "source_fact", "source_refs": ["source.json"], "evidence_quotes": [{"source_ref": "source.json", "quote": "commits 034b22f / fc93a9b / ceb7d81"}]},
+    {"id": "claim-next", "text": "解除 Playwright runtime / browser_smoke，并继续独立视觉验证；完成前保持 blocked", "status": "verified", "claim_class": "recommendation", "source_refs": ["source.json"], "evidence_quotes": [{"source_ref": "source.json", "quote": "解除 Playwright runtime / browser_smoke，并继续独立视觉验证；完成前保持 blocked"}]}
+  ]
+}

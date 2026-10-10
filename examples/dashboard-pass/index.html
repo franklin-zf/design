@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Operations Dashboard</title>
   <style>
-    :root { --bg:#f3f5f7; --panel:#ffffff; --panel-alt:#edf1f4; --text:#17212b; --muted:#64748b; --accent:#256f5b; --line:#d7dde4; --warning:#b87918; --negative:#b42318; }
+    :root { --bg:#f3f6fa; --panel:#ffffff; --panel-alt:#e9eef5; --text:#172033; --muted:#5f6b7a; --accent:#245ea8; --positive:#26705a; --line:#d6dee8; --warning:#8a5b00; --negative:#b33a32; }
     * { box-sizing:border-box; }
     body { margin:0; background:var(--bg); color:var(--text); font:14px/1.45 Inter,system-ui,sans-serif; }
     main { padding:24px; }
@@ -13,7 +13,7 @@
     h2 { margin:0 0 12px; font-size:20px; }
     .top { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; margin-bottom:16px; }
     .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:14px; }
-    .card { background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:16px; }
+    .card { min-width:0; background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:16px; }
     .kpi { grid-column:span 3; }
     .wide { grid-column:span 8; }
     .side { grid-column:span 4; }
@@ -27,10 +27,12 @@
     .axis { stroke:var(--muted); stroke-width:1; }
     .line { fill:none; stroke:var(--accent); stroke-width:4; }
     .point { fill:var(--accent); }
-    .bar-pos { fill:var(--accent); }
+    .bar-pos { fill:var(--positive); }
     .bar-neg { fill:var(--negative); }
     .label { fill:var(--muted); font:12px Inter,system-ui,sans-serif; }
     .value { fill:var(--text); font:12px Inter,system-ui,sans-serif; font-weight:700; }
+    .table-scroll { width:100%; max-width:100%; overflow-x:auto; }
+    .table-scroll table { min-width:36rem; }
     table { width:100%; border-collapse:collapse; }
     th,td { text-align:left; border-bottom:1px solid var(--line); padding:10px 8px; }
     @media (max-width:900px) { .kpi,.wide,.side,.full,.guardrails { grid-column:1/-1; } .guardrails { grid-template-columns:1fr; } .top { display:block; } }
@@ -96,15 +98,17 @@
         </svg>
       </section>
       <section class="card full" data-design-id="detail-table">
-        <h2>Segment detail</h2>
-        <table>
-          <thead><tr><th>Segment</th><th>Active accounts</th><th>Weekly growth</th><th>Incidents</th></tr></thead>
-          <tbody>
-            <tr><td>Enterprise</td><td>126</td><td>0.051</td><td>0</td></tr>
-            <tr><td>Mid-market</td><td>184</td><td>0.072</td><td>1</td></tr>
-            <tr><td>SMB</td><td>118</td><td>0.066</td><td>1</td></tr>
-          </tbody>
-        </table>
+        <h2 id="detail-table-title">Segment detail</h2>
+        <div class="table-scroll" role="region" aria-labelledby="detail-table-title">
+          <table>
+            <thead><tr><th>Segment</th><th>Active accounts</th><th>Weekly growth</th><th>Incidents</th></tr></thead>
+            <tbody>
+              <tr><td>Enterprise</td><td>126</td><td>0.051</td><td>0</td></tr>
+              <tr><td>Mid-market</td><td>184</td><td>0.072</td><td>1</td></tr>
+              <tr><td>SMB</td><td>118</td><td>0.066</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
   </main>

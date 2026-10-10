@@ -6,10 +6,21 @@
   <title>{{TITLE}}</title>
   <link rel="stylesheet" href="../vendor/open-design-html-ppt/base.css">
   <link rel="stylesheet" href="../../design-systems/swiss-deck/layouts.css">
+  <link rel="stylesheet" href="../runtime/human-factors.css">
   <style>@media (prefers-reduced-motion: reduce) { .slide { transition: none; } }</style>
 </head>
 <body>
-  <main class="deck" data-design-id="swiss-evidence-deck" data-style-preset="swiss-deck">
+  <main class="deck" data-design-id="swiss-evidence-deck" data-style-preset="swiss-deck"
+        data-primary-preset="{{PRIMARY_PRESET}}"
+        data-design-profile-digest="{{DESIGN_PROFILE_DIGEST}}"
+        data-artifact-type="{{ARTIFACT_TYPE}}" data-navigation-mode="{{NAVIGATION_MODE}}"
+        data-reading-pattern="{{READING_PATTERN}}"
+        data-attention-context="{{ATTENTION_CONTEXT}}"
+        data-usage-frequency="{{USAGE_FREQUENCY}}"
+        data-input-context="{{INPUT_CONTEXT}}"
+        data-interaction-intent="{{INTERACTION_INTENT}}"
+        data-min-target-size="{{MINIMUM_TARGET_CSS_PX}}"
+        data-human-factors-digest="{{HUMAN_FACTORS_DIGEST}}">
     <section class="slide ds-swiss-cover" data-layout="SWISS-COVER-ASCII" data-purpose="cover">
       <div class="ds-swiss-meta"><span>{{KICKER}}</span><span>{{STATUS}}</span></div>
       <h1 class="ds-swiss-title" data-summary-id="slide-01-summary">{{TITLE}}</h1>
@@ -23,6 +34,8 @@
     </section>
   </main>
   <div class="deck-footer"><span>{{FOOTER}}</span><span class="slide-number"></span></div>
-  <script src="../vendor/open-design-html-ppt/runtime.js"></script>
+  <script src="../runtime/deck-bootstrap.js"
+          data-deck-runtime="../vendor/open-design-html-ppt/runtime.js"></script>
+  <script src="../runtime/human-factors.js"></script>
 </body>
 </html>

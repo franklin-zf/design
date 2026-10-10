@@ -47,7 +47,7 @@ applicable_gates: validate-design-output, validate-summary-map, validate-aesthet
 
 ## Status
 
-artifact_status: ready
+artifact_status: partial
 claim_assurance: local_provenance_only
 semantic_entailment: manually_reviewed
 summary_integrity: source_mapped

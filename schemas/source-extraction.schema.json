@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Source Extraction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "extraction_id", "capability", "records"],
+  "properties": {
+    "schema_version": { "const": "design-source-extraction/v1" },
+    "extraction_id": { "type": "string", "minLength": 1 },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256", "capability_id", "tool_name", "tool_version"],
+      "properties": {
+        "ref": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "capability_id": { "type": "string", "minLength": 1 },
+        "tool_name": { "type": "string", "minLength": 1 },
+        "tool_version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/record" }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "original", "extracted_text", "mappings"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "original": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "kind", "media_type"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "$ref": "#/$defs/sha256" },
+            "kind": { "enum": ["text", "binary"] },
+            "media_type": { "type": "string", "minLength": 1 }
+          }
+        },
+        "extracted_text": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "media_type", "encoding"],
+          "properties": {
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "$ref": "#/$defs/sha256" },
+            "media_type": { "const": "text/plain" },
+            "encoding": { "const": "utf-8" }
+          }
+        },
+        "mappings": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/mapping" }
+        }
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source_locator", "extracted_span", "text_sha256"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "source_locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "start", "end"],
+          "properties": {
+            "kind": { "enum": ["paragraph", "page"] },
+            "start": { "type": "integer", "minimum": 1 },
+            "end": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "extracted_span": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start_byte", "end_byte"],
+          "properties": {
+            "start_byte": { "type": "integer", "minimum": 0 },
+            "end_byte": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "text_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  }
+}

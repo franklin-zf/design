@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/execution-plan.schema.json",
+  "title": "Design resolved gate plan v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "plan_id", "resolved_gate_plan_digest", "compiler_version", "skill_identity",
+    "normalized_request", "artifact", "profile", "execution_policy", "render_spec", "automatic_gates",
+    "human_gates", "stages", "result_contract", "evidence_contract", "runner", "shadow_mode"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-resolved-gate-plan/v3" },
+    "plan_id": { "$ref": "#/$defs/sha256" },
+    "resolved_gate_plan_digest": { "$ref": "#/$defs/sha256" },
+    "compiler_version": { "type": "string", "minLength": 1 },
+    "skill_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "digest", "entry_count"],
+      "properties": {
+        "schema_version": { "const": "design-skill-identity/v1" },
+        "digest": { "$ref": "#/$defs/sha256" },
+        "entry_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "normalized_request": { "type": "object" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_dir", "artifact_type", "template_id", "workspace_root"],
+      "properties": {
+        "artifact_dir": { "$ref": "#/$defs/relative_path" },
+        "artifact_type": { "type": "string", "minLength": 1 },
+        "template_id": { "type": "string", "minLength": 1 },
+        "workspace_root": { "type": "string", "minLength": 1 },
+        "component_refs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "profile": { "enum": ["express", "standard", "assured"] },
+    "execution_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code_class", "decision", "spawn_allowed", "sandbox_profile", "reason_codes"],
+      "properties": {
+        "code_class": { "enum": ["trusted", "restricted", "untrusted"] },
+        "decision": { "enum": ["auto_standard_sandbox", "auto_disposable_sandbox", "zero_spawn"] },
+        "spawn_allowed": { "type": "boolean" },
+        "sandbox_profile": { "enum": ["standard-readonly-skill", "disposable-no-network-no-secrets", "none"] },
+        "reason_codes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } }
+      }
+    },
+    "render_spec": { "type": "object" },
+    "component_resolution": {
+      "$ref": "#/$defs/component_resolution"
+    },
+    "design_profile": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "catalogue_digest",
+        "theme_digest",
+        "visual_registry_digest",
+        "surface",
+        "primary_preset",
+        "topologies",
+        "style_preset",
+        "resolved_theme",
+        "resolved_rules",
+        "visual_treatment",
+        "selection"
+      ],
+      "properties": {
+        "schema_version": { "const": "design-profile/v2" },
+        "catalogue_digest": { "$ref": "#/$defs/sha256" },
+        "theme_digest": { "$ref": "#/$defs/sha256" },
+        "visual_registry_digest": { "$ref": "#/$defs/sha256" },
+        "surface": { "type": "object" },
+        "primary_preset": { "type": "string", "minLength": 1 },
+        "topologies": { "type": "array", "minItems": 1 },
+        "style_preset": { "type": "string", "minLength": 1 },
+        "resolved_theme": { "type": "object" },
+        "resolved_rules": { "type": "object" },
+        "visual_treatment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status", "profile_id", "variation_id", "variation_patch", "decisions", "trace"
+          ],
+          "properties": {
+            "status": { "enum": ["resolved", "profile_not_applied", "capability_fallback"] },
+            "profile_id": { "type": ["string", "null"] },
+            "variation_id": { "type": ["string", "null"] },
+            "variation_patch": { "type": "object" },
+            "decisions": { "type": "object" },
+            "trace": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+          }
+        },
+        "selection": { "type": "object" }
+      }
+    },
+    "template_resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "status",
+        "candidate_status",
+        "artifact_type",
+        "style_preset",
+        "topologies",
+        "candidates",
+        "reason_codes",
+        "selected_template_id",
+        "selected_topology_layouts"
+      ],
+      "properties": {
+        "schema_version": { "const": "design-template-resolution/v1" },
+        "status": { "const": "selected" },
+        "candidate_status": {
+          "enum": ["resolved", "needs_direction_selection"]
+        },
+        "artifact_type": { "type": "string", "minLength": 1 },
+        "style_preset": { "type": "string", "minLength": 1 },
+        "topologies": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "candidates": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "object" }
+        },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "selected_template_id": { "type": "string", "minLength": 1 },
+        "selected_topology_layouts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "automatic_gates": { "type": "array", "items": { "$ref": "#/$defs/automatic_gate" } },
+    "human_gates": { "type": "array", "items": { "$ref": "#/$defs/human_gate" } },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage_id", "gate_ids"],
+        "properties": {
+          "stage_id": { "enum": ["isolated_execution", "static", "browser", "human_review"] },
+          "gate_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string" } }
+        }
+      }
+    },
+    "result_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_status", "assurance_status", "delivery_status"],
+      "properties": {
+        "execution_status": { "type": "array", "items": { "type": "string" } },
+        "assurance_status": { "type": "array", "items": { "type": "string" } },
+        "delivery_status": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "evidence_contract": {
+      "type": "object",
+      "required": [
+        "trusted_candidate_ready_boundary",
+        "reviewer_binding_required_for_candidate_ready",
+        "machine_attestation_required_for_candidate_ready",
+        "reviewer_attestation_required_for_candidate_ready"
+      ],
+      "properties": {
+        "trusted_candidate_ready_boundary": { "const": "host_external_v1" },
+        "reviewer_binding_required_for_candidate_ready": { "const": true },
+        "machine_attestation_required_for_candidate_ready": { "const": true },
+        "reviewer_attestation_required_for_candidate_ready": { "const": true },
+        "operational_h0_requirements": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": { "$ref": "#/$defs/operational_h0_requirement" }
+        }
+      }
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_concurrency", "cache", "cache_capability", "telemetry_format"],
+      "properties": {
+        "max_concurrency": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "cache": {
+          "type": "object", "additionalProperties": false, "required": ["mode"],
+          "properties": { "mode": { "enum": ["off", "enabled"] } }
+        },
+        "cache_capability": { "const": "not_implemented" },
+        "telemetry_format": { "const": "ndjson" }
+      }
+    },
+    "shadow_mode": { "type": "boolean" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["artifact"],
+        "properties": {
+          "artifact": {
+            "required": ["artifact_type"],
+            "properties": {
+              "artifact_type": {
+                "enum": ["html-deck", "ppt-handoff", "poster"]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": ["design_profile", "template_resolution"]
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "relative_path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+" },
+    "operational_h0_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "priority",
+        "requirement",
+        "acceptance_criteria",
+        "surface_states",
+        "verification_method"
+      ],
+      "properties": {
+        "id": {
+          "enum": ["VIS-ALIGN", "VIS-LOCALE", "VIS-ICON", "VIS-COLOR"]
+        },
+        "type": { "enum": ["content", "visual"] },
+        "priority": { "const": "P0" },
+        "requirement": { "type": "string", "minLength": 1 },
+        "acceptance_criteria": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "surface_states": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "verification_method": { "const": "mixed" }
+      }
+    },
+    "automatic_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "stage", "depends_on", "cacheable", "timeout_ms", "adapter_args"],
+      "properties": {
+        "gate_id": { "type": "string", "minLength": 1 },
+        "stage": { "enum": ["static", "isolated_execution", "browser"] },
+        "depends_on": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "cacheable": { "type": "boolean" },
+        "timeout_ms": { "type": "integer", "minimum": 1 },
+        "adapter_args": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "component_resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "catalogue_digest",
+        "selected"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "design-component-resolution/v1"
+        },
+        "catalogue_digest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "selected": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "component_id",
+              "technical_class",
+              "record_digest",
+              "required_gate_ids"
+            ],
+            "properties": {
+              "component_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "technical_class": {
+                "enum": [
+                  "html_css",
+                  "static_snapshot",
+                  "native_react"
+                ]
+              },
+              "record_digest": {
+                "$ref": "#/$defs/sha256"
+              },
+              "required_gate_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "human_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "purpose", "cacheable"],
+      "properties": {
+        "gate_id": { "type": "string", "minLength": 1 },
+        "purpose": { "enum": ["quality_review", "release_review"] },
+        "cacheable": { "const": false }
+      }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/design-spec-record.schema.json",
+  "title": "Design spec record v1",
+  "description": "A distilled, reusable design-spec record. Values in `extracted` are deterministically derived from a bound design-tokens file and must match it; judgments in `judgment` require independent review before becoming reviewer_confirmed.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "record_type",
+    "created_at",
+    "classification",
+    "source",
+    "extracted",
+    "judgment",
+    "non_claims"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "design-spec-record/v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "record_type": { "const": "design_spec_record" },
+    "created_at": { "type": "string", "minLength": 1 },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_type", "artifact_type", "experience_mode", "risk_lane"],
+      "properties": {
+        "project_type": { "type": "string", "minLength": 1 },
+        "artifact_type": {
+          "enum": [
+            "data-report",
+            "dashboard",
+            "chart-frame",
+            "poster",
+            "html-deck",
+            "ppt-handoff",
+            "screenshot-evidence",
+            "tweakable-artifact",
+            "design-system",
+            "multi-artifact"
+          ]
+        },
+        "experience_mode": { "enum": ["static", "expressive", "navigational", "consequential"] },
+        "risk_lane": { "enum": ["express", "standard", "assured"] },
+        "content_signals": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reader_job": { "type": "string" },
+            "topology": { "type": "string" },
+            "content_role": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "ref", "tokens_ref", "artifact_digest"],
+      "properties": {
+        "kind": { "enum": ["artifact", "design-system"] },
+        "ref": { "$ref": "#/$defs/relative_path" },
+        "tokens_ref": { "$ref": "#/$defs/relative_path" },
+        "review_ref": { "$ref": "#/$defs/relative_path" },
+        "artifact_digest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "extracted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["colors", "typography", "spacing"],
+      "properties": {
+        "colors": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value"],
+            "properties": {
+              "value": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+              "role": { "type": "string" }
+            }
+          }
+        },
+        "color_pairings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["fg", "bg", "role"],
+            "properties": {
+              "fg": { "type": "string", "minLength": 1 },
+              "bg": { "type": "string", "minLength": 1 },
+              "role": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "spacing": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "radius": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "grid": { "type": "string" },
+        "density": { "type": "string" }
+      }
+    },
+    "judgment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["candidate", "reviewer_confirmed"] },
+        "reviewer": { "type": "string" },
+        "review_ref": { "$ref": "#/$defs/relative_path" },
+        "confirmed_at": { "type": "string" },
+        "signature_move": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "move": { "type": "string", "minLength": 1 },
+            "reader_value": { "type": "string", "minLength": 1 }
+          }
+        },
+        "why_it_works": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "anti_patterns": { "type": "array", "items": { "type": "string" } },
+        "confidence": { "enum": ["high", "medium", "low"] }
+      }
+    },
+    "non_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "^(/|~|[A-Za-z]:)" },
+      "description": "POSIX-style relative path; no absolute path, home expansion, or drive prefix."
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

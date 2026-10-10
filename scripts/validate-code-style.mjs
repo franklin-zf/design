@@ -14,17 +14,24 @@ import { spawnSync } from 'node:child_process';
 const root = process.argv[2] || '.';
 const checkedExtensions = new Set(['.js', '.mjs', '.cjs', '.json', '.md', '.yaml', '.yml']);
 const ignoredDirectories = new Set(['.git', 'node_modules', 'vendor']);
+const ignoredRootDirectories = new Set(['.exp-skill']);
 const errors = [];
 
 function toPosix(path) {
   return path.split('\\').join('/');
 }
 
+function shouldIgnoreDirectory(directory, name) {
+  if (ignoredDirectories.has(name)) return true;
+  const pathFromRoot = toPosix(relative(root, join(directory, name)));
+  return ignoredRootDirectories.has(pathFromRoot);
+}
+
 function listFiles(directory) {
   const files = [];
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     if (entry.isDirectory()) {
-      if (!ignoredDirectories.has(entry.name)) {
+      if (!shouldIgnoreDirectory(directory, entry.name)) {
         files.push(...listFiles(join(directory, entry.name)));
       }
       continue;
@@ -82,11 +89,14 @@ function validatePackageJson() {
     const parsed = JSON.parse(raw);
     const formatted = `${JSON.stringify(parsed, null, 2)}\n`;
     if (raw !== formatted) errors.push('package.json: must be formatted with JSON.stringify(data, null, 2)');
-    if (!parsed.scripts?.['validate:code-style']) {
-      errors.push('package.json: missing scripts.validate:code-style');
-    }
-    if (!parsed.scripts?.validate?.startsWith('npm run validate:code-style')) {
-      errors.push('package.json: scripts.validate must run validate:code-style first');
+    const legacyValidation = Boolean(parsed.scripts?.['validate:code-style'])
+      && parsed.scripts?.validate?.startsWith('npm run validate:code-style');
+    const unifiedValidation = parsed.scripts?.validate === 'node scripts/design.mjs validate';
+    if (!legacyValidation && !unifiedValidation) {
+      errors.push(
+        'package.json: scripts.validate must use the legacy style-first chain '
+        + 'or node scripts/design.mjs validate'
+      );
     }
   } catch (error) {
     errors.push(`package.json: invalid JSON: ${error.message}`);

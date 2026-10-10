@@ -4,6 +4,7 @@
   "status": "local_fixture",
   "notes": [
     "Tokens mirror assets/themes/presets.json swiss-deck values.",
+    "The embedded design-color-contract/v1 binds required token pairings.",
     "accent_2 is marker-only and should not be used as a dominant surface."
   ]
 }

@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-slide-plan/v1",
+  "slides": [
+    {
+      "slide": 1,
+      "layout_id": "S01",
+      "purpose": "conclusion and evidence sequence",
+      "theme": "light",
+      "source": "source-notes.txt",
+      "media_decision": "none",
+      "visual_weight": "evidence"
+    }
+  ]
+}

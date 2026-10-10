@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Style Presets",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "presets"],
+  "properties": {
+    "schema_version": {
+      "const": "design-style-presets/v2"
+    },
+    "presets": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/preset"
+      }
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#[A-Fa-f0-9]{6}$"
+    },
+    "preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surface",
+        "panel",
+        "panel_alt",
+        "text",
+        "muted",
+        "line",
+        "accent",
+        "accent_2",
+        "positive",
+        "negative",
+        "warning",
+        "color_contract",
+        "font_display",
+        "font_body",
+        "font_mono",
+        "type_scale",
+        "spacing_scale",
+        "radius",
+        "density",
+        "chart_palette",
+        "a11y"
+      ],
+      "properties": {
+        "surface": { "$ref": "#/$defs/hex" },
+        "panel": { "$ref": "#/$defs/hex" },
+        "panel_alt": { "$ref": "#/$defs/hex" },
+        "text": { "$ref": "#/$defs/hex" },
+        "muted": { "$ref": "#/$defs/hex" },
+        "line": { "$ref": "#/$defs/hex" },
+        "accent": { "$ref": "#/$defs/hex" },
+        "accent_2": { "$ref": "#/$defs/hex" },
+        "positive": { "$ref": "#/$defs/hex" },
+        "negative": { "$ref": "#/$defs/hex" },
+        "warning": { "$ref": "#/$defs/hex" },
+        "color_contract": {
+          "type": "object"
+        },
+        "font_display": {
+          "type": "string",
+          "minLength": 1
+        },
+        "font_body": {
+          "type": "string",
+          "minLength": 1
+        },
+        "font_mono": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type_scale": {
+          "type": "object"
+        },
+        "spacing_scale": {
+          "type": "object"
+        },
+        "radius": {
+          "type": "string",
+          "minLength": 1
+        },
+        "density": {
+          "enum": ["dense", "normal", "roomy"]
+        },
+        "chart_palette": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "categorical",
+            "sequential",
+            "diverging",
+            "axis",
+            "grid"
+          ],
+          "properties": {
+            "categorical": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 8,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/hex" }
+            },
+            "sequential": {
+              "type": "array",
+              "minItems": 3,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/hex" }
+            },
+            "diverging": {
+              "type": "array",
+              "minItems": 3,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/hex" }
+            },
+            "axis": { "$ref": "#/$defs/hex" },
+            "grid": { "$ref": "#/$defs/hex" }
+          }
+        },
+        "a11y": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["min_contrast", "color_alone"],
+          "properties": {
+            "min_contrast": {
+              "const": "WCAG AA for body text"
+            },
+            "color_alone": {
+              "const": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

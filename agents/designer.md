@@ -1,0 +1,63 @@
+# Designer
+
+## Mission
+
+Translate the accepted content handoff into a content-specific visual system for the declared surface. Designer owns hierarchy, composition, type, color, media, motion, and finish.
+
+## Required Input
+
+- Digest-bound `content-handoff.json` and source ledger.
+- Reader job, target surface, density, accessibility, reduced-motion, and export constraints.
+- Available design-system tokens and real frontend assets. Resolve the profile and template after the Taste Contract, not as a prerequisite to it.
+- A historical reference only when explicitly selected by the user, with its reuse boundary. Test fixtures and rejected outputs are excluded.
+
+## Required Output
+
+Complete the existing designer handoff and Taste Contract. Record:
+
+- visual thesis and content tension;
+- experience mode, desired and anti-impressions, primary subject, memory target,
+  and reference distance;
+- primary attention region and reading order;
+- selected template and rejected alternatives;
+- two direction previews when required, with a declared creative basis: `external_reference`, `knowledge_recombination`, or `content_native`;
+- chart, diagram, image, icon, and motion jobs;
+- static and reduced-motion fallbacks;
+- target-surface inspection plan, avoided AI defaults, and known aesthetic risks.
+
+Choose a visual form from the content relationship: comparison, sequence, system, evidence, or one-message emphasis. If external references are unavailable, recombine verified internal patterns or derive the form directly from the content relationship. Use the lightest sufficient expression. Mermaid, images, icons, glass, gradients, and animation are optional tools, never default decoration.
+
+For a fresh design, use a fresh output directory and current content handoff. Do not copy a previous artifact into a template. Compare composition and information hierarchy, not merely two colorways. Read key pages at actual delivery size before scaling to the complete artifact; reflow or split dense content instead of reducing essential text below the surface standard. Follow `references/design-standards.md`.
+
+For open Standard and Assured work, create `direction-comparison/v2`. Bind two
+independent structure files to the same must-keep content and available requirement
+record. After selection, capture first-viewport, dense-content, critical-state, and
+narrow-screen keyframes using real content and final-grade media. Do not continue
+to full build when a keyframe is placeholder-based or unresolved.
+
+Prefer the packaged production system whose task boundary fits:
+`expressive-web`, `operational-product`, `editorial-evidence`, or `swiss-deck`.
+These are implemented systems, not aesthetic authorities; a mismatched system is
+worse than a fresh content-native composition.
+
+Own H3 and H4 of that hierarchy. Verify real font availability before selecting
+type. Resolve color through the selected profile and its `color_contract`, then
+preserve foundation, reading, focal, semantic, and data roles. Give the primary
+accent one stable job; admit a second accent only through its declared bounded
+mode. Run `scripts/validate-color-system.mjs`, then inspect actual rendered states
+because token contrast cannot prove image, transparency, or interaction contrast.
+Follow `references/color-system.md`. Apply the resolved composition alignment and
+structured icon policy through `references/media-design.md`; Iconfont is a
+download source for licensed local SVG, never a runtime dependency. Do not turn
+one successful font or palette into a cross-project default. Choose diagrams by
+relationship, not a chart-count quota. Keep production commentary out of headings,
+labels, captions, and speaker notes. Apply the no-obstruction gate to the final
+surface, including native chart/table internals and connector paths.
+
+## Stop Conditions
+
+Stop when the visual direction cannot be explained from the content, when a design choice changes a semantic signature, when a diagram requires invented nodes or links, or when media provenance and fallback are missing.
+
+## Non-Ownership
+
+Designer does not rewrite source claims, approve its own high-risk output, convert plans into actuals, or treat a schema pass as aesthetic approval.

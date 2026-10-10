@@ -1,0 +1,409 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/direction-comparison.schema.json",
+  "title": "Design direction comparison v1 and v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "content_ledger_sha256",
+    "target_frame",
+    "directions",
+    "selected_direction_id",
+    "selection_rationale"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "design-direction-comparison/v1",
+        "design-direction-comparison/v2"
+      ]
+    },
+    "artifact_type": {
+      "enum": [
+        "ppt-handoff",
+        "html-deck",
+        "poster"
+      ]
+    },
+    "content_ledger_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "reference_registry_ref": {
+      "$ref": "#/$defs/relative_path"
+    },
+    "reference_registry_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "requirement_verification_ref": {
+      "$ref": "#/$defs/relative_path"
+    },
+    "requirement_verification_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "target_frame": {
+      "$ref": "#/$defs/frame"
+    },
+    "directions": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "selected_direction_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selection_rationale": {
+      "type": "string",
+      "minLength": 20
+    },
+    "keyframe_evidence": {
+      "$ref": "#/$defs/keyframe_evidence"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "design-direction-comparison/v1"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "properties": {
+          "directions": {
+            "items": {
+              "$ref": "#/$defs/direction_v1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "design-direction-comparison/v2"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "keyframe_evidence"
+        ],
+        "properties": {
+          "directions": {
+            "items": {
+              "$ref": "#/$defs/direction_v2"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+"
+    },
+    "content_unit_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._-]*$"
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "unit"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "unit": {
+          "const": "px"
+        }
+      }
+    },
+    "creative_basis": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "external_reference",
+          "knowledge_recombination",
+          "content_native"
+        ]
+      }
+    },
+    "string_set": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 4
+      }
+    },
+    "direction_v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "topology",
+        "visual_thesis",
+        "creative_basis",
+        "anti_default",
+        "primary_focus",
+        "media_strategy",
+        "memorable_element",
+        "restraint_rules",
+        "anti_examples",
+        "preview_ref",
+        "preview_sha256",
+        "preview_frame"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "topology": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visual_thesis": {
+          "type": "string",
+          "minLength": 16
+        },
+        "creative_basis": {
+          "$ref": "#/$defs/creative_basis"
+        },
+        "anti_default": {
+          "type": "string",
+          "minLength": 8
+        },
+        "primary_focus": {
+          "type": "string",
+          "minLength": 8
+        },
+        "media_strategy": {
+          "type": "string",
+          "minLength": 8
+        },
+        "memorable_element": {
+          "type": "string",
+          "minLength": 8
+        },
+        "restraint_rules": {
+          "$ref": "#/$defs/string_set"
+        },
+        "anti_examples": {
+          "$ref": "#/$defs/string_set"
+        },
+        "preview_ref": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "preview_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "preview_frame": {
+          "$ref": "#/$defs/frame"
+        }
+      }
+    },
+    "direction_v2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "topology",
+        "visual_thesis",
+        "creative_basis",
+        "anti_default",
+        "primary_focus",
+        "media_strategy",
+        "memorable_element",
+        "restraint_rules",
+        "anti_examples",
+        "preview_ref",
+        "preview_sha256",
+        "preview_frame",
+        "concept_statement",
+        "primary_subject",
+        "typography_strategy",
+        "material_strategy",
+        "motion_grammar",
+        "structure_kind",
+        "structure_ref",
+        "structure_sha256",
+        "content_unit_ids"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "topology": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visual_thesis": {
+          "type": "string",
+          "minLength": 16
+        },
+        "creative_basis": {
+          "$ref": "#/$defs/creative_basis"
+        },
+        "anti_default": {
+          "type": "string",
+          "minLength": 8
+        },
+        "primary_focus": {
+          "type": "string",
+          "minLength": 8
+        },
+        "media_strategy": {
+          "type": "string",
+          "minLength": 8
+        },
+        "memorable_element": {
+          "type": "string",
+          "minLength": 8
+        },
+        "restraint_rules": {
+          "$ref": "#/$defs/string_set"
+        },
+        "anti_examples": {
+          "$ref": "#/$defs/string_set"
+        },
+        "preview_ref": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "preview_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "preview_frame": {
+          "$ref": "#/$defs/frame"
+        },
+        "concept_statement": {
+          "type": "string",
+          "minLength": 20
+        },
+        "primary_subject": {
+          "type": "string",
+          "minLength": 3
+        },
+        "typography_strategy": {
+          "type": "string",
+          "minLength": 12
+        },
+        "material_strategy": {
+          "type": "string",
+          "minLength": 12
+        },
+        "motion_grammar": {
+          "type": "string",
+          "minLength": 12
+        },
+        "structure_kind": {
+          "enum": [
+            "html",
+            "slide-plan"
+          ]
+        },
+        "structure_ref": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "structure_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "content_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/content_unit_id"
+          }
+        }
+      }
+    },
+    "keyframe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "state_id",
+        "image_ref",
+        "image_sha256",
+        "frame"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "first_viewport",
+            "dense_content",
+            "critical_state",
+            "narrow_screen"
+          ]
+        },
+        "state_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "image_ref": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "image_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "frame": {
+          "$ref": "#/$defs/frame"
+        }
+      }
+    },
+    "keyframe_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_direction_id",
+        "frames"
+      ],
+      "properties": {
+        "selected_direction_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "frames": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/keyframe"
+          }
+        }
+      }
+    }
+  }
+}

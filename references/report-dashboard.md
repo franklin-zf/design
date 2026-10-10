@@ -1,6 +1,6 @@
 # Reports And Dashboards
 
-## REQ-002 Guidance Contract
+## Guidance Contract
 
 An answer is useful only when the reader can tell what to decide or check
 next. For decision-support reports and dashboards, keep this small guidance
@@ -20,8 +20,8 @@ record close to the answer or primary KPI:
 These fields describe what the evidence can guide. They do not permit the
 author to invent an owner, action, threshold, outcome, or confidence. If the
 input does not provide one, use `unknown` or `not_requested` and explain why.
-The fields are a REQ-002 contract proposal; the current artifact validators do
-not claim to enforce them.
+These fields are the product guidance contract. When an automatic validator
+does not cover one, record human review or `not_checked`; do not infer a pass.
 
 ## Report Contract
 
@@ -45,6 +45,31 @@ Reports should be answer-first and narrative-led. Charts support claims; they ar
 
 Answer-first does not mean stronger-than-source. Report summaries must preserve source meaning, keep all visible numbers verbatim from source quotes, and map visible summary text through `summary-map.json`.
 
+## Choose the Form by the Question
+
+Use the lightest form that answers the reader's question. These are options, not
+a quota or a prescribed sequence of charts.
+
+| Reader question | Suitable form | Evidence boundary |
+| --- | --- | --- |
+| Which problem does a proposed action address? | Problem-to-action comparison | Keep proposed action distinct from achieved effect; pairing is not proof of causality. |
+| What comes next? | Process or lifecycle diagram | Edges need supported order; order does not establish duration or parallelism. |
+| Which system relates to which object? | Association matrix or system map | Label the relationship; not described is not absent, zero, or completed. |
+| What belongs under what? | Hierarchy or capability map | Area and node size must not imply unsupported importance, workload, or deployment structure. |
+| How long might a phase take? | Point for fixed duration; interval for a range | Derive positions from bound source values; exclude unbounded duration from a numeric axis. Do not infer a calendar schedule or total. |
+| What must meet acceptance? | Labeled threshold values | Keep comparator, unit, and requirement status visible. Mixed units are not comparable bar lengths; no actuals means no progress gauge. |
+
+Use bars, lines, or part-to-whole charts only with the needed comparable values,
+observations, or denominator. Use text when the evidence supports no useful chart.
+Keep a common visual grammar across forms. Repetition is useful for comparable
+series; variety is useful only when it reveals a different relationship.
+
+Apply the hierarchy and disclosure rules in `references/design-standards.md`.
+Inspect whether the opening takeaway and the section evidence agree, whether
+labels and legends survive narrow-screen reflow, and whether supporting detail
+remains accessible in the intended export. Test selection and bindings, not just
+the presence of numbers somewhere in the source.
+
 ## Dashboard Contract
 
 Use a dashboard when the reader needs to monitor, diagnose, or explore a recurring metric surface.
@@ -66,13 +91,37 @@ not a decision guide.
 
 The default view must be useful before the user interacts.
 
+## Operational Surface Defaults
+
+Operational products default to `zh-CN`. Brand names, technical IDs, original
+fields, and approved abbreviations require an explicit locale exemption. Unknown
+enum values use a visible Chinese fallback such as “未知状态” while preserving the
+raw code in internal data or evidence; never expose `auth_required`, `Admin`, or a
+similar English code as the fallback label.
+
+Use declared page, section, row, control, and icon-text anchors. Edge delta is at
+most 2 px and icon optical center delta at most 1 px. Controls use 32, 40, or
+44 px heights according to density and touch needs.
+
+Use one local icon family per artifact. Icon-only controls are limited to
+universal secondary actions and require accessible names; uncertain or missing
+assets fall back to visible Chinese labels. For operational color, blue owns
+action, selection, and focus while green, amber, and red retain positive, warning,
+and danger meaning.
+
+Bind these four H0 requirements as `VIS-ALIGN`, `VIS-LOCALE`, `VIS-ICON`, and
+`VIS-COLOR`. Verify default, densest, error, and 1440/390/320 states with current
+render evidence and separate Reviewer v4 checks.
+
 ## Source Rules
 
 - Stop if a required source of truth is unavailable.
 - Use mock or schematic data only when user allows it and manifest sets `schematic: true`.
 - Put raw query paths and implementation details in source notes or manifest, not visible report prose unless needed for trust.
+- Apply the production-copy boundary in `references/design-standards.md`: source
+  notes here mean internal evidence records, not automatically speaker notes.
 - Surface missing data where it changes interpretation.
-- If no real-user sample or observed outcome is available, say so directly:
-  "No claim is made about real-user usage or impact; no real-user evidence was
-  provided." Do not turn a visual smoke check or internal review into a user
-  success claim.
+- If impact evidence affects the reader's decision, use a business qualification
+  such as "使用效果待验证". Otherwise retain the evidence gap in the internal review
+  and handoff rather than adding an author disclaimer to every page. Never turn a
+  visual smoke check or internal review into a real-user success claim.

@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-surface-claims/v1",
+  "ledger_ref": "content-ledger.json",
+  "ledger_sha256": "86a552e5564bfd7354bc6781484d3499981fd2fc6557a74c659506233c64a4bd",
+  "surface": { "id": "invalid-temporal-html", "format": "html", "path": "index.html" },
+  "claims": [{
+    "id": "historical",
+    "content_refs": ["fact-historical"],
+    "visible_claim_id": "historical",
+    "displayed_text": "当前响应时间小于等于300 ms。",
+    "semantic_signature": { "modality": "plan", "temporal_status": "current", "evidence_status": "source_supported" },
+    "selected_protected_token_refs": ["fact-historical#latency"]
+  }]
+}

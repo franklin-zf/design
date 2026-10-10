@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-slide-plan/v1",
+  "reader_job": "60 秒内判断瘦身是否有效、是否牺牲可靠性、下一步是什么",
+  "forbidden_inference": ["derived percentages", "合成分数", "面积编码比例", "趋势外推", "未批准的 fixtures 结论"],
+  "slides": [
+    {"slide": 1, "layout_id": "SWISS-COVER-ASCII", "purpose": "decision frame", "theme": "paper", "source": "source.json#S-COG,S-RUN,S-TEST", "source_ids": ["S-COG", "S-RUN", "S-TEST"], "reader_question": "瘦身是否有效且边界是什么？", "primary_claim": "瘦身有效；可靠性未被证据推翻。", "media_decision": "none", "visual_weight": "cover", "mobile_reflow": "标题、判断与边界按阅读顺序纵向堆叠"},
+    {"slide": 2, "layout_id": "S20", "purpose": "cognitive surface evidence", "theme": "paper", "source": "source.json#S-COG", "source_ids": ["S-COG"], "reader_question": "认知表面是否收窄？", "primary_claim": "入口更短，引用更少。", "media_decision": "none", "visual_weight": "metric", "mobile_reflow": "两个 source-verbatim 事实纵向排列"},
+    {"slide": 3, "layout_id": "S08", "purpose": "runtime integrity evidence", "theme": "paper", "source": "source.json#S-RUN", "source_ids": ["S-RUN"], "reader_question": "包体收窄时运行时闭包是否保持？", "primary_claim": "更小的包；更干净的运行时引用面。", "media_decision": "none", "visual_weight": "comparison", "mobile_reflow": "包体与闭包两栏改为纵向，顺序不变"},
+    {"slide": 4, "layout_id": "S21", "purpose": "reliability guardrail", "theme": "paper", "source": "source.json#S-TEST,S-COMMITS", "source_ids": ["S-TEST", "S-COMMITS"], "reader_question": "是否牺牲可靠性，仍有哪些阻塞？", "primary_claim": "127 total / 125 pass / 1 fail / 1 skip", "media_decision": "none", "visual_weight": "evidence", "mobile_reflow": "测试账本双列，阻塞说明和 commits 顺序保持"},
+    {"slide": 5, "layout_id": "S11", "purpose": "next step", "theme": "paper", "source": "source.json#S-NEXT", "source_ids": ["S-NEXT"], "reader_question": "下一步是什么？", "primary_claim": "解除 Playwright runtime / browser_smoke。", "media_decision": "none", "visual_weight": "statement", "mobile_reflow": "行动与验收边界纵向排列"},
+    {"slide": 6, "layout_id": "SWISS-CLOSING-ASCII", "purpose": "two-track convergence", "theme": "paper", "source": "source.json#S-COG,S-RUN,S-TEST,S-NEXT", "source_ids": ["S-COG", "S-RUN", "S-TEST", "S-NEXT"], "reader_question": "两条轨道汇合成什么结论？", "primary_claim": "结构性瘦身成立；视觉可靠性仍待验证。", "media_decision": "none", "visual_weight": "close", "mobile_reflow": "两轨改为纵向并在末尾给出同一裁决"}
+  ]
+}

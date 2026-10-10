@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Surface Claims",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ledger_ref", "ledger_sha256", "surface", "claims"],
+  "properties": {
+    "schema_version": { "const": "design-surface-claims/v1" },
+    "ledger_ref": { "type": "string", "minLength": 1 },
+    "ledger_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "format", "path"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "format": { "enum": ["html", "ppt-handoff", "poster"] },
+        "path": { "type": "string", "minLength": 1 }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/claim" }
+    }
+  },
+  "$defs": {
+    "semantic_signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modality", "temporal_status", "evidence_status"],
+      "properties": {
+        "modality": {
+          "enum": ["plan", "requirement", "question", "precondition", "gate", "target", "assertion", "actual"]
+        },
+        "temporal_status": { "enum": ["historical", "current", "future", "timeless"] },
+        "evidence_status": {
+          "enum": ["unverified", "source_supported", "planned", "target", "verified", "actual", "derived_verified"]
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "content_refs",
+        "visible_claim_id",
+        "displayed_text",
+        "semantic_signature",
+        "selected_protected_token_refs"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "content_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "visible_claim_id": { "type": "string", "minLength": 1 },
+        "displayed_text": { "type": "string", "minLength": 1 },
+        "semantic_signature": { "$ref": "#/$defs/semantic_signature" },
+        "selected_protected_token_refs": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[^#]+#[^#]+$" }
+        }
+      }
+    }
+  }
+}

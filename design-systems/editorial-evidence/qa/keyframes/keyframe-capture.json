@@ -1,0 +1,54 @@
+{
+  "schema_version": "design-keyframe-capture/v1",
+  "source_ref": "components.html",
+  "source_sha256": "4fdc33a53314f55d4c1a0c40c4e2aa9079dfb10ed7ca9b82d97c51dcc9f9dc14",
+  "spec_ref": "keyframes.json",
+  "spec_sha256": "3aa05c7d9ccc8f54414a636e3f0b0662d1c88d7947007c2e5d69fd78ceac83ab",
+  "reduced_motion": true,
+  "frames": [
+    {
+      "role": "first_viewport",
+      "state_id": "first-default",
+      "image_ref": "first_viewport.png",
+      "image_sha256": "ba3516c26256bbe12506723be058f53996ea6501db227e32c79539d1c33ab84c",
+      "frame": {
+        "width": 1240,
+        "height": 649,
+        "unit": "px"
+      }
+    },
+    {
+      "role": "dense_content",
+      "state_id": "dense-default",
+      "image_ref": "dense_content.png",
+      "image_sha256": "a940cf41d87d6c635ecbaa3972a81be51e20924f48baab13cd75a8dc8ac3c4d6",
+      "frame": {
+        "width": 1240,
+        "height": 1492,
+        "unit": "px"
+      }
+    },
+    {
+      "role": "critical_state",
+      "state_id": "critical-default",
+      "image_ref": "critical_state.png",
+      "image_sha256": "ff640c2bcfa1698e57bf0ce07357f1f62f02a2a53df157af5da68f1f0b777cc2",
+      "frame": {
+        "width": 557,
+        "height": 139,
+        "unit": "px"
+      }
+    },
+    {
+      "role": "narrow_screen",
+      "state_id": "narrow-default",
+      "image_ref": "narrow_screen.png",
+      "image_sha256": "f6c3c8fbf8e95d09320090c0c243065cbd5388c787dffb93e6b803a9818c77b7",
+      "frame": {
+        "width": 390,
+        "height": 844,
+        "unit": "px"
+      }
+    }
+  ]
+}

@@ -6,7 +6,7 @@
   "style_preset": "operational-dashboard",
   "template_id": "operational-dashboard",
   "template_selection": {"template_id": "operational-dashboard", "reader_job": "repeat-use operational monitoring", "rationale": "The source contains current KPIs, an eight-week trend, drivers, detail rows, and freshness.", "rejected_alternatives": ["source-backed-report", "swiss-evidence-deck"]},
-  "validation": {"applicable_gates": ["validate-design-output", "validate-claim-map", "render-smoke"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/dashboard-pass"}, {"gate_id": "validate-claim-map", "status": "passed", "evidence": "node scripts/validate-claim-map.mjs examples/dashboard-pass"}, {"gate_id": "render-smoke", "status": "passed", "evidence": "node scripts/render-smoke.mjs examples/dashboard-pass/index.html --viewports=desktop,mobile"}]},
+  "validation": {"applicable_gates": ["validate-design-output", "validate-claim-map", "validate-visual-encoding", "render-smoke"], "results": [{"gate_id": "validate-design-output", "status": "passed", "evidence": "node scripts/validate-design-output.mjs examples/dashboard-pass"}, {"gate_id": "validate-claim-map", "status": "passed", "evidence": "node scripts/validate-claim-map.mjs examples/dashboard-pass"}, {"gate_id": "validate-visual-encoding", "status": "passed", "evidence": "node scripts/validate-visual-encoding.mjs examples/dashboard-pass"}, {"gate_id": "render-smoke", "status": "passed", "evidence": "node scripts/render-smoke.mjs examples/dashboard-pass/index.html --viewports=desktop,mobile"}]},
   "guidance_fields": {"drivers": {"html_id": "drivers", "source_refs": ["examples/dashboard-pass/source.json"]}, "guardrails": {"html_id": "guardrails", "source_refs": ["examples/dashboard-pass/source.json"]}, "filters": {"html_id": "filters", "source_refs": ["examples/dashboard-pass/source.json"]}, "freshness": {"html_id": "freshness", "source_refs": ["examples/dashboard-pass/source.json"]}},
   "schematic": false,
   "source_materials": ["examples/dashboard-pass/source.json"],
@@ -61,5 +61,5 @@
   "layouts": ["topbar", "kpi-strip", "guardrails", "activity", "drivers", "detail-table"],
   "assumptions": ["Fixture data is treated as reviewed operational source data."],
   "missing_data": [],
-  "unverified_items": ["Operational freshness is illustrative."]
+  "unverified_items": ["Operational freshness is illustrative.", "Small-phone overflow acceptance not run: node scripts/render-smoke.mjs examples/dashboard-pass/index.html --viewports=small-phone --strict-layout"]
 }

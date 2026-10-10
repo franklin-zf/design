@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/design-case-record.schema.json",
+  "title": "Design project case record v1",
+  "description": "A source-bound historical project record that contributes evidence to reusable design standards.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "record_type",
+    "created_at",
+    "classification",
+    "source",
+    "reader_job",
+    "design_decisions",
+    "evaluation",
+    "judgment",
+    "lessons",
+    "non_claims"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-case-record/v1" },
+    "id": { "type": "string", "minLength": 1 },
+    "record_type": { "const": "design_case_record" },
+    "created_at": { "type": "string", "minLength": 1 },
+    "updated_at": { "type": "string", "minLength": 1 },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_type", "artifact_type", "experience_mode", "risk_lane"],
+      "properties": {
+        "project_type": { "type": "string", "minLength": 1 },
+        "artifact_type": {
+          "enum": [
+            "data-report",
+            "dashboard",
+            "chart-frame",
+            "poster",
+            "html-deck",
+            "ppt-handoff",
+            "screenshot-evidence",
+            "tweakable-artifact",
+            "design-system",
+            "multi-artifact"
+          ]
+        },
+        "experience_mode": { "enum": ["static", "expressive", "navigational", "consequential"] },
+        "risk_lane": { "enum": ["express", "standard", "assured"] },
+        "content_signals": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reader_job": { "type": "string" },
+            "topology": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "artifact_ref", "artifact_digest", "source_materials", "sensitivity", "license"],
+      "properties": {
+        "mode": { "enum": ["sanitized", "public", "private_local"] },
+        "artifact_ref": { "$ref": "#/$defs/relative_path" },
+        "artifact_digest": { "$ref": "#/$defs/sha256" },
+        "source_materials": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["ref", "sha256"],
+            "properties": {
+              "ref": { "$ref": "#/$defs/relative_path" },
+              "sha256": { "$ref": "#/$defs/sha256" },
+              "purpose": { "type": "string" }
+            }
+          }
+        },
+        "sensitivity": { "enum": ["none", "redacted", "sensitive_local_only"] },
+        "license": { "enum": ["owned", "permissioned", "public_licensed", "unknown"] }
+      }
+    },
+    "reader_job": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "scenario"],
+      "properties": {
+        "statement": { "type": "string", "minLength": 1 },
+        "scenario": { "type": "string", "minLength": 1 },
+        "audience": { "type": "string" }
+      }
+    },
+    "design_decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visual_thesis", "content_tension", "creative_basis", "selected_direction", "rejected_directions", "restraint_rule"],
+      "properties": {
+        "visual_thesis": { "type": "string", "minLength": 1 },
+        "content_tension": { "type": "string", "minLength": 1 },
+        "creative_basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["external_reference", "knowledge_recombination", "content_native"] },
+          "uniqueItems": true
+        },
+        "selected_direction": { "type": "string", "minLength": 1 },
+        "rejected_directions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "reason"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "reason": { "type": "string", "minLength": 1 },
+              "evidence_ref": { "$ref": "#/$defs/relative_path" }
+            }
+          }
+        },
+        "restraint_rule": { "type": "string", "minLength": 1 },
+        "method_note": { "type": "string" }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["three_second", "preference", "evaluator_types"],
+      "properties": {
+        "three_second": { "$ref": "#/$defs/evaluation_result" },
+        "preference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "evidence_refs"],
+          "properties": {
+            "status": { "enum": ["not_run", "passed", "failed"] },
+            "evidence_refs": { "type": "array", "items": { "$ref": "#/$defs/relative_path" } },
+            "win_rate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "sample_size": { "type": ["integer", "null"], "minimum": 0 }
+          }
+        },
+        "evaluator_types": {
+          "type": "array",
+          "items": { "enum": ["model_panel", "human_panel", "user_observed"] },
+          "uniqueItems": true
+        }
+      }
+    },
+    "judgment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["candidate", "reviewer_confirmed", "user_validated", "deprecated"] },
+        "reviewer": { "type": "string" },
+        "review_ref": { "$ref": "#/$defs/relative_path" },
+        "confirmed_at": { "type": "string" }
+      }
+    },
+    "lessons": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reusable_rules", "anti_patterns", "reuse_boundary", "standard_promotion"],
+      "properties": {
+        "reusable_rules": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "anti_patterns": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "reuse_boundary": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "standard_promotion": { "enum": ["not_ready", "candidate", "promoted", "deprecated"] }
+      }
+    },
+    "non_claims": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  },
+  "$defs": {
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![\\/~])(?![A-Za-z]:)(?!.*(?:^|[\\/])\\.\\.(?:[\\/]|$)).+"
+    },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "evaluation_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence_refs"],
+      "properties": {
+        "status": { "enum": ["not_run", "passed", "failed"] },
+        "evidence_refs": { "type": "array", "items": { "$ref": "#/$defs/relative_path" } },
+        "sample_size": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "judgment": { "properties": { "status": { "const": "reviewer_confirmed" } } } } },
+      "then": { "required": ["judgment"] }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-surface-claims/v1",
+  "ledger_ref": "content-ledger.json",
+  "ledger_sha256": "a5578399ab1ed938365af4cfe755759d1d5f89a1015aa58852c1f4efa8add38e",
+  "surface": { "id": "invalid-plan-html", "format": "html", "path": "index.html" },
+  "claims": [{
+    "id": "plan",
+    "content_refs": ["fact-plan"],
+    "visible_claim_id": "plan",
+    "displayed_text": "试运行已于九月完成，实际投入约17人月。",
+    "semantic_signature": { "modality": "actual", "temporal_status": "current", "evidence_status": "verified" },
+    "selected_protected_token_refs": ["fact-plan#effort"]
+  }]
+}

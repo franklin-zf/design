@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-content-ledger/v1",
+  "ledger_id": "invalid-target-transition",
+  "entries": [{
+    "id": "fact-target",
+    "source_ref": "source.txt",
+    "source_sha256": "bdee3e3ad88eab1354e48c388376b7487aecba639a8c9842d8f925ede0399b30",
+    "source_quote": "验收目标：任务耗时降低至少20%。",
+    "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+    "semantic_signature": { "modality": "target", "temporal_status": "future", "evidence_status": "target" },
+    "protected_tokens": [{ "id": "reduction", "text": "至少20%" }]
+  }]
+}

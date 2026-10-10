@@ -1,0 +1,34 @@
+{
+  "schema_version": "design-component-pilot/v1",
+  "id": "component-operational-pilot",
+  "reader_job": "Scan current state, identify the priority exception and affected metric, then locate the next action and source note.",
+  "use_scenario": "Internal component value review for a repeat-use operational dashboard",
+  "interactive": true,
+  "baseline_html": "baseline.html",
+  "enhanced_html": "index.html",
+  "component_ref": "design-owned-operational-control-feedback",
+  "review_tasks": [
+    "State the current queue size.",
+    "Identify the highest-priority exception.",
+    "Name the affected metric.",
+    "Locate the next action and source note."
+  ],
+  "parity_fields": [
+    "visible_text",
+    "numbers",
+    "units",
+    "caveats",
+    "source_note",
+    "reading_order"
+  ],
+  "rollback": "Remove the component marker and enhanced state styles; baseline.html retains the same control, content, and reading order.",
+  "fallback": {
+    "static_html": "The current state, exception, metric, action, and owner detail remain readable without CSS state change.",
+    "reduced_motion": "The control changes state without animation.",
+    "ppt_handoff": "Print shows the owner handoff detail and hides the interactive checkbox."
+  },
+  "non_claims": [
+    "This controlled pilot does not prove production or real-user value.",
+    "The local fixture is not a live operational feed."
+  ]
+}

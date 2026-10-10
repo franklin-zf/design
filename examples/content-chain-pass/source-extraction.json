@@ -1,0 +1,60 @@
+{
+  "schema_version": "design-source-extraction/v1",
+  "extraction_id": "content-chain-source-extraction-v1",
+  "capability": {
+    "ref": "extraction-capability.json",
+    "sha256": "b7fe699f263320e9f1cda1142052c66ff652854161f698940d4f6b4c57d25442",
+    "capability_id": "design-content-chain-fixture-extractor/v1",
+    "tool_name": "design-content-chain-fixture-extractor",
+    "tool_version": "1.0.0"
+  },
+  "records": [
+    {
+      "id": "source",
+      "original": {
+        "path": "source.txt",
+        "sha256": "60c01b9586e3c87f1acd5c2700338f089db5596913060f3df162f13675dcf168",
+        "kind": "text",
+        "media_type": "text/plain"
+      },
+      "extracted_text": {
+        "path": "extracted/source.txt",
+        "sha256": "60c01b9586e3c87f1acd5c2700338f089db5596913060f3df162f13675dcf168",
+        "media_type": "text/plain",
+        "encoding": "utf-8"
+      },
+      "mappings": [
+        {
+          "id": "source-paragraph-1",
+          "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+          "extracted_span": { "start_byte": 0, "end_byte": 65 },
+          "text_sha256": "2ee968c7d33701afe4c86afcd99f53a344cae60876b0bfa27462caf6dd300d74"
+        },
+        {
+          "id": "source-paragraph-2",
+          "source_locator": { "kind": "paragraph", "start": 2, "end": 2 },
+          "extracted_span": { "start_byte": 66, "end_byte": 112 },
+          "text_sha256": "6d0076c38d91e619292627fe96175259d4524372ee736b5df5363f530c4e9d8c"
+        },
+        {
+          "id": "source-paragraph-3",
+          "source_locator": { "kind": "paragraph", "start": 3, "end": 3 },
+          "extracted_span": { "start_byte": 113, "end_byte": 176 },
+          "text_sha256": "1965428be9cfaa5a92b05c4ca9d6789813776a364f6a53f20740ef32de6646fe"
+        },
+        {
+          "id": "source-paragraph-4",
+          "source_locator": { "kind": "paragraph", "start": 4, "end": 4 },
+          "extracted_span": { "start_byte": 177, "end_byte": 247 },
+          "text_sha256": "4783f45296ffc3b4477abbf718b73b2d353e4b23b39683e5617e8ca094c2e822"
+        },
+        {
+          "id": "source-paragraph-5",
+          "source_locator": { "kind": "paragraph", "start": 5, "end": 5 },
+          "extracted_span": { "start_byte": 248, "end_byte": 293 },
+          "text_sha256": "520062c475877050af2a9ec83bb876dfe9aaefba4d7dfe5bace3fc2dcf165bc9"
+        }
+      ]
+    }
+  ]
+}

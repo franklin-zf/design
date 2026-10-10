@@ -1,0 +1,47 @@
+{
+  "schema_version": "components-manifest/v1",
+  "system_id": "operational-product",
+  "components": [
+    {
+      "id": "workbench-shell",
+      "role": "stable application navigation",
+      "selectors": [
+        ".ds-workbench",
+        ".ds-sidebar",
+        ".ds-main"
+      ]
+    },
+    {
+      "id": "metric-rail",
+      "role": "high-frequency status scan",
+      "selectors": [
+        ".ds-metric-rail",
+        ".ds-metric"
+      ]
+    },
+    {
+      "id": "filter-bar",
+      "role": "bounded operational controls",
+      "selectors": [
+        ".ds-filter-bar",
+        ".ds-filter"
+      ]
+    },
+    {
+      "id": "work-queue",
+      "role": "comparable repeated records",
+      "selectors": [
+        ".ds-queue",
+        ".ds-queue-row"
+      ]
+    },
+    {
+      "id": "state-detail",
+      "role": "selected object and next action",
+      "selectors": [
+        ".ds-detail",
+        ".ds-state"
+      ]
+    }
+  ]
+}

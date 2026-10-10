@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/design-evaluation-policy.schema.json",
+  "title": "Design evaluation policy v1",
+  "description": "Shared evidence requirements for comprehension, preference, and observed user validation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "purpose",
+    "required_by_lane",
+    "evaluator_types",
+    "rules",
+    "non_claims"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-evaluation-policy/v1" },
+    "status": { "enum": ["calibration_required", "calibrated"] },
+    "purpose": { "type": "string", "minLength": 1 },
+    "required_by_lane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["express", "standard", "assured"],
+      "properties": {
+        "express": { "$ref": "#/$defs/gateList" },
+        "standard": { "$ref": "#/$defs/gateList" },
+        "assured": { "$ref": "#/$defs/gateList" }
+      }
+    },
+    "evaluator_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["model_panel", "human_panel", "user_observed"] }
+    },
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["three_second", "blinded_preference", "user_validation", "thresholds"],
+      "properties": {
+        "three_second": { "type": "string", "minLength": 1 },
+        "blinded_preference": { "type": "string", "minLength": 1 },
+        "user_validation": { "type": "string", "minLength": 1 },
+        "thresholds": { "type": "string", "minLength": 1 }
+      }
+    },
+    "non_claims": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "gateList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "surface_review",
+          "three_second",
+          "blinded_preference",
+          "independent_review"
+        ]
+      }
+    }
+  }
+}

@@ -19,6 +19,7 @@
   "contracts": {
     "layout_lock": "swiss-s01-s22",
     "accent_policy": "single-accent-with-marker-only-accent-2",
+    "color_policy": "swiss-signal",
     "svg_text_policy": "forbid-visible-text-in-generated-swiss-svg",
     "motion_policy": "semantic-motion-with-reduced-motion"
   }

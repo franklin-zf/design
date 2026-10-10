@@ -1,0 +1,36 @@
+{
+  "schema_version": "design-source-extraction/v1",
+  "extraction_id": "invalid-path-escape",
+  "capability": {
+    "ref": "../source-extraction-pass/extraction-capability.json",
+    "sha256": "bbd5bc7c8161b8fb87e5d38fbffaaf75af217d2efe149aa8966a5aab014f35bb",
+    "capability_id": "design-fixture-source-extractor/v1",
+    "tool_name": "design-fixture-extractor",
+    "tool_version": "1.0.0"
+  },
+  "records": [
+    {
+      "id": "escaped",
+      "original": {
+        "path": "missing.bin",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "kind": "binary",
+        "media_type": "application/octet-stream"
+      },
+      "extracted_text": {
+        "path": "missing.txt",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "media_type": "text/plain",
+        "encoding": "utf-8"
+      },
+      "mappings": [
+        {
+          "id": "escaped-page",
+          "source_locator": { "kind": "page", "start": 1, "end": 1 },
+          "extracted_span": { "start_byte": 0, "end_byte": 1 },
+          "text_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ]
+    }
+  ]
+}

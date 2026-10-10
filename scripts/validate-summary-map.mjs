@@ -2,6 +2,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { isAbsolute, join, relative, resolve } from 'node:path';
+import { findProductionCommentary } from './lib/production-copy.mjs';
 
 const dir = process.argv[2];
 if (!dir) {
@@ -331,6 +332,14 @@ if (manifest && summaryMap) {
     }
 
     const lowered = String(visibleSummaryText || summary.summary_text).toLowerCase();
+    const isLiteralQuote = quoteText.some((quote) => (
+      normalize(quote) === normalize(visibleSummaryText || summary.summary_text)
+    ));
+    if (!isLiteralQuote) {
+      for (const phrase of findProductionCommentary(visibleSummaryText || summary.summary_text)) {
+        errors.push(`summary "${summary.id}" contains production commentary: ${phrase}`);
+      }
+    }
     for (const term of forbiddenTerms) {
       const termLower = term.toLowerCase();
       if (lowered.includes(termLower)) {

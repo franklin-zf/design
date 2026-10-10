@@ -1,0 +1,79 @@
+{
+  "schema_version": "design-tokens/v1",
+  "colors": {
+    "surface": "#F3F0E8",
+    "paper": "#FCFBF7",
+    "text": "#201D18",
+    "muted": "#716B61",
+    "line": "#D8D1C4",
+    "accent": "#A23D2F",
+    "secondary": "#28566B"
+  },
+  "color_contract": {
+    "schema_version": "design-color-contract/v1",
+    "paradigm": "editorial-ink",
+    "foundation": "light",
+    "chroma_budget": "balanced",
+    "primary_accent_roles": [
+      "chapter",
+      "key-data"
+    ],
+    "secondary_accent_mode": "bounded-series",
+    "semantic_exception_roles": [],
+    "max_focal_hues": 1,
+    "color_alone": false,
+    "required_pairings": [
+      {
+        "foreground": "text",
+        "background": "surface",
+        "minimum_ratio": 7,
+        "usage": "body-text"
+      },
+      {
+        "foreground": "text",
+        "background": "paper",
+        "minimum_ratio": 7,
+        "usage": "body-text"
+      },
+      {
+        "foreground": "muted",
+        "background": "surface",
+        "minimum_ratio": 4.5,
+        "usage": "supporting-text"
+      },
+      {
+        "foreground": "muted",
+        "background": "paper",
+        "minimum_ratio": 4.5,
+        "usage": "supporting-text"
+      },
+      {
+        "foreground": "accent",
+        "background": "surface",
+        "minimum_ratio": 4.5,
+        "usage": "interactive-text"
+      },
+      {
+        "foreground": "secondary",
+        "background": "paper",
+        "minimum_ratio": 4.5,
+        "usage": "marker"
+      }
+    ]
+  },
+  "typography": {
+    "display": "\"Iowan Old Style\", Baskerville, Georgia, serif",
+    "body": "\"Avenir Next\", \"Helvetica Neue\", sans-serif",
+    "mono": "\"SFMono-Regular\", Menlo, monospace"
+  },
+  "spacing": {
+    "page": "clamp(24px, 6vw, 92px)",
+    "section": "72px",
+    "gap": "24px",
+    "tight": "8px"
+  },
+  "radius": {
+    "default": "2px",
+    "figure": "0px"
+  }
+}

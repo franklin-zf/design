@@ -1,0 +1,36 @@
+{
+  "schema_version": "design-source-extraction/v1",
+  "extraction_id": "invalid-tool-drift",
+  "capability": {
+    "ref": "extraction-capability.json",
+    "sha256": "bbd5bc7c8161b8fb87e5d38fbffaaf75af217d2efe149aa8966a5aab014f35bb",
+    "capability_id": "design-fixture-source-extractor/v1",
+    "tool_name": "design-fixture-extractor",
+    "tool_version": "2.0.0"
+  },
+  "records": [
+    {
+      "id": "proposal-text",
+      "original": {
+        "path": "sources/proposal.txt",
+        "sha256": "cdc74a98237c90627e8e909369c81f278690558e29776c772a2efba7f02f6198",
+        "kind": "text",
+        "media_type": "text/plain"
+      },
+      "extracted_text": {
+        "path": "extracted/proposal.txt",
+        "sha256": "cdc74a98237c90627e8e909369c81f278690558e29776c772a2efba7f02f6198",
+        "media_type": "text/plain",
+        "encoding": "utf-8"
+      },
+      "mappings": [
+        {
+          "id": "paragraph-1",
+          "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+          "extracted_span": { "start_byte": 0, "end_byte": 42 },
+          "text_sha256": "2a06d45d033ac3438d62fa2ef54af0b18c6a36cd7de2178c4ebebd59fb76c1a4"
+        }
+      ]
+    }
+  ]
+}

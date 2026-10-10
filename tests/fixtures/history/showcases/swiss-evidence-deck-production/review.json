@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-showcase-review/v1",
+  "reviewer_id": "slice1-independent-qa-20260810",
+  "reviewed_at": "2026-08-09T16:27:09Z",
+  "status": "approved",
+  "review_scope": "retrospective_visual_and_evidence_review",
+  "assurance_basis": "curated_retrospective_record",
+  "artifact_digest": "f537ce443fd71a9853cf0c9dd39871fad30b0d7ba6d39ed939c93666645a8380",
+  "surface_evidence_digest": "4ac4761dd90c8ab02078c0a9672cb50acf094a1ddb597b392b7797eede4195d0",
+  "non_claims": [
+    "This curated review record is digest-bound but is not cryptographically authenticated.",
+    "No real-user validation or business impact is claimed."
+  ]
+}

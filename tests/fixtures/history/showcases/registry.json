@@ -1,0 +1,28 @@
+{
+  "schema_version": "design-showcase-registry/v1",
+  "purpose": "Curated production case records for taste learning; this is not a validator fixture inventory.",
+  "fixture_root": "examples/",
+  "fixture_policy": "Passing fixtures prove contract behavior only. They are not production showcases unless a separate reviewed case is listed here.",
+  "showcases": [
+    {
+      "id": "swiss-evidence-deck-production",
+      "artifact_type": "html-deck",
+      "template_id": "swiss-evidence-deck-production",
+      "case_ref": "showcases/swiss-evidence-deck-production/case.json",
+      "artifact_ref": "examples/swiss-evidence-deck-production-pass/",
+      "surface_evidence": [
+        "examples/swiss-evidence-deck-production-pass/qa/contact-sheet.png",
+        "examples/swiss-evidence-deck-production-pass/qa/contact-sheet-reduced.png",
+        "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-desktop.png",
+        "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-mobile.png"
+      ],
+      "production_status": "validated_vertical_slice",
+      "review_scope": "Existing local source, calculation, contract, responsive, reduced-motion, and manual fixture evidence only."
+    }
+  ],
+  "coverage_gaps": [
+    "No report production showcase is claimed.",
+    "No dashboard production showcase is claimed.",
+    "No poster production showcase is claimed."
+  ]
+}

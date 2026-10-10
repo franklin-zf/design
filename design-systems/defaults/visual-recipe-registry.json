@@ -1,0 +1,113 @@
+{
+  "schema_version": "visual-recipe-registry/v1",
+  "recipes": [
+    { "id": "composition.single-action-card", "dimension": "composition", "conflicts_with": [], "fallback": "composition.simple-container" },
+    { "id": "composition.simple-container", "dimension": "composition", "conflicts_with": [], "fallback": "composition.simple-container" },
+    { "id": "material.translucent-surface", "dimension": "material", "conflicts_with": ["material.opaque-surface"], "fallback": "material.opaque-readable-surface" },
+    { "id": "material.opaque-surface", "dimension": "material", "conflicts_with": ["material.translucent-surface"], "fallback": "material.opaque-readable-surface" },
+    { "id": "material.opaque-readable-surface", "dimension": "material", "conflicts_with": [], "fallback": "material.opaque-readable-surface" },
+    { "id": "lighting.subtle-edge", "dimension": "lighting", "conflicts_with": ["lighting.no-edge", "lighting.glowing-edge"], "fallback": "lighting.system-border" },
+    { "id": "lighting.no-edge", "dimension": "lighting", "conflicts_with": ["lighting.subtle-edge", "lighting.glowing-edge"], "fallback": "lighting.system-border" },
+    { "id": "lighting.glowing-edge", "dimension": "lighting", "conflicts_with": ["lighting.subtle-edge", "lighting.no-edge"], "fallback": "lighting.system-border" },
+    { "id": "lighting.system-border", "dimension": "lighting", "conflicts_with": [], "fallback": "lighting.system-border" },
+    { "id": "color.background-field", "dimension": "color", "conflicts_with": [], "fallback": "color.background-field" },
+    { "id": "typography.editorial-hierarchy", "dimension": "typography", "conflicts_with": [], "fallback": "typography.editorial-hierarchy" },
+    { "id": "accessibility.readability-guard", "dimension": "accessibility", "conflicts_with": [], "fallback": "material.opaque-readable-surface" }
+  ],
+  "profiles": [
+    {
+      "id": "glassmorphism-card",
+      "cues": ["glassmorphism", "frosted-glass", "translucent-card"],
+      "compatible_recipe_inputs": [
+        { "recipe_id": "material.translucent-surface", "input_names": ["blur"] }
+      ],
+      "variations": [
+        {
+          "id": "blur-medium",
+          "recipe_inputs": [
+            {
+              "recipe_id": "material.translucent-surface",
+              "inputs": { "blur": { "value": 16, "unit": "px", "provenance": "profile-explicit" } }
+            }
+          ]
+        }
+      ],
+      "recipe_uses": [
+        {
+          "recipe_id": "composition.single-action-card",
+          "inputs": {
+            "content_roles": { "value": ["title", "description", "action"], "provenance": "profile-explicit" },
+            "spacing": { "value": "clean-scale-based", "provenance": "profile-explicit" },
+            "radius": { "value": "existing-radius-scale", "provenance": "suggested-default" }
+          }
+        },
+        {
+          "recipe_id": "material.translucent-surface",
+          "inputs": {
+            "mode": { "value": "translucent", "provenance": "profile-explicit" },
+            "fill": { "value": "semi-transparent-white", "provenance": "profile-explicit" }
+          }
+        },
+        {
+          "recipe_id": "lighting.subtle-edge",
+          "inputs": { "edge": { "value": "subtle-semitransparent-light", "provenance": "profile-explicit" } }
+        },
+        {
+          "recipe_id": "color.background-field",
+          "inputs": { "background": { "value": "low-frequency-color-field", "provenance": "profile-explicit" } }
+        },
+        {
+          "recipe_id": "accessibility.readability-guard",
+          "inputs": { "contrast_policy": { "value": "final-composite-WCAG-AA", "provenance": "accessibility-policy" } }
+        }
+      ]
+    },
+    {
+      "id": "editorial-ink-panel",
+      "cues": ["editorial", "ink-panel", "publication"],
+      "compatible_recipe_inputs": [
+        { "recipe_id": "typography.editorial-hierarchy", "input_names": ["hierarchy"] }
+      ],
+      "variations": [
+        {
+          "id": "compact-reading",
+          "recipe_inputs": [
+            {
+              "recipe_id": "typography.editorial-hierarchy",
+              "inputs": { "hierarchy": { "value": "compact-serif-display-sans-body", "provenance": "profile-explicit" } }
+            }
+          ]
+        }
+      ],
+      "recipe_uses": [
+        {
+          "recipe_id": "composition.single-action-card",
+          "inputs": {
+            "content_roles": { "value": ["headline", "dek", "citation", "action"], "provenance": "profile-explicit" },
+            "spacing": { "value": "editorial-reading-rhythm", "provenance": "profile-explicit" },
+            "radius": { "value": "minimal", "provenance": "profile-explicit" }
+          }
+        },
+        {
+          "recipe_id": "material.opaque-surface",
+          "inputs": {
+            "mode": { "value": "opaque", "provenance": "profile-explicit" },
+            "fill": { "value": "warm-paper", "provenance": "profile-explicit" }
+          }
+        },
+        {
+          "recipe_id": "lighting.subtle-edge",
+          "inputs": { "edge": { "value": "ink-hairline", "provenance": "profile-explicit" } }
+        },
+        {
+          "recipe_id": "typography.editorial-hierarchy",
+          "inputs": { "hierarchy": { "value": "serif-display-sans-body", "provenance": "profile-explicit" } }
+        },
+        {
+          "recipe_id": "accessibility.readability-guard",
+          "inputs": { "contrast_policy": { "value": "WCAG-AA", "provenance": "accessibility-policy" } }
+        }
+      ]
+    }
+  ]
+}

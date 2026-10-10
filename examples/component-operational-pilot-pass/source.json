@@ -1,0 +1,18 @@
+{
+  "snapshot": "2026-07-30 09:00 CST",
+  "source_note": "Source: source.json",
+  "total_requests": 24,
+  "blocked_requests": 3,
+  "priority_exception": "Identity review blocked",
+  "affected_metric": "3 blocked requests",
+  "next_action": "Open owner handoff",
+  "queue_status": [
+    {"status": "On track", "requests": 21},
+    {"status": "Blocked", "requests": 3}
+  ],
+  "age_distribution": [
+    {"age": "Under 1 day", "requests": 18},
+    {"age": "1-2 days", "requests": 3},
+    {"age": "Over 2 days", "requests": 3}
+  ]
+}

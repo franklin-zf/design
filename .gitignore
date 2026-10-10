@@ -1,8 +1,10 @@
 node_modules/
 .exp-skill/
+temp_data/
 .npm-cache/
 dist/
 .DS_Store
 npm-debug.log*
 .env
 .env.*
+design-knowledge/private/

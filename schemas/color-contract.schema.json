@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Color Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "paradigm",
+    "foundation",
+    "chroma_budget",
+    "primary_accent_roles",
+    "secondary_accent_mode",
+    "semantic_exception_roles",
+    "max_focal_hues",
+    "color_alone",
+    "required_pairings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "design-color-contract/v1"
+    },
+    "paradigm": {
+      "enum": [
+        "neutral-evidence",
+        "editorial-ink",
+        "swiss-signal",
+        "subject-led",
+        "operational-state",
+        "controlled-exploration"
+      ]
+    },
+    "foundation": {
+      "enum": ["light", "dark", "mixed"]
+    },
+    "chroma_budget": {
+      "enum": ["restrained", "balanced", "expressive", "controlled"]
+    },
+    "primary_accent_roles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "active-control",
+          "brand-expression",
+          "chapter",
+          "focus",
+          "interactive-text",
+          "key-data",
+          "primary-action",
+          "selection"
+        ]
+      }
+    },
+    "secondary_accent_mode": {
+      "enum": [
+        "forbidden",
+        "marker-only",
+        "semantic-support",
+        "bounded-series"
+      ]
+    },
+    "semantic_exception_roles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["positive", "negative", "warning", "danger", "info"]
+      }
+    },
+    "max_focal_hues": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2
+    },
+    "color_alone": {
+      "const": false
+    },
+    "required_pairings": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "foreground",
+          "background",
+          "minimum_ratio",
+          "usage"
+        ],
+        "properties": {
+          "foreground": {
+            "type": "string",
+            "minLength": 1
+          },
+          "background": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minimum_ratio": {
+            "type": "number",
+            "minimum": 3,
+            "maximum": 21
+          },
+          "usage": {
+            "enum": [
+              "body-text",
+              "supporting-text",
+              "interactive-text",
+              "status-text",
+              "non-text-focus",
+              "marker",
+              "inverse-text"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

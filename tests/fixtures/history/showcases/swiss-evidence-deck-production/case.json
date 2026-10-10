@@ -1,0 +1,155 @@
+{
+  "schema_version": "design-showcase-case/v1",
+  "id": "swiss-evidence-deck-production",
+  "record_type": "retrospective_case_record",
+  "artifact_type": "html-deck",
+  "template_id": "swiss-evidence-deck-production",
+  "brief": "Show how a source-backed offline HTML deck can make claims, numbers, layouts, media, and review status inspectable.",
+  "reader_job": "Inspect the evidence chain, production boundary, and release decision for a Design production deck.",
+  "source_refs": [
+    "examples/swiss-evidence-deck-production-pass/source/decision-brief.md",
+    "examples/swiss-evidence-deck-production-pass/source/layout-inventory.csv",
+    "examples/swiss-evidence-deck-production-pass/manifest.json",
+    "examples/swiss-evidence-deck-production-pass/quality-report.md",
+    "examples/swiss-evidence-deck-production-pass/slide-plan.json"
+  ],
+  "visual_thesis": "Evidence before style: make the production chain inspectable through a disciplined sequence of distinct semantic layouts.",
+  "content_tension": {
+    "statement": "A contract fixture can prove structure, while a production deck must also prove decisions, evidence, rhythm, and review.",
+    "source_refs": [
+      "examples/swiss-evidence-deck-production-pass/source/decision-brief.md",
+      "examples/swiss-evidence-deck-production-pass/summary-map.json"
+    ]
+  },
+  "directions": [
+    {
+      "id": "swiss-evidence-deck-production",
+      "status": "selected",
+      "thesis": "Use the production Swiss system to sequence evidence, exact data, risk, and decision close across distinct layouts.",
+      "reason": "The artifact manifest selects this template for its evidence, metric, risk, and decision-close reader jobs.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+    },
+    {
+      "id": "swiss-evidence-deck",
+      "status": "rejected",
+      "thesis": "Use the lighter Swiss evidence-deck template.",
+      "reason": "The manifest records this template as rejected but does not preserve the original rejection rationale; no stronger historical claim is made.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+    },
+    {
+      "id": "source-backed-report",
+      "status": "rejected",
+      "thesis": "Use a long-form source-backed report instead of sequential presentation rhythm.",
+      "reason": "The manifest records this template as rejected; the selected reader job requires an executive presentation sequence rather than a report surface.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/manifest.json"
+    }
+  ],
+  "signature_move": {
+    "move": "Use nine distinct semantic layouts for nine slides, ending in a risk/control page and decision close.",
+    "reader_value": "The changing layout weight makes each evidence role recognizable without mixing visual systems.",
+    "evidence_refs": [
+      "examples/swiss-evidence-deck-production-pass/slide-plan.json",
+      "examples/swiss-evidence-deck-production-pass/derived/inventory.json",
+      "examples/swiss-evidence-deck-production-pass/qa/contact-sheet.png"
+    ]
+  },
+  "anti_reference": [
+    {
+      "reference": "A shallow generic deck seed presented as production proof",
+      "avoid_because": "The source distinguishes structural fixture evidence from a production deck that proves decisions.",
+      "evidence_ref": "examples/swiss-evidence-deck-production-pass/summary-map.json"
+    }
+  ],
+  "restraint_rule": "Use one Swiss visual system, keep accent_2 marker-only with at most one use, and forbid visible text inside generated Swiss SVG assets.",
+  "artifact_ref": "examples/swiss-evidence-deck-production-pass/",
+  "surface_evidence": [
+    "examples/swiss-evidence-deck-production-pass/qa/contact-sheet.png",
+    "examples/swiss-evidence-deck-production-pass/qa/contact-sheet-reduced.png",
+    "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-desktop.png",
+    "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-mobile.png"
+  ],
+  "artifact_binding": {
+    "artifact_digest": "f537ce443fd71a9853cf0c9dd39871fad30b0d7ba6d39ed939c93666645a8380",
+    "source_bindings": [
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/source/decision-brief.md",
+        "sha256": "6ad779feec4300c396054f17a5bdcfcadc0fc943a2aa480e3edd7196dabb5237"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/source/layout-inventory.csv",
+        "sha256": "3c208955d21a75f786006c0108824ec6c111cdf869880fa429d39c078abac810"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/manifest.json",
+        "sha256": "26feb9e3b855684c1d4320d0edba9a3d5da5c251cf0f78a01b6f987b3ca3c92a"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/quality-report.md",
+        "sha256": "7002c0e2d3786c9a8e4bcc1bbe177b2c254f14c26551fb7cc7edbcec9ebb7481"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/slide-plan.json",
+        "sha256": "c9d5a3bb932e0624ab96c7e858be0c6ce8f1719de602fff9a94f8fc2aa0c2f36"
+      }
+    ],
+    "surface_bindings": [
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/qa/contact-sheet.png",
+        "sha256": "290a0704800d42d4fbec7f1a30bfd766b55689a60dc596aa1cecf384ad72833b",
+        "captured_at": "2026-07-19T00:00:00Z"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/qa/contact-sheet-reduced.png",
+        "sha256": "e53fab95edc12e6cd2ac5d4bed53e3690bebbfd37353ca9976c820e90959fc0e",
+        "captured_at": "2026-07-19T00:00:00Z"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-desktop.png",
+        "sha256": "86010a830fa6111a75bd7c1f58a7680dfc04282385289ea532724a60534e01b6",
+        "captured_at": "2026-07-19T00:00:00Z"
+      },
+      {
+        "ref": "examples/swiss-evidence-deck-production-pass/qa/swiss-evidence-deck-production-pass-mobile.png",
+        "sha256": "0ea4bc8d6843f9fbea0fdd19e70811067194c7bae60dc2970b6c96001737d5a9",
+        "captured_at": "2026-07-19T00:00:00Z"
+      }
+    ]
+  },
+  "assurance": {
+    "structure_passed": "passed",
+    "evidence_traced": "passed",
+    "visually_reviewed": "passed",
+    "decision_ready": "not_claimed",
+    "user_validated": "not_run"
+  },
+  "review_binding": {
+    "status": "approved",
+    "reviewer_id": "slice1-independent-qa-20260810",
+    "reviewed_at": "2026-08-09T16:27:09Z",
+    "review_evidence_ref": "showcases/swiss-evidence-deck-production/review.json",
+    "review_evidence_sha256": "5abfb0a9ccd7e581203b493ebba022e74f531e4d446b8aa58f1a5401e62dea73",
+    "artifact_digest": "f537ce443fd71a9853cf0c9dd39871fad30b0d7ba6d39ed939c93666645a8380",
+    "surface_evidence_digest": "4ac4761dd90c8ab02078c0a9672cb50acf094a1ddb597b392b7797eede4195d0"
+  },
+  "retrospective": {
+    "worked": [
+      "The layout inventory, source mapping, derived counts, media declarations, responsive captures, and reduced-motion captures are inspectable.",
+      "The sequence varies visual weight while staying inside one registered design system."
+    ],
+    "limits": [
+      "The case record was reconstructed from existing files; it is not evidence that the current Taste Contract was used during original creation.",
+      "The fixture proves one production path, not universal template fit.",
+      "The case does not cover native PPTX, PDF, Figma, live data, or external fact verification."
+    ],
+    "do_not_reuse_when": [
+      "The content needs long-form report reading rather than presentation rhythm.",
+      "The source cannot support distinct evidence, metric, risk, and decision reader jobs.",
+      "Required calculation provenance or media truth is incomplete."
+    ]
+  },
+  "non_claims": [
+    "This retrospective does not claim that rejected-direction reasons beyond the manifest were recorded contemporaneously.",
+    "No real-user usability, comprehension, satisfaction, completion, or business impact is claimed.",
+    "No universal template fit or native-export fidelity is claimed."
+  ]
+}

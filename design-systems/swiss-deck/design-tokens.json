@@ -10,6 +10,25 @@
     "accent": "#0047ff",
     "accent_2": "#d7ff00"
   },
+  "color_contract": {
+    "schema_version": "design-color-contract/v1",
+    "paradigm": "swiss-signal",
+    "foundation": "light",
+    "chroma_budget": "restrained",
+    "primary_accent_roles": ["focus", "key-data"],
+    "secondary_accent_mode": "marker-only",
+    "semantic_exception_roles": [],
+    "max_focal_hues": 1,
+    "color_alone": false,
+    "required_pairings": [
+      { "foreground": "text", "background": "surface", "minimum_ratio": 7, "usage": "body-text" },
+      { "foreground": "text", "background": "panel", "minimum_ratio": 7, "usage": "body-text" },
+      { "foreground": "muted", "background": "surface", "minimum_ratio": 4.5, "usage": "supporting-text" },
+      { "foreground": "muted", "background": "panel", "minimum_ratio": 4.5, "usage": "supporting-text" },
+      { "foreground": "accent", "background": "surface", "minimum_ratio": 4.5, "usage": "interactive-text" },
+      { "foreground": "text", "background": "accent_2", "minimum_ratio": 7, "usage": "inverse-text" }
+    ]
+  },
   "typography": {
     "display": "Inter, Helvetica, Arial, sans-serif",
     "body": "Inter, Helvetica, Arial, sans-serif",

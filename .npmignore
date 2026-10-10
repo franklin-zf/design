@@ -8,3 +8,4 @@ npm-debug.log*
 .env
 .env.*
 design-*.tgz
+design-knowledge/

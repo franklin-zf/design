@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-showcase-registry/v1",
+  "purpose": "No production reference is currently endorsed. Historical records are test fixtures only.",
+  "fixture_root": "examples/",
+  "fixture_policy": "Passing fixtures prove contract behavior only. They are not production showcases or proof of user acceptance.",
+  "showcases": [],
+  "coverage_gaps": [
+    "No report production showcase is claimed.",
+    "No dashboard production showcase is claimed.",
+    "No poster production showcase is claimed.",
+    "No deck production showcase is claimed."
+  ]
+}

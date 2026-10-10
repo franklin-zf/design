@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "design-primitives/v1",
+  "title": "Design primitives — atomic, reusable design elements reverse-extracted from a design system or artifact",
+  "type": "object",
+  "required": ["schema_version", "record_type", "id", "source", "status", "colors", "color_pairings", "typography", "spacing_scale", "radius", "structural_facts", "non_claims"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "design-primitives/v1" },
+    "record_type": { "const": "design_primitives" },
+    "id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string" },
+    "source": {
+      "type": "object",
+      "required": ["kind", "ref", "tokens_ref"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["design-system", "artifact"] },
+        "ref": { "type": "string", "minLength": 1 },
+        "tokens_ref": { "type": "string", "minLength": 1 },
+        "spec_record_id": { "type": "string" }
+      }
+    },
+    "status": {
+      "const": "candidate",
+      "description": "Primitives carry only deterministically extracted values. Subjective labeling (why/tags) is confirmed only via a reviewer-bound design-spec-record."
+    },
+    "colors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "role": { "type": "string" },
+          "value": { "type": "string", "pattern": "^#[0-9a-f]{6}$" }
+        }
+      }
+    },
+    "color_pairings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "fg_role", "bg_role", "fg", "bg", "basis"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "fg_role": { "type": "string" },
+          "bg_role": { "type": "string" },
+          "fg": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+          "bg": { "type": "string", "pattern": "^#[0-9a-f]{6}$" },
+          "basis": { "const": "token-role-cooccurrence" }
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "spacing_scale": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "value", "px"],
+        "additionalProperties": false,
+        "properties": {
+          "role": { "type": "string" },
+          "value": { "type": "string" },
+          "px": { "type": ["number", "null"] }
+        }
+      }
+    },
+    "radius": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "structural_facts": {
+      "type": "object",
+      "required": ["zero_radius", "chromatic_roles", "neutral_roles"],
+      "additionalProperties": false,
+      "properties": {
+        "zero_radius": { "type": "boolean" },
+        "chromatic_roles": { "type": "array", "items": { "type": "string" } },
+        "neutral_roles": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "non_claims": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+  }
+}

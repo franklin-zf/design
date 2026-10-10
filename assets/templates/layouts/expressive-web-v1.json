@@ -1,0 +1,26 @@
+{
+  "schema_version": "layout-registry/v1",
+  "id": "expressive-web-v1",
+  "layouts": [
+    {
+      "id": "EW-HERO",
+      "name": "Media stage",
+      "visual_weight": "immersive"
+    },
+    {
+      "id": "EW-OBJECT-INDEX",
+      "name": "Object index",
+      "visual_weight": "narrative"
+    },
+    {
+      "id": "EW-PROOF-STRIP",
+      "name": "Proof strip",
+      "visual_weight": "evidence"
+    },
+    {
+      "id": "EW-SCENE-BREAK",
+      "name": "Scene break",
+      "visual_weight": "special"
+    }
+  ]
+}

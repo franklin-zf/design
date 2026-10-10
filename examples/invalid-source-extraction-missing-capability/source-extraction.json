@@ -1,0 +1,36 @@
+{
+  "schema_version": "design-source-extraction/v1",
+  "extraction_id": "invalid-missing-capability",
+  "capability": {
+    "ref": "missing-capability.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "capability_id": "missing/v1",
+    "tool_name": "missing-tool",
+    "tool_version": "1.0.0"
+  },
+  "records": [
+    {
+      "id": "untrusted",
+      "original": {
+        "path": "missing.bin",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "kind": "binary",
+        "media_type": "application/octet-stream"
+      },
+      "extracted_text": {
+        "path": "missing.txt",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "media_type": "text/plain",
+        "encoding": "utf-8"
+      },
+      "mappings": [
+        {
+          "id": "missing-page",
+          "source_locator": { "kind": "page", "start": 1, "end": 1 },
+          "extracted_span": { "start_byte": 0, "end_byte": 1 },
+          "text_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ]
+    }
+  ]
+}

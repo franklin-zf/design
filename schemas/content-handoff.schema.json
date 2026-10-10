@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/content-handoff.schema.json",
+  "title": "Design Poster Content Handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "handoff_id",
+    "sender_role",
+    "recipient_role",
+    "artifact_type",
+    "ledger_ref",
+    "ledger_sha256",
+    "reader_job",
+    "one_sentence_message",
+    "content_units",
+    "must_keep_unit_ids",
+    "explicit_omissions",
+    "must_not_say",
+    "review"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-content-handoff/v1" },
+    "handoff_id": { "$ref": "#/$defs/id" },
+    "sender_role": { "const": "poster" },
+    "recipient_role": { "const": "designer" },
+    "artifact_type": { "enum": ["poster", "ppt-handoff", "html-deck", "data-report", "dashboard", "chart-frame"] },
+    "ledger_ref": { "$ref": "#/$defs/relative_path" },
+    "ledger_sha256": { "$ref": "#/$defs/sha256" },
+    "reader_job": { "$ref": "#/$defs/non_empty" },
+    "one_sentence_message": { "$ref": "#/$defs/non_empty" },
+    "content_units": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/content_unit" }
+    },
+    "must_keep_unit_ids": { "$ref": "#/$defs/id_array" },
+    "explicit_omissions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/omission" }
+    },
+    "must_not_say": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/non_empty" }
+    },
+    "review": { "$ref": "#/$defs/review" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+"
+    },
+    "non_empty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._-]*$"
+    },
+    "id_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "token_ref_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9._-]*#[a-z][a-z0-9._-]*$"
+      }
+    },
+    "content_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "semantic_unit_id",
+        "display_text",
+        "content_mode",
+        "source_refs",
+        "protected_token_refs",
+        "visual_priority",
+        "must_keep"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "semantic_unit_id": { "$ref": "#/$defs/id" },
+        "display_text": { "$ref": "#/$defs/non_empty" },
+        "content_mode": { "enum": ["source_verbatim", "plain_summary", "computed", "schematic", "open_question"] },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relative_path" }
+        },
+        "protected_token_refs": { "$ref": "#/$defs/token_ref_array" },
+        "visual_priority": { "enum": ["primary", "secondary", "supporting", "caveat"] },
+        "must_keep": { "type": "boolean" },
+        "derivation_refs": { "$ref": "#/$defs/id_array" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "content_mode": { "const": "computed" } },
+            "required": ["content_mode"]
+          },
+          "then": { "required": ["derivation_refs"] }
+        }
+      ]
+    },
+    "omission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit_id", "reason", "impact"],
+      "properties": {
+        "unit_id": { "$ref": "#/$defs/id" },
+        "reason": { "$ref": "#/$defs/non_empty" },
+        "impact": { "enum": ["none", "low", "material", "unknown"] }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewer", "method"],
+      "properties": {
+        "status": { "enum": ["draft", "content_reviewed", "blocked"] },
+        "reviewer": { "$ref": "#/$defs/non_empty" },
+        "reviewed_at": { "$ref": "#/$defs/non_empty" },
+        "method": { "$ref": "#/$defs/non_empty" }
+      }
+    }
+  }
+}

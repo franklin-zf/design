@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/evidence-contract.schema.json",
+  "title": "Design evidence contract v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "resolved_plan_digest", "content_digest", "surface_digest", "delivery_status", "source_inventory_ref",
+    "claim_map_ref", "accessibility_check_ref", "privacy_check_ref", "render_spec_ref", "render_profile_ref"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-evidence-contract/v3" },
+    "resolved_plan_digest": { "$ref": "#/$defs/sha256" },
+    "content_digest": { "$ref": "#/$defs/sha256" },
+    "surface_digest": { "$ref": "#/$defs/sha256" },
+    "delivery_status": { "enum": ["blocked", "schematic_only", "candidate_ready"] },
+    "source_inventory_ref": { "$ref": "#/$defs/relative_path" },
+    "claim_map_ref": { "$ref": "#/$defs/relative_path" },
+    "accessibility_check_ref": { "$ref": "#/$defs/relative_path" },
+    "privacy_check_ref": { "$ref": "#/$defs/relative_path" },
+    "render_spec_ref": { "$ref": "#/$defs/relative_path" },
+    "render_profile_ref": { "$ref": "#/$defs/relative_path" },
+    "requirement_verification_ref": { "$ref": "#/$defs/relative_path" },
+    "reviewer_record_ref": { "$ref": "#/$defs/relative_path" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "delivery_status": { "const": "candidate_ready" } }, "required": ["delivery_status"] },
+      "then": { "required": ["reviewer_record_ref"] }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "relative_path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+" }
+  }
+}

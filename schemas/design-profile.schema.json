@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Resolved Design Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalogue_digest",
+    "theme_digest",
+    "visual_registry_digest",
+    "brief",
+    "surface",
+    "primary_preset",
+    "topologies",
+    "style_preset",
+    "resolved_theme",
+    "resolved_rules",
+    "visual_treatment",
+    "selection"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-profile/v2" },
+    "catalogue_digest": { "$ref": "#/$defs/sha256" },
+    "theme_digest": { "$ref": "#/$defs/sha256" },
+    "visual_registry_digest": { "$ref": "#/$defs/sha256" },
+    "brief": { "type": "object" },
+    "content_routing": { "$ref": "#/$defs/content_routing" },
+    "surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "artifact_type", "delivery_mode", "rules"],
+      "properties": {
+        "id": { "enum": ["ppt", "html", "poster"] },
+        "artifact_type": {
+          "enum": ["ppt-handoff", "html-deck", "poster"]
+        },
+        "delivery_mode": {
+          "enum": ["handoff_only", "responsive_document", "fixed_canvas"]
+        },
+        "rules": { "type": "object" }
+      }
+    },
+    "primary_preset": { "$ref": "#/$defs/product_preset_id" },
+    "secondary_preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contributes"],
+      "properties": {
+        "id": { "$ref": "#/$defs/product_preset_id" },
+        "contributes": {
+          "const": ["topology", "surface_emphasis"]
+        }
+      }
+    },
+    "topologies": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "style_preset": { "type": "string", "minLength": 1 },
+    "resolved_theme": { "type": "object" },
+    "resolved_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aesthetic_thesis",
+        "tone",
+        "typography_direction",
+        "color_direction",
+        "composition",
+        "media",
+        "data_visualization",
+        "motion",
+        "surface_emphasis",
+        "anti_patterns"
+      ],
+      "properties": {
+        "aesthetic_thesis": { "type": "string", "minLength": 1 },
+        "tone": { "type": "array", "minItems": 3, "items": { "type": "string" } },
+        "typography_direction": { "type": "object" },
+        "color_direction": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "focal_job",
+            "semantic_exceptions",
+            "media_integration",
+            "avoid"
+          ],
+          "properties": {
+            "focal_job": { "type": "string", "minLength": 1 },
+            "semantic_exceptions": { "type": "string", "minLength": 1 },
+            "media_integration": { "type": "string", "minLength": 1 },
+            "avoid": { "type": "string", "minLength": 1 }
+          }
+        },
+        "composition": { "type": "object" },
+        "media": { "type": "object" },
+        "data_visualization": { "type": "object" },
+        "motion": { "type": "object" },
+        "surface_emphasis": { "type": "string", "minLength": 1 },
+        "anti_patterns": { "type": "array", "minItems": 3, "items": { "type": "string" } }
+      }
+    },
+    "visual_treatment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "profile_id", "variation_id", "variation_patch", "decisions", "trace"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "resolved",
+            "profile_not_applied",
+            "conflict",
+            "capability_fallback",
+            "variation_not_found",
+            "incompatible_recipe"
+          ]
+        },
+        "profile_id": { "type": ["string", "null"] },
+        "variation_id": { "type": ["string", "null"] },
+        "variation_patch": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/recipe_input" }
+        },
+        "decisions": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/recipe_input" }
+        },
+        "trace": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["override_used", "reason_codes", "brand_status"],
+      "properties": {
+        "override_used": { "type": "boolean" },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "brand_status": {
+          "enum": ["not_provided", "requires_verified_brand_merge"]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "content_routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "status", "selected_profile_id", "candidate_profile_ids",
+        "rejected_candidate_ids", "reason_codes", "matched_rule_ids", "unknown_signals",
+        "conflicts", "clarification_questions", "content_constraints", "enforced_constraints",
+        "semantic_degradation", "trace"
+      ],
+      "properties": {
+        "schema_version": { "const": "content-routing/v1" },
+        "status": { "enum": ["recommended", "abstained", "conflict", "blocked"] },
+        "selected_profile_id": {
+          "anyOf": [{ "$ref": "#/$defs/product_preset_id" }, { "type": "null" }]
+        },
+        "candidate_profile_ids": {
+          "type": "array", "uniqueItems": true,
+          "items": { "$ref": "#/$defs/product_preset_id" }
+        },
+        "rejected_candidate_ids": {
+          "type": "array", "uniqueItems": true,
+          "items": { "$ref": "#/$defs/product_preset_id" }
+        },
+        "reason_codes": { "$ref": "#/$defs/string_array" },
+        "matched_rule_ids": { "$ref": "#/$defs/string_array" },
+        "unknown_signals": { "$ref": "#/$defs/string_array" },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field", "sources", "values"],
+            "properties": {
+              "field": { "type": "string", "minLength": 1 },
+              "sources": { "$ref": "#/$defs/string_array" },
+              "values": { "$ref": "#/$defs/string_array" }
+            }
+          }
+        },
+        "clarification_questions": { "$ref": "#/$defs/string_array" },
+        "content_constraints": { "type": "object" },
+        "enforced_constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "target_path", "value", "provenance"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "target_path": { "type": "string", "minLength": 1 },
+              "value": {},
+              "provenance": { "const": "content-constraint" }
+            }
+          }
+        },
+        "semantic_degradation": {
+          "type": ["object", "null"]
+        },
+        "trace": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "recipe_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "provenance"],
+      "properties": {
+        "value": {},
+        "unit": { "type": "string", "minLength": 1 },
+        "provenance": {
+          "enum": [
+            "source-verbatim",
+            "accessibility-policy",
+            "content-constraint",
+            "profile-explicit",
+            "suggested-default"
+          ]
+        }
+      }
+    },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "product_preset_id": { "type": "string", "minLength": 1 }
+  }
+}

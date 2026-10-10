@@ -10,8 +10,6 @@
       --ink: #111111;
       --muted: #5f625f;
       --line: #d8d8d0;
-      --accent: #0047ff;
-      --marker: #d7ff00;
     }
 
     * {
@@ -19,106 +17,84 @@
     }
 
     body {
+      display: grid;
       margin: 0;
       min-height: 100vh;
+      place-items: start center;
       color: var(--ink);
-      background: var(--surface);
+      background: #d7d7d2;
       font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
     }
 
     .poster {
+      container-type: inline-size;
+      position: relative;
+      width: min(100vw, 80vh);
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: linear-gradient(var(--ink), var(--ink)) top / 100% 1.2% no-repeat,
+        var(--surface);
+    }
+
+    .poster-canvas {
+      position: absolute;
+      inset: 5%;
       display: grid;
       grid-template-rows: auto 1fr auto;
-      min-height: 100vh;
-      padding: clamp(24px, 5vw, 72px);
-      border-top: 12px solid var(--ink);
     }
 
     .meta {
       display: flex;
       justify-content: space-between;
-      gap: 24px;
+      gap: 2.2cqw;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 1.2cqw;
       text-transform: uppercase;
       letter-spacing: 0;
     }
 
     .stage {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(180px, 32vw);
+      grid-template-columns: minmax(0, 1fr) minmax(0, .55fr);
       align-items: center;
-      gap: clamp(28px, 5vw, 72px);
-      padding: 6vh 0;
+      gap: 5cqw;
+      padding: 6cqw 0;
     }
 
     h1 {
       margin: 0;
-      max-width: 11ch;
-      font-size: clamp(56px, 11vw, 148px);
+      max-width: 11em;
+      font-size: 11cqw;
       line-height: .88;
       letter-spacing: 0;
+      text-wrap: balance;
     }
 
     .message {
-      max-width: 54ch;
-      margin-top: 28px;
+      max-width: 54em;
+      margin-top: 2.6cqw;
       color: var(--muted);
-      font-size: clamp(18px, 2.4vw, 28px);
+      font-size: 2.2cqw;
       line-height: 1.35;
     }
 
     .hook {
       aspect-ratio: 1;
-      border: 2px solid var(--ink);
-      display: grid;
-      place-items: center;
       position: relative;
       overflow: hidden;
-    }
-
-    .hook::before,
-    .hook::after {
-      content: "";
-      position: absolute;
-      background: var(--accent);
-    }
-
-    .hook::before {
-      width: 66%;
-      height: 16%;
-      transform: rotate(-18deg);
-    }
-
-    .hook::after {
-      width: 18%;
-      height: 70%;
-      background: var(--marker);
-      mix-blend-mode: multiply;
-      transform: rotate(18deg);
+      min-height: 22cqw;
     }
 
     .foot {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 24px;
+      gap: 2.2cqw;
       align-items: end;
       border-top: 1px solid var(--line);
-      padding-top: 20px;
+      padding-top: 1.8cqw;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 1.25cqw;
       line-height: 1.5;
-    }
-
-    @media (max-width: 760px) {
-      .stage,
-      .foot {
-        grid-template-columns: 1fr;
-      }
-
-      .hook {
-        width: min(100%, 320px);
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -131,22 +107,39 @@
   </style>
 </head>
 <body>
-  <main class="poster" data-design-id="poster-root" data-style-preset="swiss-deck" data-poster-id="poster-id">
-    <div class="meta">
+  <main class="poster" data-design-id="poster-root" data-style-preset="{{STYLE_PRESET}}"
+        data-primary-preset="{{PRIMARY_PRESET}}"
+        data-design-profile-digest="{{DESIGN_PROFILE_DIGEST}}"
+        data-poster-id="poster-id" data-layout="poster-type-led"
+        data-artifact-type="poster" data-navigation-mode="static"
+        data-surface-mode="poster-fixed" data-poster-frame-width="1080"
+        data-poster-frame-height="1350" data-poster-frame-aspect="0.8"
+        data-reading-pattern="{{READING_PATTERN}}"
+        data-attention-context="{{ATTENTION_CONTEXT}}"
+        data-usage-frequency="{{USAGE_FREQUENCY}}"
+        data-input-context="none" data-interaction-intent="static"
+        data-min-target-size="0"
+        data-human-factors-digest="{{HUMAN_FACTORS_DIGEST}}"
+        data-primary-claim="#poster-title">
+    <div class="poster-canvas">
+    <div class="meta" data-poster-region="meta">
       <span>Audience</span>
       <span>Source-backed poster</span>
     </div>
-    <section class="stage" aria-labelledby="poster-title">
-      <div>
+    <section class="stage" data-poster-region="stage" aria-labelledby="poster-title">
+      <div data-poster-region="claim">
         <h1 id="poster-title">核心信息</h1>
         <p class="message">一句直接、清晰、保留原意的说明。</p>
       </div>
-      <div class="hook" aria-hidden="true"></div>
+      <!-- Unselected by design: replace with a message-specific type, image,
+           data, product, or diagram hook and record it in poster-plan.json. -->
+      <div class="hook" data-poster-region="hook" data-hook-status="unselected" aria-hidden="true"></div>
     </section>
-    <footer class="foot">
+    <footer class="foot" data-poster-region="source">
       <span>Source: local source material</span>
       <span>design-artifact/v1</span>
     </footer>
+    </div>
   </main>
 </body>
 </html>

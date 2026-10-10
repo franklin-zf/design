@@ -1,0 +1,49 @@
+{
+  "schema_version": "design-keyframe-capture-spec/v1",
+  "reduced_motion": true,
+  "frames": [
+    {
+      "role": "first_viewport",
+      "state_id": "first-default",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "capture": "selector",
+      "selector": "[data-keyframe=\"first\"]",
+      "setup": []
+    },
+    {
+      "role": "dense_content",
+      "state_id": "dense-default",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "capture": "selector",
+      "selector": "[data-keyframe=\"dense\"]",
+      "setup": []
+    },
+    {
+      "role": "critical_state",
+      "state_id": "critical-default",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "capture": "selector",
+      "selector": "[data-keyframe=\"critical\"]",
+      "setup": []
+    },
+    {
+      "role": "narrow_screen",
+      "state_id": "narrow-default",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capture": "viewport",
+      "setup": []
+    }
+  ]
+}

@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, relative, resolve } from 'node:path';
-import { z } from 'playwright-core/lib/utilsBundle';
+import { join, relative, resolve } from 'node:path';
+import {
+  compileSchema,
+  validateJsonInstance as validateWithSchema
+} from './lib/json-schema.mjs';
 
 const manifestRequired = [
   'schema_version',
@@ -10,6 +13,9 @@ const manifestRequired = [
   'audience',
   'surface',
   'style_preset',
+  'template_id',
+  'template_selection',
+  'validation',
   'schematic',
   'source_materials',
   'data_sources',
@@ -22,12 +28,40 @@ const manifestRequired = [
 ];
 
 const schemaFiles = [
+  'schemas/color-contract.schema.json',
+  'schemas/component-catalogue.schema.json',
+  'schemas/design-brief.schema.json',
+  'schemas/design-profile-catalogue.schema.json',
+  'schemas/design-profile.schema.json',
+  'schemas/execution-plan.schema.json',
+  'schemas/evidence-contract.schema.json',
+  'schemas/accessibility-checks.schema.json',
+  'schemas/privacy-checks.schema.json',
+  'schemas/reviewer-record.schema.json',
+  'schemas/machine-attestation.schema.json',
+  'schemas/reviewer-registry.schema.json',
+  'schemas/reviewer-attestation.schema.json',
+  'schemas/approval-rejection.schema.json',
+  'schemas/showcase-case.schema.json',
+  'schemas/design-case-record.schema.json',
+  'schemas/design-evaluation-policy.schema.json',
+  'schemas/design-evaluation-record.schema.json',
+  'schemas/render-spec.schema.json',
   'schemas/intake-direction.schema.json',
   'schemas/data-provenance.schema.json',
   'schemas/deck-plan.schema.json',
   'schemas/chart-spec.schema.json',
   'schemas/claim-map.schema.json',
   'schemas/summary-map.schema.json',
+  'schemas/content-ledger.schema.json',
+  'schemas/surface-claims.schema.json',
+  'schemas/content-handoff.schema.json',
+  'schemas/source-extraction.schema.json',
+  'schemas/source-extraction-capability.schema.json',
+  'schemas/style-presets.schema.json',
+  'schemas/requirement-verification.schema.json',
+  'schemas/direction-comparison.schema.json',
+  'schemas/reference-registry.schema.json',
   'schemas/visual-asset.schema.json',
   'schemas/layout-registry.schema.json',
   'schemas/poster-plan.schema.json',
@@ -41,91 +75,21 @@ const instanceSchemaByName = {
   'data-provenance.json': 'schemas/data-provenance.schema.json',
   'claim-map.json': 'schemas/claim-map.schema.json',
   'summary-map.json': 'schemas/summary-map.schema.json',
+  'content-ledger.json': 'schemas/content-ledger.schema.json',
+  'surface-claims.json': 'schemas/surface-claims.schema.json',
+  'content-handoff.json': 'schemas/content-handoff.schema.json',
   'deck-plan.json': 'schemas/deck-plan.schema.json',
   'chart-spec.json': 'schemas/chart-spec.schema.json',
   'poster-plan.json': 'schemas/poster-plan.schema.json',
   'visual-asset.json': 'schemas/visual-asset.schema.json',
   'layout-registry.json': 'schemas/layout-registry.schema.json',
-  'intake-direction.json': 'schemas/intake-direction.schema.json'
+  'intake-direction.json': 'schemas/intake-direction.schema.json',
+  'evidence-contract.json': 'schemas/evidence-contract.schema.json',
+  'requirement-verification.json': 'schemas/requirement-verification.schema.json'
 };
 
-function stripConditionals(value) {
-  if (Array.isArray(value)) return value.map(stripConditionals);
-  if (!value || typeof value !== 'object') return value;
-
-  const result = {};
-  for (const [key, child] of Object.entries(value)) {
-    if (key !== 'if' && key !== 'then' && key !== 'else') {
-      result[key] = stripConditionals(child);
-    }
-  }
-  if (!Object.hasOwn(result, 'type')) {
-    if (result.properties || result.required || result.additionalProperties) result.type = 'object';
-    else if (result.items || result.minItems !== undefined || result.maxItems !== undefined || result.uniqueItems !== undefined) {
-      result.type = 'array';
-    }
-  }
-  return result;
-}
-
-function formatIssue(issue) {
-  const path = issue.path?.length ? `/${issue.path.join('/')}` : '/';
-  return `${path}: ${issue.message}`;
-}
-
-function baseValidation(schema, instance) {
-  const validator = z.fromJSONSchema(stripConditionals(schema));
-  const result = validator.safeParse(instance);
-  return result.success ? [] : result.error.issues.map(formatIssue);
-}
-
-function prefixErrors(errors, path) {
-  return errors.map((error) => `${path || '/'} ${error}`);
-}
-
-function validateConditionalNodes(schema, instance, path, errors) {
-  if (!schema || typeof schema !== 'object') return;
-
-  if (schema.if) {
-    const conditionMatches = baseValidation(schema.if, instance).length === 0;
-    const branch = conditionMatches ? schema.then : schema.else;
-    if (branch) {
-      errors.push(...prefixErrors(validateJsonInstance(branch, instance), path));
-    }
-  }
-
-  if (schema.properties && instance && typeof instance === 'object' && !Array.isArray(instance)) {
-    for (const [property, propertySchema] of Object.entries(schema.properties)) {
-      if (Object.hasOwn(instance, property)) {
-        validateConditionalNodes(propertySchema, instance[property], `${path}/${property}`, errors);
-      }
-    }
-  }
-
-  if (schema.items && Array.isArray(instance)) {
-    for (const [index, item] of instance.entries()) {
-      validateConditionalNodes(schema.items, item, `${path}/${index}`, errors);
-    }
-  }
-
-  for (const key of ['allOf', 'anyOf', 'oneOf']) {
-    for (const child of schema[key] || []) {
-      validateConditionalNodes(child, instance, path, errors);
-    }
-  }
-}
-
-// Validate a JSON instance against a draft-2020-12 schema. Zod is bundled by
-// the existing Playwright dependency; this adapter preserves the conditional
-// keywords used by these schemas.
 export function validateJsonInstance(schema, instance) {
-  try {
-    const errors = baseValidation(schema, instance);
-    validateConditionalNodes(schema, instance, '', errors);
-    return errors;
-  } catch (error) {
-    return [`schema compilation failed: ${error.message}`];
-  }
+  return validateWithSchema(schema, instance);
 }
 
 function readJson(path, label, errors) {
@@ -196,6 +160,14 @@ export function validateSchemas(root = '.') {
     for (const lock of aestheticLayoutLocks) {
       if (!manifestLockSet.has(lock)) errors.push(`artifact-manifest.schema.json missing layout_lock enum: ${lock}`);
     }
+
+    const manifestAesthetic = manifestSchema.$defs?.aesthetic_contract || {};
+    for (const field of ['required', 'properties', 'allOf']) {
+      if (JSON.stringify(manifestAesthetic[field] || null)
+          !== JSON.stringify(aestheticSchema[field] || null)) {
+        errors.push(`Aesthetic schema drift detected for ${field}.`);
+      }
+    }
   }
 
   for (const relativePath of [
@@ -207,7 +179,7 @@ export function validateSchemas(root = '.') {
     const schema = readJson(path, relativePath, errors);
     if (schema) {
       try {
-        z.fromJSONSchema(stripConditionals(schema));
+        compileSchema(schema);
         schemas.set(relativePath, schema);
       } catch (error) {
         errors.push(`${relativePath} is not a supported valid schema: ${error.message}`);
@@ -216,6 +188,63 @@ export function validateSchemas(root = '.') {
   }
 
   validatePositiveInstances(resolvedRoot, schemas, errors);
+
+  const stylePresetSchema = schemas.get('schemas/style-presets.schema.json');
+  const stylePresetPath = join(resolvedRoot, 'assets/themes/presets.json');
+  if (stylePresetSchema && statSync(stylePresetPath, { throwIfNoEntry: false })?.isFile()) {
+    const stylePresets = readJson(
+      stylePresetPath,
+      'assets/themes/presets.json',
+      errors
+    );
+    if (stylePresets) {
+      for (const issue of validateJsonInstance(stylePresetSchema, stylePresets)) {
+        errors.push(
+          `assets/themes/presets.json does not match `
+          + `schemas/style-presets.schema.json: ${issue}`
+        );
+      }
+    }
+  }
+
+  const evaluationPolicyPath = join(resolvedRoot, 'design-knowledge/evaluation-policy.json');
+  const evaluationPolicySchema = schemas.get('schemas/design-evaluation-policy.schema.json');
+  if (evaluationPolicySchema && statSync(evaluationPolicyPath, { throwIfNoEntry: false })?.isFile()) {
+    const policy = readJson(evaluationPolicyPath, 'design-knowledge/evaluation-policy.json', errors);
+    if (policy) {
+      for (const issue of validateJsonInstance(evaluationPolicySchema, policy)) {
+        errors.push(`design-knowledge/evaluation-policy.json does not match schemas/design-evaluation-policy.schema.json: ${issue}`);
+      }
+    }
+  }
+
+  const layoutRegistrySchema = schemas.get('schemas/layout-registry.schema.json');
+  const layoutRegistryIds = new Map();
+  for (const relativePath of [
+    'assets/templates/layouts/poster.json',
+    'assets/templates/layouts/swiss-s01-s22.json',
+    'assets/templates/layouts/expressive-web-v1.json',
+    'assets/templates/layouts/editorial-evidence-v1.json'
+  ]) {
+    const registry = readJson(join(resolvedRoot, relativePath), relativePath, errors);
+    if (!registry || !layoutRegistrySchema) continue;
+    for (const issue of validateJsonInstance(layoutRegistrySchema, registry)) {
+      errors.push(`${relativePath} does not match layout registry schema: ${issue}`);
+    }
+    const ids = registry.layouts?.map((layout) => layout.id) || [];
+    if (new Set(ids).size !== ids.length) {
+      errors.push(`${relativePath} contains duplicate layout ids.`);
+    }
+    layoutRegistryIds.set(registry.id, ids);
+  }
+
+  const posterPlanSchema = schemas.get('schemas/poster-plan.schema.json');
+  const posterSchemaLayouts = posterPlanSchema?.properties?.layout_lock?.enum || [];
+  const posterRegistryLayouts = layoutRegistryIds.get('poster') || [];
+  if (JSON.stringify([...posterSchemaLayouts].sort())
+      !== JSON.stringify([...posterRegistryLayouts].sort())) {
+    errors.push('poster-plan layout_lock values must match the poster layout registry.');
+  }
 
   for (const artifactDir of ['examples/swiss-deck-pass', 'examples/poster-pass']) {
     const manifestPath = join(resolvedRoot, artifactDir, 'manifest.json');

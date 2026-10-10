@@ -1,0 +1,16 @@
+{
+  "schema_version": "design-component-resolution/v1",
+  "catalogue_digest": "0b655e12276629cad9b67052ef388998ea29307f02d1d26c0600f7ae8fea7bd1",
+  "selected": [
+    {
+      "component_id": "design-owned-staged-evidence-reveal",
+      "technical_class": "html_css",
+      "record_digest": "a892d516c74a2ee3a257ec836d8b4d354ae6e6f2e1968a3d95d644b705f91d9b",
+      "required_gate_ids": [
+        "render-smoke",
+        "validate-aesthetic-contract",
+        "validate-component-usage"
+      ]
+    }
+  ]
+}

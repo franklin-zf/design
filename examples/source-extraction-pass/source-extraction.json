@@ -1,0 +1,71 @@
+{
+  "schema_version": "design-source-extraction/v1",
+  "extraction_id": "product-management-source-extraction-v1",
+  "capability": {
+    "ref": "extraction-capability.json",
+    "sha256": "bbd5bc7c8161b8fb87e5d38fbffaaf75af217d2efe149aa8966a5aab014f35bb",
+    "capability_id": "design-fixture-source-extractor/v1",
+    "tool_name": "design-fixture-extractor",
+    "tool_version": "1.0.0"
+  },
+  "records": [
+    {
+      "id": "proposal-text",
+      "original": {
+        "path": "sources/proposal.txt",
+        "sha256": "cdc74a98237c90627e8e909369c81f278690558e29776c772a2efba7f02f6198",
+        "kind": "text",
+        "media_type": "text/plain"
+      },
+      "extracted_text": {
+        "path": "extracted/proposal.txt",
+        "sha256": "cdc74a98237c90627e8e909369c81f278690558e29776c772a2efba7f02f6198",
+        "media_type": "text/plain",
+        "encoding": "utf-8"
+      },
+      "mappings": [
+        {
+          "id": "proposal-paragraph-1",
+          "source_locator": { "kind": "paragraph", "start": 1, "end": 1 },
+          "extracted_span": { "start_byte": 0, "end_byte": 42 },
+          "text_sha256": "2a06d45d033ac3438d62fa2ef54af0b18c6a36cd7de2178c4ebebd59fb76c1a4"
+        },
+        {
+          "id": "proposal-paragraph-2",
+          "source_locator": { "kind": "paragraph", "start": 2, "end": 2 },
+          "extracted_span": { "start_byte": 44, "end_byte": 110 },
+          "text_sha256": "b900d3843743e29b1ba563b1a6610c7330eb0abb7187db20cb7d3e76589fd335"
+        }
+      ]
+    },
+    {
+      "id": "attachment-binary",
+      "original": {
+        "path": "sources/attachment.bin",
+        "sha256": "ab4acf84d8659c9f45cc569c0e53e8321bd8b06590bb1b14f5c0da4f873c7c9c",
+        "kind": "binary",
+        "media_type": "application/octet-stream"
+      },
+      "extracted_text": {
+        "path": "extracted/attachment.txt",
+        "sha256": "0511ad27720ad94a77bc9d8d04bef80ecc89f1c6071fa98523f25670421335e3",
+        "media_type": "text/plain",
+        "encoding": "utf-8"
+      },
+      "mappings": [
+        {
+          "id": "attachment-page-1",
+          "source_locator": { "kind": "page", "start": 1, "end": 1 },
+          "extracted_span": { "start_byte": 0, "end_byte": 36 },
+          "text_sha256": "8528d7e1ead1f1b484d99284f2c28d4ba663c11b7ffd1e329e56380f750c7bec"
+        },
+        {
+          "id": "attachment-page-2",
+          "source_locator": { "kind": "page", "start": 2, "end": 2 },
+          "extracted_span": { "start_byte": 48, "end_byte": 105 },
+          "text_sha256": "fa8b7ad6ddab9ff36fcd6e939fd0e1fb2a8aa7efe9798a1aeb841eedcf8e04d8"
+        }
+      ]
+    }
+  ]
+}

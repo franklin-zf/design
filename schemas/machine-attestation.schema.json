@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/machine-attestation.schema.json",
+  "title": "Design runner machine attestation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "producer",
+    "produced_at",
+    "artifact_author_id",
+    "artifact_digest",
+    "resolved_plan_digest",
+    "execution_event",
+    "render_profile",
+    "checks"
+  ],
+  "properties": {
+    "schema_version": { "const": "design-machine-attestation/v1" },
+    "producer": { "const": "design-runner" },
+    "produced_at": { "type": "string", "minLength": 1 },
+    "artifact_author_id": { "type": "string", "minLength": 1 },
+    "artifact_digest": { "$ref": "#/$defs/sha256" },
+    "resolved_plan_digest": { "$ref": "#/$defs/sha256" },
+    "execution_event": { "$ref": "#/$defs/file_binding" },
+    "render_profile": { "$ref": "#/$defs/file_binding" },
+    "checks": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": {
+            "enum": [
+              "render-smoke",
+              "remote-policy-pre-send",
+              "reduced-motion"
+            ]
+          },
+          "status": { "const": "passed" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "file_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  }
+}

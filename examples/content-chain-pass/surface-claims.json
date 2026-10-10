@@ -1,0 +1,52 @@
+{
+  "schema_version": "design-surface-claims/v1",
+  "ledger_ref": "content-ledger.json",
+  "ledger_sha256": "026edcf33bb11fe794ca8c794cc44dcb642b0c5e0e641733992a2646d8f32f5f",
+  "surface": {
+    "id": "product-management-html",
+    "format": "html",
+    "path": "index.html"
+  },
+  "claims": [
+    {
+      "id": "plan",
+      "content_refs": ["fact-plan"],
+      "visible_claim_id": "plan",
+      "displayed_text": "计划：试运行将在九月开展，预计投入约17人月。",
+      "semantic_signature": { "modality": "plan", "temporal_status": "future", "evidence_status": "planned" },
+      "selected_protected_token_refs": ["fact-plan#effort"]
+    },
+    {
+      "id": "requirement",
+      "content_refs": ["fact-requirement"],
+      "visible_claim_id": "requirement",
+      "displayed_text": "要求：单批处理能力大于等于1000。",
+      "semantic_signature": { "modality": "requirement", "temporal_status": "current", "evidence_status": "source_supported" },
+      "selected_protected_token_refs": ["fact-requirement#batch-capacity"]
+    },
+    {
+      "id": "question",
+      "content_refs": ["fact-question"],
+      "visible_claim_id": "question",
+      "displayed_text": "问题：是否具备大于等于100个并发会话的容量？",
+      "semantic_signature": { "modality": "question", "temporal_status": "current", "evidence_status": "unverified" },
+      "selected_protected_token_refs": ["fact-question#concurrency"]
+    },
+    {
+      "id": "historical",
+      "content_refs": ["fact-historical"],
+      "visible_claim_id": "historical",
+      "displayed_text": "历史计划（2025年）：响应时间优化到小于等于300 ms。",
+      "semantic_signature": { "modality": "plan", "temporal_status": "historical", "evidence_status": "source_supported" },
+      "selected_protected_token_refs": ["fact-historical#latency"]
+    },
+    {
+      "id": "target",
+      "content_refs": ["fact-target"],
+      "visible_claim_id": "target",
+      "displayed_text": "验收目标：任务耗时降低至少20%。",
+      "semantic_signature": { "modality": "target", "temporal_status": "future", "evidence_status": "target" },
+      "selected_protected_token_refs": ["fact-target#reduction"]
+    }
+  ]
+}

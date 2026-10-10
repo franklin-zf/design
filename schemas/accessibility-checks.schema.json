@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/accessibility-checks.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_digest", "resolved_plan_digest", "method", "scope", "checked_at", "checks"],
+  "properties": {
+    "schema_version": { "const": "design-accessibility-checks/v2" },
+    "artifact_digest": { "$ref": "#/$defs/sha256" },
+    "resolved_plan_digest": { "$ref": "#/$defs/sha256" },
+    "method": { "enum": ["axe-core", "playwright-structural", "manual-audit"] },
+    "scope": {
+      "type": "object", "additionalProperties": false, "required": ["viewports", "state_ids"],
+      "properties": {
+        "viewports": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "enum": [1440, 390, 320] } },
+        "state_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "checked_at": { "type": "string", "minLength": 20 },
+    "checks": { "type": "array", "minItems": 7, "items": { "$ref": "#/$defs/check" } }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "check": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "status", "method", "scope", "evidence_ref", "evidence_sha256"],
+      "properties": {
+        "id": { "enum": ["document-title", "html-lang", "main-landmark", "heading-order", "keyboard-focus", "color-contrast", "reduced-motion"] },
+        "status": { "enum": ["passed", "failed"] },
+        "method": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "evidence_ref": { "type": "string", "minLength": 1 },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  }
+}

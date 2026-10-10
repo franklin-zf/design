@@ -1,0 +1,13 @@
+{
+  "schema_version": "design-token-contract-report/v1",
+  "system_id": "expressive-web",
+  "status": "passed",
+  "required_groups": [
+    "colors",
+    "color_contract",
+    "typography",
+    "spacing",
+    "radius"
+  ],
+  "generated_by": "scripts/build-production-design-systems.mjs"
+}

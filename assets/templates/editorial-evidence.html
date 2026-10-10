@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editorial Evidence System Template</title>
+  <style>:root {
+  --surface: #F3F0E8;
+  --paper: #FCFBF7;
+  --text: #201D18;
+  --muted: #716B61;
+  --line: #D8D1C4;
+  --accent: #A23D2F;
+  --secondary: #28566B;
+  --font-display: "Iowan Old Style", Baskerville, Georgia, serif;
+  --font-body: "Avenir Next", "Helvetica Neue", sans-serif;
+  --font-mono: "SFMono-Regular", Menlo, monospace;
+  --space-page: clamp(24px, 6vw, 92px);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--text); font: 17px/1.65 var(--font-body); letter-spacing: 0; }
+.ds-kicker { margin: 0; color: var(--accent); font: 700 11px/1.2 var(--font-mono); text-transform: uppercase; }
+.ds-preview { min-height: 100vh; padding: var(--space-page); }
+.ds-article { max-width: 1240px; margin: 0 auto; background: var(--paper); }
+.ds-chapter { min-height: 72vh; padding: var(--space-page); display: grid; grid-template-columns: 2fr 8fr 2fr; grid-template-rows: auto 1fr auto; border-bottom: 1px solid var(--line); }
+.ds-chapter .ds-kicker { grid-column: 1 / 2; }
+.ds-chapter h1 { grid-column: 2 / 4; align-self: center; max-width: 10ch; margin: 0; font: 400 clamp(56px, 8vw, 112px)/.92 var(--font-display); text-wrap: balance; }
+.ds-deck { grid-column: 2 / 3; max-width: 42em; margin: 0; color: var(--muted); font-size: 19px; }
+.ds-reading { padding: 72px var(--space-page); display: grid; grid-template-columns: minmax(120px, 2fr) minmax(0, 7fr) minmax(160px, 3fr); gap: clamp(20px, 4vw, 56px); }
+.ds-reading-nav { color: var(--muted); font: 500 12px/1.5 var(--font-mono); }
+.ds-copy h2 { margin: 0 0 24px; font: 500 clamp(34px, 4vw, 54px)/1 var(--font-display); }
+.ds-copy p { margin: 0 0 1.25em; }
+.ds-source-rail { padding-left: 18px; border-left: 1px solid var(--line); color: var(--muted); font-size: 13px; line-height: 1.5; }
+.ds-figure { margin: 44px 0; border-block: 1px solid var(--text); }
+.ds-figure-chart { min-height: 260px; padding: 28px 0; display: grid; grid-template-columns: repeat(4, 1fr); align-items: end; gap: 14px; }
+.ds-bar { min-height: 36px; background: var(--secondary); }
+.ds-bar:nth-child(2) { height: 44%; }
+.ds-bar:nth-child(3) { height: 68%; background: var(--accent); }
+.ds-bar:nth-child(4) { height: 82%; }
+.ds-figure figcaption { padding: 12px 0; color: var(--muted); font-size: 13px; }
+.ds-pullquote { margin: 56px 0; padding: 30px 0 30px clamp(24px, 5vw, 72px); border-left: 6px solid var(--accent); font: 400 clamp(32px, 4vw, 58px)/1.06 var(--font-display); }
+.ds-evidence-table { width: 100%; margin-top: 36px; border-collapse: collapse; font-size: 14px; }
+.ds-evidence-table th, .ds-evidence-table td { padding: 12px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+.ds-evidence-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; }
+@media (max-width: 760px) {
+  .ds-chapter { min-height: 68vh; grid-template-columns: 1fr; }
+  .ds-chapter .ds-kicker, .ds-chapter h1, .ds-deck { grid-column: 1; }
+  .ds-chapter h1 { font-size: clamp(52px, 17vw, 82px); }
+  .ds-reading { grid-template-columns: 1fr; padding-block: 48px; }
+  .ds-reading-nav { display: none; }
+  .ds-source-rail { padding: 16px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+}</style>
+</head>
+<body><article class="ds-article">
+  <header class="ds-chapter" data-keyframe="first"><p class="ds-kicker">Field note / 06</p><h1>Evidence needs a reading rhythm.</h1><p class="ds-deck">A publication system for claims, figures, quotations, caveats, and sources. The argument owns the page; decoration remains subordinate.</p></header>
+  <section class="ds-reading" data-keyframe="dense"><aside class="ds-reading-nav">01 / Finding<br>02 / Evidence<br>03 / Limits</aside><main class="ds-copy"><p class="ds-kicker">Primary finding</p><h2>Make the conclusion inspectable, not merely prominent.</h2><p>Strong hierarchy begins with the question and the evidence needed to answer it. The system keeps source, period, unit, denominator, and caveat near the figure instead of pushing trust into an appendix.</p><figure class="ds-figure"><div class="ds-figure-chart" aria-label="Illustrative four-period bar structure"><div class="ds-bar" style="height:32%"></div><div class="ds-bar"></div><div class="ds-bar"></div><div class="ds-bar"></div></div><figcaption>Illustrative geometry only. Production charts bind exact values and scales to code-derived evidence.</figcaption></figure><blockquote class="ds-pullquote">The visual answer and its uncertainty should be found in the same reading moment.</blockquote><table class="ds-evidence-table" data-keyframe="critical"><thead><tr><th>Claim</th><th>Evidence</th><th>Status</th></tr></thead><tbody><tr><td>Primary conclusion</td><td>Figure 01</td><td>Source bound</td></tr><tr><td>Known limitation</td><td>Method note</td><td>Visible</td></tr></tbody></table></main><aside class="ds-source-rail">Source rail<br><br>Keep citations, figure notes, scope, and uncertainty discoverable without turning the article into an audit log.</aside></section>
+</article></body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "schema_version": "design-surface-claims/v1",
+  "ledger_ref": "content-ledger.json",
+  "ledger_sha256": "4f1c2d0b3fcac3c24c459e905eec316ba66a35cee81b2d04c173d20903791f89",
+  "surface": { "id": "invalid-requirement-html", "format": "html", "path": "index.html" },
+  "claims": [{
+    "id": "requirement",
+    "content_refs": ["fact-requirement"],
+    "visible_claim_id": "requirement",
+    "displayed_text": "单批处理能力大于等于1000是上线门禁。",
+    "semantic_signature": { "modality": "gate", "temporal_status": "current", "evidence_status": "source_supported" },
+    "selected_protected_token_refs": ["fact-requirement#batch-capacity"]
+  }]
+}
