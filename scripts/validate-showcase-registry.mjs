@@ -5,6 +5,10 @@ import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateJsonInstance } from './lib/json-schema.mjs';
 import { computeArtifactDigest } from './validate-evidence-contract.mjs';
+import {
+  summarizeTaskObservation,
+  validateDesignEvaluation
+} from './validate-design-evaluation.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
 const skillRoot = resolve(dirname(modulePath), '..');
@@ -102,6 +106,52 @@ export function validateShowcaseRegistry(registry, root) {
       } catch (error) {
         errors.push(`showcase ${id} artifact digest failed: ${error.message}`);
       }
+    }
+
+    const userValidation = caseRecord.user_validation_binding;
+    if (userValidation && artifactPath) {
+      const evaluationPath = readBoundFile(
+        artifactPath,
+        userValidation,
+        `showcase ${id} user validation`,
+        errors
+      );
+      if (evaluationPath) {
+        const evaluationErrors = validateDesignEvaluation(artifactPath, {
+          evaluationRef: userValidation.ref,
+          policyRoot: canonicalRoot
+        });
+        errors.push(...evaluationErrors.map(
+          (error) => `showcase ${id} user validation ${error}`
+        ));
+        try {
+          const evaluation = JSON.parse(readFileSync(evaluationPath, 'utf8'));
+          const status = summarizeTaskObservation(
+            evaluation.task_observation
+          ).status;
+          if (caseRecord.assurance?.user_validated === 'passed'
+              && status !== 'passed') {
+            errors.push(
+              `showcase ${id} user_validated requires a current passed `
+              + 'task observation'
+            );
+          }
+          if (status === 'rejected'
+              && caseRecord.assurance?.user_validated === 'passed') {
+            errors.push(
+              `showcase ${id} later user rejection must demote user_validated`
+            );
+          }
+        } catch (error) {
+          errors.push(
+            `showcase ${id} user validation is invalid JSON: ${error.message}`
+          );
+        }
+      }
+    } else if (caseRecord.assurance?.user_validated === 'passed') {
+      errors.push(
+        `showcase ${id} user_validated requires user_validation_binding`
+      );
     }
 
     const sourceBindings = caseRecord.artifact_binding?.source_bindings || [];

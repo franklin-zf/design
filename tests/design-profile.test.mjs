@@ -20,7 +20,10 @@ import {
   compileExecutionPlan,
   sha256Value
 } from '../scripts/compile-execution-plan.mjs';
-import { v2Request } from './fixtures/execution-request.mjs';
+import {
+  operationalRenderPolicy,
+  v2Request
+} from './fixtures/execution-request.mjs';
 
 const root = resolve('.');
 const assets = loadDesignProfileAssets(root);
@@ -28,7 +31,13 @@ const templateRegistry = JSON.parse(
   readFileSync(join(root, 'assets/templates/registry.json'), 'utf8')
 );
 const readerJobToPreset = assets.catalogue.routing.reader_job_to_preset;
-const artifactTypes = ['ppt-handoff', 'html-deck', 'poster'];
+const artifactTypes = ['dashboard', 'ppt-handoff', 'html-deck', 'poster'];
+
+function renderPolicyFor(artifactType) {
+  return artifactType === 'dashboard'
+    ? operationalRenderPolicy()
+    : v2Request().conditional_policies.render;
+}
 
 function posterRequest() {
   return v2Request({
@@ -66,7 +75,7 @@ test('catalogue contains the six product presets and all surface contracts', () 
   );
   assert.deepEqual(
     assets.catalogue.surface_contracts.map((item) => item.id).sort(),
-    ['html', 'poster', 'ppt']
+    ['dashboard', 'html', 'poster', 'ppt']
   );
   assert.equal(assets.catalogue.topology_patterns.length, 7);
 });
@@ -89,7 +98,68 @@ test('every product preset carries structured alignment and icon rules', () => {
   }
 });
 
-test('six reader jobs resolve deterministically and route all 18 public surfaces', () => {
+test('dashboard profile copies the closed zh-CN locale policy deterministically', async () => {
+  const expected = {
+    locale: 'zh-CN',
+    exempt_categories: [
+      'brand',
+      'technical_id',
+      'source_field',
+      'approved_abbreviation'
+    ],
+    visible_text_violation_limit: 0,
+    accessible_name_violation_limit: 0
+  };
+  const input = brief({
+    reader_job: 'operational-workflow',
+    primary_relationship: 'system'
+  });
+  const first = resolveDesignProfile(input, 'dashboard', assets);
+  const second = resolveDesignProfile(input, 'dashboard', assets);
+  assert.deepEqual(first, second);
+  assert.equal(first.surface.id, 'dashboard');
+  assert.equal(first.surface.artifact_type, 'dashboard');
+  assert.equal(first.style_preset, 'operational-dashboard');
+  assert.deepEqual(first.resolved_rules.locale_policy, expected);
+  assert.deepEqual(
+    first.resolved_rules.locale_policy,
+    assets.catalogue.surface_contracts.find(
+      (surface) => surface.id === 'dashboard'
+    ).locale_policy
+  );
+
+  const {
+    validateJsonInstance
+  } = await import('../scripts/lib/json-schema.mjs');
+  const catalogueSchema = JSON.parse(readFileSync(
+    join(root, 'schemas/design-profile-catalogue.schema.json'),
+    'utf8'
+  ));
+  for (const mutate of [
+    (catalogue) => { delete catalogue.surface_contracts[3].locale_policy; },
+    (catalogue) => { catalogue.surface_contracts[3].locale_policy.locale = 'en-US'; },
+    (catalogue) => { catalogue.surface_contracts[3].locale_policy.extra = true; }
+  ]) {
+    const catalogue = structuredClone(assets.catalogue);
+    mutate(catalogue);
+    assert.match(
+      validateJsonInstance(catalogueSchema, catalogue).join('\n'),
+      /locale_policy|locale|additional property extra/
+    );
+  }
+
+  const { validateResolvedDesignProfile } = await import(
+    '../scripts/lib/design-profile.mjs'
+  );
+  const tampered = structuredClone(first);
+  tampered.resolved_rules.locale_policy.exempt_categories = ['brand'];
+  assert.match(
+    validateResolvedDesignProfile(tampered, 'dashboard', assets).join('\n'),
+    /profile schema|deterministic resolution/
+  );
+});
+
+test('six reader jobs resolve deterministically and route all 24 public surfaces', () => {
   const routeCounts = {
     needs_direction_selection: 0,
     resolved: 0,
@@ -118,6 +188,10 @@ test('six reader jobs resolve deterministically and route all 18 public surfaces
               artifact_dir: 'artifact',
               artifact_type: artifactType,
               template_id: fallbackTemplate.id
+            },
+            conditional_policies: {
+              ...v2Request().conditional_policies,
+              render: renderPolicyFor(artifactType)
             }
           }), { designProfile: first, registry: templateRegistry }),
           /no compatible template/
@@ -129,6 +203,10 @@ test('six reader jobs resolve deterministically and route all 18 public surfaces
             artifact_dir: 'artifact',
             artifact_type: artifactType,
             template_id: selected.template_id
+          },
+          conditional_policies: {
+            ...v2Request().conditional_policies,
+            render: renderPolicyFor(artifactType)
           }
         }), { designProfile: first, registry: templateRegistry });
         assert.equal(plan.template_resolution.status, 'selected');
@@ -139,7 +217,7 @@ test('six reader jobs resolve deterministically and route all 18 public surfaces
       }
     }
   }
-  assert.equal(Object.values(routeCounts).reduce((sum, count) => sum + count, 0), 18);
+  assert.equal(Object.values(routeCounts).reduce((sum, count) => sum + count, 0), 24);
   assert.ok(routeCounts.unsupported > 0);
   assert.ok(routeCounts.resolved + routeCounts.needs_direction_selection > 0);
 });

@@ -126,11 +126,87 @@ test('unknown assurance profiles cannot bypass evidence validation', () => {
 test('assured profile always runs the evidence contract validator', () => {
   const result = spawnSync(
     process.execPath,
-    [join(root, 'scripts/design.mjs'), 'check', 'examples/component-operational-pilot-pass', '--profile=assured'],
+    [
+      join(root, 'scripts/design.mjs'),
+      'check',
+      'examples/chart-frame-pass',
+      '--profile=assured'
+    ],
     { cwd: root, encoding: 'utf8' }
   );
   assert.notEqual(result.status, 0);
   assert.match(output(result), /validate-evidence-contract\.mjs|evidence contract/i);
+});
+
+test('operational dashboard check requires a bound plan and canonical root reviewer', async () => {
+  const { tempRoot, copy } = copyFixture('dashboard-pass');
+  try {
+    const missingPlan = spawnSync(
+      process.execPath,
+      [join(root, 'scripts/design.mjs'), 'check', copy],
+      { cwd: root, encoding: 'utf8' }
+    );
+    assert.notEqual(missingPlan.status, 0);
+    assert.match(output(missingPlan), /dashboard check requires --execution-plan/);
+
+    rmSync(join(copy, 'reviewer-record.json'));
+
+    const {
+      compileExecutionPlan
+    } = await import('../scripts/compile-execution-plan.mjs');
+    const {
+      loadDesignProfileAssets,
+      resolveDesignProfile
+    } = await import('../scripts/lib/design-profile.mjs');
+    const {
+      operationalRenderPolicy,
+      v2Request
+    } = await import('./fixtures/execution-request.mjs');
+    const registry = readJson(join(root, 'assets/templates/registry.json'));
+    const assets = loadDesignProfileAssets(root);
+    const profile = resolveDesignProfile({
+      schema_version: 'design-brief/v1',
+      reader_job: 'operational-workflow',
+      primary_relationship: 'system',
+      secondary_relationships: [],
+      content_density: 'dense',
+      brand_context: 'none'
+    }, 'dashboard', assets);
+    const plan = compileExecutionPlan(v2Request({
+      output_surface: {
+        artifact_dir: 'dashboard-pass',
+        artifact_type: 'dashboard',
+        template_id: 'operational-dashboard'
+      },
+      constraints: {
+        ...v2Request().constraints,
+        workspace_root: tempRoot
+      },
+      conditional_policies: {
+        ...v2Request().conditional_policies,
+        render: operationalRenderPolicy()
+      }
+    }), { designProfile: profile, registry });
+    const planPath = join(tempRoot, 'execution-plan.json');
+    writeJson(planPath, plan);
+    const missingReviewer = spawnSync(
+      process.execPath,
+      [
+        join(root, 'scripts/design.mjs'),
+        'check',
+        copy,
+        `--execution-plan=${planPath}`
+      ],
+      { cwd: root, encoding: 'utf8' }
+    );
+    assert.notEqual(missingReviewer.status, 0);
+    assert.match(
+      output(missingReviewer),
+      /requires root reviewer-record\.json/
+    );
+  } finally {
+    rmSync(tempRoot, { recursive: true, force: true });
+  }
 });
 
 test('schema instance validation rejects a conditional contract violation', () => {

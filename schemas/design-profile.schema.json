@@ -30,9 +30,9 @@
       "additionalProperties": false,
       "required": ["id", "artifact_type", "delivery_mode", "rules"],
       "properties": {
-        "id": { "enum": ["ppt", "html", "poster"] },
+        "id": { "enum": ["ppt", "html", "poster", "dashboard"] },
         "artifact_type": {
-          "enum": ["ppt-handoff", "html-deck", "poster"]
+          "enum": ["ppt-handoff", "html-deck", "poster", "dashboard"]
         },
         "delivery_mode": {
           "enum": ["handoff_only", "responsive_document", "fixed_canvas"]
@@ -101,7 +101,8 @@
         "data_visualization": { "type": "object" },
         "motion": { "type": "object" },
         "surface_emphasis": { "type": "string", "minLength": 1 },
-        "anti_patterns": { "type": "array", "minItems": 3, "items": { "type": "string" } }
+        "anti_patterns": { "type": "array", "minItems": 3, "items": { "type": "string" } },
+        "locale_policy": { "$ref": "#/$defs/locale_policy" }
       }
     },
     "visual_treatment": {
@@ -164,7 +165,48 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "required": ["surface"],
+        "properties": {
+          "surface": {
+            "required": ["id"],
+            "properties": { "id": { "const": "dashboard" } }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "resolved_rules": { "required": ["locale_policy"] }
+        }
+      }
+    }
+  ],
   "$defs": {
+    "locale_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locale",
+        "exempt_categories",
+        "visible_text_violation_limit",
+        "accessible_name_violation_limit"
+      ],
+      "properties": {
+        "locale": { "const": "zh-CN" },
+        "exempt_categories": {
+          "const": [
+            "brand",
+            "technical_id",
+            "source_field",
+            "approved_abbreviation"
+          ]
+        },
+        "visible_text_violation_limit": { "const": 0 },
+        "accessible_name_violation_limit": { "const": 0 }
+      }
+    },
     "string_array": {
       "type": "array",
       "uniqueItems": true,

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { createHash } from 'node:crypto';
-import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
+import { existsSync, lstatSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { dirname, isAbsolute, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { computeArtifactDigest } from './lib/artifact-digest.mjs';
 import { validateJsonInstance } from './lib/json-schema.mjs';
 import {
   validateRequirementVerification
@@ -45,30 +46,7 @@ function hasVisibleSchematicDisclosure(html) {
   });
 }
 
-export function computeArtifactDigest(root) {
-  const excluded = new Set([
-    'evidence-contract.json', 'reviewer-record.json', 'accessibility-checks.json',
-    'privacy-checks.json', 'render-profile.json'
-  ]);
-  const entries = [];
-  function walk(dir) {
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      const path = join(dir, entry.name);
-      const rel = relative(root, path).split('\\').join('/');
-      if (rel.startsWith('.design/') || rel.startsWith('qa/') || excluded.has(rel)) continue;
-      const metadata = lstatSync(path);
-      if (metadata.isSymbolicLink()) {
-        throw new Error(`artifact digest rejects symbolic link: ${rel}`);
-      }
-      if (metadata.isDirectory()) walk(path);
-      else if (metadata.isFile()) {
-        entries.push({ path: rel, sha256: sha256(readFileSync(path)) });
-      }
-    }
-  }
-  walk(root);
-  return sha256(stable(entries.sort((a, b) => a.path.localeCompare(b.path))));
-}
+export { computeArtifactDigest };
 
 export function validateEvidenceContract(directory, options = {}) {
   const errors = [];

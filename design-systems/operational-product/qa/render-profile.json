@@ -2,7 +2,7 @@
   "schema_version": "design-render-profile/v2",
   "artifact_digest": "0455fba0c2f100da085af176320dd370f8f11709d5f142133c338bb4e6a6c8ef",
   "resolved_plan_digest": "4733a48234d4578f27f1e604dcad97810991dce7b18430a6f13c85a35da17cd6",
-  "render_spec_digest": "cda5d115595a42a934387ff6630e1f552bcd4d3305d9993369ba332e1e8d34a4",
+  "render_spec_digest": "1d58cb135bc7e7ca773e2417f412337118693b8c4c2518271c1bc01c3e201623",
   "profiles": [
     {
       "name": "desktop",
@@ -36,22 +36,22 @@
                     "source": {
                       "left": 256,
                       "right": 1416,
-                      "top": 211.781,
-                      "bottom": 265.781,
+                      "top": 211.789,
+                      "bottom": 265.789,
                       "width": 1160,
                       "height": 54,
                       "centerX": 836,
-                      "centerY": 238.781
+                      "centerY": 238.789
                     },
                     "target": {
                       "left": 256,
                       "right": 1416,
-                      "top": 85.781,
-                      "bottom": 199.781,
+                      "top": 85.789,
+                      "bottom": 199.789,
                       "width": 1160,
                       "height": 114,
                       "centerX": 836,
-                      "centerY": 142.781
+                      "centerY": 142.789
                     }
                   }
                 ]
@@ -258,22 +258,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 335.313,
-                      "bottom": 351.313,
+                      "top": 335.336,
+                      "bottom": 351.336,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 343.313
+                      "centerY": 343.336
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 333.313,
-                      "bottom": 353.313,
+                      "top": 333.336,
+                      "bottom": 353.336,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 343.313
+                      "centerY": 343.336
                     }
                   },
                   {
@@ -282,22 +282,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 380.609,
-                      "bottom": 396.609,
+                      "top": 380.633,
+                      "bottom": 396.633,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 388.609
+                      "centerY": 388.633
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 378.609,
-                      "bottom": 398.609,
+                      "top": 378.633,
+                      "bottom": 398.633,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 388.609
+                      "centerY": 388.633
                     }
                   },
                   {
@@ -306,22 +306,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 425.906,
-                      "bottom": 441.906,
+                      "top": 425.93,
+                      "bottom": 441.93,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 433.906
+                      "centerY": 433.93
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 423.906,
-                      "bottom": 443.906,
+                      "top": 423.93,
+                      "bottom": 443.93,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 433.906
+                      "centerY": 433.93
                     }
                   }
                 ]
@@ -489,22 +489,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 335.313,
-                      "bottom": 351.313,
+                      "top": 335.336,
+                      "bottom": 351.336,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 343.313
+                      "centerY": 343.336
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 333.313,
-                      "bottom": 353.313,
+                      "top": 333.336,
+                      "bottom": 353.336,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 343.313
+                      "centerY": 343.336
                     }
                   },
                   {
@@ -513,22 +513,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 380.609,
-                      "bottom": 396.609,
+                      "top": 380.633,
+                      "bottom": 396.633,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 388.609
+                      "centerY": 388.633
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 378.609,
-                      "bottom": 398.609,
+                      "top": 378.633,
+                      "bottom": 398.633,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 388.609
+                      "centerY": 388.633
                     }
                   },
                   {
@@ -537,22 +537,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 425.906,
-                      "bottom": 441.906,
+                      "top": 425.93,
+                      "bottom": 441.93,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 433.906
+                      "centerY": 433.93
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 423.906,
-                      "bottom": 443.906,
+                      "top": 423.93,
+                      "bottom": 443.93,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 433.906
+                      "centerY": 433.93
                     }
                   }
                 ]
@@ -712,7 +712,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-desktop-default-main.png",
-              "screenshot_sha256": "c7e5e4803cda18dd7e1bd9c1a3f2ac4cc0a7dcf641b85c89698170d1847fa2aa",
+              "screenshot_sha256": "bfa8ed9e7474a95f9dd235fc96621fbc3814de53ba8410a0c0a06fe378d2ff97",
               "scroll_y": 0,
               "document_height": 1000
             }
@@ -733,6 +733,692 @@
               "expected": 3,
               "actual": 3,
               "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": ".ds-filter-bar",
+              "target_selector": ".ds-metric-rail",
+              "relation": "left-edge",
+              "tolerance_px": 2,
+              "actual": {
+                "source_count": 1,
+                "target_count": 1,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 256,
+                      "right": 1416,
+                      "top": 211.789,
+                      "bottom": 265.789,
+                      "width": 1160,
+                      "height": 54,
+                      "centerX": 836,
+                      "centerY": 238.789
+                    },
+                    "target": {
+                      "left": 256,
+                      "right": 1416,
+                      "top": 85.789,
+                      "bottom": 199.789,
+                      "width": 1160,
+                      "height": 114,
+                      "centerX": 836,
+                      "centerY": 142.789
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": ".ds-actions .ds-button:not(.ds-button-primary)",
+              "target_selector": ".ds-actions .ds-button-primary",
+              "relation": "equal-height",
+              "tolerance_px": 2,
+              "actual": {
+                "source_count": 1,
+                "target_count": 1,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1218.875,
+                      "right": 1298.875,
+                      "top": 24.891,
+                      "bottom": 64.891,
+                      "width": 80,
+                      "height": 40,
+                      "centerX": 1258.875,
+                      "centerY": 44.891
+                    },
+                    "target": {
+                      "left": 1306.875,
+                      "right": 1416,
+                      "top": 24.891,
+                      "bottom": 64.891,
+                      "width": 109.125,
+                      "height": 40,
+                      "centerX": 1361.438,
+                      "centerY": 44.891
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": "[data-icon]",
+              "target_selector": "[data-icon-box]",
+              "relation": "center-x",
+              "tolerance_px": 1,
+              "actual": {
+                "source_count": 9,
+                "target_count": 9,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 88.094,
+                      "bottom": 104.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 96.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 86.094,
+                      "bottom": 106.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 96.094
+                    }
+                  },
+                  {
+                    "index": 1,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 132.094,
+                      "bottom": 148.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 140.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 130.094,
+                      "bottom": 150.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 140.094
+                    }
+                  },
+                  {
+                    "index": 2,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 176.094,
+                      "bottom": 192.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 184.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 174.094,
+                      "bottom": 194.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 184.094
+                    }
+                  },
+                  {
+                    "index": 3,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 220.094,
+                      "bottom": 236.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 228.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 218.094,
+                      "bottom": 238.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 228.094
+                    }
+                  },
+                  {
+                    "index": 4,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1233.875,
+                      "right": 1249.875,
+                      "top": 36.891,
+                      "bottom": 52.891,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1241.875,
+                      "centerY": 44.891
+                    },
+                    "target": {
+                      "left": 1231.875,
+                      "right": 1251.875,
+                      "top": 34.891,
+                      "bottom": 54.891,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1241.875,
+                      "centerY": 44.891
+                    }
+                  },
+                  {
+                    "index": 5,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1321.875,
+                      "right": 1337.875,
+                      "top": 36.891,
+                      "bottom": 52.891,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1329.875,
+                      "centerY": 44.891
+                    },
+                    "target": {
+                      "left": 1319.875,
+                      "right": 1339.875,
+                      "top": 34.891,
+                      "bottom": 54.891,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1329.875,
+                      "centerY": 44.891
+                    }
+                  },
+                  {
+                    "index": 6,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1283,
+                      "right": 1299,
+                      "top": 335.336,
+                      "bottom": 351.336,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1291,
+                      "centerY": 343.336
+                    },
+                    "target": {
+                      "left": 1281,
+                      "right": 1301,
+                      "top": 333.336,
+                      "bottom": 353.336,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1291,
+                      "centerY": 343.336
+                    }
+                  },
+                  {
+                    "index": 7,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1283,
+                      "right": 1299,
+                      "top": 380.633,
+                      "bottom": 396.633,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1291,
+                      "centerY": 388.633
+                    },
+                    "target": {
+                      "left": 1281,
+                      "right": 1301,
+                      "top": 378.633,
+                      "bottom": 398.633,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1291,
+                      "centerY": 388.633
+                    }
+                  },
+                  {
+                    "index": 8,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1283,
+                      "right": 1299,
+                      "top": 425.93,
+                      "bottom": 441.93,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1291,
+                      "centerY": 433.93
+                    },
+                    "target": {
+                      "left": 1281,
+                      "right": 1301,
+                      "top": 423.93,
+                      "bottom": 443.93,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1291,
+                      "centerY": 433.93
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": "[data-icon]",
+              "target_selector": "[data-icon-box]",
+              "relation": "center-y",
+              "tolerance_px": 1,
+              "actual": {
+                "source_count": 9,
+                "target_count": 9,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 88.094,
+                      "bottom": 104.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 96.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 86.094,
+                      "bottom": 106.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 96.094
+                    }
+                  },
+                  {
+                    "index": 1,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 132.094,
+                      "bottom": 148.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 140.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 130.094,
+                      "bottom": 150.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 140.094
+                    }
+                  },
+                  {
+                    "index": 2,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 176.094,
+                      "bottom": 192.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 184.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 174.094,
+                      "bottom": 194.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 184.094
+                    }
+                  },
+                  {
+                    "index": 3,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 28,
+                      "right": 44,
+                      "top": 220.094,
+                      "bottom": 236.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 36,
+                      "centerY": 228.094
+                    },
+                    "target": {
+                      "left": 26,
+                      "right": 46,
+                      "top": 218.094,
+                      "bottom": 238.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 36,
+                      "centerY": 228.094
+                    }
+                  },
+                  {
+                    "index": 4,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1233.875,
+                      "right": 1249.875,
+                      "top": 36.891,
+                      "bottom": 52.891,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1241.875,
+                      "centerY": 44.891
+                    },
+                    "target": {
+                      "left": 1231.875,
+                      "right": 1251.875,
+                      "top": 34.891,
+                      "bottom": 54.891,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1241.875,
+                      "centerY": 44.891
+                    }
+                  },
+                  {
+                    "index": 5,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1321.875,
+                      "right": 1337.875,
+                      "top": 36.891,
+                      "bottom": 52.891,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1329.875,
+                      "centerY": 44.891
+                    },
+                    "target": {
+                      "left": 1319.875,
+                      "right": 1339.875,
+                      "top": 34.891,
+                      "bottom": 54.891,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1329.875,
+                      "centerY": 44.891
+                    }
+                  },
+                  {
+                    "index": 6,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1283,
+                      "right": 1299,
+                      "top": 335.336,
+                      "bottom": 351.336,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1291,
+                      "centerY": 343.336
+                    },
+                    "target": {
+                      "left": 1281,
+                      "right": 1301,
+                      "top": 333.336,
+                      "bottom": 353.336,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1291,
+                      "centerY": 343.336
+                    }
+                  },
+                  {
+                    "index": 7,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1283,
+                      "right": 1299,
+                      "top": 380.633,
+                      "bottom": 396.633,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1291,
+                      "centerY": 388.633
+                    },
+                    "target": {
+                      "left": 1281,
+                      "right": 1301,
+                      "top": 378.633,
+                      "bottom": 398.633,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1291,
+                      "centerY": 388.633
+                    }
+                  },
+                  {
+                    "index": 8,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 1283,
+                      "right": 1299,
+                      "top": 425.93,
+                      "bottom": 441.93,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 1291,
+                      "centerY": 433.93
+                    },
+                    "target": {
+                      "left": 1281,
+                      "right": 1301,
+                      "top": 423.93,
+                      "bottom": 443.93,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 1291,
+                      "centerY": 433.93
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "locale",
+              "selector": "body",
+              "locale": "zh-CN",
+              "exempt_selector": "[data-locale-exempt]",
+              "allowed_terms": [],
+              "actual": {
+                "locale": "zh-CN",
+                "root_count": 1,
+                "checked_text_nodes": 33,
+                "checked_accessible_names": 0,
+                "violations": []
+              },
+              "passed": true
+            },
+            {
+              "kind": "icon",
+              "selector": "[data-icon]",
+              "family": "ant-design-official",
+              "asset_ref": "assets/icons.svg",
+              "provenance_ref": "manifest.json",
+              "sizes_px": [
+                16,
+                18
+              ],
+              "box_selector": "[data-icon-box]",
+              "box_px": 20,
+              "tolerance_px": 1,
+              "fallback": "visible-label",
+              "actual": {
+                "icon_count": 9,
+                "families": [
+                  "ant-design-official"
+                ],
+                "size_delta_px_max": 0,
+                "box_delta_px_max": 0,
+                "center_delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "href": "#icon-dashboard",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "待处理"
+                  },
+                  {
+                    "index": 1,
+                    "href": "#icon-user",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "账户"
+                  },
+                  {
+                    "index": 2,
+                    "href": "#icon-filter",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "规则"
+                  },
+                  {
+                    "index": 3,
+                    "href": "#icon-audit",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "审计"
+                  },
+                  {
+                    "index": 4,
+                    "href": "#icon-export",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "导出"
+                  },
+                  {
+                    "index": 5,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "分配 4 项"
+                  },
+                  {
+                    "index": 6,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "有风险"
+                  },
+                  {
+                    "index": 7,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "复核中"
+                  },
+                  {
+                    "index": 8,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "处理失败"
+                  }
+                ],
+                "violations": [],
+                "asset_sha256": "2907fd99e62d71c8414b0b92654f70fbbd3c3ec5df1c4612ca2ad05ba5d2e293",
+                "provenance_id": "ant-design-official-operational-icons",
+                "license": "MIT",
+                "source_url": "https://www.iconfont.cn/collections/detail?cid=9402"
+              },
+              "passed": true
             }
           ],
           "visible_text_sha256": "37954e8447cea6d61e7106d3eac6040b519458a10438c6faa7ab45a575fa5dea",
@@ -741,7 +1427,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-desktop-dense-main.png",
-              "screenshot_sha256": "c7e5e4803cda18dd7e1bd9c1a3f2ac4cc0a7dcf641b85c89698170d1847fa2aa",
+              "screenshot_sha256": "bfa8ed9e7474a95f9dd235fc96621fbc3814de53ba8410a0c0a06fe378d2ff97",
               "scroll_y": 0,
               "document_height": 1000
             }
@@ -762,6 +1448,152 @@
               "expected": "策略同步失败",
               "actual": "关键错误\n\n策略同步失败\n\n系统未写入最新策略。请保留当前配置，检查审计记录后重试。",
               "passed": true
+            },
+            {
+              "kind": "locale",
+              "selector": "body",
+              "locale": "zh-CN",
+              "exempt_selector": "[data-locale-exempt]",
+              "allowed_terms": [],
+              "actual": {
+                "locale": "zh-CN",
+                "root_count": 1,
+                "checked_text_nodes": 33,
+                "checked_accessible_names": 0,
+                "violations": []
+              },
+              "passed": true
+            },
+            {
+              "kind": "icon",
+              "selector": "[data-icon]",
+              "family": "ant-design-official",
+              "asset_ref": "assets/icons.svg",
+              "provenance_ref": "manifest.json",
+              "sizes_px": [
+                16,
+                18
+              ],
+              "box_selector": "[data-icon-box]",
+              "box_px": 20,
+              "tolerance_px": 1,
+              "fallback": "visible-label",
+              "actual": {
+                "icon_count": 9,
+                "families": [
+                  "ant-design-official"
+                ],
+                "size_delta_px_max": 0,
+                "box_delta_px_max": 0,
+                "center_delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "href": "#icon-dashboard",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "待处理"
+                  },
+                  {
+                    "index": 1,
+                    "href": "#icon-user",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "账户"
+                  },
+                  {
+                    "index": 2,
+                    "href": "#icon-filter",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "规则"
+                  },
+                  {
+                    "index": 3,
+                    "href": "#icon-audit",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "审计"
+                  },
+                  {
+                    "index": 4,
+                    "href": "#icon-export",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "导出"
+                  },
+                  {
+                    "index": 5,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "分配 4 项"
+                  },
+                  {
+                    "index": 6,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "有风险"
+                  },
+                  {
+                    "index": 7,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "复核中"
+                  },
+                  {
+                    "index": 8,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "处理失败"
+                  }
+                ],
+                "violations": [],
+                "asset_sha256": "2907fd99e62d71c8414b0b92654f70fbbd3c3ec5df1c4612ca2ad05ba5d2e293",
+                "provenance_id": "ant-design-official-operational-icons",
+                "license": "MIT",
+                "source_url": "https://www.iconfont.cn/collections/detail?cid=9402"
+              },
+              "passed": true
             }
           ],
           "visible_text_sha256": "37954e8447cea6d61e7106d3eac6040b519458a10438c6faa7ab45a575fa5dea",
@@ -770,7 +1602,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-desktop-error-main.png",
-              "screenshot_sha256": "c7e5e4803cda18dd7e1bd9c1a3f2ac4cc0a7dcf641b85c89698170d1847fa2aa",
+              "screenshot_sha256": "bfa8ed9e7474a95f9dd235fc96621fbc3814de53ba8410a0c0a06fe378d2ff97",
               "scroll_y": 0,
               "document_height": 1000
             }
@@ -1043,22 +1875,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 589.828,
-                      "bottom": 605.828,
+                      "top": 589.836,
+                      "bottom": 605.836,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 597.828
+                      "centerY": 597.836
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 587.828,
-                      "bottom": 607.828,
+                      "top": 587.836,
+                      "bottom": 607.836,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 597.828
+                      "centerY": 597.836
                     }
                   },
                   {
@@ -1067,22 +1899,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 700.719,
-                      "bottom": 716.719,
+                      "top": 700.727,
+                      "bottom": 716.727,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 708.719
+                      "centerY": 708.727
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 698.719,
-                      "bottom": 718.719,
+                      "top": 698.727,
+                      "bottom": 718.727,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 708.719
+                      "centerY": 708.727
                     }
                   },
                   {
@@ -1091,22 +1923,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 811.609,
-                      "bottom": 827.609,
+                      "top": 811.617,
+                      "bottom": 827.617,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 819.609
+                      "centerY": 819.617
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 809.609,
-                      "bottom": 829.609,
+                      "top": 809.617,
+                      "bottom": 829.617,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 819.609
+                      "centerY": 819.617
                     }
                   }
                 ]
@@ -1274,22 +2106,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 589.828,
-                      "bottom": 605.828,
+                      "top": 589.836,
+                      "bottom": 605.836,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 597.828
+                      "centerY": 597.836
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 587.828,
-                      "bottom": 607.828,
+                      "top": 587.836,
+                      "bottom": 607.836,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 597.828
+                      "centerY": 597.836
                     }
                   },
                   {
@@ -1298,22 +2130,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 700.719,
-                      "bottom": 716.719,
+                      "top": 700.727,
+                      "bottom": 716.727,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 708.719
+                      "centerY": 708.727
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 698.719,
-                      "bottom": 718.719,
+                      "top": 698.727,
+                      "bottom": 718.727,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 708.719
+                      "centerY": 708.727
                     }
                   },
                   {
@@ -1322,22 +2154,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 811.609,
-                      "bottom": 827.609,
+                      "top": 811.617,
+                      "bottom": 827.617,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 819.609
+                      "centerY": 819.617
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 809.609,
-                      "bottom": 829.609,
+                      "top": 809.617,
+                      "bottom": 829.617,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 819.609
+                      "centerY": 819.617
                     }
                   }
                 ]
@@ -1497,7 +2329,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-mobile-default-main.png",
-              "screenshot_sha256": "764ffa71f6e01a95651eae9e759ec461f42d0e4db86adb90b83c28c6bf234188",
+              "screenshot_sha256": "ae97364d9612a4428ab45678dafc4f663f224acc0ff35d70f11f339b60aaddd7",
               "scroll_y": 122,
               "document_height": 1003
             }
@@ -1518,6 +2350,692 @@
               "expected": 3,
               "actual": 3,
               "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": ".ds-filter-bar",
+              "target_selector": ".ds-metric-rail",
+              "relation": "left-edge",
+              "tolerance_px": 2,
+              "actual": {
+                "source_count": 1,
+                "target_count": 1,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 16,
+                      "right": 374,
+                      "top": 440.094,
+                      "bottom": 506.094,
+                      "width": 358,
+                      "height": 66,
+                      "centerX": 195,
+                      "centerY": 473.094
+                    },
+                    "target": {
+                      "left": 16,
+                      "right": 374,
+                      "top": 202.094,
+                      "bottom": 428.094,
+                      "width": 358,
+                      "height": 226,
+                      "centerX": 195,
+                      "centerY": 315.094
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": ".ds-actions .ds-button:not(.ds-button-primary)",
+              "target_selector": ".ds-actions .ds-button-primary",
+              "relation": "equal-height",
+              "tolerance_px": 2,
+              "actual": {
+                "source_count": 1,
+                "target_count": 1,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 176.875,
+                      "right": 256.875,
+                      "top": 138.094,
+                      "bottom": 182.094,
+                      "width": 80,
+                      "height": 44,
+                      "centerX": 216.875,
+                      "centerY": 160.094
+                    },
+                    "target": {
+                      "left": 264.875,
+                      "right": 374,
+                      "top": 138.094,
+                      "bottom": 182.094,
+                      "width": 109.125,
+                      "height": 44,
+                      "centerX": 319.438,
+                      "centerY": 160.094
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": "[data-icon]",
+              "target_selector": "[data-icon-box]",
+              "relation": "center-x",
+              "tolerance_px": 1,
+              "actual": {
+                "source_count": 9,
+                "target_count": 9,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 24,
+                      "right": 40,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 22,
+                      "right": 42,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 1,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 106,
+                      "right": 122,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 104,
+                      "right": 124,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 2,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 174,
+                      "right": 190,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 172,
+                      "right": 192,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 3,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 242,
+                      "right": 258,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 240,
+                      "right": 260,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 4,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 191.875,
+                      "right": 207.875,
+                      "top": 152.094,
+                      "bottom": 168.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 199.875,
+                      "centerY": 160.094
+                    },
+                    "target": {
+                      "left": 189.875,
+                      "right": 209.875,
+                      "top": 150.094,
+                      "bottom": 170.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 199.875,
+                      "centerY": 160.094
+                    }
+                  },
+                  {
+                    "index": 5,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 279.875,
+                      "right": 295.875,
+                      "top": 152.094,
+                      "bottom": 168.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 287.875,
+                      "centerY": 160.094
+                    },
+                    "target": {
+                      "left": 277.875,
+                      "right": 297.875,
+                      "top": 150.094,
+                      "bottom": 170.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 287.875,
+                      "centerY": 160.094
+                    }
+                  },
+                  {
+                    "index": 6,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 589.836,
+                      "bottom": 605.836,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 597.836
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 587.836,
+                      "bottom": 607.836,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 597.836
+                    }
+                  },
+                  {
+                    "index": 7,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 700.727,
+                      "bottom": 716.727,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 708.727
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 698.727,
+                      "bottom": 718.727,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 708.727
+                    }
+                  },
+                  {
+                    "index": 8,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 811.617,
+                      "bottom": 827.617,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 819.617
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 809.617,
+                      "bottom": 829.617,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 819.617
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": "[data-icon]",
+              "target_selector": "[data-icon-box]",
+              "relation": "center-y",
+              "tolerance_px": 1,
+              "actual": {
+                "source_count": 9,
+                "target_count": 9,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 24,
+                      "right": 40,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 22,
+                      "right": 42,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 1,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 106,
+                      "right": 122,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 104,
+                      "right": 124,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 2,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 174,
+                      "right": 190,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 172,
+                      "right": 192,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 3,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 242,
+                      "right": 258,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 240,
+                      "right": 260,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 4,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 191.875,
+                      "right": 207.875,
+                      "top": 152.094,
+                      "bottom": 168.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 199.875,
+                      "centerY": 160.094
+                    },
+                    "target": {
+                      "left": 189.875,
+                      "right": 209.875,
+                      "top": 150.094,
+                      "bottom": 170.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 199.875,
+                      "centerY": 160.094
+                    }
+                  },
+                  {
+                    "index": 5,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 279.875,
+                      "right": 295.875,
+                      "top": 152.094,
+                      "bottom": 168.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 287.875,
+                      "centerY": 160.094
+                    },
+                    "target": {
+                      "left": 277.875,
+                      "right": 297.875,
+                      "top": 150.094,
+                      "bottom": 170.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 287.875,
+                      "centerY": 160.094
+                    }
+                  },
+                  {
+                    "index": 6,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 589.836,
+                      "bottom": 605.836,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 597.836
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 587.836,
+                      "bottom": 607.836,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 597.836
+                    }
+                  },
+                  {
+                    "index": 7,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 700.727,
+                      "bottom": 716.727,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 708.727
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 698.727,
+                      "bottom": 718.727,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 708.727
+                    }
+                  },
+                  {
+                    "index": 8,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 811.617,
+                      "bottom": 827.617,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 819.617
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 809.617,
+                      "bottom": 829.617,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 819.617
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "locale",
+              "selector": "body",
+              "locale": "zh-CN",
+              "exempt_selector": "[data-locale-exempt]",
+              "allowed_terms": [],
+              "actual": {
+                "locale": "zh-CN",
+                "root_count": 1,
+                "checked_text_nodes": 28,
+                "checked_accessible_names": 0,
+                "violations": []
+              },
+              "passed": true
+            },
+            {
+              "kind": "icon",
+              "selector": "[data-icon]",
+              "family": "ant-design-official",
+              "asset_ref": "assets/icons.svg",
+              "provenance_ref": "manifest.json",
+              "sizes_px": [
+                16,
+                18
+              ],
+              "box_selector": "[data-icon-box]",
+              "box_px": 20,
+              "tolerance_px": 1,
+              "fallback": "visible-label",
+              "actual": {
+                "icon_count": 9,
+                "families": [
+                  "ant-design-official"
+                ],
+                "size_delta_px_max": 0,
+                "box_delta_px_max": 0,
+                "center_delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "href": "#icon-dashboard",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "待处理"
+                  },
+                  {
+                    "index": 1,
+                    "href": "#icon-user",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "账户"
+                  },
+                  {
+                    "index": 2,
+                    "href": "#icon-filter",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "规则"
+                  },
+                  {
+                    "index": 3,
+                    "href": "#icon-audit",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "审计"
+                  },
+                  {
+                    "index": 4,
+                    "href": "#icon-export",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "导出"
+                  },
+                  {
+                    "index": 5,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "分配 4 项"
+                  },
+                  {
+                    "index": 6,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "有风险"
+                  },
+                  {
+                    "index": 7,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "复核中"
+                  },
+                  {
+                    "index": 8,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "处理失败"
+                  }
+                ],
+                "violations": [],
+                "asset_sha256": "2907fd99e62d71c8414b0b92654f70fbbd3c3ec5df1c4612ca2ad05ba5d2e293",
+                "provenance_id": "ant-design-official-operational-icons",
+                "license": "MIT",
+                "source_url": "https://www.iconfont.cn/collections/detail?cid=9402"
+              },
+              "passed": true
             }
           ],
           "visible_text_sha256": "e7f9defd5d4fc1a7947b6c9fbbbd1ab243ce72d646ec37baecef440eae9db61f",
@@ -1526,7 +3044,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-mobile-dense-main.png",
-              "screenshot_sha256": "764ffa71f6e01a95651eae9e759ec461f42d0e4db86adb90b83c28c6bf234188",
+              "screenshot_sha256": "ae97364d9612a4428ab45678dafc4f663f224acc0ff35d70f11f339b60aaddd7",
               "scroll_y": 122,
               "document_height": 1003
             }
@@ -1547,6 +3065,152 @@
               "expected": "策略同步失败",
               "actual": "关键错误\n\n策略同步失败\n\n系统未写入最新策略。请保留当前配置，检查审计记录后重试。",
               "passed": true
+            },
+            {
+              "kind": "locale",
+              "selector": "body",
+              "locale": "zh-CN",
+              "exempt_selector": "[data-locale-exempt]",
+              "allowed_terms": [],
+              "actual": {
+                "locale": "zh-CN",
+                "root_count": 1,
+                "checked_text_nodes": 28,
+                "checked_accessible_names": 0,
+                "violations": []
+              },
+              "passed": true
+            },
+            {
+              "kind": "icon",
+              "selector": "[data-icon]",
+              "family": "ant-design-official",
+              "asset_ref": "assets/icons.svg",
+              "provenance_ref": "manifest.json",
+              "sizes_px": [
+                16,
+                18
+              ],
+              "box_selector": "[data-icon-box]",
+              "box_px": 20,
+              "tolerance_px": 1,
+              "fallback": "visible-label",
+              "actual": {
+                "icon_count": 9,
+                "families": [
+                  "ant-design-official"
+                ],
+                "size_delta_px_max": 0,
+                "box_delta_px_max": 0,
+                "center_delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "href": "#icon-dashboard",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "待处理"
+                  },
+                  {
+                    "index": 1,
+                    "href": "#icon-user",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "账户"
+                  },
+                  {
+                    "index": 2,
+                    "href": "#icon-filter",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "规则"
+                  },
+                  {
+                    "index": 3,
+                    "href": "#icon-audit",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "审计"
+                  },
+                  {
+                    "index": 4,
+                    "href": "#icon-export",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "导出"
+                  },
+                  {
+                    "index": 5,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "分配 4 项"
+                  },
+                  {
+                    "index": 6,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "有风险"
+                  },
+                  {
+                    "index": 7,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "复核中"
+                  },
+                  {
+                    "index": 8,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "处理失败"
+                  }
+                ],
+                "violations": [],
+                "asset_sha256": "2907fd99e62d71c8414b0b92654f70fbbd3c3ec5df1c4612ca2ad05ba5d2e293",
+                "provenance_id": "ant-design-official-operational-icons",
+                "license": "MIT",
+                "source_url": "https://www.iconfont.cn/collections/detail?cid=9402"
+              },
+              "passed": true
             }
           ],
           "visible_text_sha256": "e7f9defd5d4fc1a7947b6c9fbbbd1ab243ce72d646ec37baecef440eae9db61f",
@@ -1555,7 +3219,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-mobile-error-main.png",
-              "screenshot_sha256": "764ffa71f6e01a95651eae9e759ec461f42d0e4db86adb90b83c28c6bf234188",
+              "screenshot_sha256": "ae97364d9612a4428ab45678dafc4f663f224acc0ff35d70f11f339b60aaddd7",
               "scroll_y": 122,
               "document_height": 1003
             }
@@ -1606,22 +3270,22 @@
                     "source": {
                       "left": 16,
                       "right": 304,
-                      "top": 497.875,
-                      "bottom": 615.875,
+                      "top": 497.883,
+                      "bottom": 615.883,
                       "width": 288,
                       "height": 118,
                       "centerX": 160,
-                      "centerY": 556.875
+                      "centerY": 556.883
                     },
                     "target": {
                       "left": 16,
                       "right": 304,
-                      "top": 259.875,
-                      "bottom": 485.875,
+                      "top": 259.883,
+                      "bottom": 485.883,
                       "width": 288,
                       "height": 226,
                       "centerX": 160,
-                      "centerY": 372.875
+                      "centerY": 372.883
                     }
                   }
                 ]
@@ -1645,22 +3309,22 @@
                     "source": {
                       "left": 16,
                       "right": 156,
-                      "top": 195.875,
-                      "bottom": 239.875,
+                      "top": 195.883,
+                      "bottom": 239.883,
                       "width": 140,
                       "height": 44,
                       "centerX": 86,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     },
                     "target": {
                       "left": 164,
                       "right": 304,
-                      "top": 195.875,
-                      "bottom": 239.875,
+                      "top": 195.883,
+                      "bottom": 239.883,
                       "width": 140,
                       "height": 44,
                       "centerX": 234,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     }
                   }
                 ]
@@ -1780,22 +3444,22 @@
                     "source": {
                       "left": 61,
                       "right": 77,
-                      "top": 209.875,
-                      "bottom": 225.875,
+                      "top": 209.883,
+                      "bottom": 225.883,
                       "width": 16,
                       "height": 16,
                       "centerX": 69,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     },
                     "target": {
                       "left": 59,
                       "right": 79,
-                      "top": 207.875,
-                      "bottom": 227.875,
+                      "top": 207.883,
+                      "bottom": 227.883,
                       "width": 20,
                       "height": 20,
                       "centerX": 69,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     }
                   },
                   {
@@ -1804,22 +3468,22 @@
                     "source": {
                       "left": 194.438,
                       "right": 210.438,
-                      "top": 209.875,
-                      "bottom": 225.875,
+                      "top": 209.883,
+                      "bottom": 225.883,
                       "width": 16,
                       "height": 16,
                       "centerX": 202.438,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     },
                     "target": {
                       "left": 192.438,
                       "right": 212.438,
-                      "top": 207.875,
-                      "bottom": 227.875,
+                      "top": 207.883,
+                      "bottom": 227.883,
                       "width": 20,
                       "height": 20,
                       "centerX": 202.438,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     }
                   },
                   {
@@ -1828,22 +3492,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 699.609,
-                      "bottom": 715.609,
+                      "top": 699.625,
+                      "bottom": 715.625,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 707.609
+                      "centerY": 707.625
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 697.609,
-                      "bottom": 717.609,
+                      "top": 697.625,
+                      "bottom": 717.625,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 707.609
+                      "centerY": 707.625
                     }
                   },
                   {
@@ -1852,22 +3516,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 810.5,
-                      "bottom": 826.5,
+                      "top": 810.516,
+                      "bottom": 826.516,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 818.5
+                      "centerY": 818.516
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 808.5,
-                      "bottom": 828.5,
+                      "top": 808.516,
+                      "bottom": 828.516,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 818.5
+                      "centerY": 818.516
                     }
                   },
                   {
@@ -1876,22 +3540,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 921.391,
-                      "bottom": 937.391,
+                      "top": 921.406,
+                      "bottom": 937.406,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 929.391
+                      "centerY": 929.406
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 919.391,
-                      "bottom": 939.391,
+                      "top": 919.406,
+                      "bottom": 939.406,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 929.391
+                      "centerY": 929.406
                     }
                   }
                 ]
@@ -2011,22 +3675,22 @@
                     "source": {
                       "left": 61,
                       "right": 77,
-                      "top": 209.875,
-                      "bottom": 225.875,
+                      "top": 209.883,
+                      "bottom": 225.883,
                       "width": 16,
                       "height": 16,
                       "centerX": 69,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     },
                     "target": {
                       "left": 59,
                       "right": 79,
-                      "top": 207.875,
-                      "bottom": 227.875,
+                      "top": 207.883,
+                      "bottom": 227.883,
                       "width": 20,
                       "height": 20,
                       "centerX": 69,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     }
                   },
                   {
@@ -2035,22 +3699,22 @@
                     "source": {
                       "left": 194.438,
                       "right": 210.438,
-                      "top": 209.875,
-                      "bottom": 225.875,
+                      "top": 209.883,
+                      "bottom": 225.883,
                       "width": 16,
                       "height": 16,
                       "centerX": 202.438,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     },
                     "target": {
                       "left": 192.438,
                       "right": 212.438,
-                      "top": 207.875,
-                      "bottom": 227.875,
+                      "top": 207.883,
+                      "bottom": 227.883,
                       "width": 20,
                       "height": 20,
                       "centerX": 202.438,
-                      "centerY": 217.875
+                      "centerY": 217.883
                     }
                   },
                   {
@@ -2059,22 +3723,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 699.609,
-                      "bottom": 715.609,
+                      "top": 699.625,
+                      "bottom": 715.625,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 707.609
+                      "centerY": 707.625
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 697.609,
-                      "bottom": 717.609,
+                      "top": 697.625,
+                      "bottom": 717.625,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 707.609
+                      "centerY": 707.625
                     }
                   },
                   {
@@ -2083,22 +3747,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 810.5,
-                      "bottom": 826.5,
+                      "top": 810.516,
+                      "bottom": 826.516,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 818.5
+                      "centerY": 818.516
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 808.5,
-                      "bottom": 828.5,
+                      "top": 808.516,
+                      "bottom": 828.516,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 818.5
+                      "centerY": 818.516
                     }
                   },
                   {
@@ -2107,22 +3771,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 921.391,
-                      "bottom": 937.391,
+                      "top": 921.406,
+                      "bottom": 937.406,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 929.391
+                      "centerY": 929.406
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 919.391,
-                      "bottom": 939.391,
+                      "top": 919.406,
+                      "bottom": 939.406,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 929.391
+                      "centerY": 929.406
                     }
                   }
                 ]
@@ -2282,7 +3946,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-small-phone-default-main.png",
-              "screenshot_sha256": "cb4deb0220f24e710b6f9259b3917dd78855aa66ae942fd4333e9f9d29398525",
+              "screenshot_sha256": "9feb304fad6bc68571f8a72fa7c5776226fabefa6bd61c49b5b0eb37cfd8d2a5",
               "scroll_y": 122,
               "document_height": 1113
             }
@@ -2303,6 +3967,692 @@
               "expected": 3,
               "actual": 3,
               "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": ".ds-filter-bar",
+              "target_selector": ".ds-metric-rail",
+              "relation": "left-edge",
+              "tolerance_px": 2,
+              "actual": {
+                "source_count": 1,
+                "target_count": 1,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 16,
+                      "right": 304,
+                      "top": 497.883,
+                      "bottom": 615.883,
+                      "width": 288,
+                      "height": 118,
+                      "centerX": 160,
+                      "centerY": 556.883
+                    },
+                    "target": {
+                      "left": 16,
+                      "right": 304,
+                      "top": 259.883,
+                      "bottom": 485.883,
+                      "width": 288,
+                      "height": 226,
+                      "centerX": 160,
+                      "centerY": 372.883
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": ".ds-actions .ds-button:not(.ds-button-primary)",
+              "target_selector": ".ds-actions .ds-button-primary",
+              "relation": "equal-height",
+              "tolerance_px": 2,
+              "actual": {
+                "source_count": 1,
+                "target_count": 1,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 16,
+                      "right": 156,
+                      "top": 195.883,
+                      "bottom": 239.883,
+                      "width": 140,
+                      "height": 44,
+                      "centerX": 86,
+                      "centerY": 217.883
+                    },
+                    "target": {
+                      "left": 164,
+                      "right": 304,
+                      "top": 195.883,
+                      "bottom": 239.883,
+                      "width": 140,
+                      "height": 44,
+                      "centerX": 234,
+                      "centerY": 217.883
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": "[data-icon]",
+              "target_selector": "[data-icon-box]",
+              "relation": "center-x",
+              "tolerance_px": 1,
+              "actual": {
+                "source_count": 9,
+                "target_count": 9,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 24,
+                      "right": 40,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 22,
+                      "right": 42,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 1,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 106,
+                      "right": 122,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 104,
+                      "right": 124,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 2,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 174,
+                      "right": 190,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 172,
+                      "right": 192,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 3,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 242,
+                      "right": 258,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 240,
+                      "right": 260,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 4,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 61,
+                      "right": 77,
+                      "top": 209.883,
+                      "bottom": 225.883,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 69,
+                      "centerY": 217.883
+                    },
+                    "target": {
+                      "left": 59,
+                      "right": 79,
+                      "top": 207.883,
+                      "bottom": 227.883,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 69,
+                      "centerY": 217.883
+                    }
+                  },
+                  {
+                    "index": 5,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 194.438,
+                      "right": 210.438,
+                      "top": 209.883,
+                      "bottom": 225.883,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 202.438,
+                      "centerY": 217.883
+                    },
+                    "target": {
+                      "left": 192.438,
+                      "right": 212.438,
+                      "top": 207.883,
+                      "bottom": 227.883,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 202.438,
+                      "centerY": 217.883
+                    }
+                  },
+                  {
+                    "index": 6,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 699.625,
+                      "bottom": 715.625,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 707.625
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 697.625,
+                      "bottom": 717.625,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 707.625
+                    }
+                  },
+                  {
+                    "index": 7,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 810.516,
+                      "bottom": 826.516,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 818.516
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 808.516,
+                      "bottom": 828.516,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 818.516
+                    }
+                  },
+                  {
+                    "index": 8,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 921.406,
+                      "bottom": 937.406,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 929.406
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 919.406,
+                      "bottom": 939.406,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 929.406
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "relation",
+              "selector": "[data-icon]",
+              "target_selector": "[data-icon-box]",
+              "relation": "center-y",
+              "tolerance_px": 1,
+              "actual": {
+                "source_count": 9,
+                "target_count": 9,
+                "delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 24,
+                      "right": 40,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 22,
+                      "right": 42,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 32,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 1,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 106,
+                      "right": 122,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 104,
+                      "right": 124,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 114,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 2,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 174,
+                      "right": 190,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 172,
+                      "right": 192,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 182,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 3,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 242,
+                      "right": 258,
+                      "top": 72.094,
+                      "bottom": 88.094,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    },
+                    "target": {
+                      "left": 240,
+                      "right": 260,
+                      "top": 70.094,
+                      "bottom": 90.094,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 250,
+                      "centerY": 80.094
+                    }
+                  },
+                  {
+                    "index": 4,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 61,
+                      "right": 77,
+                      "top": 209.883,
+                      "bottom": 225.883,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 69,
+                      "centerY": 217.883
+                    },
+                    "target": {
+                      "left": 59,
+                      "right": 79,
+                      "top": 207.883,
+                      "bottom": 227.883,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 69,
+                      "centerY": 217.883
+                    }
+                  },
+                  {
+                    "index": 5,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 194.438,
+                      "right": 210.438,
+                      "top": 209.883,
+                      "bottom": 225.883,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 202.438,
+                      "centerY": 217.883
+                    },
+                    "target": {
+                      "left": 192.438,
+                      "right": 212.438,
+                      "top": 207.883,
+                      "bottom": 227.883,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 202.438,
+                      "centerY": 217.883
+                    }
+                  },
+                  {
+                    "index": 6,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 699.625,
+                      "bottom": 715.625,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 707.625
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 697.625,
+                      "bottom": 717.625,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 707.625
+                    }
+                  },
+                  {
+                    "index": 7,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 810.516,
+                      "bottom": 826.516,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 818.516
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 808.516,
+                      "bottom": 828.516,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 818.516
+                    }
+                  },
+                  {
+                    "index": 8,
+                    "delta_px": 0,
+                    "source": {
+                      "left": 65,
+                      "right": 81,
+                      "top": 921.406,
+                      "bottom": 937.406,
+                      "width": 16,
+                      "height": 16,
+                      "centerX": 73,
+                      "centerY": 929.406
+                    },
+                    "target": {
+                      "left": 63,
+                      "right": 83,
+                      "top": 919.406,
+                      "bottom": 939.406,
+                      "width": 20,
+                      "height": 20,
+                      "centerX": 73,
+                      "centerY": 929.406
+                    }
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "kind": "locale",
+              "selector": "body",
+              "locale": "zh-CN",
+              "exempt_selector": "[data-locale-exempt]",
+              "allowed_terms": [],
+              "actual": {
+                "locale": "zh-CN",
+                "root_count": 1,
+                "checked_text_nodes": 28,
+                "checked_accessible_names": 0,
+                "violations": []
+              },
+              "passed": true
+            },
+            {
+              "kind": "icon",
+              "selector": "[data-icon]",
+              "family": "ant-design-official",
+              "asset_ref": "assets/icons.svg",
+              "provenance_ref": "manifest.json",
+              "sizes_px": [
+                16,
+                18
+              ],
+              "box_selector": "[data-icon-box]",
+              "box_px": 20,
+              "tolerance_px": 1,
+              "fallback": "visible-label",
+              "actual": {
+                "icon_count": 9,
+                "families": [
+                  "ant-design-official"
+                ],
+                "size_delta_px_max": 0,
+                "box_delta_px_max": 0,
+                "center_delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "href": "#icon-dashboard",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "待处理"
+                  },
+                  {
+                    "index": 1,
+                    "href": "#icon-user",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "账户"
+                  },
+                  {
+                    "index": 2,
+                    "href": "#icon-filter",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "规则"
+                  },
+                  {
+                    "index": 3,
+                    "href": "#icon-audit",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "审计"
+                  },
+                  {
+                    "index": 4,
+                    "href": "#icon-export",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "导出"
+                  },
+                  {
+                    "index": 5,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "分配 4 项"
+                  },
+                  {
+                    "index": 6,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "有风险"
+                  },
+                  {
+                    "index": 7,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "复核中"
+                  },
+                  {
+                    "index": 8,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "处理失败"
+                  }
+                ],
+                "violations": [],
+                "asset_sha256": "2907fd99e62d71c8414b0b92654f70fbbd3c3ec5df1c4612ca2ad05ba5d2e293",
+                "provenance_id": "ant-design-official-operational-icons",
+                "license": "MIT",
+                "source_url": "https://www.iconfont.cn/collections/detail?cid=9402"
+              },
+              "passed": true
             }
           ],
           "visible_text_sha256": "e7f9defd5d4fc1a7947b6c9fbbbd1ab243ce72d646ec37baecef440eae9db61f",
@@ -2311,7 +4661,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-small-phone-dense-main.png",
-              "screenshot_sha256": "cb4deb0220f24e710b6f9259b3917dd78855aa66ae942fd4333e9f9d29398525",
+              "screenshot_sha256": "9feb304fad6bc68571f8a72fa7c5776226fabefa6bd61c49b5b0eb37cfd8d2a5",
               "scroll_y": 122,
               "document_height": 1113
             }
@@ -2332,6 +4682,152 @@
               "expected": "策略同步失败",
               "actual": "关键错误\n\n策略同步失败\n\n系统未写入最新策略。请保留当前配置，检查审计记录后重试。",
               "passed": true
+            },
+            {
+              "kind": "locale",
+              "selector": "body",
+              "locale": "zh-CN",
+              "exempt_selector": "[data-locale-exempt]",
+              "allowed_terms": [],
+              "actual": {
+                "locale": "zh-CN",
+                "root_count": 1,
+                "checked_text_nodes": 28,
+                "checked_accessible_names": 0,
+                "violations": []
+              },
+              "passed": true
+            },
+            {
+              "kind": "icon",
+              "selector": "[data-icon]",
+              "family": "ant-design-official",
+              "asset_ref": "assets/icons.svg",
+              "provenance_ref": "manifest.json",
+              "sizes_px": [
+                16,
+                18
+              ],
+              "box_selector": "[data-icon-box]",
+              "box_px": 20,
+              "tolerance_px": 1,
+              "fallback": "visible-label",
+              "actual": {
+                "icon_count": 9,
+                "families": [
+                  "ant-design-official"
+                ],
+                "size_delta_px_max": 0,
+                "box_delta_px_max": 0,
+                "center_delta_px_max": 0,
+                "measurements": [
+                  {
+                    "index": 0,
+                    "href": "#icon-dashboard",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "待处理"
+                  },
+                  {
+                    "index": 1,
+                    "href": "#icon-user",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "账户"
+                  },
+                  {
+                    "index": 2,
+                    "href": "#icon-filter",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "规则"
+                  },
+                  {
+                    "index": 3,
+                    "href": "#icon-audit",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "审计"
+                  },
+                  {
+                    "index": 4,
+                    "href": "#icon-export",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "导出"
+                  },
+                  {
+                    "index": 5,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "分配 4 项"
+                  },
+                  {
+                    "index": 6,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "有风险"
+                  },
+                  {
+                    "index": 7,
+                    "href": "#icon-check-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "复核中"
+                  },
+                  {
+                    "index": 8,
+                    "href": "#icon-warning-circle",
+                    "width_px": 16,
+                    "height_px": 16,
+                    "resource_mode": "inline-local-symbol",
+                    "size_delta_px": 0,
+                    "box_delta_px": 0,
+                    "center_delta_px": 0,
+                    "accessible_name": "处理失败"
+                  }
+                ],
+                "violations": [],
+                "asset_sha256": "2907fd99e62d71c8414b0b92654f70fbbd3c3ec5df1c4612ca2ad05ba5d2e293",
+                "provenance_id": "ant-design-official-operational-icons",
+                "license": "MIT",
+                "source_url": "https://www.iconfont.cn/collections/detail?cid=9402"
+              },
+              "passed": true
             }
           ],
           "visible_text_sha256": "e7f9defd5d4fc1a7947b6c9fbbbd1ab243ce72d646ec37baecef440eae9db61f",
@@ -2340,7 +4836,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-small-phone-error-main.png",
-              "screenshot_sha256": "cb4deb0220f24e710b6f9259b3917dd78855aa66ae942fd4333e9f9d29398525",
+              "screenshot_sha256": "9feb304fad6bc68571f8a72fa7c5776226fabefa6bd61c49b5b0eb37cfd8d2a5",
               "scroll_y": 122,
               "document_height": 1113
             }

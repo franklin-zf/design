@@ -11,9 +11,14 @@ import { dirname, isAbsolute, join, normalize, relative, resolve, sep } from 'no
 import { performance } from 'node:perf_hooks';
 import { fileURLToPath } from 'node:url';
 import { automaticGateIds, planSchemaVersion, sha256Value } from './compile-execution-plan.mjs';
-import { computeArtifactDigest } from './validate-evidence-contract.mjs';
+import { computeArtifactDigest } from './lib/artifact-digest.mjs';
 import { validateJsonInstance } from './lib/json-schema.mjs';
 import { validateExecutionPlanBinding } from './lib/execution-plan-binding.mjs';
+import {
+  summarizeTaskObservation,
+  validateDesignEvaluation
+} from './validate-design-evaluation.mjs';
+import { validateVisualReview } from './validate-visual-review.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
 const skillRoot = realpathSync(resolve(dirname(modulePath), '..'));
@@ -402,6 +407,67 @@ function normalizeWorkers(value, maximum) {
   return Math.min(workers, maximum, maxWorkers);
 }
 
+function readJsonIfRegular(path) {
+  if (!existsSync(path) || lstatSync(path).isSymbolicLink()
+      || !statSync(path).isFile()) {
+    return null;
+  }
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+export function deriveEvidenceStatus({
+  plan,
+  artifactRoot,
+  gateResults,
+  executionPlanPath
+}) {
+  const statusOrder = plan.result_contract.evidence_status || [];
+  if (!statusOrder.length) return null;
+  const gatePassed = (gateId) => gateResults.some(
+    (result) => result.gate_id === gateId && result.status === 'passed'
+  );
+  if (!gatePassed('validate-design-output')) return null;
+  let status = 'structure_passed';
+
+  const requirementGate = plan.automatic_gates.some(
+    (gate) => gate.gate_id === 'validate-requirement-verification'
+  );
+  if (!gatePassed('validate-evidence-contract')
+      || (requirementGate && !gatePassed('validate-requirement-verification'))) {
+    return status;
+  }
+  status = 'evidence_traced';
+
+  const reviewerPath = join(artifactRoot, 'reviewer-record.json');
+  const reviewer = readJsonIfRegular(reviewerPath);
+  if (!reviewer || reviewer.review_status !== 'approved'
+      || validateVisualReview(reviewer, artifactRoot, {
+        executionPlanPath
+      }).length) {
+    return status;
+  }
+  status = 'visually_reviewed';
+
+  const contract = readJsonIfRegular(join(artifactRoot, 'evidence-contract.json'));
+  if (contract?.delivery_status !== 'candidate_ready') return status;
+  status = 'decision_ready';
+
+  const evaluationPath = join(artifactRoot, 'design-evaluation.json');
+  const evaluation = readJsonIfRegular(evaluationPath);
+  if (!evaluation
+      || validateDesignEvaluation(artifactRoot, {
+        policyRoot: skillRoot
+      }).length
+      || summarizeTaskObservation(evaluation.task_observation).status !== 'passed') {
+    return status;
+  }
+  return 'user_validated';
+}
+
 export async function runExecutionPlan(plan, options = {}) {
   validateCanonicalPlan(plan);
   const context = resolveWorkspace(plan);
@@ -590,13 +656,26 @@ export async function runExecutionPlan(plan, options = {}) {
   const executionStatus = automaticPassed ? 'complete' : 'failed';
   const assuranceStatus = automaticPassed ? 'pending' : 'failed';
   const deliveryStatus = plan.normalized_request.conditional_policies.schematic.enabled && automaticPassed ? 'schematic_only' : 'blocked';
+  const evidenceStatus = deriveEvidenceStatus({
+    plan,
+    artifactRoot: context.artifactRoot,
+    gateResults: results,
+    executionPlanPath
+  });
   const result = {
     schema_version: 'design-execution-result/v2', plan_id: plan.plan_id,
     resolved_gate_plan_digest: plan.resolved_gate_plan_digest,
     execution_status: executionStatus, assurance_status: assuranceStatus, delivery_status: deliveryStatus,
+    ...(evidenceStatus ? { evidence_status: evidenceStatus } : {}),
     artifact_digest: digest, gate_results: results, human_gate_results: human, telemetry_path: telemetryPath
   };
-  emit('run_finished', { execution_status: executionStatus, assurance_status: assuranceStatus, delivery_status: deliveryStatus, duration_ms: Number((performance.now() - started).toFixed(3)) });
+  emit('run_finished', {
+    execution_status: executionStatus,
+    assurance_status: assuranceStatus,
+    delivery_status: deliveryStatus,
+    ...(evidenceStatus ? { evidence_status: evidenceStatus } : {}),
+    duration_ms: Number((performance.now() - started).toFixed(3))
+  });
   return result;
 }
 

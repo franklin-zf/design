@@ -14,7 +14,7 @@ Expected to pass the design artifact validator.
 
 ## Template
 template_id: operational-dashboard
-applicable_gates: validate-design-output, validate-claim-map, validate-visual-encoding, render-smoke
+applicable_gates: validate-design-output, validate-claim-map, validate-visual-encoding, render-smoke, manual-reviewer-pass
 - gate_id: validate-design-output
   status: passed
   evidence: node scripts/validate-design-output.mjs examples/dashboard-pass
@@ -27,6 +27,9 @@ applicable_gates: validate-design-output, validate-claim-map, validate-visual-en
 - gate_id: render-smoke
   status: passed
   evidence: node scripts/render-smoke.mjs examples/dashboard-pass/index.html --viewports=desktop,mobile
+- gate_id: manual-reviewer-pass
+  status: passed
+  evidence: reviewer-record.json
 drivers: Expansion 28, Reactivation 19, Churn -12 from source.json
 guardrails: incident count source value 2
 filters: none applied in the fixture view

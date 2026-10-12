@@ -20,8 +20,8 @@
     },
     "surface_contracts": {
       "type": "array",
-      "minItems": 3,
-      "maxItems": 3,
+      "minItems": 4,
+      "maxItems": 4,
       "items": { "$ref": "#/$defs/surface_contract" }
     },
     "topology_patterns": {
@@ -87,7 +87,7 @@
   },
   "$defs": {
     "product_preset_id": { "type": "string", "minLength": 1 },
-    "surface_id": { "enum": ["ppt", "html", "poster"] },
+    "surface_id": { "enum": ["ppt", "html", "poster", "dashboard"] },
     "topology_id": {
       "enum": [
         "comparison-matrix",
@@ -296,11 +296,12 @@
         "style_preset_by_surface": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["ppt", "html", "poster"],
+          "required": ["ppt", "html", "poster", "dashboard"],
           "properties": {
             "ppt": { "$ref": "#/$defs/style_preset_id" },
             "html": { "$ref": "#/$defs/style_preset_id" },
-            "poster": { "$ref": "#/$defs/style_preset_id" }
+            "poster": { "$ref": "#/$defs/style_preset_id" },
+            "dashboard": { "$ref": "#/$defs/style_preset_id" }
           }
         },
         "typography_direction": {
@@ -445,11 +446,12 @@
         "surface_emphasis": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["ppt", "html", "poster"],
+          "required": ["ppt", "html", "poster", "dashboard"],
           "properties": {
             "ppt": { "type": "string", "minLength": 1 },
             "html": { "type": "string", "minLength": 1 },
-            "poster": { "type": "string", "minLength": 1 }
+            "poster": { "type": "string", "minLength": 1 },
+            "dashboard": { "type": "string", "minLength": 1 }
           }
         },
         "anti_patterns": {
@@ -478,7 +480,7 @@
       "properties": {
         "id": { "$ref": "#/$defs/surface_id" },
         "artifact_type": {
-          "enum": ["ppt-handoff", "html-deck", "poster"]
+          "enum": ["ppt-handoff", "html-deck", "poster", "dashboard"]
         },
         "canvas": { "type": "string", "minLength": 1 },
         "grid": { "type": "string", "minLength": 1 },
@@ -494,7 +496,40 @@
           "minItems": 3,
           "uniqueItems": true,
           "items": { "type": "string", "minLength": 1 }
+        },
+        "locale_policy": { "$ref": "#/$defs/locale_policy" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["id"],
+            "properties": { "id": { "const": "dashboard" } }
+          },
+          "then": { "required": ["locale_policy"] }
         }
+      ]
+    },
+    "locale_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locale",
+        "exempt_categories",
+        "visible_text_violation_limit",
+        "accessible_name_violation_limit"
+      ],
+      "properties": {
+        "locale": { "const": "zh-CN" },
+        "exempt_categories": {
+          "const": [
+            "brand",
+            "technical_id",
+            "source_field",
+            "approved_abbreviation"
+          ]
+        },
+        "visible_text_violation_limit": { "const": 0 },
+        "accessible_name_violation_limit": { "const": 0 }
       }
     },
     "topology_pattern": {

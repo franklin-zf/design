@@ -31,6 +31,7 @@
     },
     "three_second": { "$ref": "#/$defs/three_second" },
     "blinded_preference": { "$ref": "#/$defs/blinded_preference" },
+    "task_observation": { "$ref": "#/$defs/task_observation" },
     "non_claims": {
       "type": "array",
       "minItems": 1,
@@ -66,6 +67,67 @@
       "properties": {
         "ref": { "$ref": "#/$defs/relative_path" },
         "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "task_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "outcome",
+        "artifact_sha256",
+        "evidence_refs",
+        "observed_at"
+      ],
+      "properties": {
+        "task_id": { "type": "string", "minLength": 1 },
+        "outcome": { "enum": ["passed", "failed", "rejected"] },
+        "artifact_sha256": { "$ref": "#/$defs/sha256" },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/bound_file" }
+        },
+        "observed_at": { "type": "string", "minLength": 20 },
+        "rejection_of_task_id": { "type": "string", "minLength": 1 },
+        "supersedes_task_id": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["outcome"],
+            "properties": { "outcome": { "const": "rejected" } }
+          },
+          "then": {
+            "required": ["rejection_of_task_id"]
+          }
+        }
+      ]
+    },
+    "task_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "evaluator_type",
+        "observed_task_count",
+        "successful_task_count",
+        "failed_task_count",
+        "rejected_task_count",
+        "task_results"
+      ],
+      "properties": {
+        "status": { "enum": ["not_run", "passed", "failed", "rejected"] },
+        "evaluator_type": { "const": "user_observed" },
+        "observed_task_count": { "type": "integer", "minimum": 0 },
+        "successful_task_count": { "type": "integer", "minimum": 0 },
+        "failed_task_count": { "type": "integer", "minimum": 0 },
+        "rejected_task_count": { "type": "integer", "minimum": 0 },
+        "task_results": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/task_result" }
+        }
       }
     },
     "three_second": {

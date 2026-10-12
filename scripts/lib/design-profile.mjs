@@ -23,7 +23,7 @@ const expectedRelationships = [
   'narrative',
   'system'
 ];
-const expectedSurfaceIds = ['html', 'poster', 'ppt'];
+const expectedSurfaceIds = ['dashboard', 'html', 'poster', 'ppt'];
 const expectedTopologyIds = [
   'causal-chain',
   'comparison-matrix',
@@ -34,6 +34,7 @@ const expectedTopologyIds = [
   'timeline'
 ];
 const surfaceIdByArtifactType = new Map([
+  ['dashboard', 'dashboard'],
   ['html-deck', 'html'],
   ['poster', 'poster'],
   ['ppt-handoff', 'ppt']
@@ -933,7 +934,10 @@ export function resolveDesignProfile(brief, artifactType, assets = loadDesignPro
   validateOrThrow(assets.briefSchema, brief, 'design brief');
   const surfaceId = surfaceIdByArtifactType.get(artifactType);
   if (!surfaceId) {
-    throw new Error(`design profiles support only ppt-handoff, html-deck, and poster: ${artifactType}`);
+    throw new Error(
+      `design profiles support only dashboard, ppt-handoff, html-deck, and poster: `
+      + artifactType
+    );
   }
 
   const catalogue = assets.catalogue;
@@ -1064,7 +1068,10 @@ export function resolveDesignProfile(brief, artifactType, assets = loadDesignPro
       data_visualization: primaryPreset.data_visualization,
       motion: primaryPreset.motion,
       surface_emphasis: primaryPreset.surface_emphasis[surfaceId] + supportingEmphasis,
-      anti_patterns: primaryPreset.anti_patterns
+      anti_patterns: primaryPreset.anti_patterns,
+      ...(surface.locale_policy
+        ? { locale_policy: structuredClone(surface.locale_policy) }
+        : {})
     },
     visual_treatment: visualTreatment,
     selection: {

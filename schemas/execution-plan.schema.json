@@ -178,7 +178,16 @@
       "properties": {
         "execution_status": { "type": "array", "items": { "type": "string" } },
         "assurance_status": { "type": "array", "items": { "type": "string" } },
-        "delivery_status": { "type": "array", "items": { "type": "string" } }
+        "delivery_status": { "type": "array", "items": { "type": "string" } },
+        "evidence_status": {
+          "const": [
+            "structure_passed",
+            "evidence_traced",
+            "visually_reviewed",
+            "decision_ready",
+            "user_validated"
+          ]
+        }
       }
     },
     "evidence_contract": {
@@ -227,7 +236,7 @@
             "required": ["artifact_type"],
             "properties": {
               "artifact_type": {
-                "enum": ["html-deck", "ppt-handoff", "poster"]
+                "enum": ["dashboard", "html-deck", "ppt-handoff", "poster"]
               }
             }
           }

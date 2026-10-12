@@ -1,0 +1,186 @@
+{
+  "schema_version": "design-reviewer-record/v4",
+  "reviewer_id": "component-pilot-independent-reviewer",
+  "artifact_author_id": "component-pilot-builder",
+  "reviewer_role": "independent-reviewer",
+  "reviewed_at": "2026-10-12T00:00:00Z",
+  "review_scope": [
+    "operational target surface",
+    "component interaction states",
+    "responsive visual craft"
+  ],
+  "review_status": "approved",
+  "artifact_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "content_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "surface_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "resolved_plan_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "checks": [
+    {
+      "id": "source-identity",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    },
+    {
+      "id": "claim-semantics",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    },
+    {
+      "id": "numeric-semantics",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop-focus.png"
+      ]
+    },
+    {
+      "id": "privacy",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    },
+    {
+      "id": "render",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-small-phone.png"
+      ]
+    },
+    {
+      "id": "visual-review",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    },
+    {
+      "id": "alignment",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-mobile.png"
+      ]
+    },
+    {
+      "id": "locale",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-mobile.png"
+      ]
+    },
+    {
+      "id": "iconography",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    },
+    {
+      "id": "palette",
+      "status": "passed",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    }
+  ],
+  "craft_review": {
+    "rubric_version": "design-craft-rubric/v1",
+    "experience_mode": "operational",
+    "dimensions": [
+      {
+        "id": "composition",
+        "status": "scored",
+        "score": 3,
+        "evidence_refs": [
+          "qa/component-operational-pilot-pass-desktop.png"
+        ],
+        "rationale": "The queue, evidence, exception, and action regions preserve one stable operational scan path."
+      },
+      {
+        "id": "typography",
+        "status": "scored",
+        "score": 3,
+        "evidence_refs": [
+          "qa/component-operational-pilot-pass-mobile.png"
+        ],
+        "rationale": "Labels and values remain readable at desktop and narrow operational widths."
+      },
+      {
+        "id": "color-material",
+        "status": "scored",
+        "score": 3,
+        "evidence_refs": [
+          "qa/component-operational-pilot-pass-desktop.png"
+        ],
+        "rationale": "Action, status, surface, and focus colors retain separate operational roles."
+      },
+      {
+        "id": "media-art-direction",
+        "status": "scored",
+        "score": 3,
+        "evidence_refs": [
+          "qa/component-operational-pilot-pass-desktop.png"
+        ],
+        "rationale": "The component uses only operational evidence and controls rather than decorative media."
+      },
+      {
+        "id": "motion-interaction",
+        "status": "scored",
+        "score": 3,
+        "evidence_refs": [
+          "qa/component-operational-pilot-pass-desktop-checked.png"
+        ],
+        "rationale": "The checked and focus states provide immediate feedback without delaying repeated work."
+      },
+      {
+        "id": "responsive-adaptation",
+        "status": "scored",
+        "score": 3,
+        "evidence_refs": [
+          "qa/component-operational-pilot-pass-small-phone.png"
+        ],
+        "rationale": "The work surface remains readable and unobstructed at the required narrow viewport."
+      },
+      {
+        "id": "finish-micro-detail",
+        "status": "scored",
+        "score": 3,
+        "evidence_refs": [
+          "qa/component-operational-pilot-pass-desktop-focus.png"
+        ],
+        "rationale": "Focus, checked state, spacing, and control alignment are consistently resolved."
+      }
+    ],
+    "ownership": {
+      "content_specificity": 3,
+      "world_coherence": 3,
+      "memorable_element": 3,
+      "rationale": "The component is specific to an operational exception and preserves the artifact's single working visual system.",
+      "evidence_refs": [
+        "qa/component-operational-pilot-pass-desktop.png"
+      ]
+    },
+    "summary": {
+      "applicable_count": 7,
+      "minimum_score": 3,
+      "gate_status": "passed"
+    }
+  },
+  "findings": [],
+  "remaining_risks": [
+    "This fixture does not establish live freshness or real-user task success."
+  ],
+  "non_claims": [
+    "This independent fixture review does not establish user validation or production business impact."
+  ]
+}

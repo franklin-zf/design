@@ -19,7 +19,12 @@ const templateRegistry = JSON.parse(readFileSync(
   'utf8'
 ));
 const designProfileAssets = loadDesignProfileAssets(packageRoot);
-const coreArtifactTypes = new Set(['html-deck', 'ppt-handoff', 'poster']);
+const coreArtifactTypes = new Set([
+  'dashboard',
+  'html-deck',
+  'ppt-handoff',
+  'poster'
+]);
 
 export function validateExecutionPlanBinding(
   plan,

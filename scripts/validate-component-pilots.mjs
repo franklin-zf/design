@@ -13,9 +13,7 @@ import {
   loadDesignProfileAssets,
   resolveDesignProfile
 } from './lib/design-profile.mjs';
-import {
-  computeArtifactDigest
-} from './validate-evidence-contract.mjs';
+import { computeArtifactDigest } from './lib/artifact-digest.mjs';
 import {
   validateComponentUsage
 } from './validate-component-usage.mjs';
@@ -97,8 +95,15 @@ function compilePilotPlan(root, manifest, contract) {
   });
   const profileBrief = manifest.artifact_type === 'poster'
     ? { reader_job: 'executive-decision', primary_relationship: 'decision' }
-    : { reader_job: 'system-explanation', primary_relationship: 'system' };
-  const designProfile = ['html-deck', 'ppt-handoff', 'poster'].includes(
+    : manifest.artifact_type === 'dashboard'
+      ? { reader_job: 'operational-workflow', primary_relationship: 'system' }
+      : { reader_job: 'system-explanation', primary_relationship: 'system' };
+  const designProfile = [
+    'dashboard',
+    'html-deck',
+    'ppt-handoff',
+    'poster'
+  ].includes(
     manifest.artifact_type
   ) ? resolveDesignProfile({
       schema_version: 'design-brief/v1',
@@ -107,6 +112,25 @@ function compilePilotPlan(root, manifest, contract) {
       content_density: 'auto',
       brand_context: 'none'
     }, manifest.artifact_type, designProfileAssets) : null;
+  const renderPolicy = manifest.artifact_type === 'dashboard'
+    ? Object.fromEntries(Object.entries(JSON.parse(readFileSync(resolve(
+        skillRoot,
+        'design-systems/operational-product/preview/render-spec.json'
+      ), 'utf8'))).filter(([key]) => ![
+        'artifact_digest',
+        'resolved_plan_digest',
+        'spec_digest'
+      ].includes(key)))
+    : {
+        viewports: [1440, 390, 320],
+        segments: [{ id: 'main', kind: 'selector', selector: 'main' }],
+        states: [{
+          id: 'default',
+          setup: [],
+          assertions: [{ kind: 'visible', selector: 'main' }]
+        }],
+        remote_policy: { mode: 'deny_all', allowed_origins: [] }
+      };
   return compileExecutionPlan({
     schema_version: 'design-execution-request/v2',
     goal: contract.reader_job,
@@ -135,16 +159,7 @@ function compilePilotPlan(root, manifest, contract) {
     conditional_policies: {
       derived_data: { mode: 'none' },
       schematic: { enabled: manifest.schematic === true },
-      render: {
-        viewports: [1440, 390, 320],
-        segments: [{ id: 'main', kind: 'selector', selector: 'main' }],
-        states: [{
-          id: 'default',
-          setup: [],
-          assertions: [{ kind: 'visible', selector: 'main' }]
-        }],
-        remote_policy: { mode: 'deny_all', allowed_origins: [] }
-      },
+      render: renderPolicy,
       accessibility: { standard: 'WCAG 2.2 AA' },
       privacy: { classification: 'internal' }
     },

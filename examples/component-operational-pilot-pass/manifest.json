@@ -23,7 +23,8 @@
       "validate-claim-map",
       "validate-visual-encoding",
       "render-smoke",
-      "validate-component-usage"
+      "validate-component-usage",
+      "manual-reviewer-pass"
     ],
     "results": [
       {
@@ -50,6 +51,11 @@
         "gate_id": "validate-component-usage",
         "status": "passed",
         "evidence": "node scripts/validate-component-pilots.mjs examples/component-operational-pilot-pass"
+      },
+      {
+        "gate_id": "manual-reviewer-pass",
+        "status": "passed",
+        "evidence": "reviewer-record.json"
       }
     ]
   },

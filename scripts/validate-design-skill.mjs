@@ -4,7 +4,12 @@ import { basename, dirname, isAbsolute, join, normalize, relative, resolve, sep 
 import { validateTemplateLayoutContract } from './lib/layout-registry.mjs';
 
 const root = process.argv[2] || '.';
-const designProfileArtifactTypes = new Set(['html-deck', 'ppt-handoff', 'poster']);
+const designProfileArtifactTypes = new Set([
+  'dashboard',
+  'html-deck',
+  'ppt-handoff',
+  'poster'
+]);
 const topologyIds = new Set([
   'comparison-matrix',
   'timeline',

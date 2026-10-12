@@ -83,6 +83,7 @@
         "user_validated": { "$ref": "#/$defs/assurance_state" }
       }
     },
+    "user_validation_binding": { "$ref": "#/$defs/file_binding" },
     "review_binding": {
       "type": "object",
       "additionalProperties": false,
@@ -111,6 +112,24 @@
       "items": { "type": "string", "minLength": 1 }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "required": ["assurance"],
+        "properties": {
+          "assurance": {
+            "required": ["user_validated"],
+            "properties": {
+              "user_validated": { "const": "passed" }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": ["user_validation_binding"]
+      }
+    }
+  ],
   "$defs": {
     "sha256": {
       "type": "string",

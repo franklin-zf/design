@@ -697,6 +697,55 @@ function operationalInlineBody(system) {
 }
 
 function operationalRenderSpec(componentHtml) {
+  const relationAssertions = [
+    {
+      kind: 'relation',
+      selector: '.ds-filter-bar',
+      target_selector: '.ds-metric-rail',
+      relation: 'left-edge',
+      tolerance_px: 2
+    },
+    {
+      kind: 'relation',
+      selector: '.ds-actions .ds-button:not(.ds-button-primary)',
+      target_selector: '.ds-actions .ds-button-primary',
+      relation: 'equal-height',
+      tolerance_px: 2
+    },
+    {
+      kind: 'relation',
+      selector: '[data-icon]',
+      target_selector: '[data-icon-box]',
+      relation: 'center-x',
+      tolerance_px: 1
+    },
+    {
+      kind: 'relation',
+      selector: '[data-icon]',
+      target_selector: '[data-icon-box]',
+      relation: 'center-y',
+      tolerance_px: 1
+    }
+  ];
+  const localeAssertion = {
+    kind: 'locale',
+    selector: 'body',
+    locale: 'zh-CN',
+    exempt_selector: '[data-locale-exempt]',
+    allowed_terms: []
+  };
+  const iconAssertion = {
+    kind: 'icon',
+    selector: '[data-icon]',
+    family: 'ant-design-official',
+    asset_ref: 'assets/icons.svg',
+    provenance_ref: 'manifest.json',
+    sizes_px: [16, 18],
+    box_selector: '[data-icon-box]',
+    box_px: 20,
+    tolerance_px: 1,
+    fallback: 'visible-label'
+  };
   const payload = {
     schema_version: 'design-render-spec/v2',
     viewports: [1440, 390, 320],
@@ -707,53 +756,9 @@ function operationalRenderSpec(componentHtml) {
         setup: [],
         assertions: [
           { kind: 'visible', selector: 'main' },
-          {
-            kind: 'relation',
-            selector: '.ds-filter-bar',
-            target_selector: '.ds-metric-rail',
-            relation: 'left-edge',
-            tolerance_px: 2
-          },
-          {
-            kind: 'relation',
-            selector: '.ds-actions .ds-button:not(.ds-button-primary)',
-            target_selector: '.ds-actions .ds-button-primary',
-            relation: 'equal-height',
-            tolerance_px: 2
-          },
-          {
-            kind: 'relation',
-            selector: '[data-icon]',
-            target_selector: '[data-icon-box]',
-            relation: 'center-x',
-            tolerance_px: 1
-          },
-          {
-            kind: 'relation',
-            selector: '[data-icon]',
-            target_selector: '[data-icon-box]',
-            relation: 'center-y',
-            tolerance_px: 1
-          },
-          {
-            kind: 'locale',
-            selector: 'body',
-            locale: 'zh-CN',
-            exempt_selector: '[data-locale-exempt]',
-            allowed_terms: []
-          },
-          {
-            kind: 'icon',
-            selector: '[data-icon]',
-            family: 'ant-design-official',
-            asset_ref: 'assets/icons.svg',
-            provenance_ref: 'manifest.json',
-            sizes_px: [16, 18],
-            box_selector: '[data-icon-box]',
-            box_px: 20,
-            tolerance_px: 1,
-            fallback: 'visible-label'
-          }
+          ...relationAssertions,
+          localeAssertion,
+          iconAssertion
         ]
       },
       {
@@ -761,7 +766,10 @@ function operationalRenderSpec(componentHtml) {
         setup: [],
         assertions: [
           { kind: 'visible', selector: '[data-keyframe="dense"]' },
-          { kind: 'count', selector: '.ds-queue-row', expected: 3 }
+          { kind: 'count', selector: '.ds-queue-row', expected: 3 },
+          ...relationAssertions,
+          localeAssertion,
+          iconAssertion
         ]
       },
       {
@@ -776,7 +784,9 @@ function operationalRenderSpec(componentHtml) {
             kind: 'text',
             selector: '.ds-detail[data-state="error"]',
             expected: '策略同步失败'
-          }
+          },
+          localeAssertion,
+          iconAssertion
         ]
       }
     ],

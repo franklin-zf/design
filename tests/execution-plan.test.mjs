@@ -2,7 +2,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
-import { v2Request } from './fixtures/execution-request.mjs';
+import {
+  operationalRenderPolicy,
+  v2Request
+} from './fixtures/execution-request.mjs';
 
 const root = resolve('.');
 const registry = JSON.parse(readFileSync(join(root, 'assets/templates/registry.json'), 'utf8'));
@@ -53,6 +56,13 @@ test('compiler emits one deterministic resolved plan digest and a candidate-only
   assert.deepEqual(first.result_contract.execution_status, ['not_started', 'blocked_untrusted', 'complete', 'failed', 'terminated']);
   assert.deepEqual(first.result_contract.assurance_status, ['pending', 'passed', 'failed']);
   assert.deepEqual(first.result_contract.delivery_status, ['blocked', 'schematic_only', 'candidate_ready']);
+  assert.deepEqual(first.result_contract.evidence_status, [
+    'structure_passed',
+    'evidence_traced',
+    'visually_reviewed',
+    'decision_ready',
+    'user_validated'
+  ]);
   assert.deepEqual(first.runner.cache, { mode: 'off' });
   assert.equal(first.runner.cache_capability, 'not_implemented');
   assert.equal(first.evidence_contract.trusted_candidate_ready_boundary, 'host_external_v1');
@@ -114,10 +124,35 @@ test('compiled plans satisfy the v3 execution-plan schema', async () => {
 
 test('resolved plan renders before evidence validation and declares the dependency', async () => {
   const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
+  const {
+    loadDesignProfileAssets,
+    resolveDesignProfile
+  } = await import('../scripts/lib/design-profile.mjs');
+  const assets = loadDesignProfileAssets(root);
   const input = v2Request({
-    output_surface: { artifact_dir: 'artifact', artifact_type: 'dashboard', template_id: 'operational-dashboard' }
+    output_surface: {
+      artifact_dir: 'artifact',
+      artifact_type: 'dashboard',
+      template_id: 'operational-product'
+    },
+    conditional_policies: {
+      ...v2Request().conditional_policies,
+      render: operationalRenderPolicy()
+    }
   });
-  const plan = compileExecutionPlan(input, { registry, compilerVersion: 'test-v2' });
+  const designProfile = resolveDesignProfile({
+    schema_version: 'design-brief/v1',
+    reader_job: 'operational-workflow',
+    primary_relationship: 'system',
+    secondary_relationships: [],
+    content_density: 'dense',
+    brand_context: 'none'
+  }, 'dashboard', assets);
+  const plan = compileExecutionPlan(input, {
+    designProfile,
+    registry,
+    compilerVersion: 'test-v2'
+  });
   const ids = plan.automatic_gates.map((gate) => gate.gate_id);
   assert.ok(ids.indexOf('render-smoke') < ids.indexOf('validate-evidence-contract'));
   assert.deepEqual(plan.automatic_gates.find((gate) => gate.gate_id === 'validate-evidence-contract').depends_on, ['render-smoke']);
@@ -130,6 +165,67 @@ test('resolved plan renders before evidence validation and declares the dependen
   assert.deepEqual(
     plan.evidence_contract.operational_h0_requirements.map((item) => item.id),
     ['VIS-ALIGN', 'VIS-LOCALE', 'VIS-ICON', 'VIS-COLOR']
+  );
+});
+
+test('dashboard plans require a current profile and canonical operational render spec', async () => {
+  const {
+    compileExecutionPlan
+  } = await import('../scripts/compile-execution-plan.mjs');
+  const {
+    loadDesignProfileAssets,
+    resolveDesignProfile
+  } = await import('../scripts/lib/design-profile.mjs');
+  const assets = loadDesignProfileAssets(root);
+  const profile = resolveDesignProfile({
+    schema_version: 'design-brief/v1',
+    reader_job: 'operational-workflow',
+    primary_relationship: 'system',
+    secondary_relationships: [],
+    content_density: 'dense',
+    brand_context: 'none'
+  }, 'dashboard', assets);
+  const request = v2Request({
+    output_surface: {
+      artifact_dir: 'artifact',
+      artifact_type: 'dashboard',
+      template_id: 'operational-product'
+    },
+    conditional_policies: {
+      ...v2Request().conditional_policies,
+      render: operationalRenderPolicy()
+    }
+  });
+
+  assert.throws(
+    () => compileExecutionPlan(request, { registry }),
+    /dashboard requires --design-profile/
+  );
+  const plan = compileExecutionPlan(request, {
+    designProfile: profile,
+    registry
+  });
+  assert.equal(plan.design_profile.surface.artifact_type, 'dashboard');
+  assert.equal(
+    plan.design_profile.resolved_rules.locale_policy.locale,
+    'zh-CN'
+  );
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(plan.render_spec).filter(
+      ([key]) => key !== 'spec_digest'
+    )),
+    operationalRenderPolicy()
+  );
+
+  const divergent = structuredClone(request);
+  divergent.conditional_policies.render.states = divergent
+    .conditional_policies.render.states.filter((state) => state.id !== 'dense');
+  assert.throws(
+    () => compileExecutionPlan(divergent, {
+      designProfile: profile,
+      registry
+    }),
+    /must exactly match the checked-in canonical render spec/
   );
 });
 

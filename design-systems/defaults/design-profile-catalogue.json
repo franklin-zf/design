@@ -8,7 +8,8 @@
       "style_preset_by_surface": {
         "ppt": "swiss-deck",
         "html": "neutral-analytic",
-        "poster": "swiss-deck"
+        "poster": "swiss-deck",
+        "dashboard": "operational-dashboard"
       },
       "typography_direction": {
         "display_role": "Medium-weight sans serif with compact, declarative headings.",
@@ -53,7 +54,8 @@
       "surface_emphasis": {
         "ppt": "Use chapter, conclusion, evidence, and action pages with deliberate rhythm.",
         "html": "Read as a decision brief, not a marketing landing page.",
-        "poster": "One strategic claim, a small proof set, and one action line."
+        "poster": "One strategic claim, a small proof set, and one action line.",
+        "dashboard": "Keep the decision, evidence, risk, and accountable action continuously visible."
       },
       "anti_patterns": [
         "marketing hero composition",
@@ -69,7 +71,8 @@
       "style_preset_by_surface": {
         "ppt": "neutral-analytic",
         "html": "operational-dashboard",
-        "poster": "swiss-deck"
+        "poster": "swiss-deck",
+        "dashboard": "operational-dashboard"
       },
       "typography_direction": {
         "display_role": "Compact sans serif headings sized for product and process sections.",
@@ -114,7 +117,8 @@
       "surface_emphasis": {
         "ppt": "Explain current pain, capability, workflow change, rollout, and governance.",
         "html": "Prioritize scanning, comparison, stable navigation, and responsive work density.",
-        "poster": "Use a product capability map or operating model with one headline."
+        "poster": "Use a product capability map or operating model with one headline.",
+        "dashboard": "Prioritize repeat-use workflow state, stable navigation, ownership, and recovery actions."
       },
       "anti_patterns": [
         "oversized marketing headline",
@@ -130,7 +134,8 @@
       "style_preset_by_surface": {
         "ppt": "neutral-analytic",
         "html": "neutral-analytic",
-        "poster": "swiss-deck"
+        "poster": "swiss-deck",
+        "dashboard": "operational-dashboard"
       },
       "typography_direction": {
         "display_role": "Neutral sans serif headings that name the question or plotted measure.",
@@ -175,7 +180,8 @@
       "surface_emphasis": {
         "ppt": "Use question, evidence, interpretation, and decision as the page sequence.",
         "html": "Allow bounded exploration without changing metric meaning or hiding the static answer.",
-        "poster": "Show one finding and enough evidence to verify it."
+        "poster": "Show one finding and enough evidence to verify it.",
+        "dashboard": "Keep metric definitions, filters, comparisons, freshness, and caveats inspectable."
       },
       "anti_patterns": [
         "chart used as decoration",
@@ -191,7 +197,8 @@
       "style_preset_by_surface": {
         "ppt": "swiss-deck",
         "html": "swiss-deck",
-        "poster": "swiss-deck"
+        "poster": "swiss-deck",
+        "dashboard": "operational-dashboard"
       },
       "typography_direction": {
         "display_role": "Direct sans serif headings tied to system layers and decisions.",
@@ -236,7 +243,8 @@
       "surface_emphasis": {
         "ppt": "Move from business boundary to layers, critical flow, risk, and evolution.",
         "html": "Keep the complete static architecture visible before adding inspection controls.",
-        "poster": "Use one system map, data flow, or technical roadmap at inspection scale."
+        "poster": "Use one system map, data flow, or technical roadmap at inspection scale.",
+        "dashboard": "Expose boundaries, runtime health, dependency direction, limits, and failure recovery."
       },
       "anti_patterns": [
         "curved connector tangle",
@@ -252,7 +260,8 @@
       "style_preset_by_surface": {
         "ppt": "magazine-deck",
         "html": "magazine-deck",
-        "poster": "magazine-deck"
+        "poster": "magazine-deck",
+        "dashboard": "operational-dashboard"
       },
       "typography_direction": {
         "display_role": "One distinctive display voice with disciplined scale contrast.",
@@ -297,7 +306,8 @@
       "surface_emphasis": {
         "ppt": "Alternate product moments and proof; keep one message per page.",
         "html": "Use an immersive first frame with a visible hint of the next section.",
-        "poster": "Unify product, headline, and action as one dominant composition."
+        "poster": "Unify product, headline, and action as one dominant composition.",
+        "dashboard": "Keep real product states and user actions clear while preserving verified brand ownership."
       },
       "anti_patterns": [
         "abstract AI gradient hero",
@@ -313,7 +323,8 @@
       "style_preset_by_surface": {
         "ppt": "magazine-deck",
         "html": "editorial-report",
-        "poster": "magazine-deck"
+        "poster": "magazine-deck",
+        "dashboard": "operational-dashboard"
       },
       "typography_direction": {
         "display_role": "Editorial display face for chapter openings and tightly controlled quotations.",
@@ -358,7 +369,8 @@
       "surface_emphasis": {
         "ppt": "Use magazine rhythm without turning report paragraphs into slide copy.",
         "html": "Use stable reading width, chapters, navigation, figures, and notes.",
-        "poster": "Reduce the research to one finding or issue map with source context."
+        "poster": "Reduce the research to one finding or issue map with source context.",
+        "dashboard": "Keep evidence, quotation, interpretation, source context, and review status continuously traceable."
       },
       "anti_patterns": [
         "unattributed quotation",
@@ -420,6 +432,36 @@
         "three-second recall",
         "single-claim hierarchy"
       ]
+    },
+    {
+      "id": "dashboard",
+      "artifact_type": "dashboard",
+      "canvas": "Responsive operational surface at 1440px, 390px, and 320px",
+      "grid": "Twelve-column desktop work grid and four-column mobile work grid",
+      "safe_area": "No text, control, icon, or state indicator may clip or overlap at required viewports",
+      "minimum_body_size": "16px with stable 32px, 40px, and 44px control heights",
+      "max_primary_claims": 1,
+      "interaction_policy": "Repeated tasks, keyboard focus, refresh, error recovery, and static fallback preserve state meaning",
+      "delivery_mode": "responsive_document",
+      "required_checks": [
+        "responsive operational layout",
+        "keyboard and focus recovery",
+        "default dense and error states",
+        "locale and accessible names",
+        "icon alignment and provenance",
+        "semantic color separation"
+      ],
+      "locale_policy": {
+        "locale": "zh-CN",
+        "exempt_categories": [
+          "brand",
+          "technical_id",
+          "source_field",
+          "approved_abbreviation"
+        ],
+        "visible_text_violation_limit": 0,
+        "accessible_name_violation_limit": 0
+      }
     }
   ],
   "topology_patterns": [

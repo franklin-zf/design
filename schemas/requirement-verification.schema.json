@@ -133,6 +133,40 @@
         }
       }
     },
+    "screenshot_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256", "viewport", "state"],
+      "properties": {
+        "ref": { "$ref": "#/$defs/relative_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "viewport": { "enum": [1440, 390, 320] },
+        "state": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidence_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "plan",
+        "render_spec",
+        "render_profile",
+        "screenshots"
+      ],
+      "properties": {
+        "artifact": { "$ref": "#/$defs/file_ref" },
+        "plan": { "$ref": "#/$defs/file_ref" },
+        "render_spec": { "$ref": "#/$defs/file_ref" },
+        "render_profile": { "$ref": "#/$defs/file_ref" },
+        "screenshots": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/screenshot_binding" }
+        }
+      }
+    },
     "requirement": {
       "type": "object",
       "additionalProperties": false,
@@ -221,6 +255,7 @@
             "$ref": "#/$defs/evidence_ref"
           }
         },
+        "evidence_binding": { "$ref": "#/$defs/evidence_binding" },
         "status": {
           "enum": [
             "passed",
@@ -259,6 +294,19 @@
                 "minItems": 1
               }
             }
+          }
+        },
+        {
+          "if": {
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "enum": ["VIS-ALIGN", "VIS-LOCALE", "VIS-ICON", "VIS-COLOR"]
+              }
+            }
+          },
+          "then": {
+            "required": ["evidence_binding"]
           }
         }
       ]

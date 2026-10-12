@@ -1,3 +1,19 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+export function operationalRenderPolicy() {
+  const spec = JSON.parse(readFileSync(resolve(
+    'design-systems/operational-product/preview/render-spec.json'
+  ), 'utf8'));
+  return Object.fromEntries(Object.entries(spec).filter(
+    ([key]) => ![
+      'artifact_digest',
+      'resolved_plan_digest',
+      'spec_digest'
+    ].includes(key)
+  ));
+}
+
 export function v2Request(overrides = {}) {
   const base = {
     schema_version: 'design-execution-request/v2',

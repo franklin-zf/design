@@ -14,7 +14,9 @@ function parseArgs(argv) {
   if (positional.length !== 1 || !artifactTypeArg) {
     throw new Error(
       'Usage: node scripts/resolve-design-profile.mjs '
-      + '<brief.json> --artifact-type=<ppt-handoff|html-deck|poster> [--out=<path>]'
+      + '<brief.json> '
+      + '--artifact-type=<dashboard|ppt-handoff|html-deck|poster> '
+      + '[--out=<path>]'
     );
   }
   return {

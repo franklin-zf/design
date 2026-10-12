@@ -68,7 +68,12 @@ function checkArtifact(
   if (!supportedProfiles.has(profile)) throw new Error(`Unsupported profile: ${profile}`);
   const artifactRoot = resolve(artifact);
   const manifest = readManifest(artifactRoot);
-  const coreArtifactTypes = new Set(['html-deck', 'ppt-handoff', 'poster']);
+  const coreArtifactTypes = new Set([
+    'dashboard',
+    'html-deck',
+    'ppt-handoff',
+    'poster'
+  ]);
   if (requireCorePlan && coreArtifactTypes.has(manifest.artifact_type)
       && !executionPlanPath) {
     throw new Error(
@@ -133,8 +138,23 @@ function checkArtifact(
     runScript('validate-poster-contract.mjs', [artifactRoot, ...planArgs]);
     runScript('validate-poster-anti-ai-slop.mjs', [artifactRoot]);
   }
-  if (existsSync(join(artifactRoot, 'reviewer-record.json'))) {
-    runScript('validate-visual-review.mjs', [artifactRoot]);
+  const operationalDashboard = manifest.artifact_type === 'dashboard'
+    && (
+      manifest.style_preset === 'operational-dashboard'
+      || ['operational-dashboard', 'operational-product'].includes(
+        manifest.template_id
+      )
+    );
+  const reviewerRecordPath = join(artifactRoot, 'reviewer-record.json');
+  if (operationalDashboard
+      && ['standard', 'assured'].includes(profile)
+      && !existsSync(reviewerRecordPath)) {
+    throw new Error(
+      'operational dashboard check requires root reviewer-record.json'
+    );
+  }
+  if (existsSync(reviewerRecordPath)) {
+    runScript('validate-visual-review.mjs', [artifactRoot, ...planArgs]);
   }
   if (profile === 'assured') {
     runScript('validate-evidence-contract.mjs', [artifactRoot, ...assuranceArgs]);
@@ -367,7 +387,7 @@ function runStrictTests() {
 
 function usage() {
   process.stdout.write(`Design CLI\n\n${[
-    'profile <brief.json> --artifact-type=<ppt-handoff|html-deck|poster> [--out=<path>]',
+    'profile <brief.json> --artifact-type=<dashboard|ppt-handoff|html-deck|poster> [--out=<path>]',
     'plan <request.json> [--design-profile=<path> --out=<path> --shadow]',
     'check <artifact-dir> [--profile=express|standard|assured] [--execution-plan=<path>] [--require-complete-evaluation] [assurance options]',
     'preflight [capability options]'

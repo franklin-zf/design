@@ -4,7 +4,10 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync,
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { test } from 'node:test';
-import { v2Request } from './fixtures/execution-request.mjs';
+import {
+  operationalRenderPolicy,
+  v2Request
+} from './fixtures/execution-request.mjs';
 
 const packageRoot = resolve('.');
 const registry = JSON.parse(readFileSync(join(packageRoot, 'assets/templates/registry.json'), 'utf8'));
@@ -39,6 +42,39 @@ async function planFor(workspace, derivedData = { mode: 'none' }) {
     conditional_policies: { ...v2Request().conditional_policies, derived_data: derivedData }
   });
   return compileExecutionPlan(input, { registry });
+}
+
+async function dashboardPlanFor(workspace) {
+  const {
+    compileExecutionPlan
+  } = await import('../scripts/compile-execution-plan.mjs');
+  const {
+    loadDesignProfileAssets,
+    resolveDesignProfile
+  } = await import('../scripts/lib/design-profile.mjs');
+  const profile = resolveDesignProfile({
+    schema_version: 'design-brief/v1',
+    reader_job: 'operational-workflow',
+    primary_relationship: 'system',
+    secondary_relationships: [],
+    content_density: 'dense',
+    brand_context: 'none'
+  }, 'dashboard', loadDesignProfileAssets(packageRoot));
+  return compileExecutionPlan(v2Request({
+    output_surface: {
+      artifact_dir: 'artifact',
+      artifact_type: 'dashboard',
+      template_id: 'operational-product'
+    },
+    constraints: {
+      ...v2Request().constraints,
+      workspace_root: workspace
+    },
+    conditional_policies: {
+      ...v2Request().conditional_policies,
+      render: operationalRenderPolicy()
+    }
+  }), { designProfile: profile, registry });
 }
 
 function restrictedDerived(code, overrides = {}) {
@@ -172,7 +208,9 @@ test('cache is explicitly off and enabled plans fail before gate execution', asy
       }
     });
     assert.equal(result.execution_status, 'complete');
+    assert.equal(result.evidence_status, 'evidence_traced');
     assert.ok(gateCalls > 0);
+    assert.equal(existsSync(join(f.artifact, 'design-evaluation.json')), false);
     const telemetry = readFileSync(result.telemetry_path, 'utf8');
     assert.match(telemetry, /"cache_capability":"not_implemented"/);
     assert.match(telemetry, /"cache_declared_mode":"off"/);
@@ -387,15 +425,10 @@ test('artifact gates receive the runner-owned execution plan sidecar', async () 
 });
 
 test('dependency scheduler never starts evidence validation before render-smoke completes', async () => {
-  const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
   const { runExecutionPlan } = await import('../scripts/run-execution-plan.mjs');
   const f = fixture();
   try {
-    const input = v2Request({
-      output_surface: { artifact_dir: 'artifact', artifact_type: 'dashboard', template_id: 'operational-dashboard' },
-      constraints: { ...v2Request().constraints, workspace_root: f.workspace }
-    });
-    const plan = compileExecutionPlan(input, { registry });
+    const plan = await dashboardPlanFor(f.workspace);
     let renderComplete = false;
     const calls = [];
     const result = await runExecutionPlan(plan, {
@@ -416,19 +449,10 @@ test('dependency scheduler never starts evidence validation before render-smoke 
 });
 
 test('runner emits an external digest-bound machine attestation after render passes', async () => {
-  const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
   const { runExecutionPlan } = await import('../scripts/run-execution-plan.mjs');
   const f = fixture();
   try {
-    const input = v2Request({
-      output_surface: {
-        artifact_dir: 'artifact',
-        artifact_type: 'dashboard',
-        template_id: 'operational-dashboard'
-      },
-      constraints: { ...v2Request().constraints, workspace_root: f.workspace }
-    });
-    const plan = compileExecutionPlan(input, { registry });
+    const plan = await dashboardPlanFor(f.workspace);
     const result = await runExecutionPlan(plan, {
       artifactAuthorId: 'author-1',
       executeGate: async (gate) => {
@@ -460,19 +484,10 @@ test('runner emits an external digest-bound machine attestation after render pas
 });
 
 test('runner consumes a host-supplied prior machine attestation without overwriting it', async () => {
-  const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
   const { runExecutionPlan } = await import('../scripts/run-execution-plan.mjs');
   const f = fixture();
   try {
-    const input = v2Request({
-      output_surface: {
-        artifact_dir: 'artifact',
-        artifact_type: 'dashboard',
-        template_id: 'operational-dashboard'
-      },
-      constraints: { ...v2Request().constraints, workspace_root: f.workspace }
-    });
-    const plan = compileExecutionPlan(input, { registry });
+    const plan = await dashboardPlanFor(f.workspace);
     const priorPath = join(f.workspace, 'prior-machine-attestation.json');
     const priorBytes = '{"producer":"design-runner","sentinel":"prior-run"}\n';
     writeFileSync(priorPath, priorBytes);

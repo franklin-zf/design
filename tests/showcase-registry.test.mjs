@@ -102,6 +102,26 @@ test('fabricated arbitrary review state is rejected by schema and eligibility ch
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
+test('showcase cannot self-declare user validation without a bound evaluation', async () => {
+  const {
+    validateShowcaseRegistry
+  } = await import('../scripts/validate-showcase-registry.mjs');
+  const root = fixtureRoot();
+  try {
+    const registry = readJson(join(root, 'showcases/registry.json'));
+    const record = readJson(join(root, caseRef));
+    record.assurance.user_validated = 'passed';
+    writeJson(join(root, caseRef), record);
+    const errors = validateShowcaseRegistry(registry, root).join('\n');
+    assert.match(
+      errors,
+      /required property user_validation_binding|requires user_validation_binding/
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 
 test('no historical showcase is endorsed or packaged', () => {
   const packageJson = readJson(join(packageRoot, 'package.json'));

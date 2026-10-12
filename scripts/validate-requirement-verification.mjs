@@ -9,7 +9,13 @@ import {
 } from 'node:fs';
 import { dirname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { computeArtifactDigest } from './lib/artifact-digest.mjs';
+import { validateExecutionPlanBinding } from './lib/execution-plan-binding.mjs';
 import { validateJsonInstance } from './lib/json-schema.mjs';
+import {
+  operationalH0Requirements
+} from './lib/operational-h0.mjs';
+import { validateColorContract } from './validate-color-system.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
 const skillRoot = resolve(dirname(modulePath), '..');
@@ -17,58 +23,12 @@ const schema = JSON.parse(readFileSync(
   resolve(skillRoot, 'schemas/requirement-verification.schema.json'),
   'utf8'
 ));
-
-export const operationalH0Requirements = [
-  {
-    id: 'VIS-ALIGN',
-    type: 'visual',
-    priority: 'P0',
-    requirement: '页面、区块、组件和 icon/text 使用声明锚点。',
-    acceptance_criteria: [
-      '页面、区块、组件和 icon/text 使用声明锚点',
-      '边缘偏差不超过 2px，图标中心偏差不超过 1px'
-    ],
-    surface_states: ['1440-default', '390-default', '320-default'],
-    verification_method: 'mixed'
-  },
-  {
-    id: 'VIS-LOCALE',
-    type: 'content',
-    priority: 'P0',
-    requirement: '默认 zh-CN，非白名单英文为 0。',
-    acceptance_criteria: [
-      '默认 zh-CN',
-      '除品牌、技术 ID、原始字段和批准缩写外，英文泄漏为 0'
-    ],
-    surface_states: ['1440-default', '390-default', '320-default'],
-    verification_method: 'mixed'
-  },
-  {
-    id: 'VIS-ICON',
-    type: 'visual',
-    priority: 'P0',
-    requirement: '单一 icon family、中文名称和 visible fallback。',
-    acceptance_criteria: [
-      '单一 icon family',
-      '图标使用中文可见名称、accessible name 和 visible fallback',
-      '图标资产本地化且 provenance 与授权可追溯'
-    ],
-    surface_states: ['1440-default', '390-default', '320-default'],
-    verification_method: 'mixed'
-  },
-  {
-    id: 'VIS-COLOR',
-    type: 'visual',
-    priority: 'P0',
-    requirement: 'accent 与 semantic 状态颜色分离。',
-    acceptance_criteria: [
-      '蓝色只承担 action、selection 和 focus',
-      'positive、warning 和 danger 与 accent 分离'
-    ],
-    surface_states: ['1440-default', '1440-error', '390-error', '320-error'],
-    verification_method: 'mixed'
-  }
-];
+const renderSpecSchema = JSON.parse(readFileSync(
+  resolve(skillRoot, 'schemas/render-spec.schema.json'),
+  'utf8'
+));
+const h0Ids = new Set(['VIS-ALIGN', 'VIS-LOCALE', 'VIS-ICON', 'VIS-COLOR']);
+export { operationalH0Requirements };
 
 function inside(root, path) {
   const value = relative(root, path);
@@ -77,6 +37,16 @@ function inside(root, path) {
 
 function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
+}
+
+function stable(value) {
+  if (Array.isArray(value)) return `[${value.map(stable).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map(
+      (key) => `${JSON.stringify(key)}:${stable(value[key])}`
+    ).join(',')}}`;
+  }
+  return JSON.stringify(value);
 }
 
 function normalizeText(value) {
@@ -109,6 +79,297 @@ function validateBoundFile(root, binding, label, errors) {
   } catch (error) {
     errors.push(error.message);
     return null;
+  }
+}
+
+function parseBoundJson(root, binding, label, errors) {
+  const file = validateBoundFile(root, binding, label, errors);
+  if (!file) return null;
+  try {
+    return {
+      ...file,
+      value: JSON.parse(file.bytes.toString('utf8'))
+    };
+  } catch (error) {
+    errors.push(`${label} is invalid JSON: ${error.message}`);
+    return null;
+  }
+}
+
+function withoutRenderBindings(spec) {
+  return Object.fromEntries(Object.entries(spec || {}).filter(
+    ([key]) => ![
+      'artifact_digest',
+      'resolved_plan_digest',
+      'spec_digest'
+    ].includes(key)
+  ));
+}
+
+function statePairs(surfaceStates) {
+  return (surfaceStates || []).map((value) => {
+    const [width, ...stateParts] = String(value).split('-');
+    return { width: Number(width), state: stateParts.join('-') };
+  });
+}
+
+function renderState(profile, width, stateId) {
+  return (profile?.profiles || [])
+    .find((item) => item.width === width)
+    ?.states?.find((state) => state.id === stateId);
+}
+
+function validateEvidenceKinds(requirement, errors) {
+  const expectedKind = requirement.id === 'VIS-COLOR'
+    ? 'screenshot'
+    : 'browser-test';
+  const kinds = new Set((requirement.evidence_refs || []).map((item) => item.kind));
+  if (kinds.size !== 1 || !kinds.has(expectedKind)) {
+    errors.push(
+      `requirement ${requirement.id} evidence kind must be ${expectedKind}`
+    );
+  }
+}
+
+function validateScreenshotBindings(
+  root,
+  requirement,
+  renderProfile,
+  errors
+) {
+  const bindings = requirement.evidence_binding?.screenshots || [];
+  const tupleIds = bindings.map((binding) => (
+    `${binding.viewport}-${binding.state}-${binding.ref}`
+  ));
+  if (new Set(tupleIds).size !== tupleIds.length) {
+    errors.push(`requirement ${requirement.id} screenshot bindings must be unique`);
+  }
+  for (const binding of bindings) {
+    validateBoundFile(
+      root,
+      binding,
+      `requirement ${requirement.id} screenshot ${binding.ref}`,
+      errors
+    );
+    const state = renderState(renderProfile, binding.viewport, binding.state);
+    const matches = (state?.segments || []).filter((segment) => (
+      segment.screenshot_ref === binding.ref
+      && segment.screenshot_sha256 === binding.sha256
+    ));
+    if (matches.length !== 1) {
+      errors.push(
+        `requirement ${requirement.id} screenshot ${binding.viewport}-`
+        + `${binding.state} must match exactly one render-profile segment`
+      );
+    }
+  }
+  const expected = operationalH0Requirements.find(
+    (item) => item.id === requirement.id
+  );
+  for (const pair of statePairs(expected?.surface_states)) {
+    if (!bindings.some((binding) => (
+      binding.viewport === pair.width && binding.state === pair.state
+    ))) {
+      errors.push(
+        `requirement ${requirement.id} evidence binding is missing `
+        + `${pair.width}-${pair.state}`
+      );
+    }
+  }
+}
+
+function validateH0Assertions(requirement, plan, renderProfile, errors) {
+  const expected = operationalH0Requirements.find(
+    (item) => item.id === requirement.id
+  );
+  const pairs = statePairs(expected?.surface_states);
+  for (const pair of pairs) {
+    const state = renderState(renderProfile, pair.width, pair.state);
+    if (!state) {
+      errors.push(
+        `requirement ${requirement.id} render profile is missing `
+        + `${pair.width}-${pair.state}`
+      );
+      continue;
+    }
+    if (requirement.id === 'VIS-ALIGN') {
+      const assertions = (state.assertions || []).filter(
+        (assertion) => assertion.kind === 'relation'
+      );
+      if (assertions.length !== 4) {
+        errors.push(
+          `requirement VIS-ALIGN ${pair.width}-${pair.state} `
+          + 'requires four relation assertions'
+        );
+      }
+      for (const assertion of assertions) {
+        const maximum = assertion.selector === '[data-icon]' ? 1 : 2;
+        if (assertion.passed !== true
+            || assertion.tolerance_px > maximum
+            || assertion.actual?.delta_px_max > maximum) {
+          errors.push(
+            `requirement VIS-ALIGN ${pair.width}-${pair.state} `
+            + `exceeds ${maximum}px tolerance`
+          );
+        }
+      }
+    }
+    if (requirement.id === 'VIS-LOCALE') {
+      const assertions = (state.assertions || []).filter(
+        (assertion) => assertion.kind === 'locale'
+      );
+      const locale = plan.design_profile?.resolved_rules?.locale_policy;
+      if (assertions.length !== 1
+          || assertions[0].passed !== true
+          || assertions[0].actual?.locale !== locale?.locale
+          || assertions[0].actual?.violations?.length
+            > locale?.visible_text_violation_limit
+          || assertions[0].actual?.violations?.length
+            > locale?.accessible_name_violation_limit) {
+        errors.push(
+          `requirement VIS-LOCALE ${pair.width}-${pair.state} `
+          + 'must pass the resolved zh-CN locale policy'
+        );
+      }
+    }
+    if (requirement.id === 'VIS-ICON') {
+      const assertions = (state.assertions || []).filter(
+        (assertion) => assertion.kind === 'icon'
+      );
+      const actual = assertions[0]?.actual;
+      if (assertions.length !== 1
+          || assertions[0].passed !== true
+          || actual?.violations?.length
+          || actual?.families?.length !== 1
+          || actual?.center_delta_px_max > 1
+          || !/^[a-f0-9]{64}$/u.test(String(actual?.asset_sha256 || ''))
+          || !actual?.provenance_id
+          || (actual?.measurements || []).some((item) => (
+            !['inline-local-symbol', 'local-sprite'].includes(item.resource_mode)
+            || !item.accessible_name
+          ))) {
+        errors.push(
+          `requirement VIS-ICON ${pair.width}-${pair.state} `
+          + 'must pass local icon provenance, names, fallback, and centering'
+        );
+      }
+    }
+  }
+  if (requirement.id === 'VIS-COLOR') {
+    const theme = plan.design_profile?.resolved_theme || {};
+    const colors = Object.fromEntries(Object.entries(theme).filter(
+      ([, value]) => typeof value === 'string' && /^#[a-f0-9]{6}$/iu.test(value)
+    ));
+    const colorErrors = validateColorContract(
+      theme.color_contract,
+      colors,
+      { label: 'operational dashboard color contract' }
+    );
+    errors.push(...colorErrors.map((error) => `requirement VIS-COLOR ${error}`));
+  }
+}
+
+function validateOperationalEvidenceChain(
+  root,
+  manifest,
+  requirements,
+  artifactRefs,
+  errors
+) {
+  const h0Requirements = requirements.filter((item) => h0Ids.has(item.id));
+  if (h0Requirements.length !== h0Ids.size) return;
+  const firstBinding = h0Requirements[0].evidence_binding;
+  for (const requirement of h0Requirements) {
+    validateEvidenceKinds(requirement, errors);
+    for (const key of ['artifact', 'plan', 'render_spec', 'render_profile']) {
+      if (stable(requirement.evidence_binding?.[key])
+          !== stable(firstBinding?.[key])) {
+        errors.push(`operational H0 ${key} bindings must be byte-identical`);
+      }
+    }
+  }
+
+  const artifact = validateBoundFile(
+    root,
+    firstBinding?.artifact,
+    'operational H0 artifact binding',
+    errors
+  );
+  const artifactRef = artifactRefs.find(
+    (item) => item.ref === firstBinding?.artifact?.ref
+  );
+  if (!artifactRef
+      || stable(artifactRef) !== stable(firstBinding?.artifact)) {
+    errors.push('operational H0 artifact binding must equal artifact_refs');
+  }
+  const planFile = parseBoundJson(
+    root,
+    firstBinding?.plan,
+    'operational H0 execution plan',
+    errors
+  );
+  const renderSpecFile = parseBoundJson(
+    root,
+    firstBinding?.render_spec,
+    'operational H0 render spec',
+    errors
+  );
+  const renderProfileFile = parseBoundJson(
+    root,
+    firstBinding?.render_profile,
+    'operational H0 render profile',
+    errors
+  );
+  if (!artifact || !planFile || !renderSpecFile || !renderProfileFile) return;
+
+  const plan = planFile.value;
+  const renderSpec = renderSpecFile.value;
+  const renderProfile = renderProfileFile.value;
+  errors.push(...validateExecutionPlanBinding(plan, {
+    artifactType: manifest?.artifact_type,
+    templateId: manifest?.template_id
+  }).map((error) => `operational H0 execution plan ${error}`));
+  const plannedRoot = resolve(
+    plan.artifact?.workspace_root || '',
+    plan.artifact?.artifact_dir || ''
+  );
+  if (!existsSync(plannedRoot) || realpathSync(plannedRoot) !== root) {
+    errors.push('operational H0 execution plan artifact root mismatch');
+  }
+  errors.push(...validateJsonInstance(renderSpecSchema, renderSpec).map(
+    (error) => `operational H0 render spec ${error}`
+  ));
+  const renderPayload = withoutRenderBindings(renderSpec);
+  if (renderSpec.spec_digest !== sha256(Buffer.from(stable(renderPayload)))) {
+    errors.push('operational H0 render spec digest mismatch');
+  }
+  if (stable(plan.render_spec) !== stable({
+    ...renderPayload,
+    spec_digest: renderSpec.spec_digest
+  })) {
+    errors.push('operational H0 render spec does not match the bound plan');
+  }
+  let artifactDigest = null;
+  try {
+    artifactDigest = computeArtifactDigest(root);
+  } catch (error) {
+    errors.push(`operational H0 artifact digest failed: ${error.message}`);
+  }
+  if (renderSpec.artifact_digest !== artifactDigest
+      || renderProfile.artifact_digest !== artifactDigest) {
+    errors.push('operational H0 artifact digest chain mismatch');
+  }
+  if (renderSpec.resolved_plan_digest !== plan.resolved_gate_plan_digest
+      || renderProfile.resolved_plan_digest !== plan.resolved_gate_plan_digest) {
+    errors.push('operational H0 resolved plan digest chain mismatch');
+  }
+  if (renderProfile.schema_version !== 'design-render-profile/v2'
+      || renderProfile.render_spec_digest !== renderSpec.spec_digest) {
+    errors.push('operational H0 render profile/spec digest chain mismatch');
+  }
+  for (const requirement of h0Requirements) {
+    validateScreenshotBindings(root, requirement, renderProfile, errors);
+    validateH0Assertions(requirement, plan, renderProfile, errors);
   }
 }
 
@@ -232,6 +493,13 @@ export function validateRequirementVerification(directory, options = {}) {
         }
       }
     }
+    validateOperationalEvidenceChain(
+      root,
+      manifest,
+      requirements,
+      artifactRefs,
+      errors
+    );
   }
   for (const requirement of requirements) {
     const prefix = `requirement ${requirement.id || 'unknown'}`;

@@ -95,6 +95,187 @@ function validateThreeSecond(record, root, errors) {
   }
 }
 
+function validateTaskEvidence(root, result, evidenceOwners, errors) {
+  for (const binding of result.evidence_refs || []) {
+    const key = `${binding.ref}\0${binding.sha256}`;
+    const owner = evidenceOwners.get(key);
+    if (owner && owner !== result.task_id) {
+      errors.push(
+        `task_observation evidence ${binding.ref} cannot support multiple task ids`
+      );
+    } else {
+      evidenceOwners.set(key, result.task_id);
+    }
+    try {
+      const evidence = readRegularFile(
+        root,
+        binding.ref,
+        `task ${result.task_id || 'unknown'} evidence`
+      );
+      if (sha256(evidence.bytes) !== binding.sha256) {
+        errors.push(
+          `task ${result.task_id || 'unknown'} evidence SHA-256 mismatch: `
+          + binding.ref
+        );
+      }
+    } catch (error) {
+      errors.push(error.message);
+    }
+  }
+}
+
+export function summarizeTaskObservation(section) {
+  if (!section) {
+    return {
+      status: 'not_claimed',
+      observed_task_count: 0,
+      successful_task_count: 0,
+      failed_task_count: 0,
+      rejected_task_count: 0,
+      terminal_task_ids: []
+    };
+  }
+  const results = section.task_results || [];
+  const successors = new Map();
+  for (const result of results) {
+    const target = result.rejection_of_task_id || result.supersedes_task_id;
+    if (target && !successors.has(target)) successors.set(target, result.task_id);
+  }
+  const terminal = results.filter((result) => !successors.has(result.task_id));
+  const counts = {
+    successful_task_count: terminal.filter(
+      (result) => result.outcome === 'passed'
+    ).length,
+    failed_task_count: terminal.filter(
+      (result) => result.outcome === 'failed'
+    ).length,
+    rejected_task_count: terminal.filter(
+      (result) => result.outcome === 'rejected'
+    ).length
+  };
+  const status = counts.rejected_task_count
+    ? 'rejected'
+    : counts.failed_task_count
+      ? 'failed'
+      : counts.successful_task_count
+        ? 'passed'
+        : 'not_run';
+  return {
+    status,
+    observed_task_count: terminal.length,
+    ...counts,
+    terminal_task_ids: terminal.map((result) => result.task_id)
+  };
+}
+
+function validateTaskObservation(record, root, evaluatorTypes, errors) {
+  const section = record.task_observation;
+  if (!section) return;
+  if (!evaluatorTypes.has('user_observed')
+      || section.evaluator_type !== 'user_observed') {
+    errors.push(
+      'task_observation requires evaluator_types to include user_observed'
+    );
+  }
+  const results = section.task_results || [];
+  const ids = new Set();
+  const resultById = new Map();
+  const successors = new Map();
+  const evidenceOwners = new Map();
+  for (const [index, result] of results.entries()) {
+    if (!result.task_id || ids.has(result.task_id)) {
+      errors.push('task_observation task ids must be unique');
+    } else {
+      ids.add(result.task_id);
+      resultById.set(result.task_id, result);
+    }
+    if (result.artifact_sha256 !== record.artifact_sha256) {
+      errors.push(
+        `task ${result.task_id || index} artifact_sha256 must match the `
+        + 'current evaluated artifact'
+      );
+    }
+    if (Number.isNaN(Date.parse(result.observed_at))) {
+      errors.push(`task ${result.task_id || index} observed_at must be ISO-8601`);
+    }
+    validateTaskEvidence(root, result, evidenceOwners, errors);
+    const relationFields = [
+      result.rejection_of_task_id ? 'rejection_of_task_id' : null,
+      result.supersedes_task_id ? 'supersedes_task_id' : null
+    ].filter(Boolean);
+    if (relationFields.length > 1) {
+      errors.push(`task ${result.task_id || index} may declare only one relation`);
+      continue;
+    }
+    const field = relationFields[0];
+    if (!field) continue;
+    const targetId = result[field];
+    const target = resultById.get(targetId);
+    if (!target || targetId === result.task_id) {
+      errors.push(
+        `task ${result.task_id || index} relation target must be a distinct `
+        + 'earlier task'
+      );
+      continue;
+    }
+    if (successors.has(targetId)) {
+      errors.push(`task ${targetId} may have only one rejection or supersession`);
+      continue;
+    }
+    if (field === 'rejection_of_task_id'
+        && (result.outcome !== 'rejected' || target.outcome !== 'passed')) {
+      errors.push(
+        `task ${result.task_id || index} rejection must target an earlier `
+        + 'passed task'
+      );
+      continue;
+    }
+    if (field === 'supersedes_task_id'
+        && (result.outcome === 'passed' || target.outcome === 'passed')) {
+      errors.push(
+        `task ${result.task_id || index} supersession is limited to `
+        + 'non-passed tasks'
+      );
+      continue;
+    }
+    if (target.artifact_sha256 !== result.artifact_sha256) {
+      errors.push(
+        `task ${result.task_id || index} relation cannot cross artifact digests`
+      );
+      continue;
+    }
+    successors.set(targetId, result.task_id);
+  }
+
+  for (const start of results) {
+    const seen = new Set();
+    let current = start.task_id;
+    while (successors.has(current)) {
+      if (seen.has(current)) {
+        errors.push('task_observation relation graph cannot contain cycles');
+        break;
+      }
+      seen.add(current);
+      current = successors.get(current);
+    }
+  }
+  const summary = summarizeTaskObservation(section);
+  for (const field of [
+    'observed_task_count',
+    'successful_task_count',
+    'failed_task_count',
+    'rejected_task_count',
+    'status'
+  ]) {
+    if (section[field] !== summary[field]) {
+      errors.push(
+        `task_observation ${field} must equal derived value `
+        + JSON.stringify(summary[field])
+      );
+    }
+  }
+}
+
 function loadDirectionComparison(root, section, errors) {
   let file;
   try {
@@ -157,7 +338,8 @@ export function summarizeDesignEvaluation(record) {
       valid_votes: validVotes,
       winner,
       win_rate: validVotes ? Math.max(votes.A, votes.B) / validVotes : null
-    }
+    },
+    task_observation: summarizeTaskObservation(record?.task_observation)
   };
 }
 
@@ -186,7 +368,12 @@ export function validateDesignEvaluation(directory, options = {}) {
     }
   }
   if (!manifest) errors.push('manifest.json is required for design evaluation');
-  if (manifest && !['ppt-handoff', 'html-deck', 'poster'].includes(manifest.artifact_type)) {
+  if (manifest && ![
+    'dashboard',
+    'ppt-handoff',
+    'html-deck',
+    'poster'
+  ].includes(manifest.artifact_type)) {
     errors.push(`design evaluation does not support artifact_type=${manifest.artifact_type}`);
   }
 
@@ -213,6 +400,7 @@ export function validateDesignEvaluation(directory, options = {}) {
       errors.push(`evaluator_types must include ${section.evaluator_type}`);
     }
   }
+  validateTaskObservation(record, root, evaluatorTypes, errors);
   if (!record.three_second || !record.blinded_preference) {
     errors.push('three_second and blinded_preference sections are required');
   } else {

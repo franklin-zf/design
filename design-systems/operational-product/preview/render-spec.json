@@ -85,6 +85,56 @@
           "kind": "count",
           "selector": ".ds-queue-row",
           "expected": 3
+        },
+        {
+          "kind": "relation",
+          "selector": ".ds-filter-bar",
+          "target_selector": ".ds-metric-rail",
+          "relation": "left-edge",
+          "tolerance_px": 2
+        },
+        {
+          "kind": "relation",
+          "selector": ".ds-actions .ds-button:not(.ds-button-primary)",
+          "target_selector": ".ds-actions .ds-button-primary",
+          "relation": "equal-height",
+          "tolerance_px": 2
+        },
+        {
+          "kind": "relation",
+          "selector": "[data-icon]",
+          "target_selector": "[data-icon-box]",
+          "relation": "center-x",
+          "tolerance_px": 1
+        },
+        {
+          "kind": "relation",
+          "selector": "[data-icon]",
+          "target_selector": "[data-icon-box]",
+          "relation": "center-y",
+          "tolerance_px": 1
+        },
+        {
+          "kind": "locale",
+          "selector": "body",
+          "locale": "zh-CN",
+          "exempt_selector": "[data-locale-exempt]",
+          "allowed_terms": []
+        },
+        {
+          "kind": "icon",
+          "selector": "[data-icon]",
+          "family": "ant-design-official",
+          "asset_ref": "assets/icons.svg",
+          "provenance_ref": "manifest.json",
+          "sizes_px": [
+            16,
+            18
+          ],
+          "box_selector": "[data-icon-box]",
+          "box_px": 20,
+          "tolerance_px": 1,
+          "fallback": "visible-label"
         }
       ]
     },
@@ -100,6 +150,28 @@
           "kind": "text",
           "selector": ".ds-detail[data-state=\"error\"]",
           "expected": "策略同步失败"
+        },
+        {
+          "kind": "locale",
+          "selector": "body",
+          "locale": "zh-CN",
+          "exempt_selector": "[data-locale-exempt]",
+          "allowed_terms": []
+        },
+        {
+          "kind": "icon",
+          "selector": "[data-icon]",
+          "family": "ant-design-official",
+          "asset_ref": "assets/icons.svg",
+          "provenance_ref": "manifest.json",
+          "sizes_px": [
+            16,
+            18
+          ],
+          "box_selector": "[data-icon-box]",
+          "box_px": 20,
+          "tolerance_px": 1,
+          "fallback": "visible-label"
         }
       ]
     }
@@ -110,5 +182,5 @@
   },
   "resolved_plan_digest": "4733a48234d4578f27f1e604dcad97810991dce7b18430a6f13c85a35da17cd6",
   "artifact_digest": "0455fba0c2f100da085af176320dd370f8f11709d5f142133c338bb4e6a6c8ef",
-  "spec_digest": "cda5d115595a42a934387ff6630e1f552bcd4d3305d9993369ba332e1e8d34a4"
+  "spec_digest": "1d58cb135bc7e7ca773e2417f412337118693b8c4c2518271c1bc01c3e201623"
 }

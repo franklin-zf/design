@@ -7,7 +7,10 @@ import {
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import test from 'node:test';
-import { v2Request } from './fixtures/execution-request.mjs';
+import {
+  operationalRenderPolicy,
+  v2Request
+} from './fixtures/execution-request.mjs';
 
 const root = resolve('.');
 const systemIds = [
@@ -101,12 +104,28 @@ test('operational system binds local Iconfont provenance and surface assertions'
     spec.states.map((state) => state.id),
     ['default', 'dense', 'error']
   );
-  const kinds = new Set(spec.states.flatMap(
-    (state) => state.assertions.map((assertion) => assertion.kind)
-  ));
-  for (const kind of ['relation', 'locale', 'icon']) {
-    assert.ok(kinds.has(kind), kind);
-  }
+  const stateKinds = Object.fromEntries(spec.states.map((state) => [
+    state.id,
+    state.assertions.map((assertion) => assertion.kind)
+  ]));
+  assert.deepEqual(
+    stateKinds.default.filter((kind) => (
+      ['relation', 'locale', 'icon'].includes(kind)
+    )),
+    ['relation', 'relation', 'relation', 'relation', 'locale', 'icon']
+  );
+  assert.deepEqual(
+    stateKinds.dense.filter((kind) => (
+      ['relation', 'locale', 'icon'].includes(kind)
+    )),
+    ['relation', 'relation', 'relation', 'relation', 'locale', 'icon']
+  );
+  assert.deepEqual(
+    stateKinds.error.filter((kind) => (
+      ['relation', 'locale', 'icon'].includes(kind)
+    )),
+    ['locale', 'icon']
+  );
 });
 
 test('expressive system has a local synthetic protagonist and responsive keyframes', () => {
@@ -174,13 +193,30 @@ test('operational product template compiles through the existing gate runner', a
   const { compileExecutionPlan } = await import(
     '../scripts/compile-execution-plan.mjs'
   );
+  const {
+    loadDesignProfileAssets,
+    resolveDesignProfile
+  } = await import('../scripts/lib/design-profile.mjs');
+  const assets = loadDesignProfileAssets(root);
+  const designProfile = resolveDesignProfile({
+    schema_version: 'design-brief/v1',
+    reader_job: 'operational-workflow',
+    primary_relationship: 'system',
+    secondary_relationships: [],
+    content_density: 'dense',
+    brand_context: 'none'
+  }, 'dashboard', assets);
   const plan = compileExecutionPlan(v2Request({
     output_surface: {
       artifact_dir: 'artifact',
       artifact_type: 'dashboard',
       template_id: 'operational-product'
+    },
+    conditional_policies: {
+      ...v2Request().conditional_policies,
+      render: operationalRenderPolicy()
     }
-  }), { registry });
+  }), { designProfile, registry });
   const gateIds = plan.automatic_gates.map((gate) => gate.gate_id);
   for (const gateId of [
     'validate-design-output',

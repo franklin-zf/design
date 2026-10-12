@@ -126,27 +126,37 @@ test('operational relation, locale, and icon assertions emit measured evidence',
         ['default', 'dense', 'error']
       );
       assert.deepEqual(viewport.remote_requests, []);
-      const defaultState = viewport.states[0];
-      const relation = defaultState.assertions.find(
-        (assertion) => assertion.kind === 'relation'
-      );
-      const locale = defaultState.assertions.find(
-        (assertion) => assertion.kind === 'locale'
-      );
-      const icon = defaultState.assertions.find(
-        (assertion) => assertion.kind === 'icon'
-      );
-      assert.ok(relation.actual.delta_px_max <= relation.tolerance_px);
-      assert.equal(locale.actual.violations.length, 0);
-      assert.ok(locale.actual.checked_text_nodes > 0);
-      assert.equal(icon.actual.icon_count, 9);
-      assert.deepEqual(icon.actual.families, ['ant-design-official']);
-      assert.equal(icon.actual.violations.length, 0);
-      assert.match(icon.actual.asset_sha256, /^[a-f0-9]{64}$/);
-      assert.equal(
-        icon.actual.provenance_id,
-        'ant-design-official-operational-icons'
-      );
+      for (const state of viewport.states) {
+        const relations = state.assertions.filter(
+          (assertion) => assertion.kind === 'relation'
+        );
+        const locale = state.assertions.find(
+          (assertion) => assertion.kind === 'locale'
+        );
+        const icon = state.assertions.find(
+          (assertion) => assertion.kind === 'icon'
+        );
+        if (state.id !== 'error') {
+          assert.equal(relations.length, 4);
+          assert.ok(relations.every(
+            (relation) => (
+              relation.actual.delta_px_max <= relation.tolerance_px
+            )
+          ));
+        } else {
+          assert.equal(relations.length, 0);
+        }
+        assert.equal(locale.actual.violations.length, 0);
+        assert.ok(locale.actual.checked_text_nodes > 0);
+        assert.equal(icon.actual.icon_count, 9);
+        assert.deepEqual(icon.actual.families, ['ant-design-official']);
+        assert.equal(icon.actual.violations.length, 0);
+        assert.match(icon.actual.asset_sha256, /^[a-f0-9]{64}$/);
+        assert.equal(
+          icon.actual.provenance_id,
+          'ant-design-official-operational-icons'
+        );
+      }
     }
   } finally {
     rmSync(temporaryRoot, { recursive: true, force: true });

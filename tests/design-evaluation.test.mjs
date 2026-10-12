@@ -127,6 +127,64 @@ function fixture() {
   return root;
 }
 
+function taskResult(root, taskId, outcome, artifactSha, additions = {}) {
+  const evidenceRef = `task-${taskId}.json`;
+  const evidence = Buffer.from(JSON.stringify({ task_id: taskId, outcome }));
+  writeFileSync(join(root, evidenceRef), evidence);
+  return {
+    task_id: taskId,
+    outcome,
+    artifact_sha256: artifactSha,
+    evidence_refs: [{
+      ref: evidenceRef,
+      sha256: sha256(evidence)
+    }],
+    observed_at: '2026-10-12T00:00:00Z',
+    ...additions
+  };
+}
+
+function setTaskObservation(root, results, overrides = {}) {
+  const recordPath = join(root, 'design-evaluation.json');
+  const record = JSON.parse(readFileSync(recordPath, 'utf8'));
+  if (!record.evaluator_types.includes('user_observed')) {
+    record.evaluator_types.push('user_observed');
+  }
+  const targets = new Set(results.flatMap((result) => [
+    result.rejection_of_task_id,
+    result.supersedes_task_id
+  ].filter(Boolean)));
+  const terminal = results.filter((result) => !targets.has(result.task_id));
+  const counts = {
+    successful_task_count: terminal.filter(
+      (result) => result.outcome === 'passed'
+    ).length,
+    failed_task_count: terminal.filter(
+      (result) => result.outcome === 'failed'
+    ).length,
+    rejected_task_count: terminal.filter(
+      (result) => result.outcome === 'rejected'
+    ).length
+  };
+  const status = counts.rejected_task_count
+    ? 'rejected'
+    : counts.failed_task_count
+      ? 'failed'
+      : counts.successful_task_count
+        ? 'passed'
+        : 'not_run';
+  record.task_observation = {
+    status,
+    evaluator_type: 'user_observed',
+    observed_task_count: terminal.length,
+    ...counts,
+    task_results: results,
+    ...overrides
+  };
+  writeJson(recordPath, record);
+  return record;
+}
+
 test('evaluation record validates and computes rates from raw counts', () => {
   const root = fixture();
   try {
@@ -278,5 +336,159 @@ test('require-complete rejects a structurally valid not-run record', () => {
     );
   } finally {
     rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('dashboard task observations bind current per-task evidence and derive status', () => {
+  const root = fixture();
+  try {
+    const manifestPath = join(root, 'manifest.json');
+    writeJson(manifestPath, { artifact_type: 'dashboard' });
+    const record = JSON.parse(readFileSync(
+      join(root, 'design-evaluation.json'),
+      'utf8'
+    ));
+    setTaskObservation(root, [
+      taskResult(root, 'filter-task', 'passed', record.artifact_sha256),
+      taskResult(root, 'recovery-task', 'passed', record.artifact_sha256)
+    ]);
+    assert.deepEqual(validateDesignEvaluation(root), []);
+    const summary = summarizeDesignEvaluation(JSON.parse(readFileSync(
+      join(root, 'design-evaluation.json'),
+      'utf8'
+    )));
+    assert.equal(summary.task_observation.status, 'passed');
+    assert.equal(summary.task_observation.observed_task_count, 2);
+    assert.deepEqual(
+      summary.task_observation.terminal_task_ids,
+      ['filter-task', 'recovery-task']
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('append-only rejection preserves the pass and demotes user validation', () => {
+  const root = fixture();
+  try {
+    writeJson(join(root, 'manifest.json'), { artifact_type: 'dashboard' });
+    const record = JSON.parse(readFileSync(
+      join(root, 'design-evaluation.json'),
+      'utf8'
+    ));
+    const pass = taskResult(
+      root,
+      'complete-filter',
+      'passed',
+      record.artifact_sha256
+    );
+    const rejection = taskResult(
+      root,
+      'reject-filter',
+      'rejected',
+      record.artifact_sha256,
+      { rejection_of_task_id: pass.task_id }
+    );
+    setTaskObservation(root, [pass, rejection]);
+    assert.deepEqual(validateDesignEvaluation(root), []);
+    const current = JSON.parse(readFileSync(
+      join(root, 'design-evaluation.json'),
+      'utf8'
+    ));
+    assert.equal(current.task_observation.task_results.length, 2);
+    assert.equal(
+      summarizeDesignEvaluation(current).task_observation.status,
+      'rejected'
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('task observations reject identity, count, evidence, and relation drift', () => {
+  for (const scenario of [
+    'duplicate-id',
+    'count-mismatch',
+    'evidence-drift',
+    'missing-target',
+    'cross-artifact',
+    'duplicate-rejection'
+  ]) {
+    const root = fixture();
+    try {
+      writeJson(join(root, 'manifest.json'), { artifact_type: 'dashboard' });
+      const record = JSON.parse(readFileSync(
+        join(root, 'design-evaluation.json'),
+        'utf8'
+      ));
+      const pass = taskResult(root, 'task-a', 'passed', record.artifact_sha256);
+      const results = [pass];
+      if (scenario === 'duplicate-id') {
+        results.push(taskResult(
+          root,
+          'task-a',
+          'passed',
+          record.artifact_sha256
+        ));
+      }
+      if (scenario === 'missing-target') {
+        results.push(taskResult(
+          root,
+          'reject-a',
+          'rejected',
+          record.artifact_sha256,
+          { rejection_of_task_id: 'missing' }
+        ));
+      }
+      if (scenario === 'cross-artifact') {
+        results.push(taskResult(
+          root,
+          'reject-a',
+          'rejected',
+          '0'.repeat(64),
+          { rejection_of_task_id: pass.task_id }
+        ));
+      }
+      if (scenario === 'duplicate-rejection') {
+        results.push(
+          taskResult(
+            root,
+            'reject-a',
+            'rejected',
+            record.artifact_sha256,
+            { rejection_of_task_id: pass.task_id }
+          ),
+          taskResult(
+            root,
+            'reject-b',
+            'rejected',
+            record.artifact_sha256,
+            { rejection_of_task_id: pass.task_id }
+          )
+        );
+      }
+      setTaskObservation(
+        root,
+        results,
+        scenario === 'count-mismatch'
+          ? { observed_task_count: 99 }
+          : {}
+      );
+      if (scenario === 'evidence-drift') {
+        writeFileSync(join(root, pass.evidence_refs[0].ref), 'changed');
+      }
+      const errors = validateDesignEvaluation(root).join('\n');
+      const expected = {
+        'duplicate-id': /task ids must be unique/,
+        'count-mismatch': /observed_task_count must equal derived value/,
+        'evidence-drift': /evidence SHA-256 mismatch/,
+        'missing-target': /relation target must be a distinct earlier task/,
+        'cross-artifact': /artifact_sha256 must match the current evaluated artifact/,
+        'duplicate-rejection': /may have only one rejection or supersession/
+      }[scenario];
+      assert.match(errors, expected, scenario);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
   }
 });

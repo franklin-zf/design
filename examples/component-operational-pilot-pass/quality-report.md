@@ -25,7 +25,7 @@ freshness: Snapshot time is read verbatim from source.json.
 ## Template
 
 template_id: operational-dashboard
-applicable_gates: validate-design-output, validate-claim-map, validate-visual-encoding, render-smoke, validate-component-usage
+applicable_gates: validate-design-output, validate-claim-map, validate-visual-encoding, render-smoke, validate-component-usage, manual-reviewer-pass
 - gate_id: validate-design-output
   status: passed
   evidence: node scripts/validate-design-output.mjs examples/component-operational-pilot-pass
@@ -41,6 +41,9 @@ applicable_gates: validate-design-output, validate-claim-map, validate-visual-en
 - gate_id: validate-component-usage
   status: passed
   evidence: node scripts/validate-component-pilots.mjs examples/component-operational-pilot-pass
+- gate_id: manual-reviewer-pass
+  status: passed
+  evidence: reviewer-record.json
 
 ## Status
 

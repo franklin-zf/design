@@ -167,6 +167,19 @@ test('v3 reviewer records remain schema-readable but cannot authorize visual rel
   }
 });
 
+test('reviewer identity must differ from the artifact author', () => {
+  const { directory, record } = fixture();
+  try {
+    record.reviewer_id = record.artifact_author_id;
+    assert.match(
+      validateVisualReview(record, directory).join('\n'),
+      /reviewer_id must differ from artifact_author_id/
+    );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
 test('operational visual review requires four passed evidence-backed checks', () => {
   const { directory, record } = operationalFixture();
   try {

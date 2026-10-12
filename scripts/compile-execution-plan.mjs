@@ -12,13 +12,26 @@ import {
   resolveSelectedTemplate,
   validateResolvedDesignProfile
 } from './lib/design-profile.mjs';
-import { computeSkillIdentity } from './lib/skill-identity.mjs';
+import { validateJsonInstance } from './lib/json-schema.mjs';
 import {
   operationalH0Requirements
-} from './validate-requirement-verification.mjs';
+} from './lib/operational-h0.mjs';
+import { computeSkillIdentity } from './lib/skill-identity.mjs';
 
 const modulePath = fileURLToPath(import.meta.url);
 const packageRoot = resolve(dirname(modulePath), '..');
+const renderSpecSchema = JSON.parse(readFileSync(
+  resolve(packageRoot, 'schemas/render-spec.schema.json'),
+  'utf8'
+));
+const operationalRenderSpecPath = resolve(
+  packageRoot,
+  'design-systems/operational-product/preview/render-spec.json'
+);
+const operationalManifest = JSON.parse(readFileSync(
+  resolve(packageRoot, 'design-systems/operational-product/manifest.json'),
+  'utf8'
+));
 export const currentCompilerVersion = 'design-risk-compiler/v2';
 export const planSchemaVersion = 'design-resolved-gate-plan/v3';
 
@@ -35,7 +48,12 @@ const supportedArtifactTypes = new Set([
   'data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff', 'poster',
   'screenshot-evidence', 'tweakable-artifact', 'design-system', 'multi-artifact'
 ]);
-const designProfileArtifactTypes = new Set(['html-deck', 'ppt-handoff', 'poster']);
+const designProfileArtifactTypes = new Set([
+  'dashboard',
+  'html-deck',
+  'ppt-handoff',
+  'poster'
+]);
 const standardArtifactTypes = new Set([
   'data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff',
   'screenshot-evidence', 'design-system'
@@ -65,6 +83,115 @@ export function stableStringify(value) {
 
 export function sha256Value(value) {
   return createHash('sha256').update(typeof value === 'string' || Buffer.isBuffer(value) ? value : stableStringify(value)).digest('hex');
+}
+
+function withoutRenderBindings(spec) {
+  return Object.fromEntries(Object.entries(spec).filter(
+    ([key]) => ![
+      'artifact_digest',
+      'resolved_plan_digest',
+      'spec_digest'
+    ].includes(key)
+  ));
+}
+
+function assertionsByKind(state, kind) {
+  return (state?.assertions || []).filter((assertion) => assertion.kind === kind);
+}
+
+function validateOperationalRenderSpec(payload, designProfile) {
+  const errors = [];
+  const states = new Map((payload.states || []).map((state) => [state.id, state]));
+  if (states.size !== 3
+      || ['default', 'dense', 'error'].some((id) => !states.has(id))) {
+    errors.push('operational render spec requires exactly default, dense, and error states');
+    return errors;
+  }
+  const defaultRelations = assertionsByKind(states.get('default'), 'relation');
+  const defaultLocale = assertionsByKind(states.get('default'), 'locale');
+  const defaultIcon = assertionsByKind(states.get('default'), 'icon');
+  if (defaultRelations.length !== 4
+      || defaultLocale.length !== 1
+      || defaultIcon.length !== 1) {
+    errors.push(
+      'operational default state requires four relation, one locale, and one icon assertion'
+    );
+  }
+  const matrix = [
+    ['dense', 'relation', defaultRelations],
+    ['dense', 'locale', defaultLocale],
+    ['dense', 'icon', defaultIcon],
+    ['error', 'locale', defaultLocale],
+    ['error', 'icon', defaultIcon]
+  ];
+  for (const [stateId, kind, expected] of matrix) {
+    const actual = assertionsByKind(states.get(stateId), kind);
+    if (stableStringify(actual) !== stableStringify(expected)) {
+      errors.push(
+        `operational ${stateId} ${kind} assertions must clone the default state`
+      );
+    }
+  }
+  for (const assertion of defaultRelations) {
+    const maximum = assertion.selector === '[data-icon]' ? 1 : 2;
+    if (assertion.tolerance_px > maximum) {
+      errors.push(
+        `operational relation tolerance exceeds ${maximum}px for ${assertion.selector}`
+      );
+    }
+  }
+  const localePolicy = designProfile?.resolved_rules?.locale_policy;
+  if (!localePolicy || defaultLocale[0]?.locale !== localePolicy.locale) {
+    errors.push('operational locale assertion must equal the resolved locale policy');
+  }
+  const iconAsset = (operationalManifest.visual_assets || []).find(
+    (asset) => asset.family === defaultIcon[0]?.family
+  );
+  if (!iconAsset
+      || iconAsset.file !== defaultIcon[0]?.asset_ref
+      || defaultIcon[0]?.provenance_ref !== 'manifest.json') {
+    errors.push('operational icon assertion must bind the local package manifest asset');
+  }
+  const iconPolicy = designProfile?.resolved_rules?.media?.icon_policy;
+  if (stableStringify(defaultIcon[0]?.sizes_px) !== stableStringify(iconPolicy?.sizes_px)
+      || defaultIcon[0]?.box_px !== iconPolicy?.box_px
+      || defaultIcon[0]?.fallback !== 'visible-label') {
+    errors.push('operational icon assertion must match the resolved icon policy');
+  }
+  return errors;
+}
+
+export function loadOperationalRenderSpecPayload(
+  designProfile,
+  requestRender,
+  source = null
+) {
+  const canonical = source || JSON.parse(readFileSync(
+    operationalRenderSpecPath,
+    'utf8'
+  ));
+  const schemaErrors = validateJsonInstance(renderSpecSchema, canonical);
+  if (schemaErrors.length) {
+    throw new Error(
+      `operational render spec is invalid:\n- ${schemaErrors.join('\n- ')}`
+    );
+  }
+  const payload = withoutRenderBindings(canonical);
+  if (canonical.spec_digest !== sha256Value(payload)) {
+    throw new Error('operational render spec digest does not match its canonical payload');
+  }
+  const contractErrors = validateOperationalRenderSpec(payload, designProfile);
+  if (contractErrors.length) {
+    throw new Error(
+      `operational render spec contract failed:\n- ${contractErrors.join('\n- ')}`
+    );
+  }
+  if (stableStringify(requestRender) !== stableStringify(payload)) {
+    throw new Error(
+      'operational render request must exactly match the checked-in canonical render spec'
+    );
+  }
+  return payload;
 }
 
 function isNonEmptyString(value) {
@@ -397,13 +524,19 @@ export function compileExecutionPlan(rawRequest, options = {}) {
   const stages = ['isolated_execution', 'browser', 'static'].map((stageId) => ({ stage_id: stageId, gate_ids: automaticGates.filter((g) => g.stage === stageId).map((g) => g.gate_id) }));
   stages.push({ stage_id: 'human_review', gate_ids: humanGates.map((g) => g.gate_id) });
   const compilerVersion = options.compilerVersion || currentCompilerVersion;
-  const renderSpecPayload = {
-    schema_version: 'design-render-spec/v2',
-    viewports: request.conditional_policies.render.viewports,
-    segments: request.conditional_policies.render.segments,
-    states: request.conditional_policies.render.states,
-    remote_policy: request.conditional_policies.render.remote_policy
-  };
+  const renderSpecPayload = operationalExperience
+    ? loadOperationalRenderSpecPayload(
+        designProfile,
+        request.conditional_policies.render,
+        options.operationalRenderSpec
+      )
+    : {
+        schema_version: 'design-render-spec/v2',
+        viewports: request.conditional_policies.render.viewports,
+        segments: request.conditional_policies.render.segments,
+        states: request.conditional_policies.render.states,
+        remote_policy: request.conditional_policies.render.remote_policy
+      };
   const renderSpec = { ...renderSpecPayload, spec_digest: sha256Value(renderSpecPayload) };
   const currentSkillIdentity = computeSkillIdentity(packageRoot);
   const payload = {
@@ -428,7 +561,14 @@ export function compileExecutionPlan(rawRequest, options = {}) {
     result_contract: {
       execution_status: ['not_started', 'blocked_untrusted', 'complete', 'failed', 'terminated'],
       assurance_status: ['pending', 'passed', 'failed'],
-      delivery_status: ['blocked', 'schematic_only', 'candidate_ready']
+      delivery_status: ['blocked', 'schematic_only', 'candidate_ready'],
+      evidence_status: [
+        'structure_passed',
+        'evidence_traced',
+        'visually_reviewed',
+        'decision_ready',
+        'user_validated'
+      ]
     },
     evidence_contract: {
       trusted_candidate_ready_boundary: 'host_external_v1',

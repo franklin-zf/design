@@ -232,10 +232,27 @@
         "validate-design-output",
         "validate-claim-map",
         "validate-visual-encoding",
-        "render-smoke"
+        "render-smoke",
+        "manual reviewer pass"
       ],
-      "validation_gate_ids": ["validate-design-output", "validate-claim-map", "validate-visual-encoding", "render-smoke"],
-      "thinking_ref": "references/report-dashboard.md"
+      "validation_gate_ids": [
+        "validate-design-output",
+        "validate-claim-map",
+        "validate-visual-encoding",
+        "render-smoke",
+        "manual-reviewer-pass"
+      ],
+      "thinking_ref": "references/report-dashboard.md",
+      "layout_registry_ref": "assets/templates/layouts/operational-product-v1.json",
+      "topology_support": {
+        "comparison-matrix": ["OP-QUEUE", "OP-METRICS"],
+        "timeline": ["OP-QUEUE"],
+        "causal-chain": ["OP-DETAIL"],
+        "system-map": ["OP-WORKBENCH"],
+        "metric-evidence": ["OP-METRICS"],
+        "decision-frame": ["OP-DETAIL"],
+        "narrative-arc": ["OP-WORKBENCH"]
+      }
     },
     {
       "id": "screenshot-evidence-board",
@@ -397,7 +414,17 @@
       "conditional_validation_gates": [
         "validate-requirement-verification"
       ],
-      "thinking_ref": "references/report-dashboard.md"
+      "thinking_ref": "references/report-dashboard.md",
+      "layout_registry_ref": "assets/templates/layouts/operational-product-v1.json",
+      "topology_support": {
+        "comparison-matrix": ["OP-QUEUE", "OP-METRICS"],
+        "timeline": ["OP-QUEUE"],
+        "causal-chain": ["OP-DETAIL"],
+        "system-map": ["OP-WORKBENCH"],
+        "metric-evidence": ["OP-METRICS"],
+        "decision-frame": ["OP-DETAIL"],
+        "narrative-arc": ["OP-WORKBENCH"]
+      }
     },
     {
       "id": "editorial-evidence",
