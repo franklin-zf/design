@@ -1,0 +1,211 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-10-13T15:21:20.493Z",
+  "shots": [
+    {
+      "id": "shot_20261013_01",
+      "title": "Fintech SaaS Analytics & Bento Workspace",
+      "author": "Craftwork Studio",
+      "source_url": "https://dribbble.com/shots/popular",
+      "date_ingested": "2026-10-13",
+      "image_path": "assets/dribbble-shots/images/shot_20261013_01.svg",
+      "categories": [
+        "saas-dashboard",
+        "bento-grid",
+        "data-visualization"
+      ],
+      "visual_features": {
+        "layout_topology": "asymmetric-bento-2x2",
+        "aspect_ratios": [
+          "2:1",
+          "1:1",
+          "1.618:1"
+        ],
+        "color_palette": {
+          "foundation": "oklch(0.18 0.02 260)",
+          "surface": "oklch(0.22 0.025 260)",
+          "surface_elevated": "oklch(0.26 0.03 260)",
+          "accent_focal": "oklch(0.65 0.24 250)",
+          "contrast_ratio": "12.5:1"
+        },
+        "material_recipe": {
+          "border": "1px solid rgba(255, 255, 255, 0.08)",
+          "shadow": "0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.25)",
+          "noise_overlay": "2% svg fractal noise",
+          "corner_radius": "16px outer / 8px inner",
+          "inset_safe_padding": "16px"
+        },
+        "typography_style": "Display Sans (-0.03em tracking) + JetBrains Mono for Metrics"
+      },
+      "applicable_scenes": [
+        "金融数据大屏",
+        "商户资金工作台",
+        "高阶分析看板"
+      ],
+      "search_keywords": [
+        "金融",
+        "数据看板",
+        "暗色精工",
+        "Bento",
+        "SaaS",
+        "工作台",
+        "analytics",
+        "fintech"
+      ]
+    },
+    {
+      "id": "shot_20261013_02",
+      "title": "Local Life Merchant Growth & Operations Hub",
+      "author": "Halo UI/UX",
+      "source_url": "https://dribbble.com/shots/popular",
+      "date_ingested": "2026-10-13",
+      "image_path": "assets/dribbble-shots/images/shot_20261013_02.svg",
+      "categories": [
+        "merchant-portal",
+        "operations",
+        "kpi-metrics"
+      ],
+      "visual_features": {
+        "layout_topology": "3-tier-hierarchy-hero-grid",
+        "aspect_ratios": [
+          "3:1",
+          "2:1"
+        ],
+        "color_palette": {
+          "foundation": "oklch(0.98 0.005 240)",
+          "surface": "oklch(1 0 0)",
+          "surface_elevated": "oklch(0.96 0.01 240)",
+          "accent_focal": "oklch(0.55 0.22 250)",
+          "contrast_ratio": "14.2:1"
+        },
+        "material_recipe": {
+          "border": "1px solid rgba(0, 0, 0, 0.06)",
+          "shadow": "0 1px 3px rgba(0,0,0,0.04), 0 6px 16px rgba(0,0,0,0.06)",
+          "noise_overlay": "none",
+          "corner_radius": "12px outer / 6px inner",
+          "inset_safe_padding": "16px"
+        },
+        "typography_style": "PingFang SC / Inter Display + Tabular Numerals"
+      },
+      "applicable_scenes": [
+        "生活服务商家端",
+        "门店经营看板",
+        "团购与核销报表"
+      ],
+      "search_keywords": [
+        "生活服务",
+        "商家",
+        "经营",
+        "门店",
+        "核销",
+        "亮色极简",
+        "Tremor",
+        "merchant",
+        "growth"
+      ]
+    },
+    {
+      "id": "shot_20261013_03",
+      "title": "AI Content Risk & Quality Control Console",
+      "author": "Oasis Systems",
+      "source_url": "https://dribbble.com/shots/popular",
+      "date_ingested": "2026-10-13",
+      "image_path": "assets/dribbble-shots/images/shot_20261013_03.svg",
+      "categories": [
+        "quality-audit",
+        "dense-table",
+        "risk-control"
+      ],
+      "visual_features": {
+        "layout_topology": "split-pane-dense-console",
+        "aspect_ratios": [
+          "1:2",
+          "2:1"
+        ],
+        "color_palette": {
+          "foundation": "oklch(0.96 0.01 240)",
+          "surface": "oklch(0.99 0.005 240)",
+          "surface_elevated": "oklch(0.93 0.02 240)",
+          "accent_focal": "oklch(0.52 0.24 260)",
+          "contrast_ratio": "11.8:1"
+        },
+        "material_recipe": {
+          "border": "1px solid rgba(0, 0, 0, 0.08)",
+          "shadow": "0 1px 2px rgba(0,0,0,0.05)",
+          "noise_overlay": "none",
+          "corner_radius": "8px outer / 4px inner",
+          "inset_safe_padding": "12px"
+        },
+        "typography_style": "High-density Sans (13px table text) + Semi Design Scale"
+      },
+      "applicable_scenes": [
+        "内容风控工作台",
+        "审核质检架构",
+        "PE 协作控制台"
+      ],
+      "search_keywords": [
+        "风控",
+        "审核",
+        "质检",
+        "PE",
+        "控制台",
+        "高密表格",
+        "防消融",
+        "audit",
+        "risk",
+        "console"
+      ]
+    },
+    {
+      "id": "shot_20261013_04",
+      "title": "Mobile POS & Voucher Redemption Mini-App",
+      "author": "Lumos Motion",
+      "source_url": "https://dribbble.com/shots/popular",
+      "date_ingested": "2026-10-13",
+      "image_path": "assets/dribbble-shots/images/shot_20261013_04.svg",
+      "categories": [
+        "mobile-card",
+        "tactile-controls",
+        "h5-miniapp"
+      ],
+      "visual_features": {
+        "layout_topology": "single-column-tactile-stack",
+        "aspect_ratios": [
+          "9:16",
+          "1:1"
+        ],
+        "color_palette": {
+          "foundation": "oklch(0.97 0.01 250)",
+          "surface": "oklch(1 0 0)",
+          "surface_elevated": "oklch(0.94 0.015 250)",
+          "accent_focal": "oklch(0.58 0.22 250)",
+          "contrast_ratio": "13.0:1"
+        },
+        "material_recipe": {
+          "border": "1px solid rgba(0, 0, 0, 0.06)",
+          "shadow": "0 4px 12px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
+          "noise_overlay": "none",
+          "corner_radius": "20px outer / 10px inner",
+          "inset_safe_padding": "16px"
+        },
+        "typography_style": "Mobile Sans Display + Large Touch Targets (48px)"
+      },
+      "applicable_scenes": [
+        "移动端核销页",
+        "H5 卡券详情",
+        "掌上经营工作台"
+      ],
+      "search_keywords": [
+        "移动端",
+        "核销",
+        "卡券",
+        "H5",
+        "小程序",
+        "触觉卡片",
+        "mobile",
+        "pos",
+        "voucher"
+      ]
+    }
+  ]
+}

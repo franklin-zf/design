@@ -20,7 +20,7 @@ Independently try to disprove the artifact before delivery. Review content fidel
 5. Target-surface hierarchy, legibility, layout bounds, asset loading, responsive states (1440px / 768px / 390px), and fallbacks.
 6. Content-specific ownership: why this composition belongs to this material.
 7. **Visual Craft Rubric (VCR 2.0)**: Evidence-backed scores (0-4) for composition/space, typography, color/lighting, material/texture, motion/micro-interaction, responsive adaptation, and finish. Commercial release requires an overall score ≥ 3.5 with no individual score < 3.0.
-8. **Anti-AI Slop Redlines**: Zero tolerance for homogeneous card walls, fake charts, indiscriminate centering, cheap purple/pink gradients, or missing interactive feedback.
+8. **Anti-AI Slop & Anti-Bleeding Redlines**: Zero tolerance for boundary collision (controls sticking to container edges < 12px), surface bleeding/dissolution without elevation ramp, homogeneous card walls, fake charts, indiscriminate centering, cheap purple/pink gradients, or missing interactive feedback.
 9. Three-second comprehension, blinded direction preference, and evaluator type when the artifact declares those checks.
 
 Use `approved`, `changes_required`, or `blocked`. Every finding has severity, status, and evidence refs. Any source or digest drift, unresolved major/blocking finding, unsupported claim, missing target-surface evidence, failed redline check, or unbound evaluation result prevents approval. Promote a project pattern into a standard only when its evidence and reuse boundary are explicit.

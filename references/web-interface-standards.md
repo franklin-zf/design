@@ -99,6 +99,10 @@ and [Nielsen Norman usability heuristics](https://www.nngroup.com/articles/ten-u
   to group content before wrapping every element in bordered boxes.
 - Bento Grid Composition: use asymmetric ratios (e.g. 2:1 or 1.618 golden ratio) for
   primary vs secondary visual containers rather than flat 1:1:1 columns.
+- Container Inset Floor: controls, switches, and action buttons floating inside cards
+  must maintain at least 12px safe padding from parent borders; zero-inset boundary collision is forbidden.
+- Surface Elevation Ramp: nested cards must establish clear physical depth via lightness delta (ΔL ≥ 3%),
+  1px specular micro-borders, and subtle ambient shadows to prevent surface dissolution and boundary bleeding.
 - White space must create focus, grouping, or reading rest. Large unused regions
   beside compressed text are imbalance, not restraint.
 - Use compact density only for repeated expert work, and do not reduce target size,
@@ -156,6 +160,10 @@ larger touch target and enhanced focus treatment.
   not an AA conformance claim.
 - Match the focus outline to the component geometry and keep it visible against
   every adjacent surface.
+- Tactile Inset & Shadow for Toggle/Switch Controls: toggle tracks must provide an inset track shadow
+  (`box-shadow: inset 0 1px 2px rgba(0,0,0,0.12)`) and 1px micro-border (`1px solid rgba(0,0,0,0.08)`),
+  and thumbs must provide a contact shadow (`box-shadow: 0 1px 3px rgba(0,0,0,0.2)`) to eliminate color conflation
+  and boundary dissolution against light card backgrounds.
 
 Verification: measure hit regions and spacing, tab through the real page, compare
 focused and unfocused states, and record documented exceptions.

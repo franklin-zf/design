@@ -22,6 +22,7 @@ Before selecting a template, record one Taste Contract 2.0:
 - `content_tension`: the primary comparison, change, sequence, exception, scale, or
   uncertainty that deserves first visual attention;
 - `signature_move`: zero or at most one memorable visual action with reader value (e.g. ambient specular glow, magnetic 3D tilt hover, or watermark display type);
+- `shot_reference`: explicit inspiration anchor selected from Dribbble popular shots or visual recipes (defining layout topology, OKLCH palette, and material formula);
 - `anti_reference`: the concrete default or AI slop pattern this content must not resemble (e.g. homogeneous 3-column white card grid, generic blue/purple gradient);
 - `restraint_rule`: what is removed, repeated less, or kept deliberately quiet.
 
@@ -35,6 +36,7 @@ When no explicit visual style is requested, apply the **Modern Craft Baseline (`
 - Single accent discipline with OKLCH high-gamut tones and subtle base tint;
 - 1px specular micro-borders and 3-tier ambient soft shadows;
 - Asymmetric Bento Grid layout with optical nested radii;
+- Anti-bleeding Inset Depth: Floating controls inside cards maintain ≥12px safe padding from borders, paired with surface elevation ramps (ΔL ≥ 3%) and tactile inset shadows;
 - Smooth spring physics motion with staggered reveals and full reduced-motion fallbacks;
 - Default Simplified Chinese locale: UI copy, navigation, buttons, metrics, and labels default to clear Chinese; avoid untranslated English placeholders (Lorem Ipsum) or raw machine identifiers;
 - Semantic Icon Anchors: Navigation items, KPI metrics, primary actions, and status badges must have precise vector icon anchors (sourced from iconfont.cn or inline SVGs with unified 1.5px-2px stroke, 16/20/24px grid); emojis are forbidden as functional UI icons.
