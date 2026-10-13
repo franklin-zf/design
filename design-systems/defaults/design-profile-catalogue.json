@@ -464,6 +464,171 @@
       }
     }
   ],
+  "interface_policy": {
+    "schema_version": "web-interface-policy/v2",
+    "reference": "references/web-interface-standards.md",
+    "applies_to_surface_ids": [
+      "html",
+      "dashboard"
+    ],
+    "rule_levels": [
+      "hard_floor",
+      "product_default",
+      "contextual_advisory"
+    ],
+    "shape": {
+      "level": "contextual_advisory",
+      "radius_scale_px": [0, 2, 4, 6, 8, 12],
+      "dense_surface_max_radius_px": 6,
+      "universal_rounding": false,
+      "pill_roles": [
+        "avatar",
+        "status",
+        "tag",
+        "toggle"
+      ],
+      "nested_radius_policy": "Reduce inner radius relative to the enclosing radius and inset.",
+      "large_radius_policy": "Use only for low-density containers with an explicit approachable or expressive product intent."
+    },
+    "spacing": {
+      "level": "product_default",
+      "token_scale_required": true,
+      "group_gap_greater_than_internal_gap": true,
+      "arbitrary_values_allowed": false,
+      "white_space_policy": "Empty space must clarify grouping, hierarchy, or reading rest."
+    },
+    "hierarchy": {
+      "level": "product_default",
+      "max_prominent_actions_per_task": 2,
+      "primary_task_first": true,
+      "status_recovery_next_action_visible": true
+    },
+    "typography": {
+      "size_level": "product_default",
+      "contrast_level": "hard_floor",
+      "adaptation_level": "hard_floor",
+      "essential_text_min_css_px": 16,
+      "supporting_text_min_css_px": 14,
+      "metadata_text_min_css_px": 12,
+      "normal_text_contrast_ratio": 4.5,
+      "large_text_contrast_ratio": 3,
+      "non_text_contrast_ratio": 3,
+      "viewport_width_font_scaling": false,
+      "text_spacing_override_required": true
+    },
+    "targets": {
+      "minimum_level": "hard_floor",
+      "preference_level": "product_default",
+      "minimum_css_px": 24,
+      "preferred_touch_css_px": 44,
+      "preferred_gap_css_px": 8,
+      "exceptions_require_evidence": true
+    },
+    "responsive": {
+      "level": "hard_floor",
+      "required_viewports_px": [1440, 390, 320],
+      "page_horizontal_overflow_allowed": false,
+      "local_overflow_roles": [
+        "data-table",
+        "diagram",
+        "map",
+        "media",
+        "persistent-toolbar"
+      ],
+      "local_overflow_requirements": [
+        "bounded-region",
+        "accessible-name",
+        "visible-cue",
+        "keyboard-access"
+      ]
+    },
+    "focus": {
+      "visible_level": "hard_floor",
+      "enhanced_level": "product_default",
+      "visible_required": true,
+      "enhanced_indicator_css_px": 2,
+      "enhanced_contrast_ratio": 3,
+      "geometry_matches_control": true
+    },
+    "dialog": {
+      "semantic_level": "hard_floor",
+      "pattern_level": "product_default",
+      "semantic_requirements": [
+        "accessible-name",
+        "modal-state-truthful"
+      ],
+      "pattern_behaviors": [
+        "focus-entry",
+        "focus-trap",
+        "background-inert",
+        "escape-or-explicit-exception",
+        "focus-return"
+      ]
+    },
+    "table": {
+      "level": "hard_floor",
+      "required_behaviors": [
+        "semantic-table-or-named-record-list",
+        "header-association",
+        "keyboard-action-semantics",
+        "no-silent-column-loss"
+      ]
+    },
+    "icons": {
+      "level": "product_default",
+      "one_family": true,
+      "character_glyphs_allowed": false,
+      "icon_only_policy": "Familiar secondary actions with an accessible name only.",
+      "fallback": "Visible verb-object label."
+    },
+    "feedback": {
+      "semantic_level": "hard_floor",
+      "recovery_level": "product_default",
+      "status_programmatically_determinable": true,
+      "input_error_text_required": true,
+      "color_only_meaning_allowed": false,
+      "preserve_recoverable_input": true,
+      "critical_toast_only": false,
+      "recovery_action_adjacent": true,
+      "state_policy": "Expose applicable pending, success, failure, and recovery states without color-only meaning."
+    },
+    "form_assistance": {
+      "presented_semantics_level": "hard_floor",
+      "input_purpose_level": "hard_floor",
+      "redundant_entry_level": "hard_floor",
+      "native_association_level": "product_default"
+    },
+    "accessible_authentication": {
+      "minimum_level": "hard_floor",
+      "complete_path_required": true,
+      "permitted_conformance_routes": [
+        "alternative-without-cognitive-function-test",
+        "completion-assistance",
+        "level-aa-exception"
+      ],
+      "whole_value_paste_when_used_as_assistance": true
+    },
+    "transient_interaction_and_time": {
+      "hover_focus_level": "hard_floor",
+      "focus_not_entirely_obscured_level": "hard_floor",
+      "full_focus_visibility_level": "product_default",
+      "timing_adjustable_level": "hard_floor",
+      "pause_stop_hide_level": "hard_floor",
+      "interaction_motion_level": "product_default",
+      "time_limit_adjustment_min_multiplier": 10,
+      "time_limit_extension_warning_min_seconds": 20,
+      "time_limit_extension_min_repetitions": 10,
+      "moving_content_control_threshold_seconds": 5,
+      "long_time_limit_exception_threshold_hours": 20
+    },
+    "repeated_context_consistency": {
+      "help_order_level": "hard_floor",
+      "navigation_order_level": "hard_floor",
+      "identification_level": "hard_floor",
+      "stable_help_placement_level": "product_default",
+      "page_set_declaration_required": true
+    }
+  },
   "topology_patterns": [
     {
       "id": "comparison-matrix",

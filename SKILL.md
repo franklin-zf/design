@@ -97,6 +97,9 @@ Checks for `ppt-handoff`, `html-deck`, and `poster` require the same digest-vali
   `references/poster-design.md`; source-heavy work
   `references/source-integrity.md`; media/icon work
   `references/media-design.md`.
+- For responsive HTML applications or dashboards, also load
+  `references/web-interface-standards.md` before resolving layout, controls, or
+  interaction behavior.
 - Load `references/advanced-assurance.md` and `references/quality-bar.md` only
   for Assured or formal release evidence.
 - Load `references/visual-recipes.md`, design history, or knowledge tooling only

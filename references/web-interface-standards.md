@@ -1,0 +1,410 @@
+# Web Interface Standards
+
+Use this reference only for responsive HTML applications and dashboards. It
+extends `references/design-standards.md`; it does not replace the design-profile
+resolver or create a second release gate.
+
+## Evidence Levels
+
+Classify every rule before applying it:
+
+| Level | Meaning | Enforcement |
+| --- | --- | --- |
+| `hard_floor` | Accessibility, semantics, information preservation, or task completion | Fail when applicable and unproven |
+| `product_default` | A broadly supported starting point for usable interfaces | Apply unless a documented task, density, platform, or brand constraint overrides it |
+| `contextual_advisory` | Aesthetic or perceptual tendency | Use in design judgment; never auto-pass taste or user preference |
+
+External design systems are evidence for methods, not universal brand defaults.
+WCAG conformance claims use W3C thresholds; stronger platform recommendations
+remain labelled as product defaults.
+
+## Shape And Radius
+
+`contextual_advisory`
+
+Curved contours are often perceived as softer or more approachable, but preference
+depends on familiarity, object type, expertise, culture, and context. Research does
+not establish that every rectangle should be rounded or that larger radius is
+always better. Material, Fluent, and Atlassian all use role-based radius scales,
+including square or low-radius cases, rather than one global radius.
+
+Apply shape by role:
+
+| Element | Default treatment | Boundary |
+| --- | --- | --- |
+| Page bands, table grids, split panes, joined controls | Square joined edges or the smallest preset radius | Do not create gaps or false separation |
+| Dense operational containers | `0-6px`, bounded by the resolved preset | Preserve scan density and row continuity |
+| Buttons, inputs, menus, compact cards | Use one token from the resolved scale | Keep peer controls geometrically consistent |
+| Large low-density cards, dialogs, onboarding surfaces | Moderate radius within the resolved preset cap | Larger radius needs a calm, approachable product intent |
+| Status chips, tags, toggles, avatars | Pill or circular form is allowed | Do not turn ordinary text buttons, tabs, or filters into pills |
+
+When rounded surfaces are nested, avoid identical inner and outer radii. Preserve
+optical spacing by reducing the inner radius relative to its inset. Use unusual
+shapes sparingly and never on text-heavy or evidence-dense containers.
+
+Reject:
+
+- universal rounding;
+- radius chosen only to look modern;
+- large rounded cards repeated for every paragraph or table row;
+- nested cards with equal radius;
+- pill-shaped navigation and commands when ordinary controls are clearer.
+
+Verification: inspect computed radii by component role and density, then perform
+human review. Browser geometry can verify the chosen values, but it cannot prove
+friendliness.
+
+Sources: [Material shape](https://m3.material.io/styles/shape/corner-radius-scale),
+[Fluent shapes](https://fluent2.microsoft.design/shapes),
+[Atlassian radius](https://atlassian.design/foundations/radius),
+[curvature review](https://pmc.ncbi.nlm.nih.gov/articles/PMC4709714/), and
+[familiarity study](https://pmc.ncbi.nlm.nih.gov/articles/PMC8269663/).
+
+## Hierarchy And Primary Action
+
+`product_default`
+
+- Give each task context one primary action. A second prominent action is allowed
+  only when it represents a genuinely peer decision.
+- On repeated operational surfaces, show the current task, blocking state,
+  recovery action, and next action before catalogues, configuration, or
+  administration.
+- Use position, grouping, type, whitespace, and contrast before adding containers,
+  elevation, or color.
+- Make an action's visual label match what activating it does. Selection controls
+  must not look like direct commands.
+- Every additional block competes with the primary task; remove any block whose
+  reader job cannot be named.
+
+Verification: inspect the first viewport at every required width. Record the
+primary task and action coordinates, and reject equal-weight card walls or multiple
+unexplained primary buttons.
+
+Sources: [Material structure](https://m3.material.io/foundations/designing/structure),
+[Apple buttons](https://developer.apple.com/design/human-interface-guidelines/buttons),
+and [Nielsen Norman usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/).
+
+## Spacing And Density
+
+`product_default`
+
+- Use one finite spacing scale from the selected design system. Do not introduce
+  arbitrary per-element gaps to repair individual screens.
+- Keep within-group gaps smaller than between-group gaps.
+- Let parent layout own spacing; avoid stacked child margins and separator lines
+  when spacing already communicates the grouping.
+- White space must create focus, grouping, or reading rest. Large unused regions
+  beside compressed text are imbalance, not restraint.
+- Use compact density only for repeated expert work, and do not reduce target size,
+  essential text, or state clarity to achieve it.
+
+Exact token values remain design-system choices. A 4px or 8px base is not a
+cross-product requirement.
+
+Verification: compare computed spacing against declared tokens and inspect whether
+the grouping survives the densest and narrowest states.
+
+Source: [Carbon spacing](https://carbondesignsystem.com/guidelines/spacing/overview/).
+
+## Typography And Contrast
+
+`hard_floor` for contrast and adaptation; `product_default` for initial sizes.
+
+- Normal text must reach 4.5:1 contrast; large text may use 3:1. Meaningful control
+  boundaries, icons, and state indicators require 3:1 against adjacent colors.
+- Color must not be the only state channel.
+- Essential HTML reading text starts at 16 CSS px. Supporting operational text
+  starts at 14px. `12-13px` is limited to non-critical metadata on desktop.
+- Do not scale font size with viewport width.
+- Preserve content and function when users enlarge text to 200 percent.
+- Preserve content and function when users override line height to 1.5, paragraph
+  spacing to 2em, letter spacing to 0.12em, and word spacing to 0.16em. These are
+  stress-test values, not required defaults.
+
+Verification: compute contrast from authored colors, inspect loaded fonts, test
+200 percent text zoom, and run the WCAG text-spacing override without clipping,
+overlap, hidden controls, or lost text.
+
+Sources: [WCAG text contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html),
+[WCAG non-text contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html),
+[WCAG text spacing](https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html),
+and [Apple accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility).
+
+## Targets And Focus
+
+`hard_floor` for the 24px minimum and visible focus; `product_default` for the
+larger touch target and enhanced focus treatment.
+
+- Every authored pointer target is at least `24 x 24 CSS px`, unless a documented
+  WCAG exception applies.
+- Prefer at least `44 x 44 CSS px` for touch or mixed-input Web products. A visual
+  icon may be smaller when its interactive hit region meets the target size.
+- Prefer at least 8px between adjacent touch targets.
+- Every keyboard-operable control has a visible focus indicator.
+- Use an enhanced focus treatment equivalent to a 2px perimeter with at least
+  3:1 contrast change as the product default. This is based on WCAG 2.4.13 AAA,
+  not an AA conformance claim.
+- Match the focus outline to the component geometry and keep it visible against
+  every adjacent surface.
+
+Verification: measure hit regions and spacing, tab through the real page, compare
+focused and unfocused states, and record documented exceptions.
+
+Sources: [WCAG target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html),
+[WCAG enhanced target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html),
+[WCAG focus appearance](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html),
+[Material structure](https://m3.material.io/foundations/designing/structure),
+[Apple accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility),
+and [Atlassian radius](https://atlassian.design/foundations/radius).
+
+## Responsive Reflow And Tables
+
+`hard_floor`
+
+- At 320 CSS px, ordinary content and controls preserve information and function
+  without page-level horizontal scrolling.
+- Reflow changes layout order and grouping; it does not shrink a desktop canvas.
+- A genuinely two-dimensional table, map, diagram, media view, or persistent
+  manipulation toolbar may use local two-dimensional scrolling.
+- Keep every exception inside a bounded region with an accessible name, visible
+  overflow cue, keyboard access, and readable cell or panel content.
+- Preserve row identity, state, and the primary action in the initial view. Do not
+  silently drop columns.
+- Convert a table to record cards only when the reader works by record; preserve
+  tabular comparison when cross-row comparison is the task.
+
+Verification: inspect 1440, 390, and 320px; distinguish page overflow from named
+local overflow; test keyboard access and verify that essential content remains
+discoverable.
+
+Source: [WCAG reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html).
+
+## Dialogs
+
+`hard_floor` for truthful semantics and an accessible name; `product_default`
+for the complete APG interaction pattern.
+
+- Use a native `dialog` where it fits, or a container with `role="dialog"`, an
+  accessible name, and `aria-modal="true"` only when the background is actually
+  inert.
+- As the product default, move focus inside when opened; contain Tab and
+  Shift+Tab; close with Escape unless an explicit safety requirement forbids it;
+  and return focus to the invoker or a logical successor.
+- As product defaults, include a visible close or cancel action, choose initial
+  focus by content and risk, and avoid stacked modals. For destructive or
+  hard-to-reverse actions, prefer the safer action.
+
+Verification: test open, forward and reverse Tab wrapping, Escape, background
+inertness, close, and focus restoration on every declared viewport.
+
+Sources: [WAI-ARIA 1.2 aria-modal](https://www.w3.org/TR/wai-aria-1.2/#aria-modal)
+and the authoritative but non-normative
+[WAI-ARIA APG modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+## Errors, Status, And Recovery
+
+`hard_floor` for text error identification, programmatically determinable status
+messages, and non-color meaning; `product_default` for recovery placement and
+workflow coverage.
+
+- Identify automatically detected input errors in text and identify the affected
+  item.
+- Make applicable status messages programmatically determinable when they do not
+  take focus, and do not rely on color alone for status meaning.
+- As product defaults, state what happened and what the user can do next, keep
+  one recovery action adjacent to the failure, and preserve non-sensitive input.
+- As product defaults, expose applicable pending, success, failure, and recovery
+  states; do not make a transient toast the sole record of critical status.
+- As a product default, delayed actions show immediate busy feedback and prevent
+  accidental duplicate submission.
+
+Verification: exercise default, pending, success, failure, and recovery paths;
+confirm that the same action name means the same outcome and that recoverable input
+survives.
+
+Sources: [WCAG error identification](https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html),
+[WCAG status messages](https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html),
+[GOV.UK error messages](https://design-system.service.gov.uk/components/error-message/),
+[Nielsen Norman usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/),
+and [Apple buttons](https://developer.apple.com/design/human-interface-guidelines/buttons).
+
+## Form Assistance
+
+`hard_floor` for applicable labels, semantics, input purpose, and same-process
+repeated entry; `product_default` for native associations and concise
+instructions. Purpose: reduce input burden without hiding what a field means.
+
+- Give every data-entry control a presented label or necessary instruction, and
+  independently expose its programmatic name, role, and label relationship.
+- For a field collecting current-user information whose purpose is in WCAG's
+  fixed list and expressible by the technology, expose accurate purpose
+  metadata. A matching HTML `autocomplete` token is the default method, not the
+  only conforming method.
+- When the same process requests information the user already entered or
+  received, auto-populate it or make the prior value selectable.
+
+Boundaries: labels and instructions apply to required and optional data entry,
+not links or non-input commands; add no instruction when a clear label suffices.
+Purpose metadata excludes other people's, business, search, unsupported, and
+unlisted data. Re-entry need not cross sessions and may remain when essential,
+required for security, or based on invalidated data. No exact HTML markup is
+universal; an accessible name alone does not replace a presented cue.
+
+Reject: placeholder-only labels, indiscriminate or mismatched `autocomplete`,
+browser autofill as the only repeated-entry support, unjustified re-entry, and
+instructions that repeat or bury the task.
+
+Verification: inspect visible cues and DOM or accessibility-tree associations;
+match current-user fields to valid purpose tokens; trace multi-step processes
+and test prior-value reuse plus every claimed exception.
+
+Sources: [labels or instructions](https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html),
+[input purpose](https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html),
+[redundant entry](https://www.w3.org/WAI/WCAG22/Understanding/redundant-entry.html),
+and [name, role, value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html).
+
+## Accessible Authentication
+
+`hard_floor` for Accessible Authentication (Minimum); passwordless architecture
+and the Level AAA enhanced outcome are not hard floors. Purpose: keep unaided
+memory, transcription, or puzzle solving from becoming the only path.
+
+- A cognitive function test requires an alternative without that test, a
+  mechanism that assists completion, or an applicable Level AA exception.
+- When passwords or codes provide that assistance, preserve manager or autofill
+  recognition and whole-value paste; segmented code fields must accept the whole
+  code when no other conforming path exists.
+- At least one complete path must conform through every authentication step,
+  including multi-factor and account-recovery steps used for authentication.
+
+Boundaries: Level AA permits object recognition and recognition of non-text
+content supplied by the user; Level AAA does not. Account creation is outside
+the criterion's direct scope. Audio transcription remains a cognitive test, and
+an accessible first factor does not cure an inaccessible second factor.
+Passwordless, WebAuthn, OAuth, hardware keys, and biometrics are optional product
+or security choices.
+
+Reject: blocked password or code paste when it is the assistance mechanism,
+character-by-character-only code entry, treating every CAPTCHA as forbidden at
+AA, or claiming accessible authentication means passwordless-only.
+
+Verification: test password-manager or autofill recognition, password and
+whole-code paste, every multi-factor and recovery step, and conditional
+challenges; record the alternative, assistance, or AA exception for each
+cognitive-test step.
+
+Sources: [accessible authentication minimum](https://www.w3.org/WAI/WCAG22/Understanding/accessible-authentication-minimum.html),
+[accessible authentication enhanced](https://www.w3.org/WAI/WCAG22/Understanding/accessible-authentication-enhanced.html),
+and [failure F109](https://www.w3.org/WAI/WCAG22/Techniques/failures/F109).
+
+## Transient Interaction, Focus, Motion, And Time
+
+`hard_floor` for applicable hover or focus content, minimum focus visibility,
+adjustable timing, and pause, stop, or hide outcomes; `product_default` for full
+focus visibility and disabling non-essential interaction-triggered motion.
+Purpose: prevent overlays, motion, and time from hiding or interrupting the task.
+
+- Authored content that appears and disappears with hover or focus must be
+  dismissible without moving the trigger, hoverable when pointer-triggered, and
+  persistent until trigger removal, dismissal, or invalidation.
+- A keyboard-focused component must never be entirely hidden by authored
+  content. Keep it fully visible as the stronger Level AAA product default,
+  separate from focus-indicator visibility.
+- For each content-set time limit, let users turn it off beforehand, adjust it
+  across at least ten times the default, or receive at least 20 seconds to extend
+  it with a simple action at least ten times.
+- Automatically starting parallel movement over five seconds needs pause, stop,
+  or hide unless essential. Parallel auto-updates need pause, stop, hide, or
+  frequency control unless essential; no five-second threshold applies.
+- Suppress non-essential interaction-triggered motion by default without losing
+  information or function; reduced motion is one sufficient route, not the only
+  mandated implementation.
+
+Boundaries: hover or focus rules exclude unmodified user-agent content,
+focus-revealed controls, and modals; dismissal without moving the trigger is not
+required for input errors or non-obscuring content. For movable authored regions,
+focus-obscuring checks use initial positions; user-opened content may obscure
+focus when reveal does not advance focus. Timing exceptions are unavoidable
+real-time events, essential limits invalidated by extension, and limits over 20
+hours; external limits are out of scope and security is not a blanket exception.
+Movement of five seconds or less and an essential loader shown alone are outside
+the movement branch. Essential interaction motion is exempt from the default.
+
+Reject: promoting full focus visibility or reduced motion to AA; treating Escape,
+APG tooltip roles, `scroll-padding`, or `prefers-reduced-motion` as the sole
+implementation; requiring all animation to pause or all limits to disappear;
+focus-only pause controls; or fully obscured keyboard focus.
+
+Verification: test hover travel, keyboard focus, dismissal, and persistence; tab
+with every sticky layer open at 1440, 390, and 320 CSS px; use controlled clocks
+for limits, extensions, movement, and updates; exercise reduced-motion behavior
+without information or function loss.
+
+Sources: [content on hover or focus](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html),
+[focus not obscured minimum](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html),
+[focus not obscured enhanced](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-enhanced.html),
+[timing adjustable](https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html),
+[pause, stop, hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html),
+[animation from interactions](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html),
+and the non-normative [APG tooltip pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
+
+## Repeated Context Consistency
+
+`hard_floor` for repeated help, navigation, and functional identification within
+a declared page set; `product_default` for stable visual help placement.
+Purpose: reduce relearning across related pages.
+
+- Preserve the relative order of repeated human contact details or mechanisms,
+  self-help, and automated contact mechanisms unless the user initiates change.
+- Preserve repeated navigation order; inserted or removed items are allowed when
+  repeated items keep their relative order.
+- Identify repeated same-function components consistently in visible and
+  accessible presentation. Context-sensitive wording may differ when the
+  function remains recognizable; different outcomes must remain distinct.
+
+Boundaries: help need not exist, be continuously available, or include contextual
+field help. Declare page sets before review; distinct functional or language
+sets may differ. Expected user-initiated layout changes may change order, but
+ordinary navigation or login is not automatically an exception. Consistency
+does not require identical wording, alternatives, visuals, or non-functional
+styling.
+
+Reject: adding help merely for conformance, freezing every navigation item or
+layout, forcing context-insensitive identical labels, or comparing undeclared
+and unrelated page sets.
+
+Verification: declare page sets and recurring mechanisms; at 1440, 390, and 320
+CSS px compare serialized order at equivalent states, visible and accessible
+identification, user-initiated variants, and the separate product-default visual
+placement.
+
+Sources: [consistent help](https://www.w3.org/WAI/WCAG22/Understanding/consistent-help.html),
+[consistent navigation](https://www.w3.org/WAI/WCAG22/Understanding/consistent-navigation.html),
+and [consistent identification](https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html).
+
+## Icons And Labels
+
+`product_default`
+
+- Use one declared local icon family with consistent stroke, optical box, and
+  alignment.
+- Use familiar icons for familiar secondary actions. Use a visible verb-object
+  label when the icon is ambiguous or the action is consequential.
+- Icon-only controls require an accessible name and a tooltip when the meaning is
+  not immediately universal.
+- Hide decorative icons from assistive technology.
+- Do not use emoji or text glyphs such as `×`, `‹`, or `→` as production icons.
+
+Verification: inspect asset provenance, accessible names, focus state, optical
+centering, fallback labels, and missing-icon behavior.
+
+Sources: [Apple buttons](https://developer.apple.com/design/human-interface-guidelines/buttons),
+[Material structure](https://m3.material.io/foundations/designing/structure), and
+[Nielsen Norman consistency guidance](https://www.nngroup.com/articles/ten-usability-heuristics/).
+
+## Release Boundary
+
+Automated checks may prove dimensions, overflow, contrast inputs, element roles,
+focus order, and declared tokens. They cannot prove friendliness, aesthetic
+quality, correct task priority, or real-user success. Those remain Reviewer and,
+when required, observed-user judgments.

@@ -42,6 +42,14 @@ Reject generic gradient/glass heroes, equal-weight card walls, fake UI or charts
 emoji icons, filler media, tiny evidence under oversized titles, mixed component
 worlds, and repeated motion without a semantic job.
 
+For responsive HTML applications and dashboards, load
+`references/web-interface-standards.md`. Its rules are explicitly classified as
+`hard_floor`, `product_default`, or `contextual_advisory`. Do not promote an
+aesthetic tendency such as curvature preference into an accessibility gate:
+rounded shapes can support an approachable tone, while dense tables, joined
+controls, technical diagrams, and formal evidence may require smaller or zero
+radii.
+
 ## Design Hierarchy
 
 Use H0-H5 as decision layers, not new workflow stages or mandatory documents.

@@ -102,7 +102,8 @@
         "motion": { "type": "object" },
         "surface_emphasis": { "type": "string", "minLength": 1 },
         "anti_patterns": { "type": "array", "minItems": 3, "items": { "type": "string" } },
-        "locale_policy": { "$ref": "#/$defs/locale_policy" }
+        "locale_policy": { "$ref": "#/$defs/locale_policy" },
+        "interface_policy": { "$ref": "#/$defs/interface_policy" }
       }
     },
     "visual_treatment": {
@@ -184,6 +185,459 @@
     }
   ],
   "$defs": {
+    "interface_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "reference",
+        "applies_to_surface_ids",
+        "rule_levels",
+        "shape",
+        "spacing",
+        "hierarchy",
+        "typography",
+        "targets",
+        "responsive",
+        "focus",
+        "dialog",
+        "table",
+        "icons",
+        "feedback"
+      ],
+      "properties": {
+        "schema_version": {
+          "enum": ["web-interface-policy/v1", "web-interface-policy/v2"]
+        },
+        "reference": { "const": "references/web-interface-standards.md" },
+        "applies_to_surface_ids": { "const": ["html", "dashboard"] },
+        "rule_levels": {
+          "const": ["hard_floor", "product_default", "contextual_advisory"]
+        },
+        "shape": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "radius_scale_px",
+            "dense_surface_max_radius_px",
+            "universal_rounding",
+            "pill_roles",
+            "nested_radius_policy",
+            "large_radius_policy"
+          ],
+          "properties": {
+            "level": { "const": "contextual_advisory" },
+            "radius_scale_px": {
+              "type": "array",
+              "minItems": 2,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0, "maximum": 32 }
+            },
+            "dense_surface_max_radius_px": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 12
+            },
+            "universal_rounding": { "const": false },
+            "pill_roles": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "enum": ["avatar", "status", "tag", "toggle"] }
+            },
+            "nested_radius_policy": { "type": "string", "minLength": 1 },
+            "large_radius_policy": { "type": "string", "minLength": 1 }
+          }
+        },
+        "spacing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "token_scale_required",
+            "group_gap_greater_than_internal_gap",
+            "arbitrary_values_allowed",
+            "white_space_policy"
+          ],
+          "properties": {
+            "level": { "const": "product_default" },
+            "token_scale_required": { "const": true },
+            "group_gap_greater_than_internal_gap": { "const": true },
+            "arbitrary_values_allowed": { "const": false },
+            "white_space_policy": { "type": "string", "minLength": 1 }
+          }
+        },
+        "hierarchy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "max_prominent_actions_per_task",
+            "primary_task_first",
+            "status_recovery_next_action_visible"
+          ],
+          "properties": {
+            "level": { "const": "product_default" },
+            "max_prominent_actions_per_task": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2
+            },
+            "primary_task_first": { "const": true },
+            "status_recovery_next_action_visible": { "const": true }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "size_level",
+            "contrast_level",
+            "adaptation_level",
+            "essential_text_min_css_px",
+            "supporting_text_min_css_px",
+            "metadata_text_min_css_px",
+            "normal_text_contrast_ratio",
+            "large_text_contrast_ratio",
+            "non_text_contrast_ratio",
+            "viewport_width_font_scaling",
+            "text_spacing_override_required"
+          ],
+          "properties": {
+            "size_level": { "const": "product_default" },
+            "contrast_level": { "const": "hard_floor" },
+            "adaptation_level": { "const": "hard_floor" },
+            "essential_text_min_css_px": {
+              "type": "integer",
+              "minimum": 16,
+              "maximum": 24
+            },
+            "supporting_text_min_css_px": {
+              "type": "integer",
+              "minimum": 14,
+              "maximum": 20
+            },
+            "metadata_text_min_css_px": {
+              "type": "integer",
+              "minimum": 12,
+              "maximum": 18
+            },
+            "normal_text_contrast_ratio": { "const": 4.5 },
+            "large_text_contrast_ratio": { "const": 3 },
+            "non_text_contrast_ratio": { "const": 3 },
+            "viewport_width_font_scaling": { "const": false },
+            "text_spacing_override_required": { "const": true }
+          }
+        },
+        "targets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimum_level",
+            "preference_level",
+            "minimum_css_px",
+            "preferred_touch_css_px",
+            "preferred_gap_css_px",
+            "exceptions_require_evidence"
+          ],
+          "properties": {
+            "minimum_level": { "const": "hard_floor" },
+            "preference_level": { "const": "product_default" },
+            "minimum_css_px": {
+              "type": "integer",
+              "minimum": 24,
+              "maximum": 44
+            },
+            "preferred_touch_css_px": {
+              "type": "integer",
+              "minimum": 44,
+              "maximum": 48
+            },
+            "preferred_gap_css_px": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16
+            },
+            "exceptions_require_evidence": { "const": true }
+          }
+        },
+        "responsive": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "required_viewports_px",
+            "page_horizontal_overflow_allowed",
+            "local_overflow_roles",
+            "local_overflow_requirements"
+          ],
+          "properties": {
+            "level": { "const": "hard_floor" },
+            "required_viewports_px": { "const": [1440, 390, 320] },
+            "page_horizontal_overflow_allowed": { "const": false },
+            "local_overflow_roles": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "data-table",
+                  "diagram",
+                  "map",
+                  "media",
+                  "persistent-toolbar"
+                ]
+              }
+            },
+            "local_overflow_requirements": {
+              "const": [
+                "bounded-region",
+                "accessible-name",
+                "visible-cue",
+                "keyboard-access"
+              ]
+            }
+          }
+        },
+        "focus": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "visible_level",
+            "enhanced_level",
+            "visible_required",
+            "enhanced_indicator_css_px",
+            "enhanced_contrast_ratio",
+            "geometry_matches_control"
+          ],
+          "properties": {
+            "visible_level": { "const": "hard_floor" },
+            "enhanced_level": { "const": "product_default" },
+            "visible_required": { "const": true },
+            "enhanced_indicator_css_px": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 4
+            },
+            "enhanced_contrast_ratio": {
+              "type": "number",
+              "minimum": 3
+            },
+            "geometry_matches_control": { "const": true }
+          }
+        },
+        "dialog": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "semantic_level",
+            "pattern_level",
+            "semantic_requirements",
+            "pattern_behaviors"
+          ],
+          "properties": {
+            "semantic_level": { "const": "hard_floor" },
+            "pattern_level": { "const": "product_default" },
+            "semantic_requirements": {
+              "const": [
+                "accessible-name",
+                "modal-state-truthful"
+              ]
+            },
+            "pattern_behaviors": {
+              "const": [
+                "focus-entry",
+                "focus-trap",
+                "background-inert",
+                "escape-or-explicit-exception",
+                "focus-return"
+              ]
+            }
+          }
+        },
+        "table": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["level", "required_behaviors"],
+          "properties": {
+            "level": { "const": "hard_floor" },
+            "required_behaviors": {
+              "const": [
+                "semantic-table-or-named-record-list",
+                "header-association",
+                "keyboard-action-semantics",
+                "no-silent-column-loss"
+              ]
+            }
+          }
+        },
+        "icons": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "one_family",
+            "character_glyphs_allowed",
+            "icon_only_policy",
+            "fallback"
+          ],
+          "properties": {
+            "level": { "const": "product_default" },
+            "one_family": { "const": true },
+            "character_glyphs_allowed": { "const": false },
+            "icon_only_policy": { "type": "string", "minLength": 1 },
+            "fallback": { "type": "string", "minLength": 1 }
+          }
+        },
+        "feedback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "semantic_level",
+            "recovery_level",
+            "status_programmatically_determinable",
+            "input_error_text_required",
+            "color_only_meaning_allowed",
+            "preserve_recoverable_input",
+            "critical_toast_only",
+            "recovery_action_adjacent",
+            "state_policy"
+          ],
+          "properties": {
+            "semantic_level": { "const": "hard_floor" },
+            "recovery_level": { "const": "product_default" },
+            "status_programmatically_determinable": { "const": true },
+            "input_error_text_required": { "const": true },
+            "color_only_meaning_allowed": { "const": false },
+            "preserve_recoverable_input": { "const": true },
+            "critical_toast_only": { "const": false },
+            "recovery_action_adjacent": { "const": true },
+            "state_policy": { "type": "string", "minLength": 1 }
+          }
+        },
+        "form_assistance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "presented_semantics_level",
+            "input_purpose_level",
+            "redundant_entry_level",
+            "native_association_level"
+          ],
+          "properties": {
+            "presented_semantics_level": { "const": "hard_floor" },
+            "input_purpose_level": { "const": "hard_floor" },
+            "redundant_entry_level": { "const": "hard_floor" },
+            "native_association_level": { "const": "product_default" }
+          }
+        },
+        "accessible_authentication": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimum_level",
+            "complete_path_required",
+            "permitted_conformance_routes",
+            "whole_value_paste_when_used_as_assistance"
+          ],
+          "properties": {
+            "minimum_level": { "const": "hard_floor" },
+            "complete_path_required": { "const": true },
+            "permitted_conformance_routes": {
+              "const": [
+                "alternative-without-cognitive-function-test",
+                "completion-assistance",
+                "level-aa-exception"
+              ]
+            },
+            "whole_value_paste_when_used_as_assistance": { "const": true }
+          }
+        },
+        "transient_interaction_and_time": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hover_focus_level",
+            "focus_not_entirely_obscured_level",
+            "full_focus_visibility_level",
+            "timing_adjustable_level",
+            "pause_stop_hide_level",
+            "interaction_motion_level",
+            "time_limit_adjustment_min_multiplier",
+            "time_limit_extension_warning_min_seconds",
+            "time_limit_extension_min_repetitions",
+            "moving_content_control_threshold_seconds",
+            "long_time_limit_exception_threshold_hours"
+          ],
+          "properties": {
+            "hover_focus_level": { "const": "hard_floor" },
+            "focus_not_entirely_obscured_level": { "const": "hard_floor" },
+            "full_focus_visibility_level": { "const": "product_default" },
+            "timing_adjustable_level": { "const": "hard_floor" },
+            "pause_stop_hide_level": { "const": "hard_floor" },
+            "interaction_motion_level": { "const": "product_default" },
+            "time_limit_adjustment_min_multiplier": { "const": 10 },
+            "time_limit_extension_warning_min_seconds": { "const": 20 },
+            "time_limit_extension_min_repetitions": { "const": 10 },
+            "moving_content_control_threshold_seconds": { "const": 5 },
+            "long_time_limit_exception_threshold_hours": { "const": 20 }
+          }
+        },
+        "repeated_context_consistency": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "help_order_level",
+            "navigation_order_level",
+            "identification_level",
+            "stable_help_placement_level",
+            "page_set_declaration_required"
+          ],
+          "properties": {
+            "help_order_level": { "const": "hard_floor" },
+            "navigation_order_level": { "const": "hard_floor" },
+            "identification_level": { "const": "hard_floor" },
+            "stable_help_placement_level": { "const": "product_default" },
+            "page_set_declaration_required": { "const": true }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["schema_version"],
+            "properties": {
+              "schema_version": { "const": "web-interface-policy/v1" }
+            }
+          },
+          "then": {
+            "properties": {
+              "form_assistance": false,
+              "accessible_authentication": false,
+              "transient_interaction_and_time": false,
+              "repeated_context_consistency": false
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["schema_version"],
+            "properties": {
+              "schema_version": { "const": "web-interface-policy/v2" }
+            }
+          },
+          "then": {
+            "required": [
+              "form_assistance",
+              "accessible_authentication",
+              "transient_interaction_and_time",
+              "repeated_context_consistency"
+            ]
+          }
+        }
+      ]
+    },
     "locale_policy": {
       "type": "object",
       "additionalProperties": false,

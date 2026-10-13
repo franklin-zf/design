@@ -33,12 +33,14 @@ const requiredReferences = [
   'references/advanced-assurance.md',
   'references/tool-routing.md',
   'references/visual-recipes.md',
+  'references/web-interface-standards.md',
   'references/workflow.md'
 ];
 const requiredSkillRoutes = [
   'references/design-standards.md',
   'references/workflow.md',
-  'references/advanced-assurance.md'
+  'references/advanced-assurance.md',
+  'references/web-interface-standards.md'
 ];
 const legacyReferences = ['references/tasteful-prompt-library.md'];
 const localPathRoots = [

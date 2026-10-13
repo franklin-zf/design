@@ -41,6 +41,13 @@ content before choosing a preset or template. History is opt-in, not a prerequis
 Do not read test fixtures, archived plans, or rejected artifacts as design guidance.
 Use `references/frontend-styles.md` to find implemented assets. An explicitly chosen
 reference contributes methods and limits, never current facts.
+For responsive HTML applications and dashboards, also read
+`references/web-interface-standards.md` and consume the resolved
+`interface_policy`; do not recreate its shape, target, reflow, focus, dialog,
+table, icon, or feedback rules in a parallel prompt. Pre-policy
+`design-profile-catalogue/v1` and `design-profile/v2` records remain readable:
+when `interface_policy` is absent, preserve the legacy behavior instead of
+inventing defaults outside the catalogue.
 
 For new source-backed PPT, HTML, and Poster artifacts, create `source-extraction.json` before summarizing, then build one canonical `content-ledger.json`. Each ledger entry binds an extracted source path, SHA-256, exact quote, locator, semantic signature, and protected tokens. Poster owns the format-local `content-handoff.json`; it binds the reader job, direct message, selected semantic units, source refs, visual priority, explicit omissions, and must-not-say rules. The Designer consumes that handoff and may change visual form, not content truth. Use `surface-claims.json` when visible claims need exact DOM binding.
 

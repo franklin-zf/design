@@ -23,6 +23,7 @@ const expectedRelationships = [
   'narrative',
   'system'
 ];
+const expectedInterfacePolicySurfaceIds = ['dashboard', 'html'];
 const expectedSurfaceIds = ['dashboard', 'html', 'poster', 'ppt'];
 const expectedTopologyIds = [
   'causal-chain',
@@ -445,6 +446,7 @@ function validateCatalogueIntegrity(catalogue, themes) {
   const surfaces = catalogue.surface_contracts || [];
   const topologies = catalogue.topology_patterns || [];
   const routing = catalogue.routing || {};
+  const interfacePolicy = catalogue.interface_policy;
   const presetIds = presets.map((item) => item.id);
   const surfaceIds = surfaces.map((item) => item.id);
   const topologyIds = topologies.map((item) => item.id);
@@ -459,6 +461,17 @@ function validateCatalogueIntegrity(catalogue, themes) {
   }
   if (!sameValues(surfaceIds, expectedSurfaceIds)) {
     errors.push(`surface ids must be exactly: ${expectedSurfaceIds.join(', ')}`);
+  }
+  if (interfacePolicy !== undefined
+      && (!interfacePolicy || typeof interfacePolicy !== 'object' || Array.isArray(interfacePolicy))) {
+    errors.push('interface policy must be an object when provided');
+  } else if (interfacePolicy && !sameValues(
+    interfacePolicy.applies_to_surface_ids || [],
+    expectedInterfacePolicySurfaceIds
+  )) {
+    errors.push(
+      `interface policy surfaces must be exactly: ${expectedInterfacePolicySurfaceIds.join(', ')}`
+    );
   }
   if (!sameValues(topologyIds, expectedTopologyIds)) {
     errors.push(`topology ids must be exactly: ${expectedTopologyIds.join(', ')}`);
@@ -1071,6 +1084,9 @@ export function resolveDesignProfile(brief, artifactType, assets = loadDesignPro
       anti_patterns: primaryPreset.anti_patterns,
       ...(surface.locale_policy
         ? { locale_policy: structuredClone(surface.locale_policy) }
+        : {}),
+      ...(catalogue.interface_policy?.applies_to_surface_ids.includes(surfaceId)
+        ? { interface_policy: structuredClone(catalogue.interface_policy) }
         : {})
     },
     visual_treatment: visualTreatment,

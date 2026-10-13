@@ -159,6 +159,241 @@ test('dashboard profile copies the closed zh-CN locale policy deterministically'
   );
 });
 
+test('web interface policy v2 propagates while v1 and policyless records remain compatible', async () => {
+  const input = brief({
+    reader_job: 'operational-workflow',
+    primary_relationship: 'system'
+  });
+  const htmlFirst = resolveDesignProfile(input, 'html-deck', assets);
+  const htmlSecond = resolveDesignProfile(input, 'html-deck', assets);
+  const dashboard = resolveDesignProfile(input, 'dashboard', assets);
+  assert.deepEqual(htmlFirst, htmlSecond);
+  assert.deepEqual(
+    htmlFirst.resolved_rules.interface_policy,
+    assets.catalogue.interface_policy
+  );
+  assert.deepEqual(
+    dashboard.resolved_rules.interface_policy,
+    assets.catalogue.interface_policy
+  );
+  assert.equal(
+    htmlFirst.resolved_rules.interface_policy.schema_version,
+    'web-interface-policy/v2'
+  );
+  assert.deepEqual(
+    htmlFirst.resolved_rules.interface_policy.form_assistance,
+    {
+      presented_semantics_level: 'hard_floor',
+      input_purpose_level: 'hard_floor',
+      redundant_entry_level: 'hard_floor',
+      native_association_level: 'product_default'
+    }
+  );
+  assert.deepEqual(
+    htmlFirst.resolved_rules.interface_policy.accessible_authentication,
+    {
+      minimum_level: 'hard_floor',
+      complete_path_required: true,
+      permitted_conformance_routes: [
+        'alternative-without-cognitive-function-test',
+        'completion-assistance',
+        'level-aa-exception'
+      ],
+      whole_value_paste_when_used_as_assistance: true
+    }
+  );
+  assert.deepEqual(
+    htmlFirst.resolved_rules.interface_policy.transient_interaction_and_time,
+    {
+      hover_focus_level: 'hard_floor',
+      focus_not_entirely_obscured_level: 'hard_floor',
+      full_focus_visibility_level: 'product_default',
+      timing_adjustable_level: 'hard_floor',
+      pause_stop_hide_level: 'hard_floor',
+      interaction_motion_level: 'product_default',
+      time_limit_adjustment_min_multiplier: 10,
+      time_limit_extension_warning_min_seconds: 20,
+      time_limit_extension_min_repetitions: 10,
+      moving_content_control_threshold_seconds: 5,
+      long_time_limit_exception_threshold_hours: 20
+    }
+  );
+  assert.deepEqual(
+    htmlFirst.resolved_rules.interface_policy.repeated_context_consistency,
+    {
+      help_order_level: 'hard_floor',
+      navigation_order_level: 'hard_floor',
+      identification_level: 'hard_floor',
+      stable_help_placement_level: 'product_default',
+      page_set_declaration_required: true
+    }
+  );
+  assert.equal(
+    htmlFirst.resolved_rules.interface_policy.dialog.semantic_level,
+    'hard_floor'
+  );
+  assert.equal(
+    htmlFirst.resolved_rules.interface_policy.dialog.pattern_level,
+    'product_default'
+  );
+  assert.equal(
+    htmlFirst.resolved_rules.interface_policy.feedback.semantic_level,
+    'hard_floor'
+  );
+  assert.equal(
+    htmlFirst.resolved_rules.interface_policy.feedback.recovery_level,
+    'product_default'
+  );
+  for (const artifactType of ['poster', 'ppt-handoff']) {
+    const profile = resolveDesignProfile(input, artifactType, assets);
+    assert.equal(
+      Object.hasOwn(profile.resolved_rules, 'interface_policy'),
+      false,
+      artifactType
+    );
+  }
+
+  const {
+    validateJsonInstance
+  } = await import('../scripts/lib/json-schema.mjs');
+  const catalogueSchema = JSON.parse(readFileSync(
+    join(root, 'schemas/design-profile-catalogue.schema.json'),
+    'utf8'
+  ));
+  assert.deepEqual(validateJsonInstance(catalogueSchema, assets.catalogue), []);
+  assert.deepEqual(validateJsonInstance(assets.profileSchema, htmlFirst), []);
+  const policySchemaCases = [
+    {
+      label: 'catalogue',
+      schema: catalogueSchema,
+      value: assets.catalogue,
+      selectPolicy: (value) => value.interface_policy
+    },
+    {
+      label: 'resolved profile',
+      schema: assets.profileSchema,
+      value: htmlFirst,
+      selectPolicy: (value) => value.resolved_rules.interface_policy
+    }
+  ];
+  const requiredV2Fields = [
+    ['form_assistance', 'native_association_level'],
+    ['accessible_authentication', 'complete_path_required'],
+    ['transient_interaction_and_time', 'time_limit_extension_warning_min_seconds'],
+    ['repeated_context_consistency', 'page_set_declaration_required']
+  ];
+  for (const schemaCase of policySchemaCases) {
+    for (const [group, field] of requiredV2Fields) {
+      const missingGroup = structuredClone(schemaCase.value);
+      delete schemaCase.selectPolicy(missingGroup)[group];
+      assert.match(
+        validateJsonInstance(schemaCase.schema, missingGroup).join('\n'),
+        new RegExp(group),
+        `${schemaCase.label} must require v2 group ${group}`
+      );
+
+      const missingField = structuredClone(schemaCase.value);
+      delete schemaCase.selectPolicy(missingField)[group][field];
+      assert.match(
+        validateJsonInstance(schemaCase.schema, missingField).join('\n'),
+        new RegExp(field),
+        `${schemaCase.label} must require v2 field ${group}.${field}`
+      );
+    }
+
+    const wrongHierarchy = structuredClone(schemaCase.value);
+    schemaCase.selectPolicy(wrongHierarchy).form_assistance.complete_path_required = true;
+    assert.match(
+      validateJsonInstance(schemaCase.schema, wrongHierarchy).join('\n'),
+      /additional property complete_path_required/,
+      `${schemaCase.label} must reject a v2 field at the wrong hierarchy`
+    );
+  }
+
+  const invalidCatalogues = [
+    [
+      (catalogue) => { catalogue.interface_policy.unchecked_extension = true; },
+      /unchecked_extension/
+    ],
+    [
+      (catalogue) => { catalogue.interface_policy.applies_to_surface_ids = ['html']; },
+      /applies_to_surface_ids/
+    ],
+    [
+      (catalogue) => { catalogue.interface_policy.targets.minimum_css_px = 23; },
+      /minimum_css_px/
+    ],
+    [
+      (catalogue) => { catalogue.interface_policy.shape.pill_roles.push('button'); },
+      /pill_roles/
+    ],
+    [
+      (catalogue) => { catalogue.interface_policy.dialog.pattern_level = 'hard_floor'; },
+      /pattern_level/
+    ],
+    [
+      (catalogue) => { catalogue.interface_policy.feedback.recovery_level = 'hard_floor'; },
+      /recovery_level/
+    ]
+  ];
+  for (const [mutate, expected] of invalidCatalogues) {
+    const catalogue = structuredClone(assets.catalogue);
+    mutate(catalogue);
+    assert.match(validateJsonInstance(catalogueSchema, catalogue).join('\n'), expected);
+  }
+
+  const { validateResolvedDesignProfile } = await import(
+    '../scripts/lib/design-profile.mjs'
+  );
+  const v1Policy = structuredClone(assets.catalogue.interface_policy);
+  v1Policy.schema_version = 'web-interface-policy/v1';
+  for (const [group] of requiredV2Fields) delete v1Policy[group];
+  const v1Assets = structuredClone(assets);
+  v1Assets.catalogue.interface_policy = v1Policy;
+  v1Assets.catalogueDigest = 'f'.repeat(64);
+  assert.deepEqual(validateJsonInstance(catalogueSchema, v1Assets.catalogue), []);
+  const v1Profile = resolveDesignProfile(input, 'html-deck', v1Assets);
+  assert.deepEqual(v1Profile.resolved_rules.interface_policy, v1Policy);
+  assert.deepEqual(validateJsonInstance(assets.profileSchema, v1Profile), []);
+  assert.deepEqual(
+    validateResolvedDesignProfile(v1Profile, 'html-deck', v1Assets),
+    []
+  );
+
+  const policylessAssets = structuredClone(assets);
+  delete policylessAssets.catalogue.interface_policy;
+  policylessAssets.catalogueDigest = 'e'.repeat(64);
+  assert.deepEqual(
+    validateJsonInstance(catalogueSchema, policylessAssets.catalogue),
+    []
+  );
+  const policylessProfile = resolveDesignProfile(input, 'html-deck', policylessAssets);
+  assert.equal(
+    Object.hasOwn(policylessProfile.resolved_rules, 'interface_policy'),
+    false
+  );
+  assert.deepEqual(
+    validateResolvedDesignProfile(policylessProfile, 'html-deck', policylessAssets),
+    []
+  );
+
+  const missing = structuredClone(htmlFirst);
+  delete missing.resolved_rules.interface_policy;
+  assert.deepEqual(validateJsonInstance(assets.profileSchema, missing), []);
+  assert.match(
+    validateResolvedDesignProfile(missing, 'html-deck', assets).join('\n'),
+    /deterministic resolution/
+  );
+
+  const tampered = structuredClone(htmlFirst);
+  tampered.resolved_rules.interface_policy
+    .accessible_authentication.complete_path_required = false;
+  assert.match(
+    validateResolvedDesignProfile(tampered, 'html-deck', assets).join('\n'),
+    /profile schema|deterministic resolution/
+  );
+});
+
 test('six reader jobs resolve deterministically and route all 24 public surfaces', () => {
   const routeCounts = {
     needs_direction_selection: 0,
