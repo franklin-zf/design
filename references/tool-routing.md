@@ -13,6 +13,7 @@ Design owns content framing, visual direction, and quality. Specialized tools ow
 | Calculations and chart geometry | Reproducible code or structured data tool | Block derived claims until a deterministic runtime exists |
 | DOCX/PDF extraction | Native document/PDF parser | Text extraction with visible fidelity limitations |
 | Relevant factual image | Authorized image search with source record | Generated or schematic image labeled accurately |
+| Vector icons & functional symbols | `icon-hub-mcp` (iconfont.cn & vector registry) | Inline clean SVG symbols from local catalogue |
 | Custom illustration | Image generation | Purpose-built diagram or licensed asset |
 | Process, hierarchy, relationship | Mermaid when its grammar fits | HTML/CSS diagram or editable slide shapes |
 | HTML implementation | Existing frontend stack or registered template | Self-contained HTML/CSS/JS |

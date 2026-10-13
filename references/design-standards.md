@@ -16,19 +16,28 @@ novelty. Density follows the reader job and surface. Every border, card, image,
 icon, control, and animation must earn its attention. Preserve meaning across
 HTML, PPT, screenshots, print, static, and reduced-motion fallbacks.
 
-Before selecting a template, record one Taste Contract:
+Before selecting a template, record one Taste Contract 2.0:
 
-- `visual_thesis`: the compositional point of view;
-- `content_tension`: the comparison, change, sequence, exception, scale, or
-  uncertainty that deserves first attention;
-- `signature_move`: zero or one memorable action with reader value;
-- `anti_reference`: the concrete default this content must not resemble;
-- `restraint_rule`: what is removed, repeated less, or kept quiet.
+- `visual_thesis`: the compositional point of view and specific artistic tone (e.g. industrial brutalist, modern tech craft, editorial luxury);
+- `content_tension`: the primary comparison, change, sequence, exception, scale, or
+  uncertainty that deserves first visual attention;
+- `signature_move`: zero or at most one memorable visual action with reader value (e.g. ambient specular glow, magnetic 3D tilt hover, or watermark display type);
+- `anti_reference`: the concrete default or AI slop pattern this content must not resemble (e.g. homogeneous 3-column white card grid, generic blue/purple gradient);
+- `restraint_rule`: what is removed, repeated less, or kept deliberately quiet.
 
 Generic adjectives, palette names, library names, and template ids do not satisfy
 the contract. One surface has one primary attention region. Ambient effects
 default to zero. Use type, spacing, position, grouping, and contrast before glow,
 blur, shadow, depth, or motion.
+
+When no explicit visual style is requested, apply the **Modern Craft Baseline (`default-modern-craft`)**:
+- Display Sans + Monospace pairing with negative tracking on hero titles;
+- Single accent discipline with OKLCH high-gamut tones and subtle base tint;
+- 1px specular micro-borders and 3-tier ambient soft shadows;
+- Asymmetric Bento Grid layout with optical nested radii;
+- Smooth spring physics motion with staggered reveals and full reduced-motion fallbacks;
+- Default Simplified Chinese locale: UI copy, navigation, buttons, metrics, and labels default to clear Chinese; avoid untranslated English placeholders (Lorem Ipsum) or raw machine identifiers;
+- Semantic Icon Anchors: Navigation items, KPI metrics, primary actions, and status badges must have precise vector icon anchors (sourced from iconfont.cn or inline SVGs with unified 1.5px-2px stroke, 16/20/24px grid); emojis are forbidden as functional UI icons.
 
 Use the expression ladder:
 
@@ -40,7 +49,7 @@ Use the expression ladder:
 
 Reject generic gradient/glass heroes, equal-weight card walls, fake UI or charts,
 emoji icons, filler media, tiny evidence under oversized titles, mixed component
-worlds, and repeated motion without a semantic job.
+worlds, unstyled default tables, and repeated motion without a semantic job.
 
 For responsive HTML applications and dashboards, load
 `references/web-interface-standards.md`. Its rules are explicitly classified as
@@ -118,29 +127,26 @@ note, chart, or runtime state; H5 must still inspect the final artifact.
 
 ## Typography and Color Discipline
 
-- For a concise Chinese business report without a supplied brand, start with one
-  available modern CJK sans-serif family. MiSans and Noto Sans SC are candidates,
-  not bundled fonts or universal choices. Verify actual family, glyph coverage,
-  weights, licensing, renderer availability, and the target player's fallback.
-- Use weight, size, position, and whitespace for hierarchy before adding a second
-  family. Serif/editorial or brand-specific type remains appropriate when the
-  brief calls for it; do not mix fonts simply to make the cover look different.
+- For modern digital surfaces, use fluid modular typography scale:
+  - Hero Display: `clamp(2.5rem, 4.5vw + 1rem, 5rem)`, line-height `1.05 - 1.1`, negative tracking `-0.02em ~ -0.06em`;
+  - H1 / Primary Section Title: `clamp(1.75rem, 3vw + 0.5rem, 2.75rem)`, line-height `1.15`, tracking `-0.02em`;
+  - Body Reading: 15px - 16px, line-height `1.5 - 1.6`, constrained to max reading width (600px - 720px);
+  - Metadata / Code / Metrics: 12px - 13px monospace with uppercase letter-spacing `+0.04em`.
+- Pair high-character sans-serif (Display/Sans) for editorial headlines with precise monospace for data and metrics.
+- Keep letter spacing at zero or negative for large display headlines (`-0.02em ~ -0.04em`) to prevent visual divergence, but never negative on body text.
 - Resolve color through the existing profile and its `color_contract`; never add a
   parallel palette router. Use foundation, reading, focal, semantic, and data roles
   in that order. The primary accent has one stable job. A second accent follows its
   declared mode: forbidden, marker-only, semantic support, or bounded series.
-- Additional colors require semantic work: data categories, state, accessible
-  distinctions, verified media, or supplied brand. Preserve meaning through labels,
-  geometry, position, shape, or pattern; color alone never carries a critical state.
+- Modern lighting & material discipline:
+  - Use OKLCH color space for wide-gamut vibrancy without middle-tone mud;
+  - Micro-borders: use `1px solid rgba(255,255,255,0.08)` (dark) or `1px solid rgba(0,0,0,0.06)` (light) with top-light gradient emphasis;
+  - Multi-layered soft shadows: 3-tier decay (Ambient + Direct + Contact) rather than single heavy black drop shadows;
+  - Subtle noise texture (2% SVG fractal noise overlay) on dark/gradient surfaces to eliminate digital banding.
 - Validate declared token pairings with
   `node scripts/validate-color-system.mjs .`, then inspect the actual rendered
   surface. Token contrast does not prove contrast over imagery, transparency,
   gradients, blend modes, or interactive states.
-- Use `references/color-system.md` for source priority, the six color paradigms,
-  accent boundaries, data color, dark-surface rules, and review failures.
-- Keep letter spacing at zero. Verify actual px/pt and font substitution in the
-  final renderer. Missing fonts are a delivery risk, not resolved by declaring a
-  family name in CSS or OOXML.
 
 ## Non-negotiable standards
 

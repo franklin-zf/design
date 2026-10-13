@@ -1,0 +1,24 @@
+{
+  "name": "@design/icon-hub-mcp",
+  "version": "1.0.0",
+  "description": "Multi-source Vector Icon Retrieval, Normalization, and MCP Server for Design Workflows",
+  "type": "module",
+  "main": "src/index.mjs",
+  "bin": {
+    "icon-hub": "bin/icon-hub.mjs"
+  },
+  "scripts": {
+    "start": "node src/index.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "icons",
+    "svg",
+    "iconfont",
+    "lucide",
+    "design-system"
+  ],
+  "author": "Aime Design Team",
+  "license": "MIT"
+}

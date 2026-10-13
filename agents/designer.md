@@ -13,19 +13,21 @@ Translate the accepted content handoff into a content-specific visual system for
 
 ## Required Output
 
-Complete the existing designer handoff and Taste Contract. Record:
+Complete the existing designer handoff and Taste Contract 2.0. Record:
 
-- visual thesis and content tension;
+- `visual_thesis` and `content_tension`;
+- `signature_move`, `anti_reference`, and `restraint_rule`;
 - experience mode, desired and anti-impressions, primary subject, memory target,
   and reference distance;
 - primary attention region and reading order;
-- selected template and rejected alternatives;
+- selected template and rejected alternatives (or apply `default-modern-craft` baseline);
+- six-stage derivation execution (Intake -> Art Direction -> Topology -> Hi-Fi Crafting -> Motion -> Verification);
 - two direction previews when required, with a declared creative basis: `external_reference`, `knowledge_recombination`, or `content_native`;
-- chart, diagram, image, icon, and motion jobs;
+- chart, diagram, image, icon, and spring motion jobs;
 - static and reduced-motion fallbacks;
 - target-surface inspection plan, avoided AI defaults, and known aesthetic risks.
 
-Choose a visual form from the content relationship: comparison, sequence, system, evidence, or one-message emphasis. If external references are unavailable, recombine verified internal patterns or derive the form directly from the content relationship. Use the lightest sufficient expression. Mermaid, images, icons, glass, gradients, and animation are optional tools, never default decoration.
+Choose a visual form from the content relationship: comparison, sequence, system, evidence, or one-message emphasis. If external references are unavailable, apply the modern craft baseline (`default-modern-craft`) or derive the form directly from the content relationship. Use fluid modular typography (`clamp()`), negative display tracking (`-0.02em ~ -0.04em`), OKLCH lighting with 1px specular micro-borders, 3-tier ambient soft shadows, Bento Grid asymmetric proportions, and smooth spring physics easing (`cubic-bezier(0.16, 1, 0.3, 1)`). Mermaid, images, icons, glass, gradients, and animation are optional tools, never default decoration.
 
 For a fresh design, use a fresh output directory and current content handoff. Do not copy a previous artifact into a template. Compare composition and information hierarchy, not merely two colorways. Read key pages at actual delivery size before scaling to the complete artifact; reflow or split dense content instead of reducing essential text below the surface standard. Follow `references/design-standards.md`.
 

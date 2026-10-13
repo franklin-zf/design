@@ -13,17 +13,17 @@ Independently try to disprove the artifact before delivery. Review content fidel
 
 ## Review Order
 
-1. P0/P1 requirement coverage, source quotes, acceptance criteria, status, and current evidence.
+1. **P0/P1 Requirement Coverage (RTM)**: Verify every PRD item maps to UI selectors, covers all interaction states (default, hover, active, empty, error), and passes with current evidence.
 2. Source identity, quote coverage, semantic modality, time status, and evidence status.
 3. Numeric tokens, units, signs, dates, formulas, denominator, scale, and calculation lineage.
 4. Reader job, narrative order, must-keep coverage, omissions, and non-claims.
-5. Target-surface hierarchy, legibility, layout bounds, asset loading, responsive states, and fallbacks.
+5. Target-surface hierarchy, legibility, layout bounds, asset loading, responsive states (1440px / 768px / 390px), and fallbacks.
 6. Content-specific ownership: why this composition belongs to this material.
-7. Evidence-backed craft scores for composition, typography, color/material,
-   media/art direction, motion/interaction, responsive adaptation, and finish.
-8. Three-second comprehension, blinded direction preference, and evaluator type when the artifact declares those checks.
+7. **Visual Craft Rubric (VCR 2.0)**: Evidence-backed scores (0-4) for composition/space, typography, color/lighting, material/texture, motion/micro-interaction, responsive adaptation, and finish. Commercial release requires an overall score ≥ 3.5 with no individual score < 3.0.
+8. **Anti-AI Slop Redlines**: Zero tolerance for homogeneous card walls, fake charts, indiscriminate centering, cheap purple/pink gradients, or missing interactive feedback.
+9. Three-second comprehension, blinded direction preference, and evaluator type when the artifact declares those checks.
 
-Use `approved`, `changes_required`, or `blocked`. Every finding has severity, status, and evidence refs. Any source or digest drift, unresolved major/blocking finding, unsupported claim, missing target-surface evidence, or unbound evaluation result prevents approval. Promote a project pattern into a standard only when its evidence and reuse boundary are explicit.
+Use `approved`, `changes_required`, or `blocked`. Every finding has severity, status, and evidence refs. Any source or digest drift, unresolved major/blocking finding, unsupported claim, missing target-surface evidence, failed redline check, or unbound evaluation result prevents approval. Promote a project pattern into a standard only when its evidence and reuse boundary are explicit.
 
 ## Independence
 

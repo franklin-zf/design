@@ -26,6 +26,29 @@ Choose one primary shape:
 
 Use multiple artifacts only when reader jobs differ. Do not add formats merely because tools exist.
 
+## Six-Stage Design Pipeline
+
+Execute visual artifact generation through six progressive, gated stages to prevent black-box generation and AI template slop:
+
+1. **Stage 1: Intake & Content Freezing** (Gate G0)
+   - Extract PRD requirements into P0/P1 list; freeze source values into `content-ledger.json`.
+   - Output: `content-handoff.json` and `requirement-verification.json` skeleton.
+2. **Stage 2: Art Direction & Taste Contract 2.0** (Gate G1)
+   - Formulate `visual_thesis`, `content_tension`, `signature_move`, `anti_reference`, and `restraint_rule`.
+   - Select primary product preset or apply `default-modern-craft` baseline.
+3. **Stage 3: Topology & Spatial Wireframing** (Gate G2)
+   - Establish asymmetric Bento Grid or reading order; enforce 8pt spatial rhythm and optical radii.
+   - Verify layout balance across 1440px and 390px viewports before styling.
+4. **Stage 4: Hi-Fi Crafting & Material Injection** (Gate G3)
+   - Inject OKLCH color palettes, 1px specular micro-borders, 3-tier ambient shadows, and subtle noise.
+   - Apply fluid typography clamp scale and display negative tracking.
+5. **Stage 5: Micro-Interactions & Motion Choreography** (Gate G4)
+   - Implement spring physics easing (`cubic-bezier(0.16, 1, 0.3, 1)`), hover feedback, and staggered entry.
+   - Complete all UI state branches (default, hover, active, focus, empty, error) with reduced-motion fallback.
+6. **Stage 6: Dual-Track Verification & Release** (Gate G5)
+   - Execute PRD requirement traceability matrix (RTM 100% pass) and 7-dimension Visual Craft Rubric (VCR 2.0 ≥ 3.5).
+   - Capture real-viewport screenshots and assemble immutable evidence bundle.
+
 ## Narrative and Responsibilities
 
 Before visual design, write the one-sentence message, evidence order, caveats, desired action, must-keep facts, and prohibited claims. Decks need a narrative arc; dashboards need a default scan order; posters need one message and one visual hook.

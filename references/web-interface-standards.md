@@ -32,19 +32,21 @@ Apply shape by role:
 
 | Element | Default treatment | Boundary |
 | --- | --- | --- |
-| Page bands, table grids, split panes, joined controls | Square joined edges or the smallest preset radius | Do not create gaps or false separation |
-| Dense operational containers | `0-6px`, bounded by the resolved preset | Preserve scan density and row continuity |
-| Buttons, inputs, menus, compact cards | Use one token from the resolved scale | Keep peer controls geometrically consistent |
-| Large low-density cards, dialogs, onboarding surfaces | Moderate radius within the resolved preset cap | Larger radius needs a calm, approachable product intent |
-| Status chips, tags, toggles, avatars | Pill or circular form is allowed | Do not turn ordinary text buttons, tabs, or filters into pills |
+| Page bands, table grids, split panes, joined controls | Square joined edges or `0px` | Do not create gaps or false separation |
+| Dense operational containers / high-density tables | `0-6px`, bounded by resolved preset | Preserve scan density and row continuity |
+| Buttons, inputs, menus, compact cards | `6-8px` token from resolved scale | Keep peer controls geometrically consistent |
+| Large low-density cards, dialogs, Bento Grid containers | `12-16px` within resolved preset cap | Linear uses `12px`, Stripe uses `16px`; separate surface from background |
+| Status chips, tags, toggles, avatars | Pill (`9999px`) or circular form is allowed | Do not turn ordinary text buttons, tabs, or filters into pills |
 
-When rounded surfaces are nested, avoid identical inner and outer radii. Preserve
-optical spacing by reducing the inner radius relative to its inset. Use unusual
-shapes sparingly and never on text-heavy or evidence-dense containers.
+Optical Nested Radius Rule:
+- When rounded surfaces are nested, maintain optical concentricity:
+  $$\text{Radius}_{\text{inner}} = \text{Radius}_{\text{outer}} - \text{Padding}$$
+- E.g., if outer card radius is `12px` and padding is `8px`, inner element radius must be `4px`.
+- Never use identical inner and outer radii when nested (causes corner distortion and pinched borders).
 
 Reject:
 
-- universal rounding;
+- universal rounding (everything 16px/24px);
 - radius chosen only to look modern;
 - large rounded cards repeated for every paragraph or table row;
 - nested cards with equal radius;
@@ -88,11 +90,15 @@ and [Nielsen Norman usability heuristics](https://www.nngroup.com/articles/ten-u
 
 `product_default`
 
-- Use one finite spacing scale from the selected design system. Do not introduce
+- Use the 8pt dynamic scale: `[4, 8, 12, 16, 24, 32, 48, 64, 96, 128px]`. Do not introduce
   arbitrary per-element gaps to repair individual screens.
 - Keep within-group gaps smaller than between-group gaps.
 - Let parent layout own spacing; avoid stacked child margins and separator lines
   when spacing already communicates the grouping.
+- Containerless Design: prioritize whitespace, alignment anchors, and typography contrast
+  to group content before wrapping every element in bordered boxes.
+- Bento Grid Composition: use asymmetric ratios (e.g. 2:1 or 1.618 golden ratio) for
+  primary vs secondary visual containers rather than flat 1:1:1 columns.
 - White space must create focus, grouping, or reading rest. Large unused regions
   beside compressed text are imbalance, not restraint.
 - Use compact density only for repeated expert work, and do not reduce target size,
@@ -113,9 +119,13 @@ Source: [Carbon spacing](https://carbondesignsystem.com/guidelines/spacing/overv
 - Normal text must reach 4.5:1 contrast; large text may use 3:1. Meaningful control
   boundaries, icons, and state indicators require 3:1 against adjacent colors.
 - Color must not be the only state channel.
+- Fluid Typography: for responsive web experiences, use `clamp()` for headline hierarchy:
+  - Hero: `clamp(2.5rem, 4vw + 1rem, 4.5rem)` with tracking `-0.03em`;
+  - H1: `clamp(1.75rem, 2.5vw + 0.5rem, 2.75rem)` with tracking `-0.02em`;
+  - Body: 16px (1rem), line-height 1.5 - 1.6, max reading width 650px.
+- Pair Sans-serif for narrative text and Monospace for data metrics and badges.
 - Essential HTML reading text starts at 16 CSS px. Supporting operational text
   starts at 14px. `12-13px` is limited to non-critical metadata on desktop.
-- Do not scale font size with viewport width.
 - Preserve content and function when users enlarge text to 200 percent.
 - Preserve content and function when users override line height to 1.5, paragraph
   spacing to 2em, letter spacing to 0.12em, and word spacing to 0.16em. These are
@@ -200,6 +210,17 @@ inertness, close, and focus restoration on every declared viewport.
 Sources: [WAI-ARIA 1.2 aria-modal](https://www.w3.org/TR/wai-aria-1.2/#aria-modal)
 and the authoritative but non-normative
 [WAI-ARIA APG modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+## Language And Iconography
+
+`product_default`
+
+- **Language Default**: User-facing interfaces default to Chinese (Simplified). Navigation, metric cards, action buttons, table headers, empty states, and validation messages must be fully localized in natural Chinese; avoid untranslated English placeholders (e.g. "Lorem Ipsum", "Submit", "Filter") unless the user explicitly requested a multilingual or English interface.
+- **Iconography System**:
+  - Functional Visual Anchors: Key interactive and informational elements (navigation tabs, metric cards, primary CTA buttons, category badges, empty state illustrations) must carry matching vector icons.
+  - Sourcing: Source vector icons from [iconfont.cn](https://www.iconfont.cn/) or clean inline SVG symbol libraries (e.g. Lucide / Tabler / Phosphor style).
+  - Geometry & Stroke: Icons in the same surface must share consistent stroke width (1.5px or 2px), unified viewBox (e.g. 24x24), and proportional sizes (`16px`, `20px`, `24px`, or `32px`).
+  - Semantic Alignment: Icons must reinforce semantic meaning (e.g. search, trend up, filter, alert, user, settings); do not use informal emojis as primary UI icons.
 
 ## Errors, Status, And Recovery
 
@@ -319,6 +340,11 @@ Purpose: prevent overlays, motion, and time from hiding or interrupting the task
 - Suppress non-essential interaction-triggered motion by default without losing
   information or function; reduced motion is one sufficient route, not the only
   mandated implementation.
+- Spring Physics & Micro-Interactions (`product_default`):
+  - Use spring easing curves: `cubic-bezier(0.16, 1, 0.3, 1)` for smooth damping, or `cubic-bezier(0.34, 1.56, 0.64, 1)` for subtle tactile snap;
+  - Interactive hover states: subtle scaling (`scale(1.01)`), specular edge highlight, or radial ambient glow tracker on cursor focus;
+  - Staggered entry: sequence page load or section entry elements with 40-60ms staggered delay for rhythmic perception;
+  - Always pair with `@media (prefers-reduced-motion: reduce)` to immediately collapse all transitions to instant static rendering.
 
 Boundaries: hover or focus rules exclude unmodified user-agent content,
 focus-revealed controls, and modals; dismissal without moving the trigger is not

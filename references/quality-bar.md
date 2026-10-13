@@ -78,13 +78,21 @@ Assured completion reports proven and external limits: validation cannot prove s
   uncertainty remain visible. A source quote is not rewritten to satisfy a blacklist.
 
 Candidate-ready review uses `design-reviewer-record/v4` and
-`design-craft-rubric/v1`. Score composition, typography, color/material,
-media/art direction, motion/interaction, responsive adaptation, and finish from
+`design-craft-rubric/v1` (VCR 2.0). Score composition/space, typography, color/lighting,
+material/texture, motion/micro-interaction, responsive adaptation, and finish from
 0 to 4. `0` is absent or seriously broken; `1` is visibly defective; `2` is
 usable but generic or unfinished; `3` is commercially deliverable; `4` is
-content-owned and exceptionally resolved. Only motion/interaction may be
-`not_applicable` for a deliberately static artifact. Every score and ownership
-judgment binds a real screenshot or target-player evidence file.
+content-owned and exceptionally resolved (Muzli/Awwwards grade). High-end release
+requires an overall score of at least 3.5 with no individual dimension below 3.0.
+Only motion/interaction may be `not_applicable` for a deliberately static artifact.
+Every score and ownership judgment binds a real screenshot or target-player evidence file.
+
+Anti-AI Slop Redlines (Automatic Failure):
+- Homogeneous card walls (≥ 4 identical rounded boxes in a flat grid);
+- Fake UI / fake charts without data logic;
+- Indiscriminate center alignment across body text and lists;
+- Cheap generic purple/pink high-saturation gradients;
+- Interactive elements without hover/active/focus state feedback.
 
 Weighted averages are for comparison only. They never compensate for a failed
 requirement, task, accessibility, privacy, obstruction, craft, or ownership gate.
