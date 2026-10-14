@@ -75,6 +75,12 @@ Sources: [Material shape](https://m3.material.io/styles/shape/corner-radius-scal
   elevation, or color.
 - Make an action's visual label match what activating it does. Selection controls
   must not look like direct commands.
+- Single-Truth Context Protocol: Context information (task title, entity ID, source quotes) must be declared
+  once in a compact breadcrumb or header, and must not be duplicated across child evidence cards.
+- Diff-First Principle for Review/Audit: In comparison or review cockpits, anchor the visual center with a unified
+  Conflict Diff hero container rather than scattering claims and facts across separate equal-weight cards.
+- Focal Weight Budget: Ensure the primary focal container commands at least 40% of first-scan visual weight;
+  stacking more than 3 equal-weight rectangular cards without a clear focal anchor is forbidden.
 - Every additional block competes with the primary task; remove any block whose
   reader job cannot be named.
 

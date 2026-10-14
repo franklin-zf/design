@@ -37,6 +37,8 @@ When no explicit visual style is requested, apply the **Modern Craft Baseline (`
 - 1px specular micro-borders and 3-tier ambient soft shadows;
 - Asymmetric Bento Grid layout with optical nested radii;
 - Anti-bleeding Inset Depth: Floating controls inside cards maintain ≥12px safe padding from borders, paired with surface elevation ramps (ΔL ≥ 3%) and tactile inset shadows;
+- Anti-Repetition & Single Truth: Context metadata (titles, entity IDs, quotes) appears exactly once in the primary view; avoid duplicate copies across headers, cards, and summaries;
+- Focal Weight Budget: Define exactly one primary visual focal area (≥40% visual weight via scale, high-contrast OKLCH tint, or Diff view); reject equal-weight card walls;
 - Smooth spring physics motion with staggered reveals and full reduced-motion fallbacks;
 - Default Simplified Chinese locale: UI copy, navigation, buttons, metrics, and labels default to clear Chinese; avoid untranslated English placeholders (Lorem Ipsum) or raw machine identifiers;
 - Semantic Icon Anchors: Navigation items, KPI metrics, primary actions, and status badges must have precise vector icon anchors (sourced from iconfont.cn or inline SVGs with unified 1.5px-2px stroke, 16/20/24px grid); emojis are forbidden as functional UI icons.

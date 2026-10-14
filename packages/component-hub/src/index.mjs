@@ -29,6 +29,16 @@ export const COMPONENT_CATALOG = [
     description: '卡片内嵌操作控件布局模板，严格保障 ≥12px Inset Padding、明度差与 1px 微边框。'
   },
   {
+    id: 'evidence-diff-hero',
+    name: '去重证据对比核心看板 (Evidence Diff Hero Container)',
+    category: 'audit-review',
+    target_library: 'Semi Design & Tremor',
+    anti_bleeding_level: 'L3-Diff-Focus',
+    file: 'evidence-diff-hero.html',
+    tags: ['diff', 'audit', 'review', 'evidence', '去重', '审核', '质检', '对比看板'],
+    description: '单点真理与强重心证据比对看板，合并 ASR/OCR/商品卡，高亮宣称事实与挂载事实冲突点。'
+  },
+  {
     id: 'kpi-metric-card',
     name: 'Bento KPI 指标数据卡片 (KPI Metric Card)',
     category: 'metrics',
