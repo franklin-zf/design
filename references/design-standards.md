@@ -24,7 +24,11 @@ Before selecting a template, record one Taste Contract 2.0:
 - `signature_move`: zero or at most one memorable visual action with reader value (e.g. ambient specular glow, magnetic 3D tilt hover, or watermark display type);
 - `shot_reference`: explicit inspiration anchor selected from Dribbble popular shots or visual recipes (defining layout topology, OKLCH palette, and material formula);
 - `anti_reference`: the concrete default or AI slop pattern this content must not resemble (e.g. homogeneous 3-column white card grid, generic blue/purple gradient);
-- `restraint_rule`: what is removed, repeated less, or kept deliberately quiet.
+- `restraint_rule`: what is removed, repeated less, or kept deliberately quiet, explicitly enforcing the Anti-Visual-Fill Principle (e.g. omitting out-of-scope metrics, refusing filler cards just to force 4-grid/6-grid symmetry).
+
+**Contextual Semantic Fitness & Scope Filtering Protocol**:
+- **Anti-Visual-Fill Principle**: Display only authentic metrics and elements that strictly belong to the current context and hierarchy level. If the source supplies only 3 valid metrics for the current scope, use a 3-column / 3-cell layout (e.g., `grid-cols-3` or asymmetric Bento grid); never mechanically stitch or borrow unrelated business nouns (e.g. adding "模型准召率" to a general workspace Hero Banner) merely to pursue 4-card or 6-card symmetrical grid symmetry. Aesthetic symmetry must never compromise semantic fitness.
+- **Scope Filtering Principle**: When consuming upstream `content-handoff.json`, strictly match and filter by `context_scope`. Reject rendering metrics, facts, or controls that belong to different scopes or child views.
 
 Generic adjectives, palette names, library names, and template ids do not satisfy
 the contract. One surface has one primary attention region. Ambient effects
@@ -71,11 +75,11 @@ They are distinct from the L0/L1/L2 static, interaction, and motion levels.
 | Layer | Decision and owner | Existing place to record it | Acceptance |
 | --- | --- | --- | --- |
 | H0 Product requirements | Request owner and Reviewer define what is promised, excluded, and how it will be proven | Design brief and `requirement-verification.json` | Every P0/P1 item has source, acceptance criteria, current evidence, and `passed` status |
-| H1 Truth and meaning | Poster preserves facts, numerical bindings, time status, questions, and exclusions | Source ledger and content handoff | Exact values and code-derived results remain traceable; plans never become actuals |
-| H2 Reader and narrative | Poster defines the audience's takeaway, evidence order, and unresolved decisions | Reader job, message, content units, visual priority | Finished business language; primary evidence and material caveats survive reduction |
-| H3 Visual system | Designer selects the language-appropriate type family, color roles, density, and spacing | Taste Contract, existing profile and tokens | One coherent system, verified fonts, restrained accent, legible hierarchy |
-| H4 Composition and media | Designer makes comparison, sequence, hierarchy, and magnitude visible | Reading order, slide/poster plan, media and chart contracts | Source-supported geometry and connections; each visual earns its space |
-| H5 Delivery quality | Reviewer checks the actual export and the audience experience | Existing review and render evidence | No obstruction or leakage of production notes; content, surface, and human evidence are reported separately |
+| H1 Truth and meaning | Poster preserves facts, numerical bindings, time status, questions, exclusions, and context scope | Source ledger and content handoff | Exact values and code-derived results remain traceable; context scope is preserved; plans never become actuals |
+| H2 Reader and narrative | Poster defines the audience's takeaway, evidence order, context scope, and unresolved decisions | Reader job, message, content units, visual priority | Finished business language; primary evidence and material caveats survive reduction; scope boundaries are respected |
+| H3 Visual system | Designer selects type, color, density, spacing, and enforces Defensive CSS Layout Protocol | Taste Contract, existing profile and tokens | One coherent system, verified fonts, restrained accent, legible hierarchy, `min-w-0` truncation, and structured grids |
+| H4 Composition and media | Designer makes comparison, sequence, hierarchy, and composite control layering visible | Reading order, slide/poster plan, media and chart contracts | Source-supported geometry, scope-matched grid counts (no filler cards), two-tier composite controls; each visual earns space |
+| H5 Delivery quality | Reviewer checks the actual export, boundary constraints, extreme content stress, and audience experience | Existing review and render evidence | No obstruction, no button ejection, no overflow; extreme text truncates cleanly; content, surface, and human evidence reported separately |
 
 Resolve meaning before styling, styling before decorative effects. This order does
 not make lower layers optional: accurate content with overlap still fails. User
@@ -152,15 +156,39 @@ note, chart, or runtime state; H5 must still inspect the final artifact.
   surface. Token contrast does not prove contrast over imagery, transparency,
   gradients, blend modes, or interactive states.
 
+## Defensive Layout and Container Protocol
+
+All responsive HTML, dashboard, and web interface implementations must strictly enforce the **Defensive CSS Layout Protocol** as a non-negotiable hard floor to prevent container blowouts, content overlapping, and button ejections:
+
+### 1. Flex Elastic Truncation Law (`min-w-0` + `truncate`)
+- Every Flex child item containing dynamic text, `<select>` dropdowns, user input fields, or tag chips must explicitly declare `min-w-0` and text truncation classes (`truncate` or `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`).
+- *Technical cause*: In CSS Flexbox, child elements default to `min-width: auto`. This prevents children from shrinking below their intrinsic text/content width. Without `min-w-0`, dynamic long names (such as 50+ character entity titles or database table paths) or wide `<select>` elements expand indefinitely, pushing sibling buttons and controls outside the container boundaries.
+- *Standard implementation*: Always pair dynamic text in flex containers with `min-w-0 flex-1 truncate` or equivalent CSS properties (`min-width: 0; flex: 1 1 0%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`).
+
+### 2. Composite Control Layering Principle (Two-Tier Card Layout)
+- Any composite control combining "Selection Dropdown / Search Input + Trigger Action Buttons" (e.g., table selector + batch operations / refresh buttons) **must use a vertically layered card structure** (`flex-col gap-2.5`):
+  - **Top Tier (Header & Actions)**: Title/label on the left, action buttons aligned on the right or spread evenly;
+  - **Bottom Tier (Selector / Input)**: Full-width `<select>` or search input (`w-full`) underneath.
+- *Strict prohibition*: Placing a dynamic `<select>` side-by-side with fixed action buttons in an unisolated single horizontal flex row is strictly forbidden. Long option strings will inevitably compress or eject action buttons outside cards in width-constrained views.
+
+### 3. Fixed-Width Sidebar Grid Law (`grid-cols-2` / `grid-cols-3`)
+- Inside all fixed-width containers (width ≤ 400px, such as sidebars, queue panels, inspection drawers), button groups must use an equal-width structured CSS Grid (e.g., `grid grid-cols-2 gap-2` or `grid grid-cols-3 gap-2`).
+- *Strict prohibition*: Relying on free-flowing `flex-wrap` in narrow or fixed-width containers is strictly forbidden, as variable button label lengths cause ragged multi-row wrapping, button clipping, height collapse, or lateral container overflow.
+
+### 4. Anti-Visual-Fill Grid Protocol
+- Grid column counts must strictly match the authentic count of scoped metrics. For 3 metrics, use `grid-cols-3` or 2+1 Bento proportion; do not force 4-column grids with fabricated filler metrics.
+
 ## Non-negotiable standards
 
 1. Preserve source values, units, dates, names, signs, uncertainty, and claim strength.
 2. Compute derived values with executable code and retain the calculation receipt.
 3. State the reader job before choosing a visual form, preset, or template.
 4. Use one visual system and one primary attention region per surface.
-5. Make the complete L0 static state understandable before adding interaction or motion.
-6. Give every chart, image, icon, diagram, and animation a named content job and fallback.
-7. Inspect the real target surface; structural validation alone never proves taste.
+5. Filter upstream content by declared `context_scope`; enforce Anti-Visual-Fill and contextual semantic fitness.
+6. Enforce Defensive CSS Layout Protocol (`min-w-0`, two-tier composite controls, sidebar button grids).
+7. Make the complete L0 static state understandable before adding interaction or motion.
+8. Give every chart, image, icon, diagram, and animation a named content job and fallback.
+9. Inspect the real target surface against extreme content stress; structural validation alone never proves taste.
 
 ## Creative rule
 
@@ -246,7 +274,7 @@ comprehension or preference. External references are optional, not a repair step
 ## No-Obstruction Gate
 
 No text, value, comparator, label, connector, or control may obscure other content.
-Check clipping and text-to-container fit as well as pairwise intersections. Shrinking
+Check clipping, text-to-container fit, container boundary containment, and pairwise intersections. Shrinking
 essential type, hiding content, adding opaque masks, or suppressing warnings is not
 a fix. Reflow, shorten an approved summary, move the connector, enlarge its region,
 or split the page while retaining bindings and reading order.
@@ -256,6 +284,10 @@ or split the page while retaining bindings and reading order.
   slides. HTML screenshots do not establish native PPTX or target-player behavior.
 - HTML: inspect actual loaded fonts and all declared viewport/state combinations,
   including disclosure, focus, sticky elements, print, and reduced motion when used.
+  Perform **Target Surface Extreme Content Stress Inspection**:
+  - Test dynamic text, `<select>` options, entity titles, and tag chips with 50+ character strings to verify that `min-w-0` and truncation classes (`truncate`) prevent container blowout;
+  - Verify that no element bounding box exceeds its parent container and no action buttons or controls are pushed outside cards or panels;
+  - Verify zero unexpected horizontal scrolling (`scrollWidth > clientWidth`) on page-level or panel-level containers.
 - Poster: inspect at the delivery size and intended viewing distance, not just a
   thumbnail; a fixed poster may need zoom rather than shrinking to a phone.
 

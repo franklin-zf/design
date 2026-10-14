@@ -77,11 +77,11 @@ Use a dashboard when the reader needs to monitor, diagnose, or explore a recurri
 Dashboard model:
 
 1. primary outcome;
-2. hero KPIs;
+2. hero KPIs (strictly scope-bound: if 3 valid KPIs exist for this context, use 3 cards in `grid-cols-3` or Bento layout; never fabricate a 4th KPI solely for 4-grid symmetry);
 3. movement over time;
 4. breakdowns and drivers;
 5. guardrails;
-6. filters;
+6. filters and composite controls (enforcing two-tier card layout and `min-w-0` truncation);
 7. detail table;
 8. source freshness and caveats.
 
@@ -89,7 +89,7 @@ Add the guidance record to the default view or its metadata. A dashboard that
 shows movement but has no decision, owner, trigger, or next check is a monitor,
 not a decision guide.
 
-The default view must be useful before the user interacts.
+The default view must be useful before the user interacts. Hero KPI cards and overview widgets must enforce the **Anti-Visual-Fill Principle**: metrics must strictly belong to the current host view context without mechanical borrowing across child entities or subsystems.
 
 ## Operational Surface Defaults
 
@@ -110,7 +110,7 @@ action, selection, and focus while green, amber, and red retain positive, warnin
 and danger meaning.
 
 Bind these four H0 requirements as `VIS-ALIGN`, `VIS-LOCALE`, `VIS-ICON`, and
-`VIS-COLOR`. Verify default, densest, error, and 1440/390/320 states with current
+`VIS-COLOR`. All operational sidebars (≤400px), composite filter bars, and card panels must strictly enforce the Defensive CSS Layout Protocol (`min-w-0` on dynamic flex children, two-tier card layout for select/search + action buttons, and structured `grid-cols-2`/`grid-cols-3` for sidebar button groups). Verify default, densest, error, and 1440/390/320 states with current
 render evidence and separate Reviewer v4 checks.
 
 ## Source Rules

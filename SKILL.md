@@ -25,12 +25,12 @@ Make the right conclusion easy to see without changing the source. Resolve confl
    preset, and one production design system. The existing design-profile resolver
    remains the only routing authority. Compare two independent structures only
    when direction is genuinely open; history and recipe variations are opt-in.
-3. **Build** the complete static state first. Prove the first viewport, densest
+3. **Build** the complete static state first. Enforce the **Defensive CSS Layout Protocol** (`min-w-0` truncation on dynamic flex children, two-tier card layout for select/search + action buttons, and structured `grid-cols-2`/`grid-cols-3` for sidebar button groups). Prove the first viewport, densest
    content, critical error, and narrow screen with real content and final-grade
    assets, then expand the full artifact. Add interaction or motion only for a
    named reader task. Keep one icon family and local, licensed assets.
 4. **Verify** non-compensating Requirement/Truth, Function, Surface, Craft, and
-   Ownership gates on the real target surface. Bind P0/P1 evidence, require
+   Ownership gates on the real target surface. Inspect under **Target Surface Extreme Content Stress** (50+ char strings, zero button ejection, zero overflow). Bind P0/P1 evidence, require
    Reviewer v4 craft and operational checks where applicable, then hand off exact
    paths, `Lane`, `Proven`, `Not proven`, and the smallest `Next` action.
 
@@ -45,14 +45,14 @@ Record five content-specific decisions:
 ```json
 {
   "visual_thesis": "What the composition must make clear",
-  "content_tension": "The contrast, hierarchy, or change that must become visible",
+  "content_tension": "The contrast, hierarchy, or change that must become visible within the current context_scope",
   "signature_move": "At most one memorable visual action and its reader value",
-  "anti_reference": "What this must not resemble and why",
-  "restraint_rule": "What stays deliberately quiet or is removed"
+  "anti_reference": "What this must not resemble and why (e.g. generic card walls, visual fill bias)",
+  "restraint_rule": "What stays deliberately quiet, removed, or filtered by scope (e.g. Anti-Visual-Fill: refusing filler metrics to force 4-grid symmetry)"
 }
 ```
 
-Generic adjectives, palette names, preset ids, and library names do not satisfy the contract. Keep one visual system, one primary attention region per surface, and at most one signature move. Reject decorative component collages, filler media, fake screenshots, and motion without a semantic job.
+Generic adjectives, palette names, preset ids, and library names do not satisfy the contract. Keep one visual system, one primary attention region per surface, and at most one signature move. Reject decorative component collages, filler media, fake screenshots, out-of-scope metric stitching (Visual Fill Bias), and motion without a semantic job.
 
 ## Risk Lanes
 

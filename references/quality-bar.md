@@ -4,9 +4,9 @@
 
 | Gate | Pass condition |
 | --- | --- |
-| G0 Requirement and Truth | Every P0/P1 requirement is passed with current evidence; source values and meaning are unchanged; derived values are code-produced and traceable |
+| G0 Requirement and Truth | Every P0/P1 requirement is passed with current evidence; source values and meaning are unchanged; derived values are code-produced and traceable; contextual semantic fitness is verified (metrics strictly match declared `context_scope`, zero visual-fill bias) |
 | G1 Function and Utility | Core tasks complete; states, navigation, feedback, answer, evidence, caveats, and action support the named reader job |
-| G2 Surface | The real target surface has no placeholder, overflow, overlap, missing asset, unreadable text, or broken state |
+| G2 Surface | The real target surface has no placeholder, overflow, overlap, missing asset, unreadable text, or broken state; Defensive CSS Layout Protocol is satisfied with zero container boundary breach, zero button ejection, and verified 50+ character truncation |
 | G3 Craft | Every applicable craft dimension has evidence and scores at least 3/4 |
 | G4 Ownership | Content specificity, visual-world coherence, and memorable element each score at least 3/4 |
 | G5 Perception | Three-second, blinded-preference, or observed-user evidence is reported according to the calibrated policy without overstating evaluator type |
@@ -62,15 +62,15 @@ Assured completion reports proven and external limits: validation cannot prove s
 
 ## Visual Review Rubric
 
-- **Content fit**: shape and density match material and reading mode.
+- **Content fit & Contextual Semantic Fitness**: shape, density, and metrics match material, reading mode, and declared `context_scope`; zero visual-fill bias.
 - **Hierarchy**: answer, evidence, caveats, and sources have distinct priority.
 - **Ownership**: composition follows this content, not a generic template.
-- **Typography**: text is legible, wrapped, and sized for target language and surface.
+- **Typography & Defensive Layout**: text is legible, wrapped, and sized for target language and surface; `min-w-0` and truncation classes (`truncate`) protect flex items; composite controls use two-tier vertical cards; sidebar button groups use structured grids; zero element or button ejection beyond container boundaries.
 - **Color**: follows the resolved `color_contract`; foundation, focal, semantic,
   and data roles remain distinct; declared pairings and actual rendered states are
   accessible; critical meaning never depends on color alone.
 - **Media**: every image, icon, diagram, and motion element has a content job.
-- **Responsiveness**: declared narrow states remain readable and non-overlapping.
+- **Responsiveness**: declared narrow states remain readable and non-overlapping; no unexpected horizontal scroll.
 - **Fallback**: static and reduced states preserve meaning.
 - **Finish**: no placeholder, internal note, empty frame, broken asset, or accidental style remains.
 - **Audience copy**: captions, chart/table labels, speaker notes, and default states
@@ -87,7 +87,9 @@ requires an overall score of at least 3.5 with no individual dimension below 3.0
 Only motion/interaction may be `not_applicable` for a deliberately static artifact.
 Every score and ownership judgment binds a real screenshot or target-player evidence file.
 
-Anti-AI Slop Redlines (Automatic Failure):
+Anti-AI Slop & Defensive Layout Redlines (Automatic Failure):
+- Visual Fill Bias: mechanically adding out-of-scope metrics to force 4-grid/6-grid symmetry;
+- Defensive Layout Failures: unisolated single-row `<select>` + action buttons causing button ejection, missing `min-w-0` on dynamic flex children, ragged `flex-wrap` button groups in ≤400px sidebars, horizontal container blowout;
 - Homogeneous card walls (≥ 4 identical rounded boxes in a flat grid);
 - Fake UI / fake charts without data logic;
 - Indiscriminate center alignment across body text and lists;

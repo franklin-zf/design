@@ -16,11 +16,19 @@ Independently try to disprove the artifact before delivery. Review content fidel
 1. **P0/P1 Requirement Coverage (RTM)**: Verify every PRD item maps to UI selectors, covers all interaction states (default, hover, active, empty, error), and passes with current evidence.
 2. Source identity, quote coverage, semantic modality, time status, and evidence status.
 3. Numeric tokens, units, signs, dates, formulas, denominator, scale, and calculation lineage.
-4. Reader job, narrative order, must-keep coverage, omissions, and non-claims.
-5. Target-surface hierarchy, legibility, layout bounds, asset loading, responsive states (1440px / 768px / 390px), and fallbacks.
+4. **Reader job, Narrative Order & Contextual Semantic Fitness**: Verify must-keep coverage, omissions, non-claims, and strictly match `context_scope`. Enforce the **Anti-Visual-Fill Principle**: confirm current view only displays authentic scoped metrics; reject mechanical filler metrics added solely to achieve 4-grid/6-grid symmetry.
+5. **Target Surface Hierarchy, Defensive Layout & Extreme Content Stress Inspection**:
+   - Verify layout bounds, asset loading, responsive states (1440px / 768px / 390px / 320px), and fallbacks;
+   - **Extreme Text Length & Truncation**: Stress-test all dynamic text, `<select>` options, entity titles, and badges with 50+ character strings. Verify `min-w-0` and `truncate` prevent container blowout, maintain tooltips, and preserve container bounds;
+   - **Container Boundary & Anti-Overflow Gate**: Verify zero element bounding box breach, zero button ejection outside cards/panels, and zero unexpected horizontal scrolling (`scrollWidth > clientWidth`);
+   - **Composite Control Layering**: Verify select/search + action button pairs use two-tier vertical card structure, not single-row flex co-location;
+   - **Fixed-Width Sidebar Grid**: Verify button groups in fixed-width containers (≤400px) use structured equal-width CSS Grid (`grid-cols-2` or `grid-cols-3`), not ragged `flex-wrap`.
 6. Content-specific ownership: why this composition belongs to this material.
 7. **Visual Craft Rubric (VCR 2.0)**: Evidence-backed scores (0-4) for composition/space, typography, color/lighting, material/texture, motion/micro-interaction, responsive adaptation, and finish. Commercial release requires an overall score ≥ 3.5 with no individual score < 3.0.
-8. **Anti-AI Slop, Redundancy & Anti-Bleeding Redlines**: Zero tolerance for multi-copy information duplication (titles/IDs repeated >1x), equal-weight card walls without visual focal point, boundary collision (controls sticking to container edges < 12px), surface bleeding/dissolution without elevation ramp, fake charts, indiscriminate centering, cheap purple/pink gradients, or missing interactive feedback.
+8. **Anti-AI Slop, Redundancy, Anti-Bleeding & Defensive Redlines**: Zero tolerance for:
+   - Visual Fill Bias: mechanically adding out-of-scope metrics to force 4-grid/6-grid symmetry;
+   - Defensive Layout Failures: unisolated single-row `<select>` + action buttons causing button ejection, missing `min-w-0` on dynamic flex children, ragged `flex-wrap` button groups in ≤400px sidebars, horizontal container blowout;
+   - Information redundancy (titles/IDs repeated >1x), equal-weight card walls without visual focal point, boundary collision (controls sticking to container edges < 12px), surface bleeding without elevation ramp, fake charts, indiscriminate centering, cheap purple/pink gradients, or missing interactive feedback.
 9. Three-second comprehension, blinded direction preference, and evaluator type when the artifact declares those checks.
 
 Use `approved`, `changes_required`, or `blocked`. Every finding has severity, status, and evidence refs. Any source or digest drift, unresolved major/blocking finding, unsupported claim, missing target-surface evidence, failed redline check, or unbound evaluation result prevents approval. Promote a project pattern into a standard only when its evidence and reuse boundary are explicit.

@@ -92,6 +92,34 @@ Sources: [Material structure](https://m3.material.io/foundations/designing/struc
 [Apple buttons](https://developer.apple.com/design/human-interface-guidelines/buttons),
 and [Nielsen Norman usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/).
 
+## Defensive Layout Protocol
+
+`hard_floor`
+
+All responsive web interfaces, dashboards, and side panels must strictly enforce defensive CSS layout rules to eliminate container overflow, button ejection, and visual-fill distortion:
+
+### 1. Flex Elastic Truncation Law
+- Any Flex child item containing dynamic text, `<select>` dropdowns, user input fields, or tag chips must explicitly declare `min-w-0` and text truncation classes (`truncate` or `overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`).
+- *Technical imperative*: In CSS Flexbox, child elements default to `min-width: auto`. This prevents children from shrinking below their intrinsic text/content width. Without `min-w-0`, dynamic long names (such as 50+ character entity titles or database table paths) or wide `<select>` elements expand indefinitely, pushing sibling buttons and controls outside the container boundaries.
+- *Standard pattern*: Always pair dynamic flex items with `min-w-0 flex-1 truncate` or equivalent CSS properties (`min-width: 0; flex: 1 1 0%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;`).
+
+### 2. Composite Control Layering Principle
+- Any composite control combining "Selection Dropdown / Search Input + Trigger Action Buttons" (e.g., table selector + batch operations / refresh buttons) **must use a vertically layered card structure** (`flex-col gap-2.5`):
+  - **Top Tier (Header & Actions)**: Title/label on the left, action buttons aligned on the right or spread evenly;
+  - **Bottom Tier (Selector / Input)**: Full-width `<select>` or search input (`w-full`) underneath.
+- *Strict prohibition*: Placing a dynamic `<select>` side-by-side with fixed action buttons in an unisolated single horizontal flex row is strictly forbidden. Long option strings will inevitably compress or eject action buttons outside cards in width-constrained views.
+
+### 3. Fixed-Width Sidebar Grid Law
+- Inside all fixed-width containers (width ≤ 400px, such as sidebars, queue panels, inspection drawers), button groups must use an equal-width structured CSS Grid (e.g., `grid grid-cols-2 gap-2` or `grid grid-cols-3 gap-2`).
+- *Strict prohibition*: Relying on free-flowing `flex-wrap` in narrow or fixed-width containers is strictly forbidden, as variable button label lengths cause ragged multi-row wrapping, button clipping, height collapse, or lateral container overflow.
+
+### 4. Anti-Visual-Fill Principle & Contextual Scope Filtering
+- Display only authentic metrics that strictly belong to the current context and hierarchy level.
+- If the source supplies only 3 valid metrics for the current scope, use a 3-column / 3-cell layout (e.g., `grid-cols-3` or asymmetric Bento grid); never mechanically stitch or borrow unrelated business nouns (e.g. adding "模型准召率" to a general workspace Hero Banner) merely to pursue 4-card or 6-card symmetrical grid symmetry.
+- When consuming upstream `content-handoff.json`, strictly match and filter by `context_scope`. Reject rendering metrics, facts, or controls that belong to different scopes or child views.
+
+Verification: inspect rendered containers under 50+ character string stress tests, check bounding boxes for zero overflow/ejection at 1440px / 768px / 390px / 320px, and verify zero horizontal scrolling.
+
 ## Spacing And Density
 
 `product_default`

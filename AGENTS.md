@@ -7,8 +7,9 @@ This repository contains the **Design Skill**: a content-aware design system tha
 1. **Source truth is immutable.** Never alter raw values, labels, units, signs, dates, or identifiers. Every visible value is either `source-verbatim` or `code-derived` with provenance.
 2. **Reader job first.** State what the reader should understand, decide, or do before choosing any shape, template, or preset.
 3. **Lightest risk lane.** Choose Express → Standard → Assured based on observable risk facts, not adjectives. Unknown material risk escalates.
-4. **Taste Contract before template.** Record `visual_thesis`, `content_tension`, `signature_move`, `anti_reference`, and `restraint_rule` before selecting any preset or template.
-5. **Real surface inspection is mandatory.** Structural validation never proves visual quality. Every delivered artifact requires inspection of the actual rendered surface at target viewports (1440 / 390 / 320 px).
+4. **Taste Contract before template.** Record `visual_thesis`, `content_tension` (scoped to `context_scope`), `signature_move`, `anti_reference`, and `restraint_rule` (enforcing Anti-Visual-Fill: refusing filler metrics to force grid symmetry) before selecting any preset or template.
+5. **Defensive CSS Layout is mandatory.** Enforce `min-w-0` truncation on all dynamic flex items, two-tier card layout for select/search + action buttons, and structured CSS Grid (`grid-cols-2`/`grid-cols-3`) for button groups in ≤400px sidebars.
+6. **Real surface inspection is mandatory.** Structural validation never proves visual quality. Every delivered artifact requires inspection under extreme content stress (50+ char strings, zero button ejection, zero overflow) on actual rendered surfaces at target viewports (1440 / 390 / 320 px).
 
 ## Architecture
 
