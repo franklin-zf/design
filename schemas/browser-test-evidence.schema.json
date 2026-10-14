@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/design/browser-test-evidence.schema.json",
+  "title": "Browser test evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adapter",
+    "generated_at",
+    "artifact_digest",
+    "execution_plan_digest",
+    "render_spec_digest",
+    "runs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "design-browser-test-evidence/v1"
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "runtime"],
+      "properties": {
+        "id": {
+          "enum": ["playwright", "browser-mcp", "target-player"]
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?Z$"
+    },
+    "artifact_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "execution_plan_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "render_spec_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "runs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/run"
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+"
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "selector"],
+      "properties": {
+        "action": {
+          "enum": [
+            "click",
+            "fill",
+            "select",
+            "check",
+            "uncheck",
+            "press",
+            "wait_for"
+          ]
+        },
+        "selector": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {}
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "selector", "actual", "passed"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selector": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actual": {},
+        "passed": {
+          "const": true
+        }
+      }
+    },
+    "screenshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256"],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "requirement_ids",
+        "viewport",
+        "state",
+        "actions",
+        "assertions",
+        "after_screenshot",
+        "console_errors",
+        "page_errors",
+        "unauthorized_requests",
+        "passed"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requirement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]{1,63}$"
+          }
+        },
+        "viewport": {
+          "enum": [1440, 390, 320]
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/action"
+          }
+        },
+        "assertions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/assertion"
+          }
+        },
+        "before_screenshot": {
+          "$ref": "#/$defs/screenshot"
+        },
+        "after_screenshot": {
+          "$ref": "#/$defs/screenshot"
+        },
+        "console_errors": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "page_errors": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "unauthorized_requests": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "passed": {
+          "const": true
+        }
+      }
+    }
+  }
+}

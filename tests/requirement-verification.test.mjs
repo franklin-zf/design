@@ -59,10 +59,50 @@ function fixture() {
     join(directory, 'prd.md'),
     '# 需求\n\n用户可以在移动端完成筛选并看到已选条件。\n'
   );
-  writeJson(join(directory, 'qa-filter.json'), {
-    viewport: 390,
-    action: 'open-filter',
-    result: 'selected-state-visible'
+  mkdirSync(join(directory, '.design'));
+  mkdirSync(join(directory, 'qa'));
+  const planDigest = 'a'.repeat(64);
+  const renderSpecDigest = 'b'.repeat(64);
+  writeJson(join(directory, '.design', 'execution-plan.json'), {
+    resolved_gate_plan_digest: planDigest
+  });
+  writeJson(join(directory, '.design', 'render-spec.json'), {
+    spec_digest: renderSpecDigest
+  });
+  const screenshotPath = join(directory, 'qa', 'filter.png');
+  writeFileSync(screenshotPath, 'browser screenshot');
+  writeJson(join(directory, 'browser-test-evidence.json'), {
+    schema_version: 'design-browser-test-evidence/v1',
+    adapter: {
+      id: 'playwright',
+      version: '1.61.1',
+      runtime: '/runtime/chromium'
+    },
+    generated_at: '2026-10-14T00:00:00.000Z',
+    artifact_digest: computeArtifactDigest(directory),
+    execution_plan_digest: planDigest,
+    render_spec_digest: renderSpecDigest,
+    runs: [{
+      id: 'mobile-filter-applied',
+      requirement_ids: ['REQ-001'],
+      viewport: 390,
+      state: 'mobile-filter-applied',
+      actions: [{ action: 'click', selector: '[data-requirement-id="REQ-001"]' }],
+      assertions: [{
+        kind: 'visible',
+        selector: '[data-requirement-id="REQ-001"]',
+        actual: true,
+        passed: true
+      }],
+      after_screenshot: {
+        ref: 'qa/filter.png',
+        sha256: sha256(readFileSync(screenshotPath))
+      },
+      console_errors: [],
+      page_errors: [],
+      unauthorized_requests: [],
+      passed: true
+    }]
   });
   const record = {
     schema_version: 'design-requirement-verification/v1',
@@ -94,8 +134,8 @@ function fixture() {
         ],
         evidence_refs: [
           {
-            ...binding(join(directory, 'qa-filter.json')),
-            ref: 'qa-filter.json',
+            ...binding(join(directory, 'browser-test-evidence.json')),
+            ref: 'browser-test-evidence.json',
             kind: 'browser-test'
           }
         ],
@@ -170,17 +210,39 @@ test('P0/P1 failed, blocked, or not-run status fails closed', () => {
   }
 });
 
+test('P0/P1 prototype content and behavior require browser evidence', () => {
+  const directory = fixture();
+  try {
+    const path = join(directory, 'requirement-verification.json');
+    const record = JSON.parse(readFileSync(path, 'utf8'));
+    record.requirements[0].verification_method = 'content-binding';
+    record.requirements[0].evidence_refs[0].kind = 'screenshot';
+    writeJson(path, record);
+    const output = validateRequirementVerification(directory).join('\n');
+    assert.match(output, /must use browser-test or mixed verification/);
+    assert.match(output, /must include browser-test evidence/);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
 test('artifact, source, and evidence drift invalidate prior acceptance', () => {
   const directory = fixture();
   try {
     writeFileSync(join(directory, 'index.html'), '<main>changed</main>\n');
     writeFileSync(join(directory, 'prd.md'), '# changed\n');
-    writeJson(join(directory, 'qa-filter.json'), { result: 'changed' });
+    writeJson(
+      join(directory, 'browser-test-evidence.json'),
+      { result: 'changed' }
+    );
     const output = validateRequirementVerification(directory).join('\n');
     assert.match(output, /artifact ref index\.html SHA-256 mismatch/);
     assert.match(output, /source ref prd\.md SHA-256 mismatch/);
     assert.match(output, /source_quote was not found/);
-    assert.match(output, /evidence qa-filter\.json SHA-256 mismatch/);
+    assert.match(
+      output,
+      /evidence browser-test-evidence\.json SHA-256 mismatch/
+    );
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
@@ -284,8 +346,8 @@ function installOperationalEvidence(directory) {
 
   const designRoot = join(directory, '.design');
   const qaRoot = join(directory, 'qa');
-  mkdirSync(designRoot);
-  mkdirSync(qaRoot);
+  mkdirSync(designRoot, { recursive: true });
+  mkdirSync(qaRoot, { recursive: true });
   const planPath = join(designRoot, 'execution-plan.json');
   writeJson(planPath, plan);
   const artifactDigest = computeArtifactDigest(directory);
@@ -326,12 +388,21 @@ function installOperationalEvidence(directory) {
   };
   const renderProfilePath = join(directory, 'render-profile.json');
   writeJson(renderProfilePath, renderProfile);
+  const browserEvidencePath = join(directory, 'browser-test-evidence.json');
+  const browserEvidence = JSON.parse(readFileSync(browserEvidencePath, 'utf8'));
+  browserEvidence.artifact_digest = artifactDigest;
+  browserEvidence.execution_plan_digest = plan.resolved_gate_plan_digest;
+  browserEvidence.render_spec_digest = renderSpec.spec_digest;
+  writeJson(browserEvidencePath, browserEvidence);
 
   const recordPath = join(directory, 'requirement-verification.json');
   const record = JSON.parse(readFileSync(recordPath, 'utf8'));
   record.artifact_refs.find(
     (item) => item.ref === 'manifest.json'
   ).sha256 = sha256(readFileSync(manifestPath));
+  record.requirements.find(
+    (item) => item.id === 'REQ-001'
+  ).evidence_refs[0].sha256 = sha256(readFileSync(browserEvidencePath));
   const screenshotBindings = profiles.flatMap((viewport) => (
     viewport.states.map((state) => ({
       ref: state.segments[0].screenshot_ref,

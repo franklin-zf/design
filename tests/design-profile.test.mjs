@@ -634,14 +634,14 @@ test('design CLI writes a validated profile', () => {
   }
 });
 
-test('public design CLI help keeps only the four-step entrypoints', () => {
+test('public design CLI help exposes the five-step entrypoints', () => {
   const result = spawnSync(
     process.execPath,
     [join(root, 'scripts/design.mjs'), '--help'],
     { cwd: root, encoding: 'utf8' }
   );
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  for (const command of ['profile', 'plan', 'check', 'preflight']) {
+  for (const command of ['profile', 'plan', 'review', 'check', 'preflight']) {
     assert.match(result.stdout, new RegExp(`\\n  ${command}(?: |\\n)`));
   }
   for (const command of [

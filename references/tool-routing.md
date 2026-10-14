@@ -13,13 +13,14 @@ Design owns content framing, visual direction, and quality. Specialized tools ow
 | Calculations and chart geometry | Reproducible code or structured data tool | Block derived claims until a deterministic runtime exists |
 | DOCX/PDF extraction | Native document/PDF parser | Text extraction with visible fidelity limitations |
 | Relevant factual image | Authorized image search with source record | Generated or schematic image labeled accurately |
-| Dribbble shots & visual inspiration | `scripts/dribbble-hub.mjs` (local index & daily sync) | Taste Contract shot_reference binding |
-| Headless component snippets & UI templates | `packages/component-hub/` (Shadcn/Radix/Tremor/Semi) | Zero-build HTML/Tailwind templates |
+| Dribbble shots & visual inspiration | `dribbble-hub-mcp` metadata tools; `design.mjs shots` fallback | Plan-bound inspiration binding; preview bytes remain private cache |
+| Headless component snippets & UI templates | `../packages/component-hub/src/index.mjs` (Shadcn/Radix/Tremor/Semi) | Zero-build HTML/Tailwind templates |
 | Vector icons & functional symbols | `icon-hub-mcp` (iconfont.cn & vector registry) | Inline clean SVG symbols from local catalogue |
 | Custom illustration | Image generation | Purpose-built diagram or licensed asset |
 | Process, hierarchy, relationship | Mermaid when its grammar fits | HTML/CSS diagram or editable slide shapes |
 | HTML implementation | Existing frontend stack or registered template | Self-contained HTML/CSS/JS |
-| HTML surface QA | Playwright/browser automation | Structural checks plus explicit browser-QA gap |
+| PRD-backed prototype review | `design.mjs review` with Playwright or bound Browser MCP trace | Block release; static review cannot substitute |
+| HTML surface QA without PRD | Playwright/browser automation | Structural checks plus explicit browser-QA gap |
 
 Never claim an unavailable native capability. Run preflight when availability can change.
 

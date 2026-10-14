@@ -257,8 +257,34 @@ export function validateDirectionEvidence(directory, options = {}) {
       referenceItem.code_license,
       referenceItem.asset_license
     ].map((value) => String(value).trim().toLowerCase());
-    if (licences.some((value) => ['unknown', 'forbidden', 'unverified'].includes(value))) {
-      errors.push(`reference ${referenceItem.id} has unresolved license status`);
+    const reusesMaterial = licences.some((value) => value !== 'not-used');
+    if (reusesMaterial && !referenceItem.license_evidence_ref) {
+      errors.push(
+        `reference ${referenceItem.id} reuses material and requires license_evidence_ref`
+      );
+    }
+    if (referenceItem.license_evidence_ref) {
+      try {
+        readArtifactFile(
+          root,
+          referenceItem.license_evidence_ref,
+          `reference ${referenceItem.id} license evidence`
+        );
+      } catch (error) {
+        errors.push(error.message);
+      }
+    }
+    if (referenceItem.adoption_mode === 'inspiration_only'
+        && reusesMaterial) {
+      errors.push(
+        `reference ${referenceItem.id} inspiration_only must use not-used licenses`
+      );
+    }
+    if (referenceItem.adoption_mode !== 'inspiration_only'
+        && !reusesMaterial) {
+      errors.push(
+        `reference ${referenceItem.id} material adoption requires a verified license`
+      );
     }
     if (referenceItem.adoption_mode === 'licensed_code'
         && (referenceItem.fixed_revision === 'snapshot-only'

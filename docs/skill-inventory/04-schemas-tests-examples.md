@@ -1,34 +1,35 @@
 # 04 Schema 契约、测试套件与夹具
 
-## 一、JSON Schema 契约（schemas/，42 个）
+## 一、JSON Schema 契约
 
 Schema 是各阶段产物的结构化合同，由 `validate-schemas.mjs` 校验自身有效性。
 
 | 域 | Schema |
 | --- | --- |
 | 产物与清单 | `artifact-manifest`、`machine-attestation`、`privacy-checks`、`accessibility-checks` |
-| Intake 与方向 | `intake-direction`、`direction-comparison`、`approval-rejection` |
+| Intake 与方向 | `intake-direction`、`direction-comparison`、`inspiration-binding`、`approval-rejection` |
 | 内容事实链 | `content-ledger`、`content-handoff`、`surface-claims`、`claim-map`、`summary-map`、`data-provenance`、`source-extraction`、`source-extraction-capability` |
 | 需求与评审 | `requirement-verification`、`design-evaluation-record`、`design-evaluation-policy`、`reviewer-record`、`reviewer-attestation`、`reviewer-registry`、`evidence-contract` |
 | 设计 profile/配方 | `design-brief`、`design-profile`、`visual-recipe-registry`、`design-profile-catalogue`、`design-primitives`、`design-spec-record`、`design-case-record`、`style-presets` |
 | 视觉资产与美学 | `aesthetic-contract`、`color-contract`、`visual-asset`、`chart-spec`、`layout-registry` |
 | Deck/Poster | `deck-plan`、`poster-plan` |
-| 执行与渲染 | `execution-plan`、`render-spec` |
+| 执行与渲染 | `execution-plan`、`render-spec`、`browser-test-evidence` |
 | 组件与案例 | `component-catalogue`、`showcase-case`、`reference-registry` |
 
-## 二、测试套件（tests/，37 个 `*.test.mjs` + fixtures）
+## 二、测试套件
 
-运行：`node scripts/design.mjs test`（标准）；`--strict` 追加 4 个浏览器套件。
+动态数量以 capability manifest 为准。运行：
+`npm run test:static`、`npm run test:browser`、`npm run test:strict`。
 
 | 域 | 套件 |
 | --- | --- |
 | 基础工程 | `code-style`、`json-schema`、`validators`、`install-parity`、`migration` |
 | 知识库/规格 | `design-knowledge-query`、`design-spec-record`、`distill-spec`、`extract-primitives`、`production-copy` |
 | Profile/计划/执行 | `design-profile`、`execution-plan`、`execution-runner`、`production-design-systems`、`color-system` |
-| 内容事实链 | `content-ledger`、`content-chain`、`content-handoff`、`source-extraction`、`evidence-contract`、`requirement-verification`、`direction-evidence`、`visual-encoding`、`design-evaluation` |
+| 内容事实链 | `content-ledger`、`content-chain`、`content-handoff`、`source-extraction`、`evidence-contract`、`browser-test-evidence`、`requirement-verification`、`inspiration-binding`、`direction-evidence`、`visual-encoding`、`design-evaluation` |
 | 视觉评审 | `visual-review`、`keyframe-capture`、`component-pilots`、`component-usage`、`component-catalogue`、`showcase-registry` |
 | 打包 | `packed-references` |
-| 新增能力 | `dribbble-hub`（5）、`validate-ui-hierarchy`（4）；IconHub MCP 测试在 `packages/icon-hub-mcp/tests/`（5），Component Hub 在 `packages/component-hub/tests/`（4） |
+| 能力中枢 | Dribbble CLI/MCP/lifecycle、`validate-ui-hierarchy`、IconHub MCP、Component Hub |
 | 浏览器（strict） | `playwright-runtime`、`render-spec-browser`、`component-pilots-browser`、`human-factors-browser` |
 
 `tests/fixtures/`：`execution-request.mjs` 与 `history/`（内容完整性历史夹具）。

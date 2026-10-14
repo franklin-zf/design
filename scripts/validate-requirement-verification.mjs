@@ -13,6 +13,9 @@ import { computeArtifactDigest } from './lib/artifact-digest.mjs';
 import { validateExecutionPlanBinding } from './lib/execution-plan-binding.mjs';
 import { validateJsonInstance } from './lib/json-schema.mjs';
 import {
+  validateBrowserTestEvidence
+} from './validate-browser-test-evidence.mjs';
+import {
   operationalH0Requirements
 } from './lib/operational-h0.mjs';
 import { validateColorContract } from './validate-color-system.mjs';
@@ -389,6 +392,13 @@ function expectedCoverage(requirements) {
   };
 }
 
+const browserReviewedRequirementTypes = new Set([
+  'content',
+  'functional',
+  'interaction',
+  'responsive'
+]);
+
 export function validateRequirementVerification(directory, options = {}) {
   const errors = [];
   if (!existsSync(directory)) return ['artifact directory does not exist'];
@@ -450,6 +460,8 @@ export function validateRequirementVerification(directory, options = {}) {
   }
 
   const requirements = record.requirements || [];
+  const browserRequirementIds = [];
+  const browserEvidenceRefs = new Set();
   const requirementIds = requirements.map((item) => item.id);
   if (new Set(requirementIds).size !== requirementIds.length) {
     errors.push('requirement ids must be unique');
@@ -547,6 +559,43 @@ export function validateRequirementVerification(directory, options = {}) {
     }
     if (['P0', 'P1'].includes(requirement.priority) && !evidenceRefs.length) {
       errors.push(`${prefix} ${requirement.priority} must have evidence`);
+    }
+    if (['P0', 'P1'].includes(requirement.priority)
+        && browserReviewedRequirementTypes.has(requirement.type)
+        && !String(requirement.id || '').startsWith('VIS-')) {
+      if (!['browser-test', 'mixed'].includes(requirement.verification_method)) {
+        errors.push(
+          `${prefix} ${requirement.priority} ${requirement.type} `
+          + 'must use browser-test or mixed verification'
+        );
+      }
+      if (!evidenceRefs.some((binding) => binding.kind === 'browser-test')) {
+        errors.push(
+          `${prefix} ${requirement.priority} ${requirement.type} `
+          + 'must include browser-test evidence'
+        );
+      } else {
+        browserRequirementIds.push(requirement.id);
+        for (const binding of evidenceRefs.filter(
+          (item) => item.kind === 'browser-test'
+        )) {
+          browserEvidenceRefs.add(binding.ref);
+        }
+      }
+    }
+  }
+
+  if (browserRequirementIds.length) {
+    if (browserEvidenceRefs.size !== 1) {
+      errors.push(
+        'P0/P1 browser requirements must share one browser-test evidence record'
+      );
+    } else {
+      const [evidenceRef] = browserEvidenceRefs;
+      errors.push(...validateBrowserTestEvidence(root, {
+        evidenceRef,
+        expectedRequirementIds: browserRequirementIds
+      }).map((error) => `browser evidence ${error}`));
     }
   }
 

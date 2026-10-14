@@ -10,7 +10,7 @@ node scripts/design.mjs plan request.json --design-profile=design-profile.json -
 node scripts/design.mjs check artifact --execution-plan=execution-plan.json
 ```
 
-The catalogue is `design-systems/defaults/design-profile-catalogue.json`. It contains exactly six product presets, three surface contracts, seven content topologies, and deterministic routing from structured reader jobs. Product presets reference existing style presets instead of copying HEX values or font stacks.
+The catalogue is `design-systems/defaults/design-profile-catalogue.json`. It contains exactly six product presets, four surface contracts, seven content topologies, and deterministic routing from structured reader jobs. Product presets reference existing style presets instead of copying HEX values or font stacks.
 
 The main preset owns the aesthetic thesis, resolved theme, typography direction, composition, media language, data-visualization language, motion, and anti-patterns. A supporting preset is optional and may contribute only topology and surface emphasis. A supplied brand reference remains `requires_verified_brand_merge`; the resolver never invents or silently applies brand tokens.
 

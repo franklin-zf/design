@@ -1,6 +1,7 @@
 # 02 CLI 与脚本能力清单
 
-共 63 个可执行脚本（`scripts/*.mjs`）+ 14 个共享库（`scripts/lib/`）。公开接口只有 `scripts/design.mjs`，其余脚本为内部构建块，仍可单独调试调用。
+脚本与共享库的动态数量以 `capability-manifest.json` 为准。公开接口只有
+`scripts/design.mjs`，其余脚本为内部构建块，仍可单独调试调用。
 
 ## 一、统一 CLI：`node scripts/design.mjs <command>`
 
@@ -8,15 +9,18 @@
 | --- | --- | --- |
 | `profile <brief.json>` | `resolve-design-profile.mjs` | 解析设计 profile（artifact-type / --out） |
 | `plan <request.json>` | `compile-execution-plan.mjs` | 编译 digest 绑定的执行计划（--shadow / --design-profile） |
-| `check <artifact-dir>` | 编排 20+ 校验器 | 按 lane（express/standard/assured）执行产物门禁；核心类型要求 --execution-plan |
-| `shots` / `inspiration` | `dribbble-hub.mjs` | Dribbble 素材 `search/get/list/sync` |
+| `review <artifact-dir>` | execution runner + browser/requirement/check | 产生浏览器证据并完成发布前 Review |
+| `check <artifact-dir>` | 校验器编排 | 只读验证已有证据；核心类型要求 --execution-plan |
+| `shots` / `inspiration` | `dribbble-hub.mjs` | `status/search/get/list/verify/binding/ingest/retire/freshness`；`sync` 已弃用 |
 | `render <index.html>` | `render-smoke.mjs` | 多视口渲染与 strict-layout 检查 |
 | `capture <index.html>` | `capture-deck-slides.mjs` | Deck 截图 / reduced-motion 截图 |
 | `directions <dir>` | `validate-direction-evidence.mjs` | 双方向证据校验 |
 | `bind-human-factors` / `audit-human-factors` | 同名脚本 | 人因证据绑定与审计 |
 | `preflight` | `capability-preflight.mjs` | 浏览器等外部能力探测（--require=browser_smoke/browser_launch） |
 | `validate` | 仓库级校验编排 | code-style / design-skill / schemas / color / profile-catalogue / packed-references / component-catalogue / vendor-provenance / 4 套设计系统包 |
-| `test [--strict]` | node:test 套件 + 正/负向夹具 | 标准 37 套件与夹具回归；strict 追加浏览器渲染套件 |
+| `test` | 静态 suite + 正/负向夹具 | 不要求浏览器 |
+| `test --browser` | Browser suites | Playwright runtime、render spec、组件、人因 |
+| `test --strict` | 全部 suite + 真实表面 | static + browser + 多视口 render smoke |
 
 ## 二、规划与执行内核（4）
 
@@ -31,7 +35,7 @@
 
 | 脚本 | 能力 |
 | --- | --- |
-| `dribbble-hub.mjs` | Dribbble Inspiration Hub：加权搜索（标题+10/分类+8/场景+7/关键词+5/拓扑+4）、get、list、每日 4 篇 sync |
+| `dribbble-hub.mjs` | `dribbble-hub-mcp` 的 CLI 桥接；metadata、私有 cache、binding 与 lifecycle |
 | `component-hub.mjs` | Component Hub：组件目录 search/get/list 与 snippet 提取 |
 | `icon-hub.mjs` | IconHub MCP 主仓库桥接（search/get/batch），数据源见 `packages/icon-hub-mcp` |
 

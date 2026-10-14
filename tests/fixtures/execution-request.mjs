@@ -42,7 +42,8 @@ export function v2Request(overrides = {}) {
       },
       accessibility: { standard: 'WCAG 2.2 AA' },
       privacy: { classification: 'internal' },
-      requirements: { mode: 'none' }
+      requirements: { mode: 'none' },
+      inspiration: { mode: 'none' }
     },
     requested_profile: 'auto'
   };

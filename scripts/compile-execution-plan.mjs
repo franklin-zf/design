@@ -41,7 +41,9 @@ export const automaticGateIds = new Set([
   'validate-evidence-contract', 'validate-layout-lock', 'validate-poster-anti-ai-slop',
   'validate-poster-contract', 'validate-summary-map', 'validate-visual-encoding', 'validate-visual-rhythm',
   'validate-component-usage', 'validate-requirement-verification',
-  'validate-direction-evidence', 'render-smoke', 'tweakable-smoke'
+  'validate-browser-test-evidence', 'validate-inspiration-binding',
+  'validate-direction-evidence',
+  'render-smoke', 'tweakable-smoke'
 ]);
 
 const supportedArtifactTypes = new Set([
@@ -62,8 +64,10 @@ const summaryMappedArtifactTypes = new Set([
   'data-report', 'dashboard', 'chart-frame', 'html-deck', 'ppt-handoff'
 ]);
 const gateOrder = [
-  'validate-data-provenance', 'render-smoke', 'validate-requirement-verification',
-  'validate-direction-evidence', 'validate-evidence-contract', 'validate-design-output',
+  'validate-data-provenance', 'render-smoke',
+  'validate-browser-test-evidence', 'validate-requirement-verification',
+  'validate-inspiration-binding', 'validate-direction-evidence',
+  'validate-evidence-contract', 'validate-design-output',
   'validate-component-usage', 'validate-summary-map', 'validate-claim-map',
   'validate-visual-encoding',
   'validate-design-system-package',
@@ -324,6 +328,46 @@ export function validateExecutionRequest(raw) {
         !safeRelative(requirements.record_ref),
         'conditional_policies.requirements.record_ref'
       );
+      if (!(render?.states || []).some(
+        (state) => Array.isArray(state.requirement_ids)
+          && state.requirement_ids.length > 0
+      )) {
+        errors.push(
+          'PRD requirements require render states with requirement_ids'
+        );
+      }
+    }
+  }
+  const inspiration = raw.conditional_policies?.inspiration;
+  if (inspiration !== undefined) {
+    if (!inspiration || !['none', 'required', 'skipped'].includes(
+      inspiration.mode
+    )) {
+      errors.push(
+        'conditional_policies.inspiration.mode must be none, required, or skipped'
+      );
+    } else if (inspiration.mode === 'required') {
+      pushMissing(
+        missing,
+        !safeRelative(inspiration.record_ref),
+        'conditional_policies.inspiration.record_ref'
+      );
+      pushMissing(
+        missing,
+        !isNonEmptyString(inspiration.trigger_reason),
+        'conditional_policies.inspiration.trigger_reason'
+      );
+    } else if (inspiration.mode === 'skipped') {
+      pushMissing(
+        missing,
+        !isNonEmptyString(inspiration.trigger_reason),
+        'conditional_policies.inspiration.trigger_reason'
+      );
+      pushMissing(
+        missing,
+        !isNonEmptyString(inspiration.skip_reason),
+        'conditional_policies.inspiration.skip_reason'
+      );
     }
   }
   if (!['auto', 'express', 'standard', 'assured'].includes(raw.requested_profile)) errors.push('requested_profile must be auto, express, standard, or assured');
@@ -360,6 +404,7 @@ function normalizeRequest(raw) {
     execution.write_allowlist = [...new Set(execution.write_allowlist || [])].sort();
   }
   request.conditional_policies.requirements ||= { mode: 'none' };
+  request.conditional_policies.inspiration ||= { mode: 'none' };
   return request;
 }
 
@@ -491,11 +536,21 @@ export function compileExecutionPlan(rawRequest, options = {}) {
   ) || designProfile?.style_preset === 'operational-dashboard';
   const requirementVerificationRequired = operationalExperience
     || request.conditional_policies.requirements.mode === 'provided';
+  const prdBrowserEvidenceRequired =
+    request.conditional_policies.requirements.mode === 'provided';
+  const inspirationBindingRequired =
+    request.conditional_policies.inspiration.mode === 'required';
   const supplemental = ['validate-evidence-contract'];
   if (request.source_materials.mode === 'provided' && summaryMappedArtifactTypes.has(request.output_surface.artifact_type)) supplemental.push('validate-summary-map', 'validate-claim-map');
   if (request.conditional_policies.derived_data.mode === 'derived') supplemental.push('validate-data-provenance');
   if (requirementVerificationRequired) {
-    supplemental.push('validate-requirement-verification');
+    supplemental.push('render-smoke', 'validate-requirement-verification');
+  }
+  if (prdBrowserEvidenceRequired) {
+    supplemental.push('validate-browser-test-evidence');
+  }
+  if (inspirationBindingRequired) {
+    supplemental.push('validate-inspiration-binding');
   }
   const gateIds = [...new Set([
     ...registered.filter((id) => id !== 'manual-reviewer-pass'),
@@ -508,11 +563,28 @@ export function compileExecutionPlan(rawRequest, options = {}) {
   const automaticGates = gateIds.map(automaticGate);
   const evidenceGate = automaticGates.find((gate) => gate.gate_id === 'validate-evidence-contract');
   if (evidenceGate && gateIds.includes('render-smoke')) evidenceGate.depends_on = ['render-smoke'];
+  const browserEvidenceGate = automaticGates.find(
+    (gate) => gate.gate_id === 'validate-browser-test-evidence'
+  );
+  if (browserEvidenceGate) browserEvidenceGate.depends_on = ['render-smoke'];
+  const requirementGate = automaticGates.find(
+    (gate) => gate.gate_id === 'validate-requirement-verification'
+  );
+  if (requirementGate && browserEvidenceGate) {
+    requirementGate.depends_on = ['validate-browser-test-evidence'];
+  }
   const humanGates = [
     { gate_id: 'real-surface-visual-review', purpose: 'quality_review', cacheable: false },
-    ...(requirementVerificationRequired
+    ...(prdBrowserEvidenceRequired
       ? [{
-          gate_id: 'product-requirements-review',
+          gate_id: 'prd-browser-content-function-review',
+          purpose: 'quality_review',
+          cacheable: false
+        }]
+      : []),
+    ...(inspirationBindingRequired
+      ? [{
+          gate_id: 'inspiration-method-review',
           purpose: 'quality_review',
           cacheable: false
         }]
@@ -587,6 +659,18 @@ export function compileExecutionPlan(rawRequest, options = {}) {
       requirement_verification_ref:
         request.conditional_policies.requirements.record_ref
           || (operationalExperience ? 'requirement-verification.json' : null),
+      prd_browser_review_required: prdBrowserEvidenceRequired,
+      prd_browser_review_scope: prdBrowserEvidenceRequired
+        ? ['content', 'functional', 'interaction', 'responsive']
+        : [],
+      inspiration_binding_required: inspirationBindingRequired,
+      inspiration_binding_ref: inspirationBindingRequired
+        ? request.conditional_policies.inspiration.record_ref
+        : null,
+      inspiration_status:
+        request.conditional_policies.inspiration.mode,
+      inspiration_skip_reason:
+        request.conditional_policies.inspiration.skip_reason || null,
       ...(operationalExperience
         ? { operational_h0_requirements: operationalH0Requirements }
         : {}),

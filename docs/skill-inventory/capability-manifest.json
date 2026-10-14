@@ -4,28 +4,66 @@
   "skill": {
     "name": "design",
     "branch": "aime/20261010-164925-design-skill-v2",
-    "head_commit": "ff604ad",
-    "tracked_files_total": 728
+    "head_commit": "05348fc",
+    "tracked_files_total": 734,
+    "workspace_files_total": 752
   },
   "layers": [
     {
       "layer": "L0 entry and agent kernels",
-      "paths": ["SKILL.md", "AGENTS.md", ".trae/rules/design-skill.md", "agents/"],
+      "paths": [
+        "SKILL.md",
+        "AGENTS.md",
+        ".trae/rules/design-skill.md",
+        "agents/"
+      ],
       "agents": [
-        { "file": "agents/designer.md", "role": "visual design kernel; Taste Contract 2.0; context_scope-filtered handoff; mandatory Dribbble retrieval" },
-        { "file": "agents/reviewer.md", "role": "independent reviewer; anti-visual-fill, anti-bleeding, defensive CSS redlines" },
-        { "file": "agents/poster.md", "role": "poster specialist; single hook contract" },
-        { "file": "agents/openai.yaml", "role": "agent orchestration declaration" }
+        {
+          "file": "agents/designer.md",
+          "role": "visual design kernel; Taste Contract; conditional source-verified Dribbble reference pass"
+        },
+        {
+          "file": "agents/reviewer.md",
+          "role": "independent reviewer; mandatory browser review for PRD-backed prototype content and function"
+        },
+        {
+          "file": "agents/poster.md",
+          "role": "poster specialist; single hook contract"
+        },
+        {
+          "file": "agents/openai.yaml",
+          "role": "agent orchestration declaration"
+        }
       ]
     },
     {
       "layer": "L1 references",
       "path": "references/",
       "count": 15,
-      "default_load": ["SKILL.md", "references/workflow.md"],
-      "task_references": ["references/report-dashboard.md", "references/deck-ppt.md", "references/poster-design.md", "references/source-integrity.md", "references/media-design.md"],
-      "conditional": ["references/web-interface-standards.md", "references/advanced-assurance.md", "references/quality-bar.md", "references/visual-recipes.md"],
-      "other": ["references/design-standards.md", "references/color-system.md", "references/frontend-styles.md", "references/tool-routing.md", "references/library.md"]
+      "default_load": [
+        "SKILL.md",
+        "references/workflow.md"
+      ],
+      "task_references": [
+        "references/report-dashboard.md",
+        "references/deck-ppt.md",
+        "references/poster-design.md",
+        "references/source-integrity.md",
+        "references/media-design.md"
+      ],
+      "conditional": [
+        "references/web-interface-standards.md",
+        "references/advanced-assurance.md",
+        "references/quality-bar.md",
+        "references/visual-recipes.md"
+      ],
+      "other": [
+        "references/design-standards.md",
+        "references/color-system.md",
+        "references/frontend-styles.md",
+        "references/tool-routing.md",
+        "references/library.md"
+      ]
     },
     {
       "layer": "L2 capability hubs and assets",
@@ -36,7 +74,14 @@
           "entry": "src/index.mjs",
           "cli_bridge": "scripts/component-hub.mjs",
           "snippets": 6,
-          "snippet_files": ["bento-grid-2x2.html", "kpi-metric-card.html", "filter-toolbar.html", "card-header-actions.html", "switch-control.html", "evidence-diff-hero.html"],
+          "snippet_files": [
+            "bento-grid-2x2.html",
+            "kpi-metric-card.html",
+            "filter-toolbar.html",
+            "card-header-actions.html",
+            "switch-control.html",
+            "evidence-diff-hero.html"
+          ],
           "tests": 4
         },
         {
@@ -44,56 +89,121 @@
           "path": "packages/icon-hub-mcp/",
           "entry": "bin/icon-hub.mjs",
           "cli_bridge": "scripts/icon-hub.mjs",
-          "mcp_tools": ["search_icons", "get_icon_svg", "batch_fetch_icons"],
-          "sources": ["iconfont.cn (downloaded local SVG only)", "lucide offline registry"],
+          "mcp_tools": [
+            "search_icons",
+            "get_icon_svg",
+            "batch_fetch_icons"
+          ],
+          "sources": [
+            "iconfont.cn (downloaded local SVG only)",
+            "lucide offline registry"
+          ],
           "tests": 5
         },
         {
-          "name": "dribbble-inspiration-hub",
+          "name": "dribbble-hub-mcp",
+          "path": "packages/dribbble-hub-mcp/",
+          "entry": "bin/dribbble-hub.mjs",
           "index": "assets/dribbble-shots/index.json",
-          "cli": "scripts/dribbble-hub.mjs",
-          "public_command": "node scripts/design.mjs shots <search|get|list|sync>",
-          "shots_seeded": 4,
-          "deconstruction_dimensions": ["layout_topology", "color_palette", "material_recipe", "typography_style"],
-          "tests": 5
+          "cli_bridge": "scripts/dribbble-hub.mjs",
+          "public_command": "node scripts/design.mjs shots <status|search|get|list|verify|sync>",
+          "mcp_tools": [
+            "search_dribbble_references",
+            "get_dribbble_reference",
+            "list_dribbble_references",
+            "get_dribbble_library_status",
+            "create_inspiration_binding"
+          ],
+          "source_verified_shots": 4,
+          "local_previews": {
+            "count": 4,
+            "width": 1600,
+            "height": 1200
+          },
+          "integrity_checks": [
+            "exact shot URL",
+            "author",
+            "preview source URL",
+            "rights boundary",
+            "PNG dimensions",
+            "SHA-256"
+          ],
+          "deconstruction_dimensions": [
+            "layout_topology",
+            "visual_methods",
+            "do_not_copy",
+            "applicable_scenes"
+          ],
+          "tests": 2
         }
       ],
       "assets": {
         "html_templates": 9,
         "layout_definitions": 5,
         "handoff_skeletons": 4,
-        "runtime_files": ["assets/runtime/deck-bootstrap.js", "assets/runtime/human-factors.css", "assets/runtime/human-factors.js"],
-        "vendor": ["assets/vendor/open-design-html-ppt/ (LICENSE + PROVENANCE required)"]
+        "runtime_files": [
+          "assets/runtime/deck-bootstrap.js",
+          "assets/runtime/human-factors.css",
+          "assets/runtime/human-factors.js"
+        ],
+        "vendor": [
+          "assets/vendor/open-design-html-ppt/ (LICENSE + PROVENANCE required)"
+        ]
       }
     },
     {
       "layer": "L3 design systems and knowledge",
-      "design_systems": ["operational-product", "expressive-web", "editorial-evidence", "swiss-deck"],
-      "system_files_each": ["DESIGN.md", "USAGE.md", "tokens.css", "design-tokens.json", "layouts.css", "components.html", "components.manifest.json", "manifest.json"],
-      "defaults": ["design-systems/defaults/visual-recipe-registry.json", "design-systems/defaults/design-profile-catalogue.json"],
-      "knowledge": ["design-knowledge/registry.json", "design-knowledge/DESIGN_STANDARDS.md", "design-knowledge/evaluation-policy.json"],
+      "design_systems": [
+        "editorial-evidence",
+        "expressive-web",
+        "operational-product",
+        "swiss-deck"
+      ],
+      "system_files_each": [
+        "DESIGN.md",
+        "USAGE.md",
+        "tokens.css",
+        "design-tokens.json",
+        "layouts.css",
+        "components.html",
+        "components.manifest.json",
+        "manifest.json"
+      ],
+      "defaults": [
+        "design-systems/defaults/visual-recipe-registry.json",
+        "design-systems/defaults/design-profile-catalogue.json"
+      ],
+      "knowledge": [
+        "design-knowledge/registry.json",
+        "design-knowledge/DESIGN_STANDARDS.md",
+        "design-knowledge/evaluation-policy.json"
+      ],
       "showcases": "showcases/registry.json"
     },
     {
       "layer": "L4 CLI and scripts",
       "public_cli": "scripts/design.mjs",
-      "executable_scripts": 63,
+      "executable_scripts": 68,
       "shared_libs": 14,
       "script_groups": {
         "planning_execution": 4,
         "hub_bridges": 3,
         "spec_knowledge": 5,
-        "validators": 36,
+        "validators": 39,
         "browser_render_qa": 12,
         "packaging_preflight": 2
       }
     },
     {
       "layer": "L5 schemas, tests, fixtures",
-      "schemas": 42,
-      "test_suites": 37,
-      "package_test_suites": 2,
-      "examples": { "total": 65, "positive": 21, "negative": 44 }
+      "schemas": 44,
+      "test_suites": 42,
+      "package_test_suites": 3,
+      "examples": {
+        "total": 65,
+        "positive": 21,
+        "negative": 44
+      }
     }
   ],
   "key_standards": [
@@ -101,17 +211,32 @@
     "Contextual Semantic Fitness (context_scope host/asset/plugin, fail-closed)",
     "Defensive CSS Layout Protocol (min-w-0, stacked select+actions, grid sidebar button groups)",
     "Target Surface Extreme Content Stress (50+ char strings, zero ejection, zero overflow)",
+    "PRD Browser Review (P0/P1 content, functional, interaction, and responsive paths require browser-test evidence)",
     "Anti-Visual-Fill (no filler metrics for grid symmetry)",
-    "default-modern-craft baseline (OKLCH, specular borders, 3-tier shadows, asymmetric Bento, spring motion, zh-CN default, semantic vector icons)",
+    "Profile-resolved visual authority (brand/system > profile > content-native > inspiration methods)",
     "Single-Truth Context + Diff-First review surfaces",
     "Focal Weight Budget (primary attention region >= 40%)",
     "VCR 2.0 seven-dimension craft review, overall >= 3.5"
   ],
   "known_gaps": [
-    "validate-ui-hierarchy.mjs still has 4 rules; FLEX_DYNAMIC_MIN_WIDTH and SIDEBAR_BUTTON_GRID static rules plus stacked-select-actions/defensive-chip-row snippets are specified but not yet implemented"
+    "validate-design-skill.mjs still contains a manually curated required-file baseline",
+    "Dribbble search has deterministic field weighting and fixtures but no large relevance benchmark corpus"
   ],
   "cleanup_20261014": [
-    { "path": ".exp-skill/", "kind": "cross-skill exp-skill runtime residue (memory + run evidence)", "size": "7.6 MB", "git_status": "ignored", "action": "moved to ~/.Trash/design-skill-cleanup-20261014/" },
-    { "path": "dist/design-2.0.0.tgz", "kind": "pack artifact, reproducible", "size": "3.6 MB", "git_status": "ignored", "action": "moved to ~/.Trash/design-skill-cleanup-20261014/" }
-  ]
+    {
+      "path": ".exp-skill/",
+      "kind": "cross-skill exp-skill runtime residue (memory + run evidence)",
+      "size": "7.6 MB",
+      "git_status": "ignored",
+      "action": "moved to ~/.Trash/design-skill-cleanup-20261014/"
+    },
+    {
+      "path": "dist/design-2.0.0.tgz",
+      "kind": "pack artifact, reproducible",
+      "size": "3.6 MB",
+      "git_status": "ignored",
+      "action": "moved to ~/.Trash/design-skill-cleanup-20261014/"
+    }
+  ],
+  "source_digest": "85a88ae6a7a78b94db87e55174cb8d0a586b725c15ed81ad73782fa805725358"
 }

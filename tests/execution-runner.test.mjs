@@ -398,6 +398,108 @@ test('requirement gate receives the request-bound record ref', async () => {
   } finally { rmSync(f.workspace, { recursive: true, force: true }); }
 });
 
+test('browser evidence gates share runner-owned plan and render bindings', async () => {
+  const { gateInvocation } = await import('../scripts/run-execution-plan.mjs');
+  const f = fixture();
+  try {
+    const artifactDigest = 'a'.repeat(64);
+    const planDigest = 'b'.repeat(64);
+    const renderSpecPath = join(f.artifact, '.design', 'render-spec.json');
+    const executionPlanPath = join(f.artifact, '.design', 'execution-plan.json');
+    const render = gateInvocation(
+      { gate_id: 'render-smoke' },
+      f.artifact,
+      artifactDigest,
+      planDigest,
+      renderSpecPath,
+      null,
+      { browserEvidenceRequired: true }
+    );
+    assert.ok(render.args.includes(
+      `--browser-evidence-out=${join(f.artifact, 'browser-test-evidence.json')}`
+    ));
+
+    const validate = gateInvocation(
+      { gate_id: 'validate-browser-test-evidence' },
+      f.artifact,
+      artifactDigest,
+      planDigest,
+      renderSpecPath,
+      null,
+      { executionPlanPath }
+    );
+    assert.deepEqual(validate.args.slice(2), [
+      '--evidence=browser-test-evidence.json',
+      `--execution-plan=${executionPlanPath}`,
+      `--render-spec=${renderSpecPath}`
+    ]);
+  } finally { rmSync(f.workspace, { recursive: true, force: true }); }
+});
+
+test('inspiration gate receives binding and execution plan refs', async () => {
+  const { gateInvocation } = await import('../scripts/run-execution-plan.mjs');
+  const f = fixture();
+  try {
+    const executionPlanPath = join(f.artifact, '.design', 'execution-plan.json');
+    const invocation = gateInvocation(
+      { gate_id: 'validate-inspiration-binding' },
+      f.artifact,
+      'a'.repeat(64),
+      'b'.repeat(64),
+      join(f.artifact, '.design', 'render-spec.json'),
+      null,
+      {
+        executionPlanPath,
+        inspirationBindingRef: 'inspiration-binding.json'
+      }
+    );
+    assert.deepEqual(invocation.args.slice(2), [
+      '--binding=inspiration-binding.json',
+      `--execution-plan=${executionPlanPath}`
+    ]);
+  } finally { rmSync(f.workspace, { recursive: true, force: true }); }
+});
+
+test('runner binds generated browser evidence into requirement sidecars', async () => {
+  const {
+    bindBrowserEvidenceToRequirements
+  } = await import('../scripts/run-execution-plan.mjs');
+  const f = fixture();
+  try {
+    writeFileSync(
+      join(f.artifact, 'browser-test-evidence.json'),
+      '{"schema_version":"design-browser-test-evidence/v1"}\n'
+    );
+    writeFileSync(
+      join(f.artifact, 'requirement-verification.json'),
+      `${JSON.stringify({
+        requirements: [{
+          id: 'REQ-001',
+          evidence_refs: [{
+            ref: 'pending.json',
+            sha256: '0'.repeat(64),
+            kind: 'browser-test'
+          }]
+        }]
+      })}\n`
+    );
+    bindBrowserEvidenceToRequirements(
+      f.artifact,
+      'requirement-verification.json'
+    );
+    const record = JSON.parse(readFileSync(
+      join(f.artifact, 'requirement-verification.json'),
+      'utf8'
+    ));
+    const binding = record.requirements[0].evidence_refs[0];
+    assert.equal(binding.ref, 'browser-test-evidence.json');
+    assert.equal(
+      binding.sha256,
+      hash(readFileSync(join(f.artifact, 'browser-test-evidence.json')))
+    );
+  } finally { rmSync(f.workspace, { recursive: true, force: true }); }
+});
+
 test('artifact gates receive the runner-owned execution plan sidecar', async () => {
   const { gateInvocation } = await import('../scripts/run-execution-plan.mjs');
   const f = fixture();

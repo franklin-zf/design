@@ -4,18 +4,18 @@
 
 | 文件 | 作用 |
 | --- | --- |
-| `SKILL.md` | Skill 唯一入口：Promise 与 Truth Floor、Core Workflow（Define→Resolve→Build→Verify）、Taste Contract、Risk Lanes（Express/Standard/Assured）、Runtime Contract、Fresh Generation Boundary、按需加载策略 |
+| `SKILL.md` | Skill 唯一入口：Contract、五层架构、能力边界、六阶段主线、Taste Contract、Risk Lanes、核心命令与按需加载 |
 | `AGENTS.md` | 面向 Agent / 贡献者的工程纪律：第一性原理、harness 工程、改动范围最小化、验证与交付标准 |
 | `.trae/rules/design-skill.md` | Trae IDE 侧的 Skill 规则映射，用于本机 Trae 调用同一套规范 |
 
-按需加载原则（SKILL.md「Load Only What You Need」）：默认只读 SKILL.md + workflow.md；按任务追加一篇任务型引用；响应式应用才加载 web-interface-standards；Assured 才加载 advanced-assurance / quality-bar；visual-recipes 等仅在用户显式要求时加载。
+按需加载原则（SKILL.md「Boundaries and Loading」）：默认只读 SKILL.md + workflow.md；按任务追加一篇任务型引用；响应式应用才加载 web-interface-standards；Assured 才加载 advanced-assurance / quality-bar；visual-recipes 等仅在用户显式要求时加载。
 
 ## 二、角色内核（agents/）
 
 | 文件 | 职责边界 |
 | --- | --- |
-| `agents/designer.md` | 视觉设计专家：消费 digest 绑定的 content-handoff（按 `context_scope` 严格过滤）；产出 Taste Contract 2.0（含 `shot_reference`）、注意力区域、阅读顺序、六阶段推导；设计前必须检索 Dribbble Hub；不拥有事实改写权 |
-| `agents/reviewer.md` | 独立评审：审查面含 Contextual Semantic Fitness 与 Anti-Visual-Fill 红线、防消融/重复信息红线、Defensive CSS 与极限内容应力；不能自我审批 |
+| `agents/designer.md` | 视觉设计专家：消费 digest 绑定的 content-handoff；负责 Taste Contract、视觉系统与六阶段执行；按触发条件完成 Dribbble 来源研究，不拥有事实改写权 |
+| `agents/reviewer.md` | 独立评审：PRD-backed 原型必须调用浏览器执行 P0/P1 内容与功能路径；同时检查 Contextual Semantic Fitness、Defensive CSS 与极限内容应力 |
 | `agents/poster.md` | 海报专家：单一信息 + 单一视觉钩子，poster contract 与 anti-ai-slop 校验 |
 | `agents/openai.yaml` | Agent 编排的角色声明配置 |
 
@@ -25,7 +25,7 @@
 
 | 文件 | 标题 | 内容与加载时机 |
 | --- | --- | --- |
-| `workflow.md` | Workflow and Tool Routing | **默认必读**。Intake、Shape Selection、六阶段流水线 G0–G5（Stage 2 强制 Dribbble 检索）、叙述与责任、CLI 调试命令索引 |
+| `workflow.md` | Workflow and Tool Routing | **默认必读**。唯一六阶段 SOP（G0–G5）、Dribbble 条件触发与调用、PRD 浏览器 Review、能力路由与停止条件 |
 | `design-standards.md` | Design Standards | H0–H5 质量层级（需求/事实/叙事/视觉系统/构图/交付）；Scope Filtering Principle、Anti-Visual-Fill、默认现代精工基线、全中文与语义 Icon、防消融、去重、Focal Weight Budget |
 | `quality-bar.md` | Quality Bar | G0–G5 门禁定义、VCR 2.0 七维工艺评审、Assured 证据契约、Contextual Semantic Fitness 评分项 |
 | `advanced-assurance.md` | Advanced Assurance | 仅 Assured 车道：完整溯源、受控执行、外部证据绑定、独立发布评审、角色 handoff/attestation |

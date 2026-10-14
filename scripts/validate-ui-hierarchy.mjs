@@ -54,6 +54,40 @@ export function validateHtmlHierarchy(htmlContent, filePath = 'snippet.html') {
     });
   }
 
+  // 5. Dynamic controls inside flex layouts need an explicit shrink boundary.
+  const flexBlockRegex = /<([a-z][a-z0-9-]*)[^>]*class=["'][^"']*\bflex\b[^"']*["'][^>]*>([\s\S]*?)<\/\1>/gi;
+  let flexBlock;
+  while ((flexBlock = flexBlockRegex.exec(content)) !== null) {
+    const dynamicTags = flexBlock[2].match(
+      /<(?:select|input|textarea|[a-z][a-z0-9-]*\s+[^>]*data-dynamic-text)[^>]*>/gi
+    ) || [];
+    for (const tag of dynamicTags) {
+      if (!/class=["'][^"']*\bmin-w-0\b/.test(tag)) {
+        findings.push({
+          rule: 'FLEX_DYNAMIC_MIN_WIDTH',
+          severity: 'error',
+          message: 'Dynamic text or controls inside flex layouts require min-w-0 plus an explicit wrap or truncation rule.'
+        });
+      }
+    }
+  }
+
+  // 6. Narrow sidebars use stable grids for repeated action buttons.
+  const sidebarRegex = /<([a-z][a-z0-9-]*)[^>]*class=["'][^"']*\bsidebar\b[^"']*(?:w-\[(?:[1-3]\d\d|400)px\]|w-(?:64|72|80|96)|max-w-(?:xs|sm))[^"']*["'][^>]*>([\s\S]*?)<\/\1>/gi;
+  let sidebar;
+  while ((sidebar = sidebarRegex.exec(content)) !== null) {
+    const buttonCount = (sidebar[2].match(/<button\b/gi) || []).length;
+    const usesRaggedFlex = /\bflex-wrap\b/.test(sidebar[0]);
+    const usesStableGrid = /\bgrid-cols-(?:2|3)\b/.test(sidebar[0]);
+    if (buttonCount >= 2 && usesRaggedFlex && !usesStableGrid) {
+      findings.push({
+        rule: 'SIDEBAR_BUTTON_GRID',
+        severity: 'error',
+        message: 'Repeated buttons in sidebars at 400px or below require grid-cols-2 or grid-cols-3 instead of flex-wrap.'
+      });
+    }
+  }
+
   const errors = findings.filter(f => f.severity === 'error');
   const valid = errors.length === 0;
 

@@ -4,14 +4,18 @@
 
 | Gate | Pass condition |
 | --- | --- |
-| G0 Requirement and Truth | Every P0/P1 requirement is passed with current evidence; source values and meaning are unchanged; derived values are code-produced and traceable; contextual semantic fitness is verified (metrics strictly match declared `context_scope`, zero visual-fill bias) |
-| G1 Function and Utility | Core tasks complete; states, navigation, feedback, answer, evidence, caveats, and action support the named reader job |
+| G0 Requirement and Truth | Every P0/P1 requirement is passed with current evidence; PRD-backed prototype content is browser-verified; source values and meaning are unchanged; derived values are code-produced and traceable; contextual semantic fitness is verified |
+| G1 Function and Utility | Browser execution proves the PRD-backed prototype's P0/P1 functional, interaction, and responsive paths; states, navigation, feedback, answer, evidence, caveats, and action support the named reader job |
 | G2 Surface | The real target surface has no placeholder, overflow, overlap, missing asset, unreadable text, or broken state; Defensive CSS Layout Protocol is satisfied with zero container boundary breach, zero button ejection, and verified 50+ character truncation |
 | G3 Craft | Every applicable craft dimension has evidence and scores at least 3/4 |
 | G4 Ownership | Content specificity, visual-world coherence, and memorable element each score at least 3/4 |
 | G5 Perception | Three-second, blinded-preference, or observed-user evidence is reported according to the calibrated policy without overstating evaluator type |
 
-All applicable gates must pass. Mechanical validation is a floor; real-surface visual inspection is mandatory.
+All applicable gates must pass. Mechanical validation is a floor; real-surface
+visual inspection is mandatory. For PRD-backed prototypes, an unavailable
+browser or static-only review blocks release. Passing requirements bind one
+`browser-test-evidence/v1` record to the current artifact, plan, render spec,
+actions, assertions, screenshots, and browser runtime.
 Apply the H0-H5 responsibilities and no-obstruction gate in
 `references/design-standards.md`. These refine the existing four gates; they do not
 create a second release state machine or another set of mandatory handoff files.

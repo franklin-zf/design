@@ -43,3 +43,65 @@ test('UI Hierarchy Validator - emoji as solitary button icon fails', () => {
   assert.equal(res.valid, false);
   assert.ok(res.findings.some(f => f.rule === 'NO_EMOJI_FUNCTIONAL_ICON'));
 });
+
+test('UI Hierarchy Validator - dynamic flex control requires min-w-0', () => {
+  const html = `
+    <div class="flex gap-2">
+      <select class="truncate"><option>超长动态选项</option></select>
+      <button>确认</button>
+    </div>
+  `;
+  const res = validateHtmlHierarchy(html);
+  assert.equal(res.valid, false);
+  assert.ok(res.findings.some(
+    (finding) => finding.rule === 'FLEX_DYNAMIC_MIN_WIDTH'
+  ));
+});
+
+test('UI Hierarchy Validator - min-w-0 dynamic flex control passes', () => {
+  const html = `
+    <div class="flex gap-2">
+      <select class="min-w-0 truncate"><option>超长动态选项</option></select>
+      <button>确认</button>
+    </div>
+  `;
+  const res = validateHtmlHierarchy(html);
+  assert.equal(
+    res.findings.some(
+      (finding) => finding.rule === 'FLEX_DYNAMIC_MIN_WIDTH'
+    ),
+    false
+  );
+});
+
+test('UI Hierarchy Validator - narrow sidebar rejects ragged button flex', () => {
+  const html = `
+    <aside class="sidebar w-[320px] flex flex-wrap gap-2">
+      <button>通过</button>
+      <button>驳回</button>
+      <button>转交</button>
+    </aside>
+  `;
+  const res = validateHtmlHierarchy(html);
+  assert.equal(res.valid, false);
+  assert.ok(res.findings.some(
+    (finding) => finding.rule === 'SIDEBAR_BUTTON_GRID'
+  ));
+});
+
+test('UI Hierarchy Validator - narrow sidebar button grid passes', () => {
+  const html = `
+    <aside class="sidebar w-[320px] grid grid-cols-3 gap-2">
+      <button>通过</button>
+      <button>驳回</button>
+      <button>转交</button>
+    </aside>
+  `;
+  const res = validateHtmlHierarchy(html);
+  assert.equal(
+    res.findings.some(
+      (finding) => finding.rule === 'SIDEBAR_BUTTON_GRID'
+    ),
+    false
+  );
+});

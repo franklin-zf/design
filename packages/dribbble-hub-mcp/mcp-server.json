@@ -1,0 +1,23 @@
+{
+  "schema_version": "design-mcp-server/v1",
+  "name": "dribbble-hub-mcp",
+  "transport": "stdio",
+  "command": "node",
+  "cwd": "${serverDirectory}",
+  "args": [
+    "bin/dribbble-hub.mjs",
+    "serve"
+  ],
+  "environment": {
+    "DESIGN_SKILL_ROOT": "${workspaceFolder}",
+    "DESIGN_DRIBBBLE_CACHE": "${userHome}/.cache/design-skill/dribbble"
+  },
+  "tools": [
+    "search_dribbble_references",
+    "get_dribbble_reference",
+    "list_dribbble_references",
+    "get_dribbble_library_status",
+    "create_inspiration_binding"
+  ],
+  "writes_external_state": false
+}

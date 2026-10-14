@@ -413,7 +413,16 @@ test('direction evidence rejects shallow variants and unsafe reference licensing
     writeJson(registryPath, registry);
     comparison.reference_registry_sha256 = sha256(readFileSync(registryPath));
     writeJson(comparisonPath, comparison);
-    assert.match(validateDirectionEvidence(root).join('\n'), /unresolved license status/);
+    assert.match(validateDirectionEvidence(root).join('\n'), /asset_license/);
+
+    registry.references[1].asset_license = 'verified-permissive';
+    writeJson(registryPath, registry);
+    comparison.reference_registry_sha256 = sha256(readFileSync(registryPath));
+    writeJson(comparisonPath, comparison);
+    assert.match(
+      validateDirectionEvidence(root).join('\n'),
+      /requires license_evidence_ref/
+    );
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

@@ -9,7 +9,12 @@ Translate the accepted content handoff into a content-specific visual system for
 - Digest-bound `content-handoff.json` (strictly filtered by `context_scope`) and source ledger.
 - Reader job, target surface, density, accessibility, reduced-motion, and export constraints.
 - Available design-system tokens and real frontend assets. Resolve the profile and template after the Taste Contract, not as a prerequisite to it.
-- Dribbble visual inspiration anchor retrieved via `node scripts/design.mjs shots search <query>` matching the scene topology and color hierarchy.
+- A source-verified Dribbble reference pass when the user requests inspiration
+  or a net-new direction has no verified brand or accepted design system. Run
+  `dribbble-hub-mcp` status/search/get tools when available; otherwise run
+  `shots status`, then `shots search`, and select one to three references.
+  Exact revisions, existing-system implementation, and evidence-only review may
+  skip the pass only with a recorded reason.
 - A historical reference only when explicitly selected by the user, with its reuse boundary. Test fixtures and rejected outputs are excluded.
 
 ## Required Output
@@ -17,24 +22,33 @@ Translate the accepted content handoff into a content-specific visual system for
 Complete the existing designer handoff and Taste Contract 2.0. Record:
 
 - `visual_thesis` and `content_tension` (strictly scoped to the current view's `context_scope`);
-- `signature_move`, `shot_reference` (e.g., `shot_20261013_01`), `anti_reference`, and `restraint_rule` (explicitly enforcing the Anti-Visual-Fill Principle, e.g. refusing filler metrics to force 4-grid symmetry);
+- `signature_move`, selected `shot_reference` ids with source URLs, extracted
+  methods and `do_not_copy` boundaries when the Dribbble pass is triggered,
+  `anti_reference`, and `restraint_rule` (explicitly enforcing the
+  Anti-Visual-Fill Principle);
 - experience mode, desired and anti-impressions, primary subject, memory target,
   and reference distance;
 - primary attention region and reading order;
-- selected template and rejected alternatives (or apply `default-modern-craft` baseline);
+- selected template and rejected alternatives, resolved through the current
+  profile and content relationship;
 - six-stage derivation execution (Intake -> Art Direction -> Topology -> Hi-Fi Crafting -> Motion -> Verification);
 - two direction previews when required, with a declared creative basis: `external_reference`, `knowledge_recombination`, or `content_native`;
 - chart, diagram, image, icon, and spring motion jobs;
 - static and reduced-motion fallbacks;
 - target-surface inspection plan, avoided AI defaults, Defensive CSS Layout Protocol declarations, and known aesthetic risks.
 
-Choose a visual form from the content relationship: comparison, sequence, system, evidence, or one-message emphasis. If external references are unavailable, apply the modern craft baseline (`default-modern-craft`) or derive the form directly from the content relationship. Enforce the **Defensive CSS Layout Protocol**:
+Choose a visual form from the content relationship: comparison, sequence, system, evidence, or one-message emphasis. When a required Dribbble pass has no relevant verified reference, record the gap and continue only from a content-native direction; never claim the reference pass succeeded or silently replace it with a generic style. Enforce the **Defensive CSS Layout Protocol**:
 - **Flex Elastic Truncation**: declare `min-w-0` and `truncate` on every flex child holding dynamic text, `<select>` options, inputs, or tag chips;
 - **Composite Control Layering**: always split dropdown/search + action buttons into a two-tier card layout (top tier for title & action buttons, bottom tier for full-width `<select>`), strictly forbidding unisolated single-row flex co-location;
 - **Fixed-Width Sidebar Grid**: button groups in fixed-width containers (≤400px) must use structured equal-width CSS Grid (`grid-cols-2` or `grid-cols-3`), never ragged `flex-wrap`;
 - **Anti-Visual-Fill Grid Matching**: grid column count must strictly match authentic scoped metrics (e.g., 3 metrics use 3-cell Bento / `grid-cols-3`, never 4-grid filler).
 
-Use fluid modular typography (`clamp()`), negative display tracking (`-0.02em ~ -0.04em`), OKLCH lighting with 1px specular micro-borders, 3-tier ambient soft shadows, Bento Grid asymmetric proportions, and smooth spring physics easing (`cubic-bezier(0.16, 1, 0.3, 1)`). Mermaid, images, icons, glass, gradients, and animation are optional tools, never default decoration.
+Typography, tracking, color space, border treatment, elevation, topology, and
+motion come from the resolved Profile, verified brand system, or demonstrated
+content need. Bento, negative tracking, OKLCH lighting, layered shadows, and
+spring easing are optional methods, never universal defaults. Mermaid, images,
+icons, glass, gradients, and animation are also optional tools, never default
+decoration.
 
 For a fresh design, use a fresh output directory and current content handoff. Do not copy a previous artifact into a template. Compare composition and information hierarchy, not merely two colorways. Read key pages at actual delivery size before scaling to the complete artifact; reflow or split dense content instead of reducing essential text below the surface standard. Follow `references/design-standards.md`.
 

@@ -16,7 +16,7 @@ import { loadPlaywrightRuntime } from './lib/playwright-runtime.mjs';
 const modulePath = fileURLToPath(import.meta.url);
 const target = process.argv[2];
 if (!target) {
-  console.error('Usage: node scripts/render-smoke.mjs <artifact-index.html> [output-png-or-dir] [--viewports=desktop,mobile,small-phone] [--strict-layout] [--spec=<json>] [--profile-out=<json>] [--artifact-digest=<sha256>] [--plan-digest=<sha256>]');
+  console.error('Usage: node scripts/render-smoke.mjs <artifact-index.html> [output-png-or-dir] [--viewports=desktop,mobile,small-phone] [--strict-layout] [--spec=<json>] [--profile-out=<json>] [--browser-evidence-out=<json>] [--artifact-digest=<sha256>] [--plan-digest=<sha256>]');
   process.exit(2);
 }
 
@@ -38,12 +38,21 @@ const viewportArg = process.argv.find((arg) => arg.startsWith('--viewports='));
 const requestedNames = (viewportArg?.split('=')[1] || 'desktop').split(',').map((name) => name.trim()).filter(Boolean);
 for (const name of requestedNames) if (!viewportMap[name]) throw new Error(`Unknown viewport "${name}". Use desktop,mobile,small-phone.`);
 const profileOut = process.argv.find((arg) => arg.startsWith('--profile-out='))?.slice('--profile-out='.length);
+const browserEvidenceOut = process.argv.find(
+  (arg) => arg.startsWith('--browser-evidence-out=')
+)?.slice('--browser-evidence-out='.length);
 const specRef = process.argv.find((arg) => arg.startsWith('--spec='))?.slice('--spec='.length);
 const artifactDigest = process.argv.find((arg) => arg.startsWith('--artifact-digest='))?.slice('--artifact-digest='.length);
 const planDigest = process.argv.find((arg) => arg.startsWith('--plan-digest='))?.slice('--plan-digest='.length);
 const digestPattern = /^[a-f0-9]{64}$/;
-if (profileOut && (!specRef || !digestPattern.test(artifactDigest || '') || !digestPattern.test(planDigest || ''))) {
-  throw new Error('--profile-out requires --spec, --artifact-digest, and --plan-digest.');
+if ((profileOut || browserEvidenceOut)
+    && (!specRef
+      || !digestPattern.test(artifactDigest || '')
+      || !digestPattern.test(planDigest || ''))) {
+  throw new Error(
+    '--profile-out and --browser-evidence-out require --spec, '
+    + '--artifact-digest, and --plan-digest.'
+  );
 }
 
 let renderSpec = null;
@@ -63,7 +72,11 @@ if (specRef) {
 }
 
 let chromium;
-try { ({ chromium } = await loadPlaywrightRuntime()); }
+let playwrightRuntime;
+try {
+  playwrightRuntime = await loadPlaywrightRuntime();
+  ({ chromium } = playwrightRuntime);
+}
 catch (error) { console.error(error.message); process.exit(2); }
 
 const htmlPath = isAbsolute(target) ? target : resolve(process.cwd(), target);
@@ -74,6 +87,7 @@ const outputDir = outputArg && !outputIsFile ? outputArg : defaultOutputDir;
 const states = renderSpec?.states || [{ id: 'default', setup: [], assertions: [{ kind: 'visible', selector: 'body' }] }];
 const segments = renderSpec?.segments || [{ id: 'full', kind: 'scroll_fraction', fraction: 0 }];
 const remotePolicy = renderSpec?.remote_policy || { mode: 'deny_all', allowed_origins: [] };
+const browserRuns = [];
 
 function remoteRequestRecord(request) {
   if (!/^https?:/i.test(request.url())) return null;
@@ -626,7 +640,9 @@ try {
         allRequests
       );
       const consoleErrors = [];
+      const pageErrors = [];
       page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
+      page.on('pageerror', (error) => pageErrors.push(error.message));
       await page.goto(pathToFileURL(htmlPath).href, { waitUntil: 'networkidle' });
       assertNoUnauthorizedRequests(allRequests, `${viewportName}/${state.id}`);
       await applySetup(page, state.setup);
@@ -640,8 +656,12 @@ try {
       const issues = strictLayout ? await strictIssues(page) : [];
       if (issues.length) { profile.strict_success = false; throw new Error(`${viewportName}/${state.id}: strict layout issues: ${issues.join(' | ')}`); }
       if (consoleErrors.length) throw new Error(`${viewportName}/${state.id}: console errors: ${consoleErrors.join(' | ')}`);
+      if (pageErrors.length) throw new Error(`${viewportName}/${state.id}: page errors: ${pageErrors.join(' | ')}`);
       const stateEvidence = {
         id: state.id,
+        ...(state.requirement_ids
+          ? { requirement_ids: state.requirement_ids }
+          : {}),
         assertions,
         visible_text_sha256: visibleTextDigest,
         schematic_disclosure: await disclosureEvidence(page),
@@ -667,6 +687,25 @@ try {
           document_height: pageHeight
         });
         outputs.push(output);
+      }
+      if (state.requirement_ids?.length) {
+        const screenshot = stateEvidence.segments[0];
+        browserRuns.push({
+          id: `${viewportName}-${state.id}`,
+          requirement_ids: state.requirement_ids,
+          viewport: viewport.width,
+          state: state.id,
+          actions: state.setup,
+          assertions,
+          after_screenshot: {
+            ref: screenshot.screenshot_ref,
+            sha256: screenshot.screenshot_sha256
+          },
+          console_errors: [],
+          page_errors: [],
+          unauthorized_requests: [],
+          passed: true
+        });
       }
       profile.states.push(stateEvidence);
       await context.close();
@@ -724,6 +763,39 @@ try {
       resolved_plan_digest: planDigest,
       render_spec_digest: renderSpec.spec_digest,
       profiles
+    }, null, 2)}\n`);
+  }
+  if (browserEvidenceOut) {
+    if (!browserRuns.length) {
+      throw new Error(
+        '--browser-evidence-out requires render states with requirement_ids'
+      );
+    }
+    let playwrightVersion = 'unknown';
+    try {
+      playwrightVersion = JSON.parse(readFileSync(
+        join(dirname(playwrightRuntime.modulePath), 'package.json'),
+        'utf8'
+      )).version || 'unknown';
+    } catch {
+      playwrightVersion = 'unknown';
+    }
+    const evidencePath = isAbsolute(browserEvidenceOut)
+      ? browserEvidenceOut
+      : resolve(process.cwd(), browserEvidenceOut);
+    mkdirSync(dirname(evidencePath), { recursive: true });
+    writeFileSync(evidencePath, `${JSON.stringify({
+      schema_version: 'design-browser-test-evidence/v1',
+      adapter: {
+        id: 'playwright',
+        version: playwrightVersion,
+        runtime: playwrightRuntime.executablePath
+      },
+      generated_at: new Date().toISOString(),
+      artifact_digest: artifactDigest,
+      execution_plan_digest: planDigest,
+      render_spec_digest: renderSpec.spec_digest,
+      runs: browserRuns
     }, null, 2)}\n`);
   }
   console.log(`Render smoke passed: ${outputs.join(', ')}`);

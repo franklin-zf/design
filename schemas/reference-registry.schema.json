@@ -20,6 +20,11 @@
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+"
+    },
     "reference": {
       "type": "object",
       "additionalProperties": false,
@@ -63,8 +68,23 @@
           "pattern": "^(?!/)(?![A-Za-z]:[\\/])(?!.*(?:^|[\\/])\\.\\.(?:[\\/]|$)).+"
         },
         "snapshot_sha256": { "$ref": "#/$defs/sha256" },
-        "code_license": { "type": "string", "minLength": 1 },
-        "asset_license": { "type": "string", "minLength": 1 },
+        "code_license": {
+          "enum": [
+            "not-used",
+            "verified-permissive",
+            "verified-proprietary-authorized"
+          ]
+        },
+        "asset_license": {
+          "enum": [
+            "not-used",
+            "verified-permissive",
+            "verified-proprietary-authorized"
+          ]
+        },
+        "license_evidence_ref": {
+          "$ref": "#/$defs/relative_path"
+        },
         "adoption_mode": {
           "enum": ["inspiration_only", "pattern_adoption", "licensed_code"]
         },

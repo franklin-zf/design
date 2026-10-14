@@ -27,7 +27,9 @@ export function computeArtifactDigest(root) {
     'accessibility-checks.json',
     'privacy-checks.json',
     'render-profile.json',
-    'requirement-verification.json'
+    'requirement-verification.json',
+    'inspiration-binding.json',
+    'browser-test-evidence.json'
   ]);
   const entries = [];
   function walk(directory) {

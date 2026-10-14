@@ -1,210 +1,233 @@
 {
-  "version": "1.0.0",
-  "updated_at": "2026-10-14T03:54:20.216Z",
+  "version": "2.0.0",
+  "updated_at": "2026-10-14T00:00:00.000Z",
+  "policy": {
+    "purpose": "Internal visual-method research for Design Skill direction work.",
+    "selection_rule": "Use only when the task trigger requires external inspiration. Extract methods, never copy the composition, content, brand, or assets.",
+    "release_rule": "A shot reference cannot prove source truth, PRD coverage, browser behavior, or visual approval."
+  },
   "shots": [
     {
-      "id": "shot_20261013_01",
-      "title": "Fintech SaaS Analytics & Bento Workspace",
-      "author": "Craftwork Studio",
-      "source_url": "https://dribbble.com/shots/popular",
-      "date_ingested": "2026-10-13",
-      "image_path": "assets/dribbble-shots/images/shot_20261013_01.svg",
+      "id": "shot_26628350",
+      "title": "Shopeers - AI-Powered B2B eCommerce Analytics Dashboard",
+      "author": "Dipa Inhouse",
+      "source_url": "https://dribbble.com/shots/26628350-Shopeers-AI-Powered-B2B-eCommerce-Analytics-Dashboard",
+      "preview_source_url": "https://cdn.dribbble.com/userupload/45238617/file/still-0b7ce7776bd665e04064e34fefacd927.png?resize=1600x1200",
+      "status": "active",
+      "last_verified_at": "2026-10-14",
+      "preview_sha256": "e560fc21ec5637f85abf0b31fe8239a64709420b2b8213007e3cc7ef4022ac0d",
+      "preview_width": 1600,
+      "preview_height": 1200,
+      "rights": {
+        "usage": "internal-visual-reference-only",
+        "license_status": "unverified-internal-reference",
+        "distribution": "metadata-only",
+        "direct_reuse_allowed": false,
+        "attribution": "Shopeers - AI-Powered B2B eCommerce Analytics Dashboard by Dipa Inhouse on Dribbble"
+      },
       "categories": [
         "saas-dashboard",
-        "bento-grid",
-        "data-visualization"
+        "ecommerce-analytics",
+        "dense-operational-ui"
       ],
-      "visual_features": {
-        "layout_topology": "asymmetric-bento-2x2",
-        "aspect_ratios": [
-          "2:1",
-          "1:1",
-          "1.618:1"
+      "annotation": {
+        "basis": "manual-visual-review",
+        "reviewed_at": "2026-10-14",
+        "layout_topology": "sidebar-kpi-grid-with-primary-analysis-column",
+        "visual_methods": [
+          "quiet neutral foundation with one blue action accent",
+          "compact KPI row above mixed-width analysis regions",
+          "persistent navigation separated from the working canvas",
+          "dense tables and charts remain visually subordinate to task hierarchy"
         ],
-        "color_palette": {
-          "foundation": "oklch(0.18 0.02 260)",
-          "surface": "oklch(0.22 0.025 260)",
-          "surface_elevated": "oklch(0.26 0.03 260)",
-          "accent_focal": "oklch(0.65 0.24 250)",
-          "contrast_ratio": "12.5:1"
-        },
-        "material_recipe": {
-          "border": "1px solid rgba(255, 255, 255, 0.08)",
-          "shadow": "0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.25)",
-          "noise_overlay": "2% svg fractal noise",
-          "corner_radius": "16px outer / 8px inner",
-          "inset_safe_padding": "16px"
-        },
-        "typography_style": "Display Sans (-0.03em tracking) + JetBrains Mono for Metrics"
+        "do_not_copy": [
+          "brand identity",
+          "metric values",
+          "exact card arrangement",
+          "illustration assets"
+        ]
       },
       "applicable_scenes": [
-        "金融数据大屏",
-        "商户资金工作台",
-        "高阶分析看板"
+        "B2B 经营分析",
+        "电商运营工作台",
+        "多指标 SaaS Dashboard"
       ],
       "search_keywords": [
-        "金融",
-        "数据看板",
-        "暗色精工",
-        "Bento",
+        "B2B",
         "SaaS",
-        "工作台",
+        "dashboard",
         "analytics",
-        "fintech"
+        "电商",
+        "经营",
+        "数据看板"
       ]
     },
     {
-      "id": "shot_20261013_02",
-      "title": "Local Life Merchant Growth & Operations Hub",
-      "author": "Halo UI/UX",
-      "source_url": "https://dribbble.com/shots/popular",
-      "date_ingested": "2026-10-13",
-      "image_path": "assets/dribbble-shots/images/shot_20261013_02.svg",
+      "id": "shot_21235669",
+      "title": "Merchant dashboard - Overview page UI",
+      "author": "Slick",
+      "source_url": "https://dribbble.com/shots/21235669-Merchant-dashboard-Overview-page-UI",
+      "preview_source_url": "https://cdn.dribbble.com/userupload/6360365/file/original-a2afe0cd4c1dae347e613cbce9b6f7af.png?resize=1600x1200",
+      "status": "active",
+      "last_verified_at": "2026-10-14",
+      "preview_sha256": "960c3f1f4f6a67e217ee36904c0b0c0d6b3dd4af45877ba9fe9aedd82dbd6173",
+      "preview_width": 1600,
+      "preview_height": 1200,
+      "rights": {
+        "usage": "internal-visual-reference-only",
+        "license_status": "unverified-internal-reference",
+        "distribution": "metadata-only",
+        "direct_reuse_allowed": false,
+        "attribution": "Merchant dashboard - Overview page UI by Slick on Dribbble"
+      },
       "categories": [
         "merchant-portal",
-        "operations",
-        "kpi-metrics"
+        "dark-dashboard",
+        "sales-operations"
       ],
-      "visual_features": {
-        "layout_topology": "3-tier-hierarchy-hero-grid",
-        "aspect_ratios": [
-          "3:1",
-          "2:1"
+      "annotation": {
+        "basis": "manual-visual-review",
+        "reviewed_at": "2026-10-14",
+        "layout_topology": "dark-sidebar-kpi-strip-and-chart-table-stack",
+        "visual_methods": [
+          "dark operational shell with restrained semantic status colors",
+          "single horizontal KPI scan before deeper trend analysis",
+          "chart and table share a stable primary column",
+          "profile and settings stay outside the main decision flow"
         ],
-        "color_palette": {
-          "foundation": "oklch(0.98 0.005 240)",
-          "surface": "oklch(1 0 0)",
-          "surface_elevated": "oklch(0.96 0.01 240)",
-          "accent_focal": "oklch(0.55 0.22 250)",
-          "contrast_ratio": "14.2:1"
-        },
-        "material_recipe": {
-          "border": "1px solid rgba(0, 0, 0, 0.06)",
-          "shadow": "0 1px 3px rgba(0,0,0,0.04), 0 6px 16px rgba(0,0,0,0.06)",
-          "noise_overlay": "none",
-          "corner_radius": "12px outer / 6px inner",
-          "inset_safe_padding": "16px"
-        },
-        "typography_style": "PingFang SC / Inter Display + Tabular Numerals"
+        "do_not_copy": [
+          "brand identity",
+          "metric values",
+          "exact card arrangement",
+          "product imagery"
+        ]
       },
       "applicable_scenes": [
-        "生活服务商家端",
-        "门店经营看板",
-        "团购与核销报表"
+        "商家经营总览",
+        "订单与销售分析",
+        "暗色运营控制台"
       ],
       "search_keywords": [
-        "生活服务",
+        "merchant",
+        "operations",
+        "sales",
+        "dark dashboard",
         "商家",
         "经营",
-        "门店",
-        "核销",
-        "亮色极简",
-        "Tremor",
-        "merchant",
-        "growth"
+        "商家经营工作台",
+        "订单"
       ]
     },
     {
-      "id": "shot_20261013_03",
-      "title": "AI Content Risk & Quality Control Console",
-      "author": "Oasis Systems",
-      "source_url": "https://dribbble.com/shots/popular",
-      "date_ingested": "2026-10-13",
-      "image_path": "assets/dribbble-shots/images/shot_20261013_03.svg",
+      "id": "shot_27388009",
+      "title": "AI Dashboard Design for Control AI Policy Platform",
+      "author": "George Railean",
+      "source_url": "https://dribbble.com/shots/27388009-AI-Dashboard-Design-for-Control-AI-Policy-Platform",
+      "preview_source_url": "https://cdn.dribbble.com/userupload/47771391/file/still-45273075adfca6b784cfbbaaf73829fe.png?resize=1600x1200",
+      "status": "active",
+      "last_verified_at": "2026-10-14",
+      "preview_sha256": "36713e3624ee7d78bae59c5772d7515b784476ac1fdbaa8d0ab177297e22d071",
+      "preview_width": 1600,
+      "preview_height": 1200,
+      "rights": {
+        "usage": "internal-visual-reference-only",
+        "license_status": "unverified-internal-reference",
+        "distribution": "metadata-only",
+        "direct_reuse_allowed": false,
+        "attribution": "AI Dashboard Design for Control AI Policy Platform by George Railean on Dribbble"
+      },
       "categories": [
-        "quality-audit",
-        "dense-table",
-        "risk-control"
+        "ai-policy",
+        "risk-control",
+        "relationship-explorer"
       ],
-      "visual_features": {
-        "layout_topology": "split-pane-dense-console",
-        "aspect_ratios": [
-          "1:2",
-          "2:1"
+      "annotation": {
+        "basis": "manual-visual-review",
+        "reviewed_at": "2026-10-14",
+        "layout_topology": "relationship-canvas-with-inspector-panel",
+        "visual_methods": [
+          "full-width relationship canvas preserves system context",
+          "right inspector converts a selected node into actionable detail",
+          "toolbar actions float above the graph without framing another card",
+          "selection emphasis uses line convergence and local luminance"
         ],
-        "color_palette": {
-          "foundation": "oklch(0.96 0.01 240)",
-          "surface": "oklch(0.99 0.005 240)",
-          "surface_elevated": "oklch(0.93 0.02 240)",
-          "accent_focal": "oklch(0.52 0.24 260)",
-          "contrast_ratio": "11.8:1"
-        },
-        "material_recipe": {
-          "border": "1px solid rgba(0, 0, 0, 0.08)",
-          "shadow": "0 1px 2px rgba(0,0,0,0.05)",
-          "noise_overlay": "none",
-          "corner_radius": "8px outer / 4px inner",
-          "inset_safe_padding": "12px"
-        },
-        "typography_style": "High-density Sans (13px table text) + Semi Design Scale"
+        "do_not_copy": [
+          "brand identity",
+          "policy content",
+          "node graph",
+          "exact visual effects"
+        ]
       },
       "applicable_scenes": [
-        "内容风控工作台",
-        "审核质检架构",
-        "PE 协作控制台"
+        "AI 治理平台",
+        "策略与规则关系分析",
+        "内容风控关系图"
       ],
       "search_keywords": [
-        "风控",
-        "审核",
-        "质检",
-        "PE",
-        "控制台",
-        "高密表格",
-        "防消融",
-        "audit",
+        "AI",
+        "policy",
         "risk",
-        "console"
+        "graph",
+        "inspector",
+        "治理",
+        "风控",
+        "关系图"
       ]
     },
     {
-      "id": "shot_20261013_04",
-      "title": "Mobile POS & Voucher Redemption Mini-App",
-      "author": "Lumos Motion",
-      "source_url": "https://dribbble.com/shots/popular",
-      "date_ingested": "2026-10-13",
-      "image_path": "assets/dribbble-shots/images/shot_20261013_04.svg",
+      "id": "shot_20461079",
+      "title": "Kopag - Mobile POS App",
+      "author": "Daffa Toldo for Sogee",
+      "source_url": "https://dribbble.com/shots/20461079-Kopag-Mobile-POS-App",
+      "preview_source_url": "https://cdn.dribbble.com/userupload/4386041/file/original-5514a4d60965e125deb41b635ac9c084.png?crop=0x0-2400x1800&resize=1600x1200",
+      "status": "active",
+      "last_verified_at": "2026-10-14",
+      "preview_sha256": "2bc93e2658cd2fe17da1ad37792a50de13c7600614b290604e00ff3c11004e92",
+      "preview_width": 1600,
+      "preview_height": 1200,
+      "rights": {
+        "usage": "internal-visual-reference-only",
+        "license_status": "unverified-internal-reference",
+        "distribution": "metadata-only",
+        "direct_reuse_allowed": false,
+        "attribution": "Kopag - Mobile POS App by Daffa Toldo for Sogee on Dribbble"
+      },
       "categories": [
-        "mobile-card",
-        "tactile-controls",
-        "h5-miniapp"
+        "mobile-pos",
+        "commerce-flow",
+        "touch-interface"
       ],
-      "visual_features": {
-        "layout_topology": "single-column-tactile-stack",
-        "aspect_ratios": [
-          "9:16",
-          "1:1"
+      "annotation": {
+        "basis": "manual-visual-review",
+        "reviewed_at": "2026-10-14",
+        "layout_topology": "three-step-mobile-commerce-flow",
+        "visual_methods": [
+          "product discovery, configuration, and checkout form one visible sequence",
+          "large bottom actions remain stable within the thumb zone",
+          "selected options use high-contrast fills instead of decorative elevation",
+          "order totals receive a separate summary region before payment"
         ],
-        "color_palette": {
-          "foundation": "oklch(0.97 0.01 250)",
-          "surface": "oklch(1 0 0)",
-          "surface_elevated": "oklch(0.94 0.015 250)",
-          "accent_focal": "oklch(0.58 0.22 250)",
-          "contrast_ratio": "13.0:1"
-        },
-        "material_recipe": {
-          "border": "1px solid rgba(0, 0, 0, 0.06)",
-          "shadow": "0 4px 12px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
-          "noise_overlay": "none",
-          "corner_radius": "20px outer / 10px inner",
-          "inset_safe_padding": "16px"
-        },
-        "typography_style": "Mobile Sans Display + Large Touch Targets (48px)"
+        "do_not_copy": [
+          "brand identity",
+          "product photography",
+          "prices",
+          "exact mobile layouts"
+        ]
       },
       "applicable_scenes": [
-        "移动端核销页",
-        "H5 卡券详情",
-        "掌上经营工作台"
+        "移动 POS",
+        "商品规格选择",
+        "卡券或订单核销"
       ],
       "search_keywords": [
+        "mobile",
+        "POS",
+        "checkout",
+        "voucher",
+        "touch",
         "移动端",
         "核销",
-        "卡券",
-        "H5",
-        "小程序",
-        "触觉卡片",
-        "mobile",
-        "pos",
-        "voucher"
+        "订单"
       ]
     }
   ]

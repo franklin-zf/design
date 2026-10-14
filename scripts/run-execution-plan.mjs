@@ -29,6 +29,10 @@ const maxWorkers = 4;
 const gateAdapters = new Map([
   ['validate-aesthetic-contract', { script: 'validate-aesthetic-contract.mjs', target: 'artifact' }],
   ['validate-asset-contract', { script: 'validate-asset-contract.mjs', target: 'artifact' }],
+  ['validate-browser-test-evidence', {
+    script: 'validate-browser-test-evidence.mjs',
+    target: 'artifact'
+  }],
   ['validate-claim-map', { script: 'validate-claim-map.mjs', target: 'artifact' }],
   ['validate-component-usage', { script: 'validate-component-usage.mjs', target: 'artifact' }],
   ['validate-data-provenance', { script: 'validate-data-provenance.mjs', target: 'artifact' }],
@@ -36,6 +40,10 @@ const gateAdapters = new Map([
   ['validate-design-system-package', { script: 'validate-design-system-package.mjs', target: 'skill' }],
   ['validate-direction-evidence', {
     script: 'validate-direction-evidence.mjs',
+    target: 'artifact'
+  }],
+  ['validate-inspiration-binding', {
+    script: 'validate-inspiration-binding.mjs',
     target: 'artifact'
   }],
   ['validate-evidence-contract', { script: 'validate-evidence-contract.mjs', target: 'artifact' }],
@@ -363,7 +371,20 @@ export function gateInvocation(
       `--artifact-digest=${artifactDigest}`,
       `--plan-digest=${resolvedPlanDigest}`
     );
+    if (trustedReadyEvidence.browserEvidenceRequired) {
+      args.push(
+        `--browser-evidence-out=${join(artifactRoot, 'browser-test-evidence.json')}`
+      );
+    }
     evidence = profilePath;
+  }
+  if (gate.gate_id === 'validate-browser-test-evidence') {
+    args.push(
+      '--evidence=browser-test-evidence.json',
+      `--execution-plan=${trustedReadyEvidence.executionPlanPath}`,
+      `--render-spec=${renderSpecPath}`
+    );
+    evidence = 'browser-test-evidence.json';
   }
   if (gate.gate_id === 'validate-component-usage') {
     if (!componentResolutionPath) {
@@ -378,6 +399,14 @@ export function gateInvocation(
       `--record=${trustedReadyEvidence.requirementVerificationRef}`
     );
     evidence = trustedReadyEvidence.requirementVerificationRef;
+  }
+  if (gate.gate_id === 'validate-inspiration-binding'
+      && trustedReadyEvidence.inspirationBindingRef) {
+    args.push(
+      `--binding=${trustedReadyEvidence.inspirationBindingRef}`,
+      `--execution-plan=${trustedReadyEvidence.executionPlanPath}`
+    );
+    evidence = trustedReadyEvidence.inspirationBindingRef;
   }
   if (gate.gate_id === 'validate-design-output'
       || gate.gate_id === 'validate-layout-lock'
@@ -417,6 +446,38 @@ function readJsonIfRegular(path) {
   } catch {
     return null;
   }
+}
+
+export function bindBrowserEvidenceToRequirements(artifactRoot, recordRef) {
+  if (!safeRelative(recordRef)) {
+    throw new Error('browser evidence requirement record ref is unsafe');
+  }
+  const recordPath = resolve(artifactRoot, recordRef);
+  const evidencePath = resolve(artifactRoot, 'browser-test-evidence.json');
+  if (!existsSync(recordPath) || !existsSync(evidencePath)) {
+    throw new Error(
+      'browser evidence binding requires requirement and browser evidence records'
+    );
+  }
+  const record = readJsonIfRegular(recordPath);
+  if (!record) throw new Error('requirement verification record is invalid');
+  const evidenceSha256 = hashFile(evidencePath);
+  let bindingCount = 0;
+  for (const requirement of record.requirements || []) {
+    for (const binding of requirement.evidence_refs || []) {
+      if (binding.kind !== 'browser-test') continue;
+      binding.ref = 'browser-test-evidence.json';
+      binding.sha256 = evidenceSha256;
+      bindingCount += 1;
+    }
+  }
+  if (!bindingCount) {
+    throw new Error(
+      'requirement verification has no browser-test evidence bindings'
+    );
+  }
+  secureWriteFile(recordPath, `${JSON.stringify(record, null, 2)}\n`);
+  return recordPath;
 }
 
 export function deriveEvidenceStatus({
@@ -570,7 +631,12 @@ export async function runExecutionPlan(plan, options = {}) {
         reviewerAttestationPath: options.reviewerAttestationPath,
         requirementVerificationRef:
           plan.evidence_contract.requirement_verification_ref
-          || plan.normalized_request.conditional_policies.requirements?.record_ref
+          || plan.normalized_request.conditional_policies.requirements?.record_ref,
+        inspirationBindingRef:
+          plan.evidence_contract.inspiration_binding_ref
+          || plan.normalized_request.conditional_policies.inspiration?.record_ref,
+        browserEvidenceRequired:
+          plan.evidence_contract.prd_browser_review_required === true
       }
     );
     const output = await spawnProcess(invocation.executable, invocation.args, { cwd: context.workspaceRoot, timeoutMs: gate.timeout_ms });
@@ -605,6 +671,14 @@ export async function runExecutionPlan(plan, options = {}) {
         exit_code: result.exit_code,
         evidence: result.evidence
       });
+      if (result.gate_id === 'render-smoke' && result.status === 'passed'
+          && plan.evidence_contract.prd_browser_review_required === true) {
+        bindBrowserEvidenceToRequirements(
+          context.artifactRoot,
+          plan.evidence_contract.requirement_verification_ref
+            || 'requirement-verification.json'
+        );
+      }
       if (result.gate_id === 'render-smoke' && result.status === 'passed'
           && !machineAttestationPath
           && typeof options.artifactAuthorId === 'string'

@@ -10,7 +10,7 @@
       "role": "first_viewport",
       "state_id": "first-default",
       "image_ref": "first_viewport.png",
-      "image_sha256": "2f73a42e7c3c4b02f268fa0f8413e0513e99d088e0484fe0df6b339bd0bbcccb",
+      "image_sha256": "5bbb02b75336bcfb44df4adeab3a334448e15fe9fdc3f4f843109867cf26ad47",
       "frame": {
         "width": 1208,
         "height": 900,
@@ -21,7 +21,7 @@
       "role": "dense_content",
       "state_id": "dense-default",
       "image_ref": "dense_content.png",
-      "image_sha256": "c0018dd3ba41c3ca27ce5bc8f3701106241ffeb52084ce81acb777dc20e249a0",
+      "image_sha256": "95c7c4e95cebebf8c1d74940d1787094f7153a4de83372e1626c9a9a39c2b882",
       "frame": {
         "width": 1160,
         "height": 179,
@@ -32,7 +32,7 @@
       "role": "critical_state",
       "state_id": "critical-default",
       "image_ref": "critical_state.png",
-      "image_sha256": "fadb08fba626f65e6e87c55acb59b9c39a976c34aaac469d872ca3376960b424",
+      "image_sha256": "a35af589be6e2f13664e3b1b5a4386113bc3cf7ed1accbd50ef56b17db1a69a2",
       "frame": {
         "width": 1160,
         "height": 72,
@@ -43,7 +43,7 @@
       "role": "narrow_screen",
       "state_id": "narrow-default",
       "image_ref": "narrow_screen.png",
-      "image_sha256": "fa489f80da979cabd5c33a1ea16bb8ff687ba68ecc2d66fe337c57587838fe2c",
+      "image_sha256": "babe1e3dca2e9828b0206be46115fed45ccaf4cd20bf18a067ba3146aeab2e39",
       "frame": {
         "width": 390,
         "height": 844,

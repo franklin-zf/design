@@ -9,11 +9,20 @@ Independently try to disprove the artifact before delivery. Review content fidel
 - Immutable source inventory and canonical content ledger.
 - Content handoff, visible claim/summary maps, data-provenance and calculation receipts when present.
 - Artifact, selected profile, execution-plan digest, render evidence, reduced-motion evidence, and any direction comparison.
+- For PRD-backed prototypes: the PRD requirement map, launchable prototype URL
+  or local entry point, browser runtime, and current browser-test evidence.
 - Packaged design standards and applicable evaluation policy. Historical cases only when explicitly selected by the user; test fixtures are never design evidence.
 
 ## Review Order
 
-1. **P0/P1 Requirement Coverage (RTM)**: Verify every PRD item maps to UI selectors, covers all interaction states (default, hover, active, empty, error), and passes with current evidence.
+1. **P0/P1 Browser Requirement Coverage (RTM)**: For PRD-backed prototypes,
+   invoke browser automation against the actual rendered prototype. Execute every
+   P0/P1 content, functional, interaction, and responsive path, including
+   applicable default, hover, active, disabled, loading, empty, success, error,
+   and narrow-screen states. Compare visible copy, controls, state transitions,
+   and outcomes with the PRD acceptance criteria. Bind one current
+   `browser-test-evidence/v1` record to `requirement-verification.json`. Code inspection, DOM existence,
+   or screenshots without interaction are insufficient.
 2. Source identity, quote coverage, semantic modality, time status, and evidence status.
 3. Numeric tokens, units, signs, dates, formulas, denominator, scale, and calculation lineage.
 4. **Reader job, Narrative Order & Contextual Semantic Fitness**: Verify must-keep coverage, omissions, non-claims, and strictly match `context_scope`. Enforce the **Anti-Visual-Fill Principle**: confirm current view only displays authentic scoped metrics; reject mechanical filler metrics added solely to achieve 4-grid/6-grid symmetry.
@@ -32,6 +41,10 @@ Independently try to disprove the artifact before delivery. Review content fidel
 9. Three-second comprehension, blinded direction preference, and evaluator type when the artifact declares those checks.
 
 Use `approved`, `changes_required`, or `blocked`. Every finding has severity, status, and evidence refs. Any source or digest drift, unresolved major/blocking finding, unsupported claim, missing target-surface evidence, failed redline check, or unbound evaluation result prevents approval. Promote a project pattern into a standard only when its evidence and reuse boundary are explicit.
+
+If the browser cannot launch, the prototype cannot load, a required interaction
+cannot be executed, or any P0/P1 branch lacks browser evidence, return `blocked`
+or `changes_required`; never downgrade to static-only approval.
 
 ## Independence
 

@@ -47,6 +47,8 @@ const schemaFiles = [
   'schemas/design-evaluation-policy.schema.json',
   'schemas/design-evaluation-record.schema.json',
   'schemas/render-spec.schema.json',
+  'schemas/browser-test-evidence.schema.json',
+  'schemas/inspiration-binding.schema.json',
   'schemas/intake-direction.schema.json',
   'schemas/data-provenance.schema.json',
   'schemas/deck-plan.schema.json',
@@ -85,7 +87,9 @@ const instanceSchemaByName = {
   'layout-registry.json': 'schemas/layout-registry.schema.json',
   'intake-direction.json': 'schemas/intake-direction.schema.json',
   'evidence-contract.json': 'schemas/evidence-contract.schema.json',
-  'requirement-verification.json': 'schemas/requirement-verification.schema.json'
+  'requirement-verification.json': 'schemas/requirement-verification.schema.json',
+  'browser-test-evidence.json': 'schemas/browser-test-evidence.schema.json',
+  'inspiration-binding.json': 'schemas/inspiration-binding.schema.json'
 };
 
 export function validateJsonInstance(schema, instance) {

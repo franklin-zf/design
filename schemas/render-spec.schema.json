@@ -35,12 +35,44 @@
       "type": "object", "additionalProperties": false, "required": ["id", "setup", "assertions"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
-        "setup": { "type": "array", "items": { "type": "object" } },
+        "requirement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9._-]{1,63}$"
+          }
+        },
+        "setup": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/setup_action" }
+        },
         "assertions": {
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/$defs/assertion" }
         }
+      }
+    },
+    "setup_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "selector"],
+      "properties": {
+        "action": {
+          "enum": [
+            "click",
+            "fill",
+            "select",
+            "check",
+            "uncheck",
+            "press",
+            "wait_for"
+          ]
+        },
+        "selector": { "type": "string", "minLength": 1 },
+        "value": {}
       }
     },
     "assertion": {

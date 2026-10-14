@@ -229,7 +229,7 @@ test('dashboard plans require a current profile and canonical operational render
   );
 });
 
-test('product requirements add one fail-closed automatic gate and review gate', async () => {
+test('product requirements require browser execution and PRD content/function review', async () => {
   const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
   const base = v2Request();
   const request = v2Request({
@@ -238,6 +238,13 @@ test('product requirements add one fail-closed automatic gate and review gate', 
       requirements: {
         mode: 'provided',
         record_ref: 'requirement-verification.json'
+      },
+      render: {
+        ...base.conditional_policies.render,
+        states: [{
+          ...base.conditional_policies.render.states[0],
+          requirement_ids: ['REQ-001']
+        }]
       }
     }
   });
@@ -251,14 +258,59 @@ test('product requirements add one fail-closed automatic gate and review gate', 
     ).length,
     1
   );
+  assert.equal(
+    plan.automatic_gates.filter(
+      (gate) => gate.gate_id === 'render-smoke'
+    ).length,
+    1
+  );
   assert.ok(plan.human_gates.some(
-    (gate) => gate.gate_id === 'product-requirements-review'
+    (gate) => gate.gate_id === 'prd-browser-content-function-review'
   ));
   assert.equal(plan.evidence_contract.requirement_verification_required, true);
   assert.equal(
     plan.evidence_contract.requirement_verification_ref,
     'requirement-verification.json'
   );
+  assert.equal(plan.evidence_contract.prd_browser_review_required, true);
+  assert.deepEqual(
+    plan.evidence_contract.prd_browser_review_scope,
+    ['content', 'functional', 'interaction', 'responsive']
+  );
+});
+
+test('required inspiration adds one binding gate and review contract', async () => {
+  const { compileExecutionPlan } = await import('../scripts/compile-execution-plan.mjs');
+  const base = v2Request();
+  const request = v2Request({
+    conditional_policies: {
+      ...base.conditional_policies,
+      inspiration: {
+        mode: 'required',
+        record_ref: 'inspiration-binding.json',
+        trigger_reason: 'Open visual direction requires verified reference methods'
+      }
+    }
+  });
+  const plan = compileExecutionPlan(request, {
+    registry,
+    compilerVersion: 'test-v2'
+  });
+  assert.equal(
+    plan.automatic_gates.filter(
+      (gate) => gate.gate_id === 'validate-inspiration-binding'
+    ).length,
+    1
+  );
+  assert.ok(plan.human_gates.some(
+    (gate) => gate.gate_id === 'inspiration-method-review'
+  ));
+  assert.equal(plan.evidence_contract.inspiration_binding_required, true);
+  assert.equal(
+    plan.evidence_contract.inspiration_binding_ref,
+    'inspiration-binding.json'
+  );
+  assert.equal(plan.evidence_contract.inspiration_status, 'required');
 });
 
 

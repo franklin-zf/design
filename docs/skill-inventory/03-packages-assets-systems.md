@@ -31,16 +31,24 @@
 | `src/tools/search-icons.mjs` / `get-icon-svg.mjs` / `batch-fetch.mjs` | 三个 MCP 工具实现 |
 | `tests/icon-hub.test.mjs` | 5 项测试 |
 
-### 1.3 Dribbble Inspiration Hub（资产 + 脚本，非独立 package）
+### 1.3 Dribbble Hub MCP（`packages/dribbble-hub-mcp/`）
 
 | 路径 | 内容 |
 | --- | --- |
-| `assets/dribbble-shots/index.json` | 素材索引（4 条种子，2026-10-13）：fintech Bento、本地生活商家、风控质检控制台、移动端核销 |
-| `assets/dribbble-shots/images/shot_20261013_01.svg` | 本地视觉底稿 |
-| `scripts/dribbble-hub.mjs` | `loadShotsIndex/saveShotsIndex/searchShots/getShot/syncDailyShots`；CLI `search/get/list/sync --count 4` |
-| `tests/dribbble-hub.test.mjs` | 5 项测试 |
+| `src/index.mjs` | 只读 MCP：status/search/get/list/create inspiration binding |
+| `bin/dribbble-hub.mjs` | stdio MCP 与独立 CLI 入口 |
+| `mcp-server.json` | host 注册清单、stdio 命令、cache 环境与工具列表 |
+| `assets/dribbble-shots/index.json` | 4 条精确 Dribbble shot 来源：B2B 分析、商家总览、AI 策略关系台、移动 POS |
+| `~/.cache/design-skill/dribbble/*.png` | 可选私有预览 cache；不进入 npm 包 |
+| `scripts/dribbble-hub.mjs` | Design CLI 桥接：查询、binding、ingest、retire、freshness |
+| `scripts/manage-dribbble-library.mjs` | 受控素材生命周期；去重、active/inactive、复审时效 |
+| `tests/dribbble-hub.test.mjs` | metadata、cache、检索与弃用行为测试 |
+| `packages/dribbble-hub-mcp/tests/` | MCP manifest、查询、binding 与 fail-closed 测试 |
 
-每条素材四维解构：`layout_topology`、`color_palette`（OKLCH foundation/surface/focal + 对比度）、`material_recipe`（微边框/阴影/噪点/圆角/安全内边距）、`typography_style`，并带 `applicable_scenes`（中文场景）与 `search_keywords`。
+每条记录区分来源事实与本地人工标注：来源事实含精确 shot URL、作者、
+预览 URL、digest 与 attribution；人工标注只提取 `layout_topology`、
+`visual_methods`、`do_not_copy`、`applicable_scenes` 与检索词。第三方图片
+只允许进入私有 cache，禁止随 Skill 分发或直接复用。
 
 ## 二、运行时与模板资产（assets/）
 
@@ -81,4 +89,4 @@
 
 - 第三方代码只能落在 `assets/vendor/`，必须带 LICENSE + PROVENANCE，CI 由 `validate-vendor-provenance.mjs` 强制。
 - iconfont 等外部图标只作为**本地清洗后 SVG**入库，禁止运行时网络依赖（media-design.md）。
-- Dribbble 素材只借鉴四维配方（拓扑/色彩/材质/动效），不复制截图与当前事实。
+- Dribbble 参考图只用于内部视觉方法研究；保留 attribution，禁止把原图、品牌、业务内容或完整构图直接复用到交付物。

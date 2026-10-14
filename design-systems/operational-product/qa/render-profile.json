@@ -36,22 +36,22 @@
                     "source": {
                       "left": 256,
                       "right": 1416,
-                      "top": 211.789,
-                      "bottom": 265.789,
+                      "top": 211.781,
+                      "bottom": 265.781,
                       "width": 1160,
                       "height": 54,
                       "centerX": 836,
-                      "centerY": 238.789
+                      "centerY": 238.781
                     },
                     "target": {
                       "left": 256,
                       "right": 1416,
-                      "top": 85.789,
-                      "bottom": 199.789,
+                      "top": 85.781,
+                      "bottom": 199.781,
                       "width": 1160,
                       "height": 114,
                       "centerX": 836,
-                      "centerY": 142.789
+                      "centerY": 142.781
                     }
                   }
                 ]
@@ -258,22 +258,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 335.336,
-                      "bottom": 351.336,
+                      "top": 335.313,
+                      "bottom": 351.313,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 333.336,
-                      "bottom": 353.336,
+                      "top": 333.313,
+                      "bottom": 353.313,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     }
                   },
                   {
@@ -282,22 +282,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 380.633,
-                      "bottom": 396.633,
+                      "top": 380.609,
+                      "bottom": 396.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 378.633,
-                      "bottom": 398.633,
+                      "top": 378.609,
+                      "bottom": 398.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     }
                   },
                   {
@@ -306,22 +306,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 425.93,
-                      "bottom": 441.93,
+                      "top": 425.906,
+                      "bottom": 441.906,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 423.93,
-                      "bottom": 443.93,
+                      "top": 423.906,
+                      "bottom": 443.906,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     }
                   }
                 ]
@@ -489,22 +489,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 335.336,
-                      "bottom": 351.336,
+                      "top": 335.313,
+                      "bottom": 351.313,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 333.336,
-                      "bottom": 353.336,
+                      "top": 333.313,
+                      "bottom": 353.313,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     }
                   },
                   {
@@ -513,22 +513,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 380.633,
-                      "bottom": 396.633,
+                      "top": 380.609,
+                      "bottom": 396.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 378.633,
-                      "bottom": 398.633,
+                      "top": 378.609,
+                      "bottom": 398.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     }
                   },
                   {
@@ -537,22 +537,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 425.93,
-                      "bottom": 441.93,
+                      "top": 425.906,
+                      "bottom": 441.906,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 423.93,
-                      "bottom": 443.93,
+                      "top": 423.906,
+                      "bottom": 443.906,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     }
                   }
                 ]
@@ -712,7 +712,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-desktop-default-main.png",
-              "screenshot_sha256": "bfa8ed9e7474a95f9dd235fc96621fbc3814de53ba8410a0c0a06fe378d2ff97",
+              "screenshot_sha256": "b87557aca607b6863428d781223735fdbc9edc2c6d2733e86379eebd62dd048f",
               "scroll_y": 0,
               "document_height": 1000
             }
@@ -751,22 +751,22 @@
                     "source": {
                       "left": 256,
                       "right": 1416,
-                      "top": 211.789,
-                      "bottom": 265.789,
+                      "top": 211.781,
+                      "bottom": 265.781,
                       "width": 1160,
                       "height": 54,
                       "centerX": 836,
-                      "centerY": 238.789
+                      "centerY": 238.781
                     },
                     "target": {
                       "left": 256,
                       "right": 1416,
-                      "top": 85.789,
-                      "bottom": 199.789,
+                      "top": 85.781,
+                      "bottom": 199.781,
                       "width": 1160,
                       "height": 114,
                       "centerX": 836,
-                      "centerY": 142.789
+                      "centerY": 142.781
                     }
                   }
                 ]
@@ -973,22 +973,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 335.336,
-                      "bottom": 351.336,
+                      "top": 335.313,
+                      "bottom": 351.313,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 333.336,
-                      "bottom": 353.336,
+                      "top": 333.313,
+                      "bottom": 353.313,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     }
                   },
                   {
@@ -997,22 +997,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 380.633,
-                      "bottom": 396.633,
+                      "top": 380.609,
+                      "bottom": 396.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 378.633,
-                      "bottom": 398.633,
+                      "top": 378.609,
+                      "bottom": 398.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     }
                   },
                   {
@@ -1021,22 +1021,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 425.93,
-                      "bottom": 441.93,
+                      "top": 425.906,
+                      "bottom": 441.906,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 423.93,
-                      "bottom": 443.93,
+                      "top": 423.906,
+                      "bottom": 443.906,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     }
                   }
                 ]
@@ -1204,22 +1204,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 335.336,
-                      "bottom": 351.336,
+                      "top": 335.313,
+                      "bottom": 351.313,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 333.336,
-                      "bottom": 353.336,
+                      "top": 333.313,
+                      "bottom": 353.313,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 343.336
+                      "centerY": 343.313
                     }
                   },
                   {
@@ -1228,22 +1228,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 380.633,
-                      "bottom": 396.633,
+                      "top": 380.609,
+                      "bottom": 396.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 378.633,
-                      "bottom": 398.633,
+                      "top": 378.609,
+                      "bottom": 398.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 388.633
+                      "centerY": 388.609
                     }
                   },
                   {
@@ -1252,22 +1252,22 @@
                     "source": {
                       "left": 1283,
                       "right": 1299,
-                      "top": 425.93,
-                      "bottom": 441.93,
+                      "top": 425.906,
+                      "bottom": 441.906,
                       "width": 16,
                       "height": 16,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     },
                     "target": {
                       "left": 1281,
                       "right": 1301,
-                      "top": 423.93,
-                      "bottom": 443.93,
+                      "top": 423.906,
+                      "bottom": 443.906,
                       "width": 20,
                       "height": 20,
                       "centerX": 1291,
-                      "centerY": 433.93
+                      "centerY": 433.906
                     }
                   }
                 ]
@@ -1427,7 +1427,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-desktop-dense-main.png",
-              "screenshot_sha256": "bfa8ed9e7474a95f9dd235fc96621fbc3814de53ba8410a0c0a06fe378d2ff97",
+              "screenshot_sha256": "b87557aca607b6863428d781223735fdbc9edc2c6d2733e86379eebd62dd048f",
               "scroll_y": 0,
               "document_height": 1000
             }
@@ -1602,7 +1602,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-desktop-error-main.png",
-              "screenshot_sha256": "bfa8ed9e7474a95f9dd235fc96621fbc3814de53ba8410a0c0a06fe378d2ff97",
+              "screenshot_sha256": "b87557aca607b6863428d781223735fdbc9edc2c6d2733e86379eebd62dd048f",
               "scroll_y": 0,
               "document_height": 1000
             }
@@ -1875,22 +1875,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 589.836,
-                      "bottom": 605.836,
+                      "top": 589.828,
+                      "bottom": 605.828,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 587.836,
-                      "bottom": 607.836,
+                      "top": 587.828,
+                      "bottom": 607.828,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     }
                   },
                   {
@@ -1899,22 +1899,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 700.727,
-                      "bottom": 716.727,
+                      "top": 700.719,
+                      "bottom": 716.719,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 698.727,
-                      "bottom": 718.727,
+                      "top": 698.719,
+                      "bottom": 718.719,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     }
                   },
                   {
@@ -1923,22 +1923,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 811.617,
-                      "bottom": 827.617,
+                      "top": 811.609,
+                      "bottom": 827.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 809.617,
-                      "bottom": 829.617,
+                      "top": 809.609,
+                      "bottom": 829.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     }
                   }
                 ]
@@ -2106,22 +2106,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 589.836,
-                      "bottom": 605.836,
+                      "top": 589.828,
+                      "bottom": 605.828,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 587.836,
-                      "bottom": 607.836,
+                      "top": 587.828,
+                      "bottom": 607.828,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     }
                   },
                   {
@@ -2130,22 +2130,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 700.727,
-                      "bottom": 716.727,
+                      "top": 700.719,
+                      "bottom": 716.719,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 698.727,
-                      "bottom": 718.727,
+                      "top": 698.719,
+                      "bottom": 718.719,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     }
                   },
                   {
@@ -2154,22 +2154,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 811.617,
-                      "bottom": 827.617,
+                      "top": 811.609,
+                      "bottom": 827.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 809.617,
-                      "bottom": 829.617,
+                      "top": 809.609,
+                      "bottom": 829.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     }
                   }
                 ]
@@ -2329,7 +2329,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-mobile-default-main.png",
-              "screenshot_sha256": "ae97364d9612a4428ab45678dafc4f663f224acc0ff35d70f11f339b60aaddd7",
+              "screenshot_sha256": "3876ddbb15a4aaed26e63b60af942808032782547ac829b895bda0eda2740c6b",
               "scroll_y": 122,
               "document_height": 1003
             }
@@ -2590,22 +2590,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 589.836,
-                      "bottom": 605.836,
+                      "top": 589.828,
+                      "bottom": 605.828,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 587.836,
-                      "bottom": 607.836,
+                      "top": 587.828,
+                      "bottom": 607.828,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     }
                   },
                   {
@@ -2614,22 +2614,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 700.727,
-                      "bottom": 716.727,
+                      "top": 700.719,
+                      "bottom": 716.719,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 698.727,
-                      "bottom": 718.727,
+                      "top": 698.719,
+                      "bottom": 718.719,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     }
                   },
                   {
@@ -2638,22 +2638,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 811.617,
-                      "bottom": 827.617,
+                      "top": 811.609,
+                      "bottom": 827.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 809.617,
-                      "bottom": 829.617,
+                      "top": 809.609,
+                      "bottom": 829.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     }
                   }
                 ]
@@ -2821,22 +2821,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 589.836,
-                      "bottom": 605.836,
+                      "top": 589.828,
+                      "bottom": 605.828,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 587.836,
-                      "bottom": 607.836,
+                      "top": 587.828,
+                      "bottom": 607.828,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 597.836
+                      "centerY": 597.828
                     }
                   },
                   {
@@ -2845,22 +2845,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 700.727,
-                      "bottom": 716.727,
+                      "top": 700.719,
+                      "bottom": 716.719,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 698.727,
-                      "bottom": 718.727,
+                      "top": 698.719,
+                      "bottom": 718.719,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 708.727
+                      "centerY": 708.719
                     }
                   },
                   {
@@ -2869,22 +2869,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 811.617,
-                      "bottom": 827.617,
+                      "top": 811.609,
+                      "bottom": 827.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 809.617,
-                      "bottom": 829.617,
+                      "top": 809.609,
+                      "bottom": 829.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 819.617
+                      "centerY": 819.609
                     }
                   }
                 ]
@@ -3044,7 +3044,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-mobile-dense-main.png",
-              "screenshot_sha256": "ae97364d9612a4428ab45678dafc4f663f224acc0ff35d70f11f339b60aaddd7",
+              "screenshot_sha256": "3876ddbb15a4aaed26e63b60af942808032782547ac829b895bda0eda2740c6b",
               "scroll_y": 122,
               "document_height": 1003
             }
@@ -3219,7 +3219,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-mobile-error-main.png",
-              "screenshot_sha256": "ae97364d9612a4428ab45678dafc4f663f224acc0ff35d70f11f339b60aaddd7",
+              "screenshot_sha256": "3876ddbb15a4aaed26e63b60af942808032782547ac829b895bda0eda2740c6b",
               "scroll_y": 122,
               "document_height": 1003
             }
@@ -3270,22 +3270,22 @@
                     "source": {
                       "left": 16,
                       "right": 304,
-                      "top": 497.883,
-                      "bottom": 615.883,
+                      "top": 497.875,
+                      "bottom": 615.875,
                       "width": 288,
                       "height": 118,
                       "centerX": 160,
-                      "centerY": 556.883
+                      "centerY": 556.875
                     },
                     "target": {
                       "left": 16,
                       "right": 304,
-                      "top": 259.883,
-                      "bottom": 485.883,
+                      "top": 259.875,
+                      "bottom": 485.875,
                       "width": 288,
                       "height": 226,
                       "centerX": 160,
-                      "centerY": 372.883
+                      "centerY": 372.875
                     }
                   }
                 ]
@@ -3309,22 +3309,22 @@
                     "source": {
                       "left": 16,
                       "right": 156,
-                      "top": 195.883,
-                      "bottom": 239.883,
+                      "top": 195.875,
+                      "bottom": 239.875,
                       "width": 140,
                       "height": 44,
                       "centerX": 86,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 164,
                       "right": 304,
-                      "top": 195.883,
-                      "bottom": 239.883,
+                      "top": 195.875,
+                      "bottom": 239.875,
                       "width": 140,
                       "height": 44,
                       "centerX": 234,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   }
                 ]
@@ -3444,22 +3444,22 @@
                     "source": {
                       "left": 61,
                       "right": 77,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 59,
                       "right": 79,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -3468,22 +3468,22 @@
                     "source": {
                       "left": 194.438,
                       "right": 210.438,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 192.438,
                       "right": 212.438,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -3492,22 +3492,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 699.625,
-                      "bottom": 715.625,
+                      "top": 699.609,
+                      "bottom": 715.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 697.625,
-                      "bottom": 717.625,
+                      "top": 697.609,
+                      "bottom": 717.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     }
                   },
                   {
@@ -3516,22 +3516,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 810.516,
-                      "bottom": 826.516,
+                      "top": 810.5,
+                      "bottom": 826.5,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 808.516,
-                      "bottom": 828.516,
+                      "top": 808.5,
+                      "bottom": 828.5,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     }
                   },
                   {
@@ -3540,22 +3540,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 921.406,
-                      "bottom": 937.406,
+                      "top": 921.391,
+                      "bottom": 937.391,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 919.406,
-                      "bottom": 939.406,
+                      "top": 919.391,
+                      "bottom": 939.391,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     }
                   }
                 ]
@@ -3675,22 +3675,22 @@
                     "source": {
                       "left": 61,
                       "right": 77,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 59,
                       "right": 79,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -3699,22 +3699,22 @@
                     "source": {
                       "left": 194.438,
                       "right": 210.438,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 192.438,
                       "right": 212.438,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -3723,22 +3723,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 699.625,
-                      "bottom": 715.625,
+                      "top": 699.609,
+                      "bottom": 715.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 697.625,
-                      "bottom": 717.625,
+                      "top": 697.609,
+                      "bottom": 717.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     }
                   },
                   {
@@ -3747,22 +3747,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 810.516,
-                      "bottom": 826.516,
+                      "top": 810.5,
+                      "bottom": 826.5,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 808.516,
-                      "bottom": 828.516,
+                      "top": 808.5,
+                      "bottom": 828.5,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     }
                   },
                   {
@@ -3771,22 +3771,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 921.406,
-                      "bottom": 937.406,
+                      "top": 921.391,
+                      "bottom": 937.391,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 919.406,
-                      "bottom": 939.406,
+                      "top": 919.391,
+                      "bottom": 939.391,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     }
                   }
                 ]
@@ -3946,7 +3946,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-small-phone-default-main.png",
-              "screenshot_sha256": "9feb304fad6bc68571f8a72fa7c5776226fabefa6bd61c49b5b0eb37cfd8d2a5",
+              "screenshot_sha256": "7602c21d5e0ca712467fc27dbf4e8346f3229cd6d37f492005d3be812f034ef8",
               "scroll_y": 122,
               "document_height": 1113
             }
@@ -3985,22 +3985,22 @@
                     "source": {
                       "left": 16,
                       "right": 304,
-                      "top": 497.883,
-                      "bottom": 615.883,
+                      "top": 497.875,
+                      "bottom": 615.875,
                       "width": 288,
                       "height": 118,
                       "centerX": 160,
-                      "centerY": 556.883
+                      "centerY": 556.875
                     },
                     "target": {
                       "left": 16,
                       "right": 304,
-                      "top": 259.883,
-                      "bottom": 485.883,
+                      "top": 259.875,
+                      "bottom": 485.875,
                       "width": 288,
                       "height": 226,
                       "centerX": 160,
-                      "centerY": 372.883
+                      "centerY": 372.875
                     }
                   }
                 ]
@@ -4024,22 +4024,22 @@
                     "source": {
                       "left": 16,
                       "right": 156,
-                      "top": 195.883,
-                      "bottom": 239.883,
+                      "top": 195.875,
+                      "bottom": 239.875,
                       "width": 140,
                       "height": 44,
                       "centerX": 86,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 164,
                       "right": 304,
-                      "top": 195.883,
-                      "bottom": 239.883,
+                      "top": 195.875,
+                      "bottom": 239.875,
                       "width": 140,
                       "height": 44,
                       "centerX": 234,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   }
                 ]
@@ -4159,22 +4159,22 @@
                     "source": {
                       "left": 61,
                       "right": 77,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 59,
                       "right": 79,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -4183,22 +4183,22 @@
                     "source": {
                       "left": 194.438,
                       "right": 210.438,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 192.438,
                       "right": 212.438,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -4207,22 +4207,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 699.625,
-                      "bottom": 715.625,
+                      "top": 699.609,
+                      "bottom": 715.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 697.625,
-                      "bottom": 717.625,
+                      "top": 697.609,
+                      "bottom": 717.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     }
                   },
                   {
@@ -4231,22 +4231,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 810.516,
-                      "bottom": 826.516,
+                      "top": 810.5,
+                      "bottom": 826.5,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 808.516,
-                      "bottom": 828.516,
+                      "top": 808.5,
+                      "bottom": 828.5,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     }
                   },
                   {
@@ -4255,22 +4255,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 921.406,
-                      "bottom": 937.406,
+                      "top": 921.391,
+                      "bottom": 937.391,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 919.406,
-                      "bottom": 939.406,
+                      "top": 919.391,
+                      "bottom": 939.391,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     }
                   }
                 ]
@@ -4390,22 +4390,22 @@
                     "source": {
                       "left": 61,
                       "right": 77,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 59,
                       "right": 79,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 69,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -4414,22 +4414,22 @@
                     "source": {
                       "left": 194.438,
                       "right": 210.438,
-                      "top": 209.883,
-                      "bottom": 225.883,
+                      "top": 209.875,
+                      "bottom": 225.875,
                       "width": 16,
                       "height": 16,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     },
                     "target": {
                       "left": 192.438,
                       "right": 212.438,
-                      "top": 207.883,
-                      "bottom": 227.883,
+                      "top": 207.875,
+                      "bottom": 227.875,
                       "width": 20,
                       "height": 20,
                       "centerX": 202.438,
-                      "centerY": 217.883
+                      "centerY": 217.875
                     }
                   },
                   {
@@ -4438,22 +4438,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 699.625,
-                      "bottom": 715.625,
+                      "top": 699.609,
+                      "bottom": 715.609,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 697.625,
-                      "bottom": 717.625,
+                      "top": 697.609,
+                      "bottom": 717.609,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 707.625
+                      "centerY": 707.609
                     }
                   },
                   {
@@ -4462,22 +4462,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 810.516,
-                      "bottom": 826.516,
+                      "top": 810.5,
+                      "bottom": 826.5,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 808.516,
-                      "bottom": 828.516,
+                      "top": 808.5,
+                      "bottom": 828.5,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 818.516
+                      "centerY": 818.5
                     }
                   },
                   {
@@ -4486,22 +4486,22 @@
                     "source": {
                       "left": 65,
                       "right": 81,
-                      "top": 921.406,
-                      "bottom": 937.406,
+                      "top": 921.391,
+                      "bottom": 937.391,
                       "width": 16,
                       "height": 16,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     },
                     "target": {
                       "left": 63,
                       "right": 83,
-                      "top": 919.406,
-                      "bottom": 939.406,
+                      "top": 919.391,
+                      "bottom": 939.391,
                       "width": 20,
                       "height": 20,
                       "centerX": 73,
-                      "centerY": 929.406
+                      "centerY": 929.391
                     }
                   }
                 ]
@@ -4661,7 +4661,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-small-phone-dense-main.png",
-              "screenshot_sha256": "9feb304fad6bc68571f8a72fa7c5776226fabefa6bd61c49b5b0eb37cfd8d2a5",
+              "screenshot_sha256": "7602c21d5e0ca712467fc27dbf4e8346f3229cd6d37f492005d3be812f034ef8",
               "scroll_y": 122,
               "document_height": 1113
             }
@@ -4836,7 +4836,7 @@
             {
               "id": "main",
               "screenshot_ref": "qa/render-spec/operational-product-small-phone-error-main.png",
-              "screenshot_sha256": "9feb304fad6bc68571f8a72fa7c5776226fabefa6bd61c49b5b0eb37cfd8d2a5",
+              "screenshot_sha256": "7602c21d5e0ca712467fc27dbf4e8346f3229cd6d37f492005d3be812f034ef8",
               "scroll_y": 122,
               "document_height": 1113
             }

@@ -5,8 +5,22 @@
   "files": [
     "SKILL.md",
     "agents",
-    "assets",
+    "assets/components",
+    "assets/dribbble-shots/index.json",
+    "assets/runtime",
+    "assets/templates",
+    "assets/themes",
+    "assets/vendor",
     "design-systems",
+    "packages/component-hub/package.json",
+    "packages/component-hub/src",
+    "packages/dribbble-hub-mcp/bin",
+    "packages/dribbble-hub-mcp/mcp-server.json",
+    "packages/dribbble-hub-mcp/package.json",
+    "packages/dribbble-hub-mcp/src",
+    "packages/icon-hub-mcp/bin",
+    "packages/icon-hub-mcp/package.json",
+    "packages/icon-hub-mcp/src",
     "references",
     "schemas",
     "scripts"
@@ -14,10 +28,14 @@
   "scripts": {
     "design": "node scripts/design.mjs",
     "pack:skill": "node scripts/pack-skill.mjs",
+    "capabilities:generate": "node scripts/generate-capability-manifest.mjs --write",
+    "capabilities:check": "node scripts/generate-capability-manifest.mjs --check",
     "validate:install-parity": "node scripts/validate-install-parity.mjs",
     "preflight": "node scripts/design.mjs preflight",
     "validate": "node scripts/design.mjs validate",
     "test": "node scripts/design.mjs test",
+    "test:static": "node scripts/design.mjs test --static",
+    "test:browser": "node scripts/design.mjs test --browser",
     "test:strict": "node scripts/design.mjs test --strict"
   },
   "devDependencies": {

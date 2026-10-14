@@ -22,7 +22,9 @@ Before selecting a template, record one Taste Contract 2.0:
 - `content_tension`: the primary comparison, change, sequence, exception, scale, or
   uncertainty that deserves first visual attention;
 - `signature_move`: zero or at most one memorable visual action with reader value (e.g. ambient specular glow, magnetic 3D tilt hover, or watermark display type);
-- `shot_reference`: explicit inspiration anchor selected from Dribbble popular shots or visual recipes (defining layout topology, OKLCH palette, and material formula);
+- `shot_reference`: one to three source-verified Dribbble anchors when the
+  workflow trigger applies, each with extracted method and `do_not_copy`
+  boundary; otherwise record the accepted skip reason;
 - `anti_reference`: the concrete default or AI slop pattern this content must not resemble (e.g. homogeneous 3-column white card grid, generic blue/purple gradient);
 - `restraint_rule`: what is removed, repeated less, or kept deliberately quiet, explicitly enforcing the Anti-Visual-Fill Principle (e.g. omitting out-of-scope metrics, refusing filler cards just to force 4-grid/6-grid symmetry).
 
@@ -35,17 +37,23 @@ the contract. One surface has one primary attention region. Ambient effects
 default to zero. Use type, spacing, position, grouping, and contrast before glow,
 blur, shadow, depth, or motion.
 
-When no explicit visual style is requested, apply the **Modern Craft Baseline (`default-modern-craft`)**:
-- Display Sans + Monospace pairing with negative tracking on hero titles;
-- Single accent discipline with OKLCH high-gamut tones and subtle base tint;
-- 1px specular micro-borders and 3-tier ambient soft shadows;
-- Asymmetric Bento Grid layout with optical nested radii;
-- Anti-bleeding Inset Depth: Floating controls inside cards maintain ≥12px safe padding from borders, paired with surface elevation ramps (ΔL ≥ 3%) and tactile inset shadows;
-- Anti-Repetition & Single Truth: Context metadata (titles, entity IDs, quotes) appears exactly once in the primary view; avoid duplicate copies across headers, cards, and summaries;
-- Focal Weight Budget: Define exactly one primary visual focal area (≥40% visual weight via scale, high-contrast OKLCH tint, or Diff view); reject equal-weight card walls;
-- Smooth spring physics motion with staggered reveals and full reduced-motion fallbacks;
-- Default Simplified Chinese locale: UI copy, navigation, buttons, metrics, and labels default to clear Chinese; avoid untranslated English placeholders (Lorem Ipsum) or raw machine identifiers;
-- Semantic Icon Anchors: Navigation items, KPI metrics, primary actions, and status badges must have precise vector icon anchors (sourced from iconfont.cn or inline SVGs with unified 1.5px-2px stroke, 16/20/24px grid); emojis are forbidden as functional UI icons.
+When no explicit visual style is requested, resolve the visual system through
+`scripts/lib/design-profile.mjs` from the reader job, content relationship,
+density, surface, and verified brand context. Do not directly apply a universal
+"modern craft" composition.
+
+Methods such as display/mono pairing, negative tracking, OKLCH, micro-borders,
+layered shadows, Bento topology, or spring motion are admitted only when the
+resolved Profile or demonstrated content need selects them. The universal floor
+is narrower:
+
+- preserve one primary attention region and authentic scope;
+- keep context metadata single-source and avoid redundant copies;
+- retain safe insets, legible hierarchy, and non-color state meaning;
+- use the resolved locale and one coherent icon family;
+- provide static and reduced-motion fallbacks;
+- reject equal-weight filler grids, decoration-only motion, and inaccessible
+  contrast.
 
 Use the expression ladder:
 
@@ -100,6 +108,15 @@ references, and evidence bytes. Any P0/P1 item in `failed`, `blocked`, `not_run`
 or `not_applicable` blocks candidate-ready delivery. A screenshot proves a visible
 state, not a complete interaction; an automated assertion proves only its stated
 behavior, not visual quality. Requirement changes invalidate affected evidence.
+
+For PRD-backed prototypes, P0/P1 content, functional, interaction, and responsive
+requirements require browser automation against the actual rendered prototype.
+The reviewer executes the declared path and state branches, compares visible copy
+and outcomes with acceptance criteria, and binds one current
+`browser-test-evidence/v1` record to the artifact, plan, render spec, actions,
+assertions, screenshots, console/page errors, and network policy.
+Static inspection, DOM existence, or screenshots without interaction cannot
+substitute. An unavailable browser blocks prototype release.
 
 ## Audience-Facing Production Copy
 

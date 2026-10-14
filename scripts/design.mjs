@@ -106,6 +106,24 @@ function checkArtifact(
       )) {
     runScript('validate-requirement-verification.mjs', [artifactRoot]);
   }
+  if (existsSync(join(artifactRoot, 'browser-test-evidence.json'))
+      || manifest.validation?.applicable_gates?.includes(
+        'validate-browser-test-evidence'
+      )) {
+    runScript('validate-browser-test-evidence.mjs', [
+      artifactRoot,
+      ...planArgs
+    ]);
+  }
+  if (existsSync(join(artifactRoot, 'inspiration-binding.json'))
+      || manifest.validation?.applicable_gates?.includes(
+        'validate-inspiration-binding'
+      )) {
+    runScript('validate-inspiration-binding.mjs', [
+      artifactRoot,
+      ...planArgs
+    ]);
+  }
   if (existsSync(join(artifactRoot, 'direction-comparison.json'))
       || manifest.validation?.applicable_gates?.includes('validate-direction-evidence')) {
     runScript('validate-direction-evidence.mjs', [artifactRoot]);
@@ -160,10 +178,78 @@ function checkArtifact(
     runScript('validate-evidence-contract.mjs', [artifactRoot, ...assuranceArgs]);
   }
 
+  const executionPlan = executionPlanPath
+    ? JSON.parse(readFileSync(resolve(executionPlanPath), 'utf8'))
+    : null;
+  const browserRequired =
+    executionPlan?.evidence_contract?.prd_browser_review_required === true;
+  const browserExecuted = existsSync(
+    join(artifactRoot, 'browser-test-evidence.json')
+  );
   process.stdout.write(`\nDesign check passed: ${artifactRoot} (${profile})\n`);
+  process.stdout.write(`${JSON.stringify({
+    browser_required: browserRequired,
+    browser_executed: browserExecuted,
+    browser_evidence_current: !browserRequired || browserExecuted,
+    release_blockers: []
+  }, null, 2)}\n`);
 }
 
-function validateRepository() {
+function reviewArtifact(artifact, args) {
+  const executionPlanArg = args.find(
+    (arg) => arg.startsWith('--execution-plan=')
+  );
+  if (!executionPlanArg) {
+    throw new Error('review requires --execution-plan=<path>');
+  }
+  const executionPlanPath = resolve(
+    executionPlanArg.slice('--execution-plan='.length)
+  );
+  const plan = JSON.parse(readFileSync(executionPlanPath, 'utf8'));
+  const artifactRoot = resolve(artifact);
+  const plannedArtifactRoot = resolve(
+    plan.artifact.workspace_root,
+    plan.artifact.artifact_dir
+  );
+  if (plannedArtifactRoot !== artifactRoot) {
+    throw new Error('review artifact path must match the execution plan');
+  }
+  runScript('capability-preflight.mjs', ['--require=browser_launch']);
+  const runnerPrefixes = [
+    '--workers=',
+    '--telemetry=',
+    '--trust-dir=',
+    '--artifact-author-id=',
+    '--machine-attestation=',
+    '--reviewer-registry=',
+    '--reviewer-attestation='
+  ];
+  const runnerArgs = args.filter((arg) => (
+    runnerPrefixes.some((prefix) => arg.startsWith(prefix))
+  ));
+  runScript('run-execution-plan.mjs', [
+    executionPlanPath,
+    ...runnerArgs
+  ]);
+  const assurancePrefixes = [
+    '--machine-attestation=',
+    '--reviewer-registry=',
+    '--reviewer-attestation='
+  ];
+  checkArtifact(
+    artifactRoot,
+    plan.profile,
+    args.filter((arg) => (
+      assurancePrefixes.some((prefix) => arg.startsWith(prefix))
+    )),
+    {
+      executionPlanPath,
+      requireCorePlan: true
+    }
+  );
+}
+
+function validateRepository(options = {}) {
   runScript('validate-code-style.mjs', ['.']);
   runScript('validate-design-skill.mjs', ['.']);
   runScript('validate-schemas.mjs', ['.']);
@@ -172,6 +258,9 @@ function validateRepository() {
   runScript('validate-packed-references.mjs', ['.']);
   runScript('validate-component-catalogue.mjs', ['.']);
   runScript('validate-vendor-provenance.mjs', ['.']);
+  if (existsSync(join(root, 'docs', 'skill-inventory', 'capability-manifest.json'))) {
+    runScript('generate-capability-manifest.mjs', ['--check']);
+  }
   for (const systemId of [
     'swiss-deck',
     'expressive-web',
@@ -188,7 +277,11 @@ function validateRepository() {
     checkArtifact('examples/component-deck-pilot-pass');
     checkArtifact('examples/component-operational-pilot-pass', 'standard');
     runScript('validate-showcase-registry.mjs', ['.']);
-    runScript('capability-preflight.mjs', ['--require=browser_smoke']);
+    if (options.requireBrowser) {
+      runScript('capability-preflight.mjs', ['--require=browser_smoke']);
+    } else {
+      runScript('capability-preflight.mjs');
+    }
   } else {
     process.stdout.write('\n[design] repository fixtures absent; runtime validation only\n');
     runScript('capability-preflight.mjs');
@@ -265,21 +358,24 @@ function validateNegativeFixtures() {
   }
 }
 
-function runStandardTests() {
+function runStaticTests() {
   runNode([
     '--test',
     'tests/code-style.test.mjs',
+    'tests/browser-test-evidence.test.mjs',
+    'tests/capability-manifest.test.mjs',
     'tests/component-catalogue.test.mjs',
     'tests/color-system.test.mjs',
     'tests/design-profile.test.mjs',
     'tests/design-spec-record.test.mjs',
     'tests/distill-spec.test.mjs',
+    'tests/dribbble-hub.test.mjs',
+    'tests/dribbble-library-admin.test.mjs',
     'tests/extract-primitives.test.mjs',
     'tests/design-knowledge-query.test.mjs',
     'tests/component-usage.test.mjs',
     'tests/component-pilots.test.mjs',
     'tests/json-schema.test.mjs',
-    'tests/playwright-runtime.test.mjs',
     'tests/packed-references.test.mjs',
     'tests/execution-plan.test.mjs',
     'tests/execution-runner.test.mjs',
@@ -288,6 +384,7 @@ function runStandardTests() {
     'tests/content-chain.test.mjs',
     'tests/content-handoff.test.mjs',
     'tests/requirement-verification.test.mjs',
+    'tests/review-cli.test.mjs',
     'tests/visual-encoding.test.mjs',
     'tests/direction-evidence.test.mjs',
     'tests/keyframe-capture.test.mjs',
@@ -295,10 +392,15 @@ function runStandardTests() {
     'tests/production-design-systems.test.mjs',
     'tests/design-evaluation.test.mjs',
     'tests/source-extraction.test.mjs',
+    'tests/validate-ui-hierarchy.test.mjs',
     'tests/install-parity.test.mjs',
+    'tests/inspiration-binding.test.mjs',
     'tests/migration.test.mjs',
     'tests/showcase-registry.test.mjs',
-    'tests/validators.test.mjs'
+    'tests/validators.test.mjs',
+    'packages/component-hub/tests/component-hub.test.mjs',
+    'packages/dribbble-hub-mcp/tests/dribbble-hub-mcp.test.mjs',
+    'packages/icon-hub-mcp/tests/icon-hub.test.mjs'
   ], 'node test suites');
   validateRepository();
   validateIntake();
@@ -315,11 +417,17 @@ function runStandardTests() {
   runScript('check-empty-qa.mjs', ['examples']);
 }
 
-function runStrictTests() {
+function runBrowserTests() {
   runScript('capability-preflight.mjs', ['--require=browser_launch']);
+  runNode(['--test', 'tests/playwright-runtime.test.mjs']);
   runNode(['--test', 'tests/render-spec-browser.test.mjs']);
   runNode(['--test', 'tests/component-pilots-browser.test.mjs']);
   runNode(['--test', 'tests/human-factors-browser.test.mjs']);
+}
+
+function runStrictTests() {
+  runStaticTests();
+  runBrowserTests();
   for (const fixture of ['component-deck-pilot-pass', 'component-operational-pilot-pass']) {
     runScript('render-smoke.mjs', [
       `examples/${fixture}/index.html`,
@@ -389,8 +497,9 @@ function usage() {
   process.stdout.write(`Design CLI\n\n${[
     'profile <brief.json> --artifact-type=<dashboard|ppt-handoff|html-deck|poster> [--out=<path>]',
     'plan <request.json> [--design-profile=<path> --out=<path> --shadow]',
+    'review <artifact-dir> --execution-plan=<path> [runner and assurance options]',
     'check <artifact-dir> [--profile=express|standard|assured] [--execution-plan=<path>] [--require-complete-evaluation] [assurance options]',
-    'shots <search|get|list|sync> [args...]',
+    'shots <status|search|get|list|verify|binding|sync> [args...]',
     'preflight [capability options]'
   ].map((line) => `  ${line}`).join('\n')}\n\n`
     + 'Debugging and repository-maintenance commands are documented in '
@@ -444,6 +553,11 @@ function main() {
     );
     return;
   }
+  if (command === 'review') {
+    if (!args[0]) throw new Error('review requires an artifact directory');
+    reviewArtifact(args[0], args.slice(1));
+    return;
+  }
   if (command === 'render') {
     if (!args[0]) throw new Error('render requires an index.html path');
     runScript('render-smoke.mjs', args);
@@ -463,6 +577,10 @@ function main() {
     runScript('bind-human-factors.mjs', args);
     return;
   }
+  if (command === 'bind-browser-evidence') {
+    runScript('bind-browser-test-evidence.mjs', args);
+    return;
+  }
   if (command === 'audit-human-factors') {
     runScript('audit-human-factors.mjs', args);
     return;
@@ -472,12 +590,13 @@ function main() {
     return;
   }
   if (command === 'validate') {
-    validateRepository();
+    validateRepository({ requireBrowser: args.includes('--strict') });
     return;
   }
   if (command === 'test') {
     if (args.includes('--strict')) runStrictTests();
-    else runStandardTests();
+    else if (args.includes('--browser')) runBrowserTests();
+    else runStaticTests();
     return;
   }
   throw new Error(`Unknown command: ${command}`);

@@ -54,8 +54,8 @@ test('Chromium executes every declared viewport, state, assertion, and segment w
         { id: 'caveats', kind: 'selector', selector: '[data-design-id="caveats"]' }
       ],
       states: [
-        { id: 'default', setup: [], assertions: [{ kind: 'visible', selector: 'main' }] },
-        { id: 'source-visible', setup: [], assertions: [{ kind: 'text', selector: '[data-design-id="report-context"]', expected: 'Source' }] }
+        { id: 'default', requirement_ids: ['REQ-001'], setup: [], assertions: [{ kind: 'visible', selector: 'main' }] },
+        { id: 'source-visible', requirement_ids: ['REQ-001'], setup: [], assertions: [{ kind: 'text', selector: '[data-design-id="report-context"]', expected: 'Source' }] }
       ],
       remote_policy: { mode: 'deny_all', allowed_origins: [] }
     };
@@ -67,14 +67,25 @@ test('Chromium executes every declared viewport, state, assertion, and segment w
     };
     const specPath = join(temporaryRoot, 'render-spec.json');
     const profilePath = join(artifact, 'render-profile.json');
+    const browserEvidencePath = join(artifact, 'browser-test-evidence.json');
     writeFileSync(specPath, `${JSON.stringify(spec, null, 2)}\n`);
     const result = spawnSync(process.execPath, [
       resolve('scripts/render-smoke.mjs'), join(artifact, 'index.html'),
       '--viewports=desktop,mobile,small-phone', '--strict-layout', `--spec=${specPath}`,
-      `--profile-out=${profilePath}`, `--artifact-digest=${spec.artifact_digest}`, `--plan-digest=${planDigest}`
+      `--profile-out=${profilePath}`,
+      `--browser-evidence-out=${browserEvidencePath}`,
+      `--artifact-digest=${spec.artifact_digest}`, `--plan-digest=${planDigest}`
     ], { encoding: 'utf8', timeout: 120000 });
     assert.equal(result.status, 0, result.stderr || result.stdout);
     const profile = JSON.parse(readFileSync(profilePath, 'utf8'));
+    const browserEvidence = JSON.parse(readFileSync(
+      browserEvidencePath,
+      'utf8'
+    ));
+    assert.equal(browserEvidence.runs.length, 6);
+    assert.ok(browserEvidence.runs.every(
+      (run) => run.requirement_ids.includes('REQ-001') && run.passed
+    ));
     assert.deepEqual(profile.profiles.map((item) => item.width), [1440, 390, 320]);
     for (const viewport of profile.profiles) {
       assert.equal(viewport.strict_success, true);
