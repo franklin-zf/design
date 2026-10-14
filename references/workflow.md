@@ -34,7 +34,8 @@ Execute visual artifact generation through six progressive, gated stages to prev
    - Extract PRD requirements into P0/P1 list; freeze source values into `content-ledger.json`.
    - Output: `content-handoff.json` and `requirement-verification.json` skeleton.
 2. **Stage 2: Art Direction & Taste Contract 2.0** (Gate G1)
-   - Formulate `visual_thesis`, `content_tension`, `signature_move`, `anti_reference`, and `restraint_rule`.
+   - Search local Dribbble Inspiration Hub (`node scripts/design.mjs shots search <scenario>`) to extract visual tokens (topology, color ramps, specular borders, spring motion).
+   - Formulate `visual_thesis`, `content_tension`, `signature_move`, `shot_reference`, `anti_reference`, and `restraint_rule`.
    - Select primary product preset or apply `default-modern-craft` baseline.
 3. **Stage 3: Topology & Spatial Wireframing** (Gate G2)
    - Establish asymmetric Bento Grid or reading order; enforce 8pt spatial rhythm and optical radii.

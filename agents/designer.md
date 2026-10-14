@@ -9,6 +9,7 @@ Translate the accepted content handoff into a content-specific visual system for
 - Digest-bound `content-handoff.json` and source ledger.
 - Reader job, target surface, density, accessibility, reduced-motion, and export constraints.
 - Available design-system tokens and real frontend assets. Resolve the profile and template after the Taste Contract, not as a prerequisite to it.
+- Dribbble visual inspiration anchor retrieved via `scripts/dribbble-hub.mjs search <query>` (or `node scripts/design.mjs shots search <query>`) matching the scene topology and color hierarchy.
 - A historical reference only when explicitly selected by the user, with its reuse boundary. Test fixtures and rejected outputs are excluded.
 
 ## Required Output
@@ -16,7 +17,7 @@ Translate the accepted content handoff into a content-specific visual system for
 Complete the existing designer handoff and Taste Contract 2.0. Record:
 
 - `visual_thesis` and `content_tension`;
-- `signature_move`, `anti_reference`, and `restraint_rule`;
+- `signature_move`, `shot_reference` (e.g., `shot_20261013_01`), `anti_reference`, and `restraint_rule`;
 - experience mode, desired and anti-impressions, primary subject, memory target,
   and reference distance;
 - primary attention region and reading order;

@@ -390,6 +390,7 @@ function usage() {
     'profile <brief.json> --artifact-type=<dashboard|ppt-handoff|html-deck|poster> [--out=<path>]',
     'plan <request.json> [--design-profile=<path> --out=<path> --shadow]',
     'check <artifact-dir> [--profile=express|standard|assured] [--execution-plan=<path>] [--require-complete-evaluation] [assurance options]',
+    'shots <search|get|list|sync> [args...]',
     'preflight [capability options]'
   ].map((line) => `  ${line}`).join('\n')}\n\n`
     + 'Debugging and repository-maintenance commands are documented in '
@@ -400,6 +401,10 @@ function main() {
   const [command, ...args] = process.argv.slice(2);
   if (!command || command === '--help' || command === 'help') {
     usage();
+    return;
+  }
+  if (command === 'shots' || command === 'inspiration') {
+    runScript('dribbble-hub.mjs', args);
     return;
   }
   if (command === 'plan') {
